@@ -1,0 +1,6 @@
+/* App-level layout reset — all styles live in index.css and component files */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
