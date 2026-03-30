@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 const bullets = [
   {
     title: 'Agents that work autonomously',
-    description: "Deploy AI workers that handle complex tasks end-to-end — researching, deciding, and executing without constant supervision.",
+    description: "Deploy autonomous workers that handle complex tasks end-to-end — researching, deciding, and executing without constant supervision.",
   },
   {
     title: 'See every thought and decision',

@@ -32,7 +32,7 @@ export default function IntegrationsSection() {
 
           {/* Left panel */}
           <div className="ints-panel reveal">
-            <h3 className="ints-panel__title">Smart, flexible, and built around your AI workflow</h3>
+            <h3 className="ints-panel__title">Smart, flexible, and built around your autonomous workflow</h3>
 
             {/* Mock UI — agent status cards */}
             <div className="ints-mock">

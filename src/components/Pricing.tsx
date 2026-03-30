@@ -4,10 +4,10 @@ const CORAL = '#D6FD70';
 
 const starterFeatures = [
   'Automate basic workflows',
-  'AI-powered insights',
+  'Autonomous insights',
   'Email support',
   'Custom integrations',
-  'AI integrations',
+  'Autonomous integrations',
 ];
 
 const enterpriseFeatures = [
@@ -15,7 +15,7 @@ const enterpriseFeatures = [
   'Predictive analytics',
   'Dedicated account manager',
   'Custom integrations',
-  'Unlimited AI integrations',
+  'Unlimited Autonomous integrations',
 ];
 
 function CheckIcon() {
@@ -48,7 +48,7 @@ export default function Pricing() {
               <span className="pr-tag">Pricing</span>
               <h2 className="pr-heading">
                 Choose the right<br />
-                AI solution<br />
+                Autonomous solution<br />
                 <em className="pr-accent">for you</em>
               </h2>
 
@@ -74,7 +74,7 @@ export default function Pricing() {
               {/* Starter */}
               <div className="pr-plan">
                 <div className="pr-plan-name">Starter</div>
-                <div className="pr-plan-desc">Ideal for small agencies starting their AI journey.</div>
+                <div className="pr-plan-desc">Ideal for small agencies starting their autonomous journey.</div>
                 <div className="pr-plan-price">
                   {annual ? (
                     <>
@@ -111,7 +111,7 @@ export default function Pricing() {
               {/* Enterprise */}
               <div className="pr-plan pr-plan--dark">
                 <div className="pr-plan-name">Enterprise</div>
-                <div className="pr-plan-desc">Full-scale AI transformation for large organizations.</div>
+                <div className="pr-plan-desc">Full-scale autonomous transformation for large organizations.</div>
                 <div className="pr-plan-price">
                   <span className="pr-plan-amount pr-plan-amount--custom">Custom</span>
                 </div>

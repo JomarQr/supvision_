@@ -31,7 +31,7 @@ export default function Footer() {
               <img src="/logo_full.png" alt="supVision.ai" className="ft__logo-img" />
             </a>
             <p className="ft__tagline">
-              Your favourite AI supervision platform.<br />
+              Your favourite autonomous supervision platform.<br />
               Built for teams that move fast.
             </p>
             <div className="ft__socials">

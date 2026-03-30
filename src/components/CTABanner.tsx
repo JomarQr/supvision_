@@ -27,7 +27,7 @@ export default function CTABanner({ onContactOpen }: Props) {
             </div>
 
             <h2 className="cta__heading">
-              Your first AI agent,<br />
+              Your first autonomous agent,<br />
               ready in minutes.
             </h2>
 

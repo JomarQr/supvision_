@@ -22,14 +22,14 @@ export default function AboutUs() {
         <div className="about-header reveal">
           <span className="section-tag">&#9632;&nbsp; ABOUT US</span>
           <h2 className="about-title">
-            Autonomous AI workers,<br />
+            Autonomous workers,<br />
             built for <span className="about-pill about-pill--blue">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
               finance
             </span>
           </h2>
           <p className="about-subtitle">
-            We help financial teams deploy AI agents that work independently — with full transparency into every decision and complete data isolation.
+            We help financial teams deploy autonomous agents that work independently — with full transparency into every decision and complete data isolation.
           </p>
         </div>
 

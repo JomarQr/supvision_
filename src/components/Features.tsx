@@ -71,7 +71,7 @@ export default function Features() {
         <div className="features-header reveal">
           <span className="section-tag">&#9632;&nbsp; SERVICES</span>
           <h2 className="features-title">
-            Everything you need to run<br />an autonomous AI workforce
+            Everything you need to run<br />an autonomous workforce
           </h2>
           <p className="features-subtitle">
             From creation to execution — deploy agents that work independently, transparently, and securely.

@@ -58,11 +58,11 @@ export default function Hero({ onContactOpen }: HeroProps) {
       {/* Text content */}
       <div className="hero__content">
         <h1 className="hero__heading">
-          Your AI workforce,<br />
+          Your autonomous workforce,<br />
           built in minutes.
         </h1>
         <p className="hero__sub">
-          Create autonomous AI agents through a simple chat — just describe the worker you need.
+          Create autonomous agents through a simple chat — just describe the worker you need.
           Built for financial teams that demand security, transparency, and control.
         </p>
         <div className="hero__btns">
