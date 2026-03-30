@@ -2,27 +2,27 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 
 const BASE = [
   {
-    quote: "supVision transformed how we manage our AI team. We went from reactive fire-fighting to proactive leadership. The confidence scores alone saved us from three major incidents last quarter.",
+    quote: "We deployed a compliance monitoring agent in 8 minutes just by typing what we needed in chat. It now runs daily checks autonomously — and every decision it makes is fully traceable.",
     name: 'Sarah Chen',
-    company: 'Verge AI',
+    company: 'Meridian Capital',
     img: '/frame1.png',
   },
   {
-    quote: "I was skeptical about yet another monitoring tool — but supVision is different. The automated reports are so good that our weekly standup now takes 8 minutes instead of 45.",
+    quote: "Data isolation was non-negotiable for us. supVision gave us a dedicated environment and full audit logs out of the box. Our security team approved it in one review.",
     name: 'Marcus Johansson',
-    company: 'Flowstack',
+    company: 'NordFinance',
     img: '/frame2.png',
   },
   {
-    quote: "We manage 80+ agents across 12 projects. Before supVision, we were flying blind. Now our team leads have real clarity and time saved goes straight back into building product.",
+    quote: "We connected our agent to our CRM and data feeds through the plugin library in under an hour. It now handles client report generation that used to take our team half a day.",
     name: 'Priya Sharma',
-    company: 'DataPath',
+    company: 'Apex Wealth',
     img: '/pole.png',
   },
   {
-    quote: "The real-time monitoring is on another level. We caught a silent model drift before it hit users — that alone made the ROI a no-brainer. supVision is now part of our core stack.",
+    quote: "The transparency is what sold us. You can see exactly what the agent was thinking at every step. For financial workflows, that level of auditability is essential.",
     name: 'James Okafor',
-    company: 'Nucleus Labs',
+    company: 'ClearLedger',
     img: '/frame1.png',
   },
 ];

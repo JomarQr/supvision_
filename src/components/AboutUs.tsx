@@ -22,14 +22,14 @@ export default function AboutUs() {
         <div className="about-header reveal">
           <span className="section-tag">&#9632;&nbsp; ABOUT US</span>
           <h2 className="about-title">
-            An AI-native platform built<br />
-            for <span className="about-pill about-pill--blue">
+            Autonomous AI workers,<br />
+            built for <span className="about-pill about-pill--blue">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-              real-time
-            </span> supervision
+              finance
+            </span>
           </h2>
           <p className="about-subtitle">
-            We help engineering teams monitor, debug, and optimize their AI agents — before issues reach production.
+            We help financial teams deploy AI agents that work independently — with full transparency into every decision and complete data isolation.
           </p>
         </div>
 
@@ -58,9 +58,9 @@ export default function AboutUs() {
               ))}
             </div>
             <blockquote className="about-quote">
-              "supVision caught a silent failure in our pipeline within minutes — something we'd have missed for days."
+              "We deployed a compliance agent in under 10 minutes just by describing it in chat. Every step it took was fully visible and auditable."
             </blockquote>
-            <p className="about-quote-author">— Head of AI, Series B startup</p>
+            <p className="about-quote-author">— Head of Operations, Financial Services firm</p>
           </div>
 
           {/* Card 3 — two stacked */}
@@ -176,8 +176,8 @@ export default function AboutUs() {
           border: 1px solid rgba(255,255,255,0.32);
           border-radius: 14px;
         }
-        .about-stat-num { color: #fff; }
-        .about-stat-label { color: rgba(255,255,255,0.8); }
+        .about-stat-num { color: #0f172a; }
+        .about-stat-label { color: rgba(15,23,42,0.7); }
         .about-stat-num {
           display: block;
           font-size: 40px;

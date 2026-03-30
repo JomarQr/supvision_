@@ -27,13 +27,13 @@ export default function CTABanner({ onContactOpen }: Props) {
             </div>
 
             <h2 className="cta__heading">
-              Supervise smarter.<br />
-              Ship faster.
+              Your first AI agent,<br />
+              ready in minutes.
             </h2>
 
             <p className="cta__sub">
-              AI-powered platform that eliminates blind spots, automates reporting,
-              and keeps your team aligned — from first task to final delivery.
+              Just describe the worker you need in chat — supVision builds it, deploys it,
+              and gives you full visibility into every step it takes.
             </p>
 
             <button className="cta__btn" onClick={onContactOpen}>

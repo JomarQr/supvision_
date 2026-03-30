@@ -58,12 +58,12 @@ export default function Hero({ onContactOpen }: HeroProps) {
       {/* Text content */}
       <div className="hero__content">
         <h1 className="hero__heading">
-          Supervise smarter.<br />
-          Ship faster.
+          Your AI workforce,<br />
+          built in minutes.
         </h1>
         <p className="hero__sub">
-          All-in-one platform for managing agents, projects, and performance
-          without the chaos. From first task to final report, we've got your back.
+          Create autonomous AI agents through a simple chat — just describe the worker you need.
+          Built for financial teams that demand security, transparency, and control.
         </p>
         <div className="hero__btns">
           <button className="btn btn-dark hero__btn-primary" onClick={onContactOpen}>

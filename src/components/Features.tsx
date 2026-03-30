@@ -9,38 +9,38 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: 'Real-Time Monitoring',
-    description: 'Track your team\'s activity as it happens. See task progress, blockers, and agent status in a live dashboard that updates every second.',
+    title: 'Create Agents in Chat',
+    description: 'Just type what worker you need — our system asks the right questions and builds the agent for you. No code, no configuration files. From idea to deployed agent in minutes.',
     img: '/frame1.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
       </svg>
     ),
   },
   {
-    title: 'AI-Driven Insights',
-    description: 'Let our AI surface patterns, anomalies, and opportunities you\'d otherwise miss. Get confidence scores, trend analysis, and predictive alerts.',
+    title: 'Full Transparency',
+    description: 'See every step your agent takes — its reasoning, decisions, and conclusions are fully visible. Audit any action at any time. No black boxes, ever.',
     img: '/frame2.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
       </svg>
     ),
   },
   {
-    title: 'Automated Reports',
-    description: 'Stop writing manual status updates. supVision auto-generates clear, shareable reports from your team\'s actual activity — daily, weekly, or on-demand.',
+    title: 'Enterprise Security',
+    description: 'All your data is fully isolated — no cross-tenant access, no shared models. Built to meet the strict compliance requirements of the financial industry.',
     img: '/pole.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       </svg>
     ),
   },
   {
-    title: 'Agent Management',
-    description: 'Organize your AI agents, assign roles, set permissions, and track performance across projects. Scale from one agent to a hundred without losing control.',
+    title: 'Plugins & Integrations',
+    description: 'Connect your agents to the tools you already use — CRMs, databases, APIs, communication platforms, and more. A growing library of plugins, ready out of the box.',
     img: '/frame2.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -71,10 +71,10 @@ export default function Features() {
         <div className="features-header reveal">
           <span className="section-tag">&#9632;&nbsp; SERVICES</span>
           <h2 className="features-title">
-            Comprehensive AI supervision<br />and intelligent automation
+            Everything you need to run<br />an autonomous AI workforce
           </h2>
           <p className="features-subtitle">
-            Whether you're monitoring today or scaling for tomorrow — we help you move faster with confidence.
+            From creation to execution — deploy agents that work independently, transparently, and securely.
           </p>
           <button className="features-cta btn btn-dark">
             Get started

@@ -2,20 +2,20 @@ import { useEffect, useRef } from 'react';
 
 const bullets = [
   {
-    title: 'Eliminate blind spots',
-    description: "Know what every agent and team member is working on, right now. No surprises at the end of a sprint.",
+    title: 'Agents that work autonomously',
+    description: "Deploy AI workers that handle complex tasks end-to-end — researching, deciding, and executing without constant supervision.",
   },
   {
-    title: 'AI confidence scores you can trust',
-    description: "Every insight comes with a confidence rating, so you know when to act immediately and when to investigate further.",
+    title: 'See every thought and decision',
+    description: "Every reasoning step, conclusion, and action your agent takes is logged and visible. Full auditability built in from day one.",
   },
   {
-    title: 'Automated workflows, zero overhead',
-    description: "Set triggers, thresholds, and escalation paths once. supVision handles the follow-through every time.",
+    title: 'Your data stays yours',
+    description: "Complete data isolation — your information never touches other clients' environments. Designed for regulated financial workflows.",
   },
   {
-    title: 'Scales with your team',
-    description: "Whether you manage 3 agents or 300, the interface stays clean, fast, and focused on what matters.",
+    title: 'Connect the tools you already use',
+    description: "Plug agents into your existing stack — trading platforms, CRMs, data feeds, and communication tools — through our plugin library.",
   },
 ];
 
