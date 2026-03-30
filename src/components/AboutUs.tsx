@@ -144,7 +144,7 @@ export default function AboutUs() {
           padding: 0;
           display: flex;
           flex-direction: column;
-          background: #3a7ec8;
+          background: #e8e8e6;
           position: relative;
           min-height: 420px;
         }
@@ -162,14 +162,22 @@ export default function AboutUs() {
         .about-card__img-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to bottom, rgba(58,126,200,0.15) 0%, rgba(58,126,200,0.0) 60%);
+          background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.35) 100%);
         }
         .about-card__photo-stat {
-          padding: 24px 28px;
-          background: #fff;
-          margin: 16px;
+          position: absolute;
+          bottom: 16px;
+          left: 16px;
+          right: 16px;
+          padding: 20px 24px;
+          background: rgba(255,255,255,0.18);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.32);
           border-radius: 14px;
         }
+        .about-stat-num { color: #fff; }
+        .about-stat-label { color: rgba(255,255,255,0.8); }
         .about-stat-num {
           display: block;
           font-size: 40px;
@@ -277,16 +285,13 @@ export default function AboutUs() {
           .about-card--photo {
             grid-column: 1 / -1;
             min-height: 320px;
-            flex-direction: row;
-            align-items: stretch;
           }
-          .about-card__img-wrap { flex: 1; }
-          .about-card__photo-stat { flex: 0 0 180px; display: flex; flex-direction: column; justify-content: center; margin: 16px 16px 16px 0; }
+          .about-card__img-wrap { min-height: 320px; }
         }
         @media (max-width: 600px) {
           .about-grid { grid-template-columns: 1fr; }
-          .about-card--photo { flex-direction: column; min-height: 260px; }
-          .about-card__photo-stat { flex: none; margin: 0 16px 16px; }
+          .about-card--photo { min-height: 260px; }
+          .about-card__img-wrap { min-height: 260px; }
           .about-card-stack { gap: 12px; }
           .about-section { padding: 80px 0 64px; }
           .about-header { margin-bottom: 40px; }
