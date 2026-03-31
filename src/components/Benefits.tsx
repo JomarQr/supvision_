@@ -66,86 +66,91 @@ export default function Benefits() {
           <div className="benefits-img-wrap">
             <img src="/frame1.png" alt="supVision dashboard" className="benefits-img" />
             <div className="benefits-img-overlay" />
-          </div>
 
-          {/* Glass chart card — Agent Activity */}
-          <div className="benefits-chart-card benefits-chart-card--top">
-            <div className="benefits-chart-header">
-              <span className="benefits-chart-title">Agent Activity</span>
-              <span className="benefits-chart-badge">Live</span>
-            </div>
-            <div className="benefits-chart-bars">
-              {chartBars.map((b) => (
-                <div key={b.label} className="benefits-chart-col">
-                  <div className="benefits-chart-bar-wrap">
-                    <div className="benefits-chart-bar" style={{ height: `${b.value}%` }} />
-                  </div>
-                  <span className="benefits-chart-label">{b.label}</span>
+            {/* Overlay flex column — fills image perfectly */}
+            <div className="benefits-overlay-col">
+
+              {/* Agent Activity */}
+              <div className="benefits-chart-card">
+                <div className="benefits-chart-header">
+                  <span className="benefits-chart-title">Agent Activity</span>
+                  <span className="benefits-chart-badge">Live</span>
                 </div>
-              ))}
-            </div>
-            <div className="benefits-chart-footer">
-              <span className="benefits-chart-stat">↑ 23% vs last week</span>
-            </div>
-          </div>
+                <div className="benefits-chart-bars">
+                  {chartBars.map((b) => (
+                    <div key={b.label} className="benefits-chart-col">
+                      <div className="benefits-chart-bar-wrap">
+                        <div className="benefits-chart-bar" style={{ height: `${b.value}%` }} />
+                      </div>
+                      <span className="benefits-chart-label">{b.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="benefits-chart-footer">
+                  <span className="benefits-chart-stat">↑ 23% vs last week</span>
+                </div>
+              </div>
 
-          {/* 4 square stat blocks */}
-          <div className="benefits-mini-cards">
-            <div className="benefits-mini-card">
-              <span className="benefits-mini-label">Disputes resolved</span>
-              <span className="benefits-mini-val">1,284</span>
-              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                <polyline points="0,20 10,14 20,16 30,8 40,12 50,4 60,6" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="benefits-mini-change">↑ 41% this month</span>
-            </div>
-            <div className="benefits-mini-card">
-              <span className="benefits-mini-label">Avg. response time</span>
-              <span className="benefits-mini-val">1.2s</span>
-              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                <polyline points="0,18 10,16 20,12 30,14 40,8 50,6 60,4" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="benefits-mini-change">↓ 68% vs manual</span>
-            </div>
-            <div className="benefits-mini-card">
-              <span className="benefits-mini-label">KYC automation</span>
-              <span className="benefits-mini-val">94%</span>
-              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                <polyline points="0,22 10,18 20,14 30,10 40,8 50,5 60,3" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="benefits-mini-change">↑ queries automated</span>
-            </div>
-            <div className="benefits-mini-card">
-              <span className="benefits-mini-label">Cost reduction</span>
-              <span className="benefits-mini-val">-52%</span>
-              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                <polyline points="0,4 10,8 20,6 30,10 40,12 50,16 60,18" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="benefits-mini-change">↓ support costs</span>
-            </div>
-          </div>
+              {/* 4 square stat blocks */}
+              <div className="benefits-mini-cards">
+                <div className="benefits-mini-card">
+                  <span className="benefits-mini-label">Disputes resolved</span>
+                  <span className="benefits-mini-val">1,284</span>
+                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                    <polyline points="0,20 10,14 20,16 30,8 40,12 50,4 60,6" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="benefits-mini-change">↑ 41% this month</span>
+                </div>
+                <div className="benefits-mini-card">
+                  <span className="benefits-mini-label">Avg. response time</span>
+                  <span className="benefits-mini-val">1.2s</span>
+                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                    <polyline points="0,18 10,16 20,12 30,14 40,8 50,6 60,4" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="benefits-mini-change">↓ 68% vs manual</span>
+                </div>
+                <div className="benefits-mini-card">
+                  <span className="benefits-mini-label">KYC automation</span>
+                  <span className="benefits-mini-val">94%</span>
+                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                    <polyline points="0,22 10,18 20,14 30,10 40,8 50,5 60,3" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="benefits-mini-change">↑ queries automated</span>
+                </div>
+                <div className="benefits-mini-card">
+                  <span className="benefits-mini-label">Cost reduction</span>
+                  <span className="benefits-mini-val">-52%</span>
+                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                    <polyline points="0,4 10,8 20,6 30,10 40,12 50,16 60,18" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="benefits-mini-change">↓ support costs</span>
+                </div>
+              </div>
 
-          {/* Glass line chart — Resolution Rate */}
-          <div className="benefits-chart-card benefits-chart-card--bottom">
-            <div className="benefits-chart-header">
-              <span className="benefits-chart-title">Resolution Rate</span>
-              <span className="benefits-chart-badge">98.4%</span>
-            </div>
-            <svg className="benefits-line-chart" viewBox="0 0 220 48" fill="none" preserveAspectRatio="none">
-              <polyline
-                points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6"
-                stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
-              />
-              <polyline
-                points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6 220,48 0,48"
-                fill="rgba(255,255,255,0.1)"
-              />
-            </svg>
-            <div className="benefits-chart-footer">
-              <span className="benefits-chart-stat">KYC · Disputes · Transactions</span>
-            </div>
-          </div>
-        </div>
+              {/* Resolution Rate */}
+              <div className="benefits-chart-card">
+                <div className="benefits-chart-header">
+                  <span className="benefits-chart-title">Resolution Rate</span>
+                  <span className="benefits-chart-badge">98.4%</span>
+                </div>
+                <svg className="benefits-line-chart" viewBox="0 0 220 48" fill="none" preserveAspectRatio="none">
+                  <polyline
+                    points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6"
+                    stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
+                  />
+                  <polyline
+                    points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6 220,48 0,48"
+                    fill="rgba(255,255,255,0.1)"
+                  />
+                </svg>
+                <div className="benefits-chart-footer">
+                  <span className="benefits-chart-stat">KYC · Disputes · Transactions</span>
+                </div>
+              </div>
+
+            </div>{/* end overlay-col */}
+          </div>{/* end img-wrap */}
+        </div>{/* end visual */}
 
         {/* Right text */}
         <div className="benefits-content">
@@ -225,34 +230,34 @@ export default function Benefits() {
           background: linear-gradient(160deg, rgba(20,20,30,0.18) 0%, rgba(0,0,0,0.45) 100%);
         }
 
+        /* Overlay flex column */
+        .benefits-overlay-col {
+          position: absolute;
+          inset: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
         /* Glass chart cards */
         .benefits-chart-card {
-          position: absolute;
-          left: 16px;
-          right: 16px;
           background: rgba(255,255,255,0.14);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
           border: 1px solid rgba(255,255,255,0.28);
           border-radius: 18px;
-          padding: 14px 16px 12px;
-          animation: fadeInUp 0.6s ease 0.5s both;
+          padding: 12px 14px 10px;
+          flex-shrink: 0;
         }
-        .benefits-chart-card--top { top: 16px; }
-        .benefits-chart-card--bottom { bottom: 16px; }
 
         /* 4 square stat blocks */
         .benefits-mini-cards {
-          position: absolute;
-          left: 16px;
-          right: 16px;
-          top: 140px;
-          bottom: 130px;
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-template-rows: 1fr 1fr;
           gap: 10px;
-          animation: fadeInUp 0.6s ease 0.55s both;
+          flex: 1;
+          min-height: 0;
         }
         .benefits-mini-card {
           background: rgba(255,255,255,0.14);
@@ -260,10 +265,12 @@ export default function Benefits() {
           -webkit-backdrop-filter: blur(16px);
           border: 1px solid rgba(255,255,255,0.28);
           border-radius: 14px;
-          padding: 12px 14px 10px;
+          padding: 10px 12px 8px;
           display: flex;
           flex-direction: column;
-          gap: 1px;
+          justify-content: space-between;
+          min-height: 0;
+          overflow: hidden;
         }
         .benefits-mini-label {
           font-size: 10px;
