@@ -268,13 +268,28 @@ export default function Benefits() {
 
       <style>{`
         .benefits-section {
-          background: var(--color-surface-2);
+          background: #fff;
+          position: relative;
+        }
+        .benefits-section::after {
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 220px;
+          background: linear-gradient(to bottom, transparent 0%, #d8eef8 100%);
+          pointer-events: none;
+          z-index: 0;
         }
         .benefits-container {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 80px;
           align-items: stretch;
+          position: relative;
+          z-index: 1;
         }
         /* Visual — stretches to match right column */
         .benefits-visual {
@@ -464,25 +479,25 @@ export default function Benefits() {
         .benefits-bullet__check {
           width: 22px;
           height: 22px;
-          background: var(--color-accent);
+          background: #FC7C00;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
           margin-top: 2px;
-          box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+          box-shadow: 0 2px 8px rgba(252,124,0,0.35);
         }
         .benefits-bullet__text strong {
           font-size: 15px;
           font-weight: 700;
-          color: var(--color-primary);
+          color: var(--c-text);
           display: block;
           margin-bottom: 4px;
         }
         .benefits-bullet__text p {
           font-size: 14px;
-          color: var(--color-text-muted);
+          color: var(--c-text-3);
           line-height: 1.6;
         }
         /* CTA button */

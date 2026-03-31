@@ -134,7 +134,7 @@ export default function Pricing() {
       <style>{`
         .pr-section {
           padding: 80px 0;
-          background: var(--c-bg);
+          background: linear-gradient(to bottom, #d8eef8 0%, #c5e2f5 100%);
         }
 
         /* Outer rounded card */

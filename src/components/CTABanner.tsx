@@ -35,7 +35,7 @@ export default function CTABanner({ onContactOpen }: Props) {
       <style>{`
         .cta {
           padding: 80px 0;
-          background: var(--c-bg);
+          background: linear-gradient(to bottom, #c5e2f5 0%, #b8d8f0 100%);
         }
 
         .cta__card {
