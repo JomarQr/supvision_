@@ -35,7 +35,7 @@ export default function ContactPage() {
         setTimeout(() => goBack(undefined), 2500);
       } else {
         const data = await res.json().catch(() => ({}));
-        console.error('Contact error:', data);
+        console.error('Contact error:', JSON.stringify(data, null, 2));
         setError(true);
       }
     } catch {
@@ -98,17 +98,20 @@ export default function ContactPage() {
                 <div className="cp-field">
                   <label className="cp-label">Full name</label>
                   <input className="cp-input" type="text" placeholder="Your full name"
-                    value={name} onChange={e => setName(e.target.value)} required />
+                    value={name} onChange={e => setName(e.target.value)}
+                    maxLength={100} autoComplete="name" required />
                 </div>
                 <div className="cp-field">
                   <label className="cp-label">Email address</label>
                   <input className="cp-input" type="email" placeholder="Your email address"
-                    value={email} onChange={e => setEmail(e.target.value)} required />
+                    value={email} onChange={e => setEmail(e.target.value)}
+                    maxLength={255} autoComplete="email" required />
                 </div>
                 <div className="cp-field cp-field--grow">
                   <label className="cp-label">Message</label>
                   <textarea className="cp-input cp-textarea" placeholder="Your message here..."
-                    value={message} onChange={e => setMessage(e.target.value)} required />
+                    value={message} onChange={e => setMessage(e.target.value)}
+                    maxLength={5000} required />
                 </div>
                 {error && (
                   <p style={{ fontSize: 13, color: '#ef4444', margin: 0 }}>
