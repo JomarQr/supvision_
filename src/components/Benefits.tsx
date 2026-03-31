@@ -235,7 +235,7 @@ export default function Benefits() {
           font-weight: 700;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          background: #D6FD70;
+          background: #FC7C00;
           color: #0f172a;
           border-radius: 999px;
           padding: 2px 8px;
@@ -278,7 +278,7 @@ export default function Benefits() {
         .benefits-chart-stat {
           font-size: 11px;
           font-weight: 600;
-          color: #D6FD70;
+          color: #FC7C00;
         }
 
         /* Content */
@@ -353,7 +353,7 @@ export default function Benefits() {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          background: #D6FD70;
+          background: #FC7C00;
           color: var(--c-dark);
           display: flex;
           align-items: center;

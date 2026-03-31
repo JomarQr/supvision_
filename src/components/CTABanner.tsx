@@ -143,7 +143,7 @@ export default function CTABanner({ onContactOpen }: Props) {
           gap: 10px;
           padding: 14px 24px;
           border-radius: 999px;
-          background: #c8e65a;
+          background: #FC7C00;
           color: #0f172a;
           font-size: 13px;
           font-weight: 700;
@@ -163,7 +163,7 @@ export default function CTABanner({ onContactOpen }: Props) {
           width: 28px;
           height: 28px;
           background: #0f172a;
-          color: #c8e65a;
+          color: #FC7C00;
           border-radius: 50%;
           display: flex;
           align-items: center;

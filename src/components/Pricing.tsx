@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const CORAL = '#D6FD70';
+const CORAL = '#FC7C00';
 
 const starterFeatures = [
   'Automate basic workflows',

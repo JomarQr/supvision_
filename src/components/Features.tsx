@@ -185,7 +185,7 @@ export default function Features() {
           width: 48px;
           height: 48px;
           border-radius: 12px;
-          background: #D6FD70;
+          background: #FC7C00;
           display: flex;
           align-items: center;
           justify-content: center;

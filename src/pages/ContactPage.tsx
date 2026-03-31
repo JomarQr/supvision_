@@ -230,7 +230,7 @@ export default function ContactPage() {
           color: var(--c-text); background: #fff;
           outline: none; transition: border-color 0.15s;
         }
-        .cp-input:focus { border-color: #b8e850; }
+        .cp-input:focus { border-color: #FC7C00; }
         .cp-input::placeholder { color: #b5b3b1; }
         .cp-textarea { resize: none; min-height: 130px; }
 
@@ -247,7 +247,7 @@ export default function ContactPage() {
         .cp-submit:hover { opacity: 0.85; transform: translateY(-1px); }
         .cp-submit-arrow {
           width: 26px; height: 26px;
-          background: #D6FD70; color: #0f172a;
+          background: #FC7C00; color: #0f172a;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           font-size: 13px;
@@ -265,7 +265,7 @@ export default function ContactPage() {
         }
         .cp-success-icon {
           width: 56px; height: 56px;
-          background: #D6FD70; border-radius: 50%;
+          background: #FC7C00; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           font-size: 24px; font-weight: 700; color: #0f172a;
         }

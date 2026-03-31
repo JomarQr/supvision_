@@ -248,7 +248,7 @@ export default function AboutUs() {
 
         /* Green card */
         .about-card--green {
-          background: #D6FD70;
+          background: #FC7C00;
           flex: 1;
         }
         .about-card--green .about-big-stat { color: #1a1615; }
