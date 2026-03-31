@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const bullets = [
   {
@@ -22,6 +23,7 @@ const bullets = [
 
 export default function Benefits() {
   const sectionRef = useRef<HTMLElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,14 +42,6 @@ export default function Benefits() {
 
     return () => observer.disconnect();
   }, []);
-
-  const handleScroll = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) {
-      const offsetTop = (el as HTMLElement).offsetTop - 70;
-      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="benefits" className="section benefits-section" ref={sectionRef}>
@@ -253,7 +247,7 @@ export default function Benefits() {
           <div className={`reveal reveal-delay-4`}>
             <button
               className="benefits-cta-btn"
-              onClick={() => handleScroll('#contact')}
+              onClick={() => navigate('/contact')}
             >
               Get started
               <span className="benefits-cta-icon">

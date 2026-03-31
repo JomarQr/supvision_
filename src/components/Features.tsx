@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Feature {
   title: string;
@@ -53,6 +54,7 @@ const features: Feature[] = [
 export default function Features() {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -76,7 +78,7 @@ export default function Features() {
           <p className="features-subtitle">
             Our solution goes beyond simple automation — it redefines how customer support operates in financial services.
           </p>
-          <button className="features-cta btn btn-dark">
+          <button className="features-cta btn btn-dark" onClick={() => navigate('/contact')}>
             Get started
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M7 17L17 7M7 7h10v10"/>

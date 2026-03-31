@@ -44,12 +44,14 @@ export default function ContactPage() {
 
             <div className="cp-contacts">
               <div className="cp-contact-item">
-                <span className="cp-contact-label">LinkedIn:</span>
-                <a href="https://www.linkedin.com/company/supvision-ai/" target="_blank" rel="noopener noreferrer" className="cp-contact-val">supvision-ai</a>
-              </div>
-              <div className="cp-contact-item">
-                <span className="cp-contact-label">Response:</span>
-                <span className="cp-contact-val">Within 1 business day</span>
+                <span className="cp-contact-label">Email:</span>
+                <a
+                  href="#"
+                  className="cp-contact-val"
+                  onClick={e => { e.preventDefault(); window.location.href = ['mai','lto:info@supvision','.ai'].join(''); }}
+                >
+                  info&#64;supvision&#46;ai
+                </a>
               </div>
             </div>
 
