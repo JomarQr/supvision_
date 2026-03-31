@@ -72,23 +72,13 @@ export default function Pricing() {
             <div className="pr-right">
 
               {/* Starter */}
-              <div className="pr-plan">
+              <div className="pr-plan pr-plan--soon">
                 <div className="pr-plan-name">Starter</div>
                 <div className="pr-plan-desc">Ideal for small agencies starting their autonomous journey.</div>
                 <div className="pr-plan-price">
-                  {annual ? (
-                    <>
-                      <sup className="pr-plan-sup">$</sup>
-                      <span className="pr-plan-amount">399</span>
-                    </>
-                  ) : (
-                    <>
-                      <sup className="pr-plan-sup">$</sup>
-                      <span className="pr-plan-amount">499</span>
-                    </>
-                  )}
+                  <span className="pr-plan-amount pr-plan-amount--custom">Coming soon</span>
                 </div>
-                <div className="pr-plan-period">/month, billed {annual ? 'annually' : 'monthly'}</div>
+                <div className="pr-plan-period">Pricing will be announced shortly</div>
 
                 <div className="pr-divider" />
 
@@ -102,10 +92,10 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <button className="pr-btn pr-btn--outline">
-                  Start free trial
+                <button className="pr-btn pr-btn--outline" disabled>
+                  Notify me
                 </button>
-                <p className="pr-plan-note">Try for free, up to 10 leads</p>
+                <p className="pr-plan-note">Be the first to know when it launches</p>
               </div>
 
               {/* Enterprise */}
@@ -383,7 +373,8 @@ export default function Pricing() {
           font-family: var(--font);
           transition: opacity 0.18s, transform 0.18s;
         }
-        .pr-btn:hover { opacity: 0.82; transform: translateY(-1px); }
+        .pr-btn:hover:not(:disabled) { opacity: 0.82; transform: translateY(-1px); }
+        .pr-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
         .pr-btn--outline {
           background: transparent;

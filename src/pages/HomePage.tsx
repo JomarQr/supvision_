@@ -7,7 +7,6 @@ import IntegrationsSection from '../components/IntegrationsSection';
 import Features from '../components/Features';
 import Benefits from '../components/Benefits';
 import Pricing from '../components/Pricing';
-import Testimonials from '../components/Testimonials';
 import CTABanner from '../components/CTABanner';
 import Footer from '../components/Footer';
 
@@ -44,8 +43,7 @@ export default function HomePage() {
         <Features />
         <Benefits />
         <Pricing />
-        <Testimonials />
-        <CTABanner onContactOpen={goContact} />
+<CTABanner onContactOpen={goContact} />
       </main>
       <Footer />
       </div>
