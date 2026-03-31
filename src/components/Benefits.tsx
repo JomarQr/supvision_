@@ -19,15 +19,6 @@ const bullets = [
   },
 ];
 
-const chartBars = [
-  { label: 'Mon', value: 55 },
-  { label: 'Tue', value: 72 },
-  { label: 'Wed', value: 88 },
-  { label: 'Thu', value: 65 },
-  { label: 'Fri', value: 94 },
-  { label: 'Sat', value: 48 },
-  { label: 'Sun', value: 79 },
-];
 
 export default function Benefits() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -76,14 +67,27 @@ export default function Benefits() {
                   <span className="benefits-chart-title">Agent Activity</span>
                   <span className="benefits-chart-badge">Live</span>
                 </div>
-                <div className="benefits-chart-bars">
-                  {chartBars.map((b) => (
-                    <div key={b.label} className="benefits-chart-col">
-                      <div className="benefits-chart-bar-wrap">
-                        <div className="benefits-chart-bar" style={{ height: `${b.value}%` }} />
-                      </div>
-                      <span className="benefits-chart-label">{b.label}</span>
-                    </div>
+                <svg viewBox="0 0 280 72" className="benefits-bar-svg" preserveAspectRatio="none">
+                  {[
+                    { x: 8,  h: 40, v: '55%' },
+                    { x: 48, h: 52, v: '72%' },
+                    { x: 88, h: 63, v: '88%' },
+                    { x: 128,h: 47, v: '65%' },
+                    { x: 168,h: 68, v: '94%' },
+                    { x: 208,h: 35, v: '48%' },
+                    { x: 248,h: 57, v: '79%' },
+                  ].map((b, i) => (
+                    <g key={i}>
+                      <rect x={b.x} y={72 - b.h} width="22" height={b.h} rx="4"
+                        fill="rgba(255,255,255,0.25)"/>
+                      <rect x={b.x} y={72 - b.h} width="22" height="6" rx="3"
+                        fill="rgba(255,255,255,0.7)"/>
+                    </g>
+                  ))}
+                </svg>
+                <div className="benefits-bar-labels">
+                  {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(l => (
+                    <span key={l} className="benefits-chart-label">{l}</span>
                   ))}
                 </div>
                 <div className="benefits-chart-footer">
@@ -97,7 +101,8 @@ export default function Benefits() {
                   <span className="benefits-mini-label">Disputes resolved</span>
                   <span className="benefits-mini-val">1,284</span>
                   <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <polyline points="0,20 10,14 20,16 30,8 40,12 50,4 60,6" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M0,20 C8,17 12,15 20,14 C28,13 32,9 40,8 C48,7 54,5 60,4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                    <circle cx="60" cy="4" r="2" fill="rgba(255,255,255,0.8)"/>
                   </svg>
                   <span className="benefits-mini-change">↑ 41% this month</span>
                 </div>
@@ -105,7 +110,8 @@ export default function Benefits() {
                   <span className="benefits-mini-label">Avg. response time</span>
                   <span className="benefits-mini-val">1.2s</span>
                   <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <polyline points="0,18 10,16 20,12 30,14 40,8 50,6 60,4" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M0,18 C8,17 14,14 20,13 C28,12 34,15 40,10 C48,6 54,5 60,4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                    <circle cx="60" cy="4" r="2" fill="rgba(255,255,255,0.8)"/>
                   </svg>
                   <span className="benefits-mini-change">↓ 68% vs manual</span>
                 </div>
@@ -113,7 +119,8 @@ export default function Benefits() {
                   <span className="benefits-mini-label">KYC automation</span>
                   <span className="benefits-mini-val">94%</span>
                   <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <polyline points="0,22 10,18 20,14 30,10 40,8 50,5 60,3" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M0,22 C10,19 16,16 24,13 C32,10 38,9 46,6 C52,4 56,3 60,3" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                    <circle cx="60" cy="3" r="2" fill="rgba(255,255,255,0.8)"/>
                   </svg>
                   <span className="benefits-mini-change">↑ queries automated</span>
                 </div>
@@ -121,7 +128,8 @@ export default function Benefits() {
                   <span className="benefits-mini-label">Cost reduction</span>
                   <span className="benefits-mini-val">-52%</span>
                   <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <polyline points="0,4 10,8 20,6 30,10 40,12 50,16 60,18" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M0,4 C8,5 14,7 22,8 C30,9 36,8 44,12 C50,15 56,17 60,18" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                    <circle cx="60" cy="18" r="2" fill="rgba(255,255,255,0.8)"/>
                   </svg>
                   <span className="benefits-mini-change">↓ support costs</span>
                 </div>
@@ -133,15 +141,25 @@ export default function Benefits() {
                   <span className="benefits-chart-title">Resolution Rate</span>
                   <span className="benefits-chart-badge">98.4%</span>
                 </div>
-                <svg className="benefits-line-chart" viewBox="0 0 220 48" fill="none" preserveAspectRatio="none">
-                  <polyline
-                    points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6"
-                    stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
-                  />
-                  <polyline
-                    points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6 220,48 0,48"
-                    fill="rgba(255,255,255,0.1)"
-                  />
+                <svg className="benefits-line-chart" viewBox="0 0 280 52" fill="none" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="rgba(255,255,255,0.22)"/>
+                      <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
+                    </linearGradient>
+                  </defs>
+                  {/* Grid lines */}
+                  <line x1="0" y1="17" x2="280" y2="17" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+                  <line x1="0" y1="34" x2="280" y2="34" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
+                  {/* Area fill */}
+                  <path d="M0,44 C20,42 40,38 60,34 C80,30 100,32 120,26 C140,20 160,16 180,11 C200,7 220,6 240,5 C255,4 268,4 280,3 L280,52 L0,52 Z"
+                    fill="url(#lineGrad)"/>
+                  {/* Line */}
+                  <path d="M0,44 C20,42 40,38 60,34 C80,30 100,32 120,26 C140,20 160,16 180,11 C200,7 220,6 240,5 C255,4 268,4 280,3"
+                    stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                  {/* Dot at end */}
+                  <circle cx="280" cy="3" r="3.5" fill="#fff"/>
+                  <circle cx="280" cy="3" r="6" fill="rgba(255,255,255,0.2)"/>
                 </svg>
                 <div className="benefits-chart-footer">
                   <span className="benefits-chart-stat">KYC · Disputes · Transactions</span>
@@ -325,36 +343,21 @@ export default function Benefits() {
           border-radius: 999px;
           padding: 2px 8px;
         }
-        .benefits-chart-bars {
-          display: flex;
-          align-items: flex-end;
-          gap: 6px;
+        .benefits-bar-svg {
+          width: 100%;
           height: 72px;
+          display: block;
+          margin: 6px 0 2px;
         }
-        .benefits-chart-col {
-          flex: 1;
+        .benefits-bar-labels {
           display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 5px;
-          height: 100%;
-        }
-        .benefits-chart-bar-wrap {
-          flex: 1;
-          width: 100%;
-          display: flex;
-          align-items: flex-end;
-        }
-        .benefits-chart-bar {
-          width: 100%;
-          background: rgba(255,255,255,0.75);
-          border-radius: 4px 4px 2px 2px;
-          min-height: 4px;
-          transition: height 0.4s ease;
+          justify-content: space-between;
+          padding: 0 2px;
+          margin-bottom: 2px;
         }
         .benefits-chart-label {
           font-size: 9px;
-          color: rgba(255,255,255,0.55);
+          color: rgba(255,255,255,0.5);
           font-weight: 500;
         }
         .benefits-chart-footer {
