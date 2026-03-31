@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
 const links = [
-  { label: 'Features', href: '#features' },
-  { label: 'Benefits', href: '#benefits' },
-  { label: 'Pricing',  href: '#pricing'  },
+  { label: 'Features',  href: '#features'  },
+  { label: 'Platform',  href: '#platform'  },
+  { label: 'Benefits',  href: '#benefits'  },
+  { label: 'Pricing',   href: '#pricing'   },
 ];
 
 function scrollTo(href: string) {

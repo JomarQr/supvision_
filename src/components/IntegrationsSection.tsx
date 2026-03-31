@@ -21,8 +21,12 @@ export default function IntegrationsSection() {
   }, []);
 
   return (
-    <div className="ints-wrap" ref={ref}>
+    <div className="ints-wrap" id="platform" ref={ref}>
       <div className="container">
+        <div className="ints-header reveal">
+          <span className="section-tag">&#9632;&nbsp; PLATFORM</span>
+          <h2 className="ints-section-title">Built to scale with your business</h2>
+        </div>
         <div className="ints-grid">
 
           {/* Left panel */}
@@ -90,6 +94,22 @@ export default function IntegrationsSection() {
           border-top: 1px solid var(--c-border);
           border-bottom: 1px solid var(--c-border);
           padding: 56px 0;
+        }
+
+        .ints-header {
+          text-align: center;
+          margin-bottom: 48px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+        }
+        .ints-section-title {
+          font-size: clamp(28px, 3.5vw, 44px);
+          font-weight: 700;
+          letter-spacing: -0.03em;
+          line-height: 1.14;
+          color: var(--c-text);
         }
 
         .ints-grid {

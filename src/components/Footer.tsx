@@ -1,5 +1,5 @@
-const pages = ['Home', 'Features', 'Benefits', 'Pricing'];
-const hrefs = ['#home', '#features', '#benefits', '#pricing'];
+const pages = ['Home', 'Features', 'Platform', 'Benefits', 'Pricing'];
+const hrefs = ['#home', '#features', '#platform', '#benefits', '#pricing'];
 
 export default function Footer() {
   const scrollTo = (href: string) => {
