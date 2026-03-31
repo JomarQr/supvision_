@@ -9,6 +9,8 @@ export default function ContactPage() {
   const [email, setEmail]     = useState('');
   const [message, setMessage] = useState('');
   const [sent, setSent]       = useState(false);
+  const [error, setError]     = useState(false);
+  const [loading, setLoading] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -18,10 +20,27 @@ export default function ContactPage() {
     setTimeout(() => navigate(hash ? `/${hash}` : '/'), 420);
   };
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => goBack(undefined), 2500);
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await fetch('https://formspree.io/f/xjgprzqk', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (res.ok) {
+        setSent(true);
+        setTimeout(() => goBack(undefined), 2500);
+      } else {
+        setError(true);
+      }
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,8 +108,13 @@ export default function ContactPage() {
                   <textarea className="cp-input cp-textarea" placeholder="Your message here..."
                     value={message} onChange={e => setMessage(e.target.value)} required />
                 </div>
-                <button type="submit" className="cp-submit">
-                  <span>Submit</span>
+                {error && (
+                  <p style={{ fontSize: 13, color: '#ef4444', margin: 0 }}>
+                    Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
+                <button type="submit" className="cp-submit" disabled={loading}>
+                  <span>{loading ? 'Sending...' : 'Submit'}</span>
                   <span className="cp-submit-arrow">↗</span>
                 </button>
               </form>
