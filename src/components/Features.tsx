@@ -111,7 +111,7 @@ export default function Features() {
       </div>
 
       <style>{`
-        .features-section { background: var(--c-bg); }
+        .features-section { background: #fff; }
 
         .features-header {
           text-align: center;

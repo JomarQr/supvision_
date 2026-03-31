@@ -86,7 +86,7 @@ export default function IntegrationsSection() {
 
       <style>{`
         .ints-wrap {
-          background: var(--c-white);
+          background: #fff;
           border-top: 1px solid var(--c-border);
           border-bottom: 1px solid var(--c-border);
           padding: 56px 0;
@@ -100,7 +100,7 @@ export default function IntegrationsSection() {
 
         /* Panel */
         .ints-panel {
-          background: var(--c-warm);
+          background: #f3f3f3;
           border-radius: 20px;
           padding: 36px 32px;
           display: flex;

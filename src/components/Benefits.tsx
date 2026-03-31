@@ -230,7 +230,7 @@ export default function Benefits() {
             <h2 className="benefits-title">
               Less guesswork.<br />
               More clarity.<br />
-              <span className="gradient-text">Better results.</span>
+              <span style={{ color: '#FC7C00' }}>Better results.</span>
             </h2>
           </div>
 
