@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import AboutUs from '../components/AboutUs';
 import IntegrationsSection from '../components/IntegrationsSection';
 import Features from '../components/Features';
 import Benefits from '../components/Benefits';
@@ -38,7 +37,6 @@ export default function HomePage() {
       <div className={`hp-page${leaving ? ' hp-page--out' : ''}`}>
       <main>
         <Hero onContactOpen={goContact} />
-        <AboutUs />
         <IntegrationsSection />
         <Features />
         <Benefits />

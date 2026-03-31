@@ -97,42 +97,95 @@ export default function Benefits() {
 
               {/* 4 square stat blocks */}
               <div className="benefits-mini-cards">
+
+                {/* Disputes resolved — upward trend */}
                 <div className="benefits-mini-card">
-                  <span className="benefits-mini-label">Disputes resolved</span>
-                  <span className="benefits-mini-val">1,284</span>
-                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <path d="M0,20 C8,17 12,15 20,14 C28,13 32,9 40,8 C48,7 54,5 60,4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                    <circle cx="60" cy="4" r="2" fill="rgba(255,255,255,0.8)"/>
+                  <div className="benefits-mini-top">
+                    <span className="benefits-mini-label">Disputes resolved</span>
+                    <span className="benefits-mini-val">1,284</span>
+                  </div>
+                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="sg0" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.28)"/>
+                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+                    <path d="M0,40 C12,37 22,32 36,26 C50,20 62,15 74,11 C84,8 92,6 100,4 L100,44 L0,44 Z" fill="url(#sg0)"/>
+                    <path d="M0,40 C12,37 22,32 36,26 C50,20 62,15 74,11 C84,8 92,6 100,4" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <circle cx="100" cy="4" r="3" fill="#fff"/>
+                    <circle cx="100" cy="4" r="5.5" fill="rgba(255,255,255,0.18)"/>
                   </svg>
-                  <span className="benefits-mini-change">↑ 41% this month</span>
+                  <span className="benefits-mini-change benefits-mini-change--up">↑ 41% this month</span>
                 </div>
+
+                {/* Avg. response time — downward trend (good) */}
                 <div className="benefits-mini-card">
-                  <span className="benefits-mini-label">Avg. response time</span>
-                  <span className="benefits-mini-val">1.2s</span>
-                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <path d="M0,18 C8,17 14,14 20,13 C28,12 34,15 40,10 C48,6 54,5 60,4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                    <circle cx="60" cy="4" r="2" fill="rgba(255,255,255,0.8)"/>
+                  <div className="benefits-mini-top">
+                    <span className="benefits-mini-label">Avg. response time</span>
+                    <span className="benefits-mini-val">1.2s</span>
+                  </div>
+                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.24)"/>
+                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+                    <path d="M0,4 C12,6 22,10 36,15 C50,20 62,24 74,29 C84,33 92,36 100,40 L100,44 L0,44 Z" fill="url(#sg1)"/>
+                    <path d="M0,4 C12,6 22,10 36,15 C50,20 62,24 74,29 C84,33 92,36 100,40" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <circle cx="100" cy="40" r="3" fill="#fff"/>
+                    <circle cx="100" cy="40" r="5.5" fill="rgba(255,255,255,0.18)"/>
                   </svg>
-                  <span className="benefits-mini-change">↓ 68% vs manual</span>
+                  <span className="benefits-mini-change benefits-mini-change--up">↓ 68% vs manual</span>
                 </div>
+
+                {/* KYC automation — strong upward */}
                 <div className="benefits-mini-card">
-                  <span className="benefits-mini-label">KYC automation</span>
-                  <span className="benefits-mini-val">94%</span>
-                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <path d="M0,22 C10,19 16,16 24,13 C32,10 38,9 46,6 C52,4 56,3 60,3" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                    <circle cx="60" cy="3" r="2" fill="rgba(255,255,255,0.8)"/>
+                  <div className="benefits-mini-top">
+                    <span className="benefits-mini-label">KYC automation</span>
+                    <span className="benefits-mini-val">94%</span>
+                  </div>
+                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.28)"/>
+                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+                    <path d="M0,42 C10,38 20,33 32,26 C44,19 56,13 68,9 C78,6 88,4 100,3 L100,44 L0,44 Z" fill="url(#sg2)"/>
+                    <path d="M0,42 C10,38 20,33 32,26 C44,19 56,13 68,9 C78,6 88,4 100,3" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <circle cx="100" cy="3" r="3" fill="#fff"/>
+                    <circle cx="100" cy="3" r="5.5" fill="rgba(255,255,255,0.18)"/>
                   </svg>
-                  <span className="benefits-mini-change">↑ queries automated</span>
+                  <span className="benefits-mini-change benefits-mini-change--up">↑ queries automated</span>
                 </div>
+
+                {/* Cost reduction — costs falling */}
                 <div className="benefits-mini-card">
-                  <span className="benefits-mini-label">Cost reduction</span>
-                  <span className="benefits-mini-val">-52%</span>
-                  <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
-                    <path d="M0,4 C8,5 14,7 22,8 C30,9 36,8 44,12 C50,15 56,17 60,18" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                    <circle cx="60" cy="18" r="2" fill="rgba(255,255,255,0.8)"/>
+                  <div className="benefits-mini-top">
+                    <span className="benefits-mini-label">Cost reduction</span>
+                    <span className="benefits-mini-val">-52%</span>
+                  </div>
+                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.24)"/>
+                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+                    <path d="M0,6 C12,9 22,14 34,20 C46,25 58,28 70,33 C80,36 90,38 100,41 L100,44 L0,44 Z" fill="url(#sg3)"/>
+                    <path d="M0,6 C12,9 22,14 34,20 C46,25 58,28 70,33 C80,36 90,38 100,41" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <circle cx="100" cy="41" r="3" fill="#fff"/>
+                    <circle cx="100" cy="41" r="5.5" fill="rgba(255,255,255,0.18)"/>
                   </svg>
-                  <span className="benefits-mini-change">↓ support costs</span>
+                  <span className="benefits-mini-change benefits-mini-change--up">↓ support costs</span>
                 </div>
+
               </div>
 
               {/* Resolution Rate */}
@@ -202,7 +255,7 @@ export default function Benefits() {
               className="benefits-cta-btn"
               onClick={() => handleScroll('#contact')}
             >
-              Get started free
+              Get started
               <span className="benefits-cta-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -286,14 +339,21 @@ export default function Benefits() {
           padding: 10px 12px 8px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          gap: 0;
           min-height: 0;
           overflow: hidden;
+        }
+        .benefits-mini-top {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          flex-shrink: 0;
         }
         .benefits-mini-label {
           font-size: 10px;
           color: rgba(255,255,255,0.6);
           font-weight: 500;
+          line-height: 1.3;
         }
         .benefits-mini-val {
           font-size: 20px;
@@ -303,15 +363,20 @@ export default function Benefits() {
           line-height: 1.1;
         }
         .benefits-mini-spark {
+          flex: 1;
           width: 100%;
-          height: 24px;
+          min-height: 0;
           display: block;
-          margin: 3px 0 1px;
+          margin: 6px 0 4px;
         }
         .benefits-mini-change {
           font-size: 10px;
           font-weight: 600;
           color: rgba(255,255,255,0.65);
+          flex-shrink: 0;
+        }
+        .benefits-mini-change--up {
+          color: rgba(200,255,200,0.8);
         }
 
         /* Line chart SVG */

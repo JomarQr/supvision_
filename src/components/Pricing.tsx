@@ -3,7 +3,7 @@ import { useState } from 'react';
 const CORAL = '#FC7C00';
 
 const starterFeatures = [
-  'Automate basic workflows',
+  'Automate up to 10 basic workflows',
   'Autonomous insights',
   'Email support',
   'Custom integrations',
@@ -76,9 +76,10 @@ export default function Pricing() {
                 <div className="pr-plan-name">Starter</div>
                 <div className="pr-plan-desc">Ideal for small agencies starting their autonomous journey.</div>
                 <div className="pr-plan-price">
-                  <span className="pr-plan-amount pr-plan-amount--custom">Coming soon</span>
+                  <span className="pr-plan-sup">€</span>
+                  <span className="pr-plan-amount">1,399</span>
                 </div>
-                <div className="pr-plan-period">Pricing will be announced shortly</div>
+                <div className="pr-plan-period">per month</div>
 
                 <div className="pr-divider" />
 
@@ -92,10 +93,10 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <button className="pr-btn pr-btn--outline" disabled>
-                  Notify me
+                <button className="pr-btn pr-btn--outline">
+                  Get started
                 </button>
-                <p className="pr-plan-note">Be the first to know when it launches</p>
+                <p className="pr-plan-note">No commitment required</p>
               </div>
 
               {/* Enterprise */}

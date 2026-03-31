@@ -14,18 +14,6 @@ export default function CTABanner({ onContactOpen }: Props) {
 
           {/* Content */}
           <div className="cta__content">
-            {/* Social proof */}
-            <div className="cta__proof">
-              <div className="cta__avatars">
-                {['#4f8fd4','#6db8e8','#3a7bbf'].map((c, i) => (
-                  <div key={i} className="cta__avatar" style={{ background: c }}>
-                    {['J','A','M'][i]}
-                  </div>
-                ))}
-              </div>
-              <span>Trusted by 2,400+ teams</span>
-            </div>
-
             <h2 className="cta__heading">
               Ready to transform<br />
               your fintech support?

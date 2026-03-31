@@ -69,7 +69,7 @@ export default function Features() {
 
         {/* Header */}
         <div className="features-header reveal">
-          <span className="section-tag">&#9632;&nbsp; SERVICES</span>
+          <span className="section-tag">&#9632;&nbsp; FEATURES</span>
           <h2 className="features-title">
             Transformational impact<br />on fintech operations
           </h2>

@@ -4,7 +4,6 @@ const links = [
   { label: 'Features',   href: '#features' },
   { label: 'Benefits',   href: '#benefits' },
   { label: 'Pricing',    href: '#pricing'  },
-  { label: 'Blog',       href: '#blog'     },
   { label: 'Contact Us', href: '#contact', isContact: true },
 ];
 
@@ -71,14 +70,6 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
             ))}
           </ul>
 
-          {/* CTA */}
-          <button
-            className="nav__cta btn btn-dark btn-sm"
-            onClick={onContactOpen}
-          >
-            Try supVision free
-          </button>
-
           {/* Hamburger */}
           <button
             className={`nav__burger${open ? ' nav__burger--open' : ''}`}
@@ -99,13 +90,6 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
               {l.label}
             </a>
           ))}
-          <button
-            className="btn btn-dark"
-            style={{ marginTop: 8, justifyContent: 'center' }}
-            onClick={() => { setOpen(false); onContactOpen(); }}
-          >
-            Try supVision free
-          </button>
         </div>
       )}
 

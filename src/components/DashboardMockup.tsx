@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-type Tab = 'dashboard' | 'agents' | 'projects' | 'time' | 'reports';
+type Tab = 'dashboard' | 'tickets' | 'kyc' | 'disputes' | 'reports';
 
 const BLUE = '#1d72e8';
 const BLUE_BG = 'rgba(29,114,232,0.12)';
@@ -12,16 +12,16 @@ const navItems: { id: Tab; label: string; icon: React.ReactElement }[] = [
     icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
   },
   {
-    id: 'agents', label: 'Agents',
+    id: 'tickets', label: 'Tickets',
+    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 10h4"/></svg>
+  },
+  {
+    id: 'kyc', label: 'KYC',
     icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
   },
   {
-    id: 'projects', label: 'Projects',
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 011-1h3l2 2h5a1 1 0 011 1v7a1 1 0 01-1 1H3a1 1 0 01-1-1V3z"/></svg>
-  },
-  {
-    id: 'time', label: 'Time Tracking',
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2 2" strokeLinecap="round"/></svg>
+    id: 'disputes', label: 'Disputes',
+    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 5v3M8 11v.5"/></svg>
   },
   {
     id: 'reports', label: 'Reports',
@@ -31,16 +31,16 @@ const navItems: { id: Tab; label: string; icon: React.ReactElement }[] = [
 
 /* ── Dashboard view ── */
 function DashboardView() {
-  const bars = [45, 62, 55, 70, 90, 65, 48];
+  const bars = [38, 55, 62, 48, 82, 70, 59];
   const days = ['M','T','W','T','F','S','S'];
   return (
     <>
       <div className="dm-stats">
         {[
-          { label: 'Total Agents', value: '24', badge: '+3 this week', c: '#0ea158' },
-          { label: 'Active Now',   value: '8',  badge: '↑2 online',   c: BLUE },
-          { label: 'Tasks Done',   value: '156', badge: '+12 today',  c: '#0ea158' },
-          { label: 'Hours Saved',  value: '600h', badge: '↑18%',     c: '#0ea158' },
+          { label: 'Open Tickets',    value: '142', badge: '-18 today',    c: '#0ea158' },
+          { label: 'Resolved Today',  value: '87',  badge: '↑12 vs avg',  c: '#0ea158' },
+          { label: 'KYC Pending',     value: '34',  badge: '3 urgent',     c: '#f59e0b' },
+          { label: 'Avg. Response',   value: '1.2s', badge: '↓68% faster', c: BLUE },
         ].map(s => (
           <div key={s.label} className="dm-stat-card">
             <div className="dm-stat-label">{s.label}</div>
@@ -51,7 +51,7 @@ function DashboardView() {
       </div>
       <div className="dm-bottom">
         <div className="dm-chart-card">
-          <div className="dm-card-title">Weekly Output</div>
+          <div className="dm-card-title">Tickets Resolved / Day</div>
           <div className="dm-bars">
             {bars.map((h, i) => (
               <div key={i} className="dm-bar-col">
@@ -64,9 +64,9 @@ function DashboardView() {
         <div className="dm-activity-card">
           <div className="dm-card-title">Recent Activity</div>
           {[
-            { icon: '✓', bg: 'rgba(14,161,88,0.12)', c: '#0ea158', text: 'Agent #7 completed sprint review', t: '2m ago' },
-            { icon: '↑', bg: BLUE_BG,                 c: BLUE,     text: 'New task assigned to Design team', t: '8m ago' },
-            { icon: '⚡', bg: 'rgba(245,158,11,0.12)', c: '#f59e0b', text: 'Weekly report auto-generated',     t: '1h ago' },
+            { icon: '✓', bg: 'rgba(14,161,88,0.12)', c: '#0ea158', text: 'Dispute #4821 resolved automatically', t: '2m ago' },
+            { icon: '↑', bg: BLUE_BG,                 c: BLUE,     text: 'KYC verified for user anna@email.com', t: '8m ago' },
+            { icon: '⚡', bg: 'rgba(245,158,11,0.12)', c: '#f59e0b', text: 'Chargeback report auto-generated',    t: '1h ago' },
           ].map((a, i) => (
             <div key={i} className="dm-act-item">
               <div className="dm-act-icon" style={{ background: a.bg, color: a.c }}>{a.icon}</div>
@@ -82,94 +82,88 @@ function DashboardView() {
   );
 }
 
-/* ── Agents view ── */
-function AgentsView() {
-  const agents = [
-    { name: 'Agent Alpha',  task: 'Sprint planning',     status: 'active',  perf: 94 },
-    { name: 'Agent Beta',   task: 'Code review',          status: 'active',  perf: 88 },
-    { name: 'Agent Gamma',  task: 'QA testing',           status: 'idle',    perf: 76 },
-    { name: 'Agent Delta',  task: 'Report generation',    status: 'active',  perf: 91 },
-    { name: 'Agent Epsilon',task: 'Data processing',      status: 'paused',  perf: 65 },
+/* ── Tickets view ── */
+function TicketsView() {
+  const tickets = [
+    { id: '#5021', customer: 'john.doe@mail.com',  issue: 'Payment failed',        status: 'open',     priority: 'high' },
+    { id: '#5020', customer: 'sara.k@finance.io',  issue: 'Card blocked',          status: 'resolved', priority: 'med'  },
+    { id: '#5019', customer: 'mike.w@wallet.com',  issue: 'Transaction dispute',   status: 'open',     priority: 'high' },
+    { id: '#5018', customer: 'anna.v@bank.eu',     issue: 'KYC document rejected', status: 'pending',  priority: 'low'  },
+    { id: '#5017', customer: 'lee.x@payments.io',  issue: 'Refund not received',   status: 'resolved', priority: 'med'  },
   ];
-  const statusColor: Record<string, string> = { active: '#0ea158', idle: '#f59e0b', paused: '#94a3b8' };
+  const sc: Record<string,string> = { open: '#ef4444', resolved: '#0ea158', pending: '#f59e0b' };
   return (
     <div className="dm-list">
       <div className="dm-list-header">
-        <span>Agent</span><span>Current Task</span><span>Perf.</span><span>Status</span>
+        <span>ID</span><span>Customer</span><span>Issue</span><span>Status</span>
       </div>
-      {agents.map((a, i) => (
+      {tickets.map((t, i) => (
+        <div key={i} className="dm-list-row">
+          <div style={{ fontSize: 10, fontWeight: 700, color: BLUE }}>{t.id}</div>
+          <div className="dm-list-task">{t.customer}</div>
+          <div style={{ fontSize: 9.5, color: '#374151' }}>{t.issue}</div>
+          <div style={{ fontSize: 9, fontWeight: 600, color: sc[t.status] }}>● {t.status}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── KYC view ── */
+function KycView() {
+  const cases = [
+    { name: 'Anna Volkova',   doc: 'Passport',      submitted: 'Today',      status: 'verified', score: 98 },
+    { name: 'James Okafor',   doc: 'Driver Lic.',   submitted: 'Today',      status: 'pending',  score: 72 },
+    { name: 'Maria Santos',   doc: 'National ID',   submitted: 'Yesterday',  status: 'verified', score: 95 },
+    { name: 'Chen Wei',       doc: 'Passport',      submitted: 'Yesterday',  status: 'rejected', score: 41 },
+    { name: 'Priya Nair',     doc: 'Passport',      submitted: '2 days ago', status: 'verified', score: 99 },
+  ];
+  const sc: Record<string,string> = { verified: '#0ea158', pending: '#f59e0b', rejected: '#ef4444' };
+  return (
+    <div className="dm-list">
+      <div className="dm-list-header">
+        <span>Customer</span><span>Document</span><span>Score</span><span>Status</span>
+      </div>
+      {cases.map((c, i) => (
         <div key={i} className="dm-list-row">
           <div className="dm-agent-name">
             <div className="dm-avatar" style={{ background: [BLUE,'#0ea158','#f59e0b','#8b5cf6','#ef4444'][i] }}>
-              {a.name[6]}
+              {c.name[0]}
             </div>
-            {a.name}
+            {c.name}
           </div>
-          <div className="dm-list-task">{a.task}</div>
+          <div className="dm-list-task">{c.doc}</div>
           <div className="dm-perf-bar">
-            <div className="dm-perf-fill" style={{ width: `${a.perf}%`, background: a.perf > 85 ? '#0ea158' : a.perf > 70 ? BLUE : '#f59e0b' }} />
-            <span>{a.perf}%</span>
+            <div className="dm-perf-fill" style={{ width: `${c.score}%`, background: c.score > 85 ? '#0ea158' : c.score > 60 ? '#f59e0b' : '#ef4444' }} />
+            <span>{c.score}%</span>
           </div>
-          <div className="dm-status-dot" style={{ color: statusColor[a.status] }}>
-            ● {a.status}
-          </div>
+          <div style={{ fontSize: 9, fontWeight: 600, color: sc[c.status] }}>● {c.status}</div>
         </div>
       ))}
     </div>
   );
 }
 
-/* ── Projects view ── */
-function ProjectsView() {
-  const projects = [
-    { name: 'Project Alpha',  progress: 78, deadline: 'Apr 5',  agents: 4, status: 'On track' },
-    { name: 'Project Beta',   progress: 45, deadline: 'Apr 12', agents: 2, status: 'At risk'  },
-    { name: 'Project Gamma',  progress: 92, deadline: 'Mar 31', agents: 6, status: 'On track' },
-    { name: 'Project Delta',  progress: 20, deadline: 'May 1',  agents: 3, status: 'On track' },
+/* ── Disputes view ── */
+function DisputesView() {
+  const disputes = [
+    { id: '#D-312', amount: '€240.00', reason: 'Unauthorized charge',  channel: 'Visa',       status: 'resolved' },
+    { id: '#D-311', amount: '€89.50',  reason: 'Item not received',    channel: 'Mastercard', status: 'open'     },
+    { id: '#D-310', amount: '€512.00', reason: 'Duplicate transaction', channel: 'Visa',       status: 'open'     },
+    { id: '#D-309', amount: '€34.99',  reason: 'Service not rendered', channel: 'SEPA',       status: 'resolved' },
   ];
+  const sc: Record<string,string> = { open: '#ef4444', resolved: '#0ea158' };
   return (
     <div className="dm-list">
       <div className="dm-list-header">
-        <span>Project</span><span>Progress</span><span>Deadline</span><span>Status</span>
+        <span>Case</span><span>Reason</span><span>Amount</span><span>Status</span>
       </div>
-      {projects.map((p, i) => (
+      {disputes.map((d, i) => (
         <div key={i} className="dm-list-row">
-          <div className="dm-project-name">
-            <div className="dm-proj-dot" style={{ background: [BLUE,'#f59e0b','#0ea158','#8b5cf6'][i] }} />
-            {p.name}
-          </div>
-          <div className="dm-perf-bar">
-            <div className="dm-perf-fill" style={{ width: `${p.progress}%`, background: p.status === 'At risk' ? '#f59e0b' : BLUE }} />
-            <span>{p.progress}%</span>
-          </div>
-          <div style={{ fontSize: 10, color: '#64748b' }}>{p.deadline}</div>
-          <div style={{ fontSize: 10, color: p.status === 'At risk' ? '#f59e0b' : '#0ea158', fontWeight: 600 }}>{p.status}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Time view ── */
-function TimeView() {
-  const entries = [
-    { agent: 'Agent Alpha', task: 'Sprint planning',  duration: '2h 30m', date: 'Today' },
-    { agent: 'Agent Beta',  task: 'Code review',       duration: '1h 15m', date: 'Today' },
-    { agent: 'Agent Delta', task: 'Report generation', duration: '0h 45m', date: 'Today' },
-    { agent: 'Agent Gamma', task: 'QA testing',        duration: '3h 10m', date: 'Yesterday' },
-    { agent: 'Agent Alpha', task: 'Documentation',     duration: '1h 00m', date: 'Yesterday' },
-  ];
-  return (
-    <div className="dm-list">
-      <div className="dm-list-header">
-        <span>Agent</span><span>Task</span><span>Duration</span><span>Date</span>
-      </div>
-      {entries.map((e, i) => (
-        <div key={i} className="dm-list-row">
-          <div style={{ fontSize: 10, fontWeight: 600, color: '#0f172a' }}>{e.agent}</div>
-          <div className="dm-list-task">{e.task}</div>
-          <div style={{ fontSize: 10, color: BLUE, fontWeight: 700 }}>{e.duration}</div>
-          <div style={{ fontSize: 10, color: '#94a3b8' }}>{e.date}</div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: BLUE }}>{d.id}</div>
+          <div className="dm-list-task">{d.reason}</div>
+          <div style={{ fontSize: 10, fontWeight: 600, color: '#0f172a' }}>{d.amount}</div>
+          <div style={{ fontSize: 9, fontWeight: 600, color: sc[d.status] }}>● {d.status}</div>
         </div>
       ))}
     </div>
@@ -179,10 +173,10 @@ function TimeView() {
 /* ── Reports view ── */
 function ReportsView() {
   const reports = [
-    { name: 'Q1 2026 Performance Summary', date: 'Mar 29', type: 'Quarterly', size: '2.4 MB' },
-    { name: 'Weekly Sprint Report #12',     date: 'Mar 28', type: 'Weekly',    size: '0.8 MB' },
-    { name: 'Agent Efficiency Analysis',    date: 'Mar 25', type: 'Custom',    size: '1.1 MB' },
-    { name: 'Weekly Sprint Report #11',     date: 'Mar 21', type: 'Weekly',    size: '0.9 MB' },
+    { name: 'Q1 2026 Support Performance',   date: 'Mar 29', type: 'Quarterly', size: '2.4 MB' },
+    { name: 'Weekly Dispute Summary #12',     date: 'Mar 28', type: 'Weekly',    size: '0.8 MB' },
+    { name: 'KYC Automation Efficiency',      date: 'Mar 25', type: 'Custom',    size: '1.1 MB' },
+    { name: 'Customer Sentiment Analysis',    date: 'Mar 21', type: 'Weekly',    size: '0.9 MB' },
   ];
   return (
     <div className="dm-list">
@@ -210,9 +204,9 @@ export default function DashboardMockup() {
 
   const views: Record<Tab, React.ReactElement> = {
     dashboard: <DashboardView />,
-    agents:    <AgentsView />,
-    projects:  <ProjectsView />,
-    time:      <TimeView />,
+    tickets:   <TicketsView />,
+    kyc:       <KycView />,
+    disputes:  <DisputesView />,
     reports:   <ReportsView />,
   };
 
@@ -258,12 +252,12 @@ export default function DashboardMockup() {
         <div className="dm-main">
           <div className="dm-main-header">
             <div>
-              <div className="dm-greeting">Good morning, Alex 👋</div>
-              <div className="dm-greeting-sub">Friday, March 29 · 12 tasks pending</div>
+              <div className="dm-greeting">Support Overview 👋</div>
+              <div className="dm-greeting-sub">Tuesday, April 1 · 142 open tickets</div>
             </div>
             <div className="dm-header-btns">
-              <button className="dm-btn dm-btn--outline">New Task</button>
-              <button className="dm-btn dm-btn--primary">Generate Report</button>
+              <button className="dm-btn dm-btn--outline">New Ticket</button>
+              <button className="dm-btn dm-btn--primary">Run Report</button>
             </div>
           </div>
 
