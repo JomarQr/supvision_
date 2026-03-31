@@ -89,17 +89,39 @@ export default function Benefits() {
             </div>
           </div>
 
-          {/* Glass stat row — two mini cards */}
+          {/* 4 square stat blocks */}
           <div className="benefits-mini-cards">
             <div className="benefits-mini-card">
               <span className="benefits-mini-label">Disputes resolved</span>
               <span className="benefits-mini-val">1,284</span>
+              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                <polyline points="0,20 10,14 20,16 30,8 40,12 50,4 60,6" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               <span className="benefits-mini-change">↑ 41% this month</span>
             </div>
             <div className="benefits-mini-card">
               <span className="benefits-mini-label">Avg. response time</span>
               <span className="benefits-mini-val">1.2s</span>
+              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                <polyline points="0,18 10,16 20,12 30,14 40,8 50,6 60,4" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
               <span className="benefits-mini-change">↓ 68% vs manual</span>
+            </div>
+            <div className="benefits-mini-card">
+              <span className="benefits-mini-label">KYC automation</span>
+              <span className="benefits-mini-val">94%</span>
+              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                <polyline points="0,22 10,18 20,14 30,10 40,8 50,5 60,3" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="benefits-mini-change">↑ queries automated</span>
+            </div>
+            <div className="benefits-mini-card">
+              <span className="benefits-mini-label">Cost reduction</span>
+              <span className="benefits-mini-val">-52%</span>
+              <svg viewBox="0 0 60 24" fill="none" className="benefits-mini-spark">
+                <polyline points="0,4 10,8 20,6 30,10 40,12 50,16 60,18" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span className="benefits-mini-change">↓ support costs</span>
             </div>
           </div>
 
@@ -112,11 +134,11 @@ export default function Benefits() {
             <svg className="benefits-line-chart" viewBox="0 0 220 48" fill="none" preserveAspectRatio="none">
               <polyline
                 points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6"
-                stroke="#FC7C00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
+                stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
               />
               <polyline
                 points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6 220,48 0,48"
-                fill="rgba(252,124,0,0.12)"
+                fill="rgba(255,255,255,0.1)"
               />
             </svg>
             <div className="benefits-chart-footer">
@@ -219,7 +241,7 @@ export default function Benefits() {
         .benefits-chart-card--top { top: 16px; }
         .benefits-chart-card--bottom { bottom: 16px; }
 
-        /* Mini stat cards row */
+        /* 4 square stat blocks */
         .benefits-mini-cards {
           position: absolute;
           left: 16px;
@@ -228,6 +250,7 @@ export default function Benefits() {
           transform: translateY(-50%);
           display: grid;
           grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
           gap: 10px;
           animation: fadeInUp 0.6s ease 0.55s both;
         }
@@ -237,10 +260,10 @@ export default function Benefits() {
           -webkit-backdrop-filter: blur(16px);
           border: 1px solid rgba(255,255,255,0.28);
           border-radius: 14px;
-          padding: 12px 14px;
+          padding: 12px 14px 10px;
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 1px;
         }
         .benefits-mini-label {
           font-size: 10px;
@@ -248,16 +271,22 @@ export default function Benefits() {
           font-weight: 500;
         }
         .benefits-mini-val {
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 700;
           color: #fff;
           letter-spacing: -0.03em;
           line-height: 1.1;
         }
+        .benefits-mini-spark {
+          width: 100%;
+          height: 24px;
+          display: block;
+          margin: 3px 0 1px;
+        }
         .benefits-mini-change {
           font-size: 10px;
           font-weight: 600;
-          color: #FC7C00;
+          color: rgba(255,255,255,0.65);
         }
 
         /* Line chart SVG */
@@ -284,8 +313,8 @@ export default function Benefits() {
           font-weight: 700;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          background: #FC7C00;
-          color: #0f172a;
+          background: rgba(255,255,255,0.22);
+          color: #fff;
           border-radius: 999px;
           padding: 2px 8px;
         }
@@ -311,7 +340,7 @@ export default function Benefits() {
         }
         .benefits-chart-bar {
           width: 100%;
-          background: rgba(252,124,0,0.85);
+          background: rgba(255,255,255,0.75);
           border-radius: 4px 4px 2px 2px;
           min-height: 4px;
           transition: height 0.4s ease;
@@ -327,7 +356,7 @@ export default function Benefits() {
         .benefits-chart-stat {
           font-size: 11px;
           font-weight: 600;
-          color: #FC7C00;
+          color: rgba(255,255,255,0.7);
         }
 
         /* Content */
