@@ -2,20 +2,20 @@ import { useEffect, useRef } from 'react';
 
 const bullets = [
   {
-    title: 'Agents that work autonomously',
-    description: "Deploy autonomous workers that handle complex tasks end-to-end — researching, deciding, and executing without constant supervision.",
+    title: 'Automated workflows made easy',
+    description: "Resolve complex issues like transaction failures and disputes in real time — reducing response times, operational costs, and human error while staying compliant.",
   },
   {
-    title: 'See every thought and decision',
-    description: "Every reasoning step, conclusion, and action your agent takes is logged and visible. Full auditability built in from day one.",
+    title: 'Tailored to a regulated industry',
+    description: "Intelligent automation that understands financial processes and compliance constraints — delivering a unique blend of innovation and reliability.",
   },
   {
-    title: 'Your data stays yours',
-    description: "Complete data isolation — your information never touches other clients' environments. Designed for regulated financial workflows.",
+    title: 'Human-like experience at global scale',
+    description: "Highly personalized, context-aware support that feels human — while handling millions of interactions across channels and geographies.",
   },
   {
-    title: 'Connect the tools you already use',
-    description: "Plug agents into your existing stack — trading platforms, CRMs, data feeds, and communication tools — through our plugin library.",
+    title: 'Reduce costs, improve quality',
+    description: "Track support performance, customer sentiment, and operational efficiency in real time — continuously improving service quality while cutting costs.",
   },
 ];
 

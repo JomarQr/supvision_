@@ -9,8 +9,8 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: 'Create Agents in Chat',
-    description: 'Just type what worker you need — our system asks the right questions and builds the agent for you. No code, no configuration files. From idea to deployed agent in minutes.',
+    title: 'Customer Support Automation',
+    description: 'Deploy intelligent virtual agents to handle common customer inquiries — payments, account issues, KYC status — reducing response times and support workload significantly.',
     img: '/frame1.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -19,8 +19,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: 'Full Transparency',
-    description: 'See every step your agent takes — its reasoning, decisions, and conclusions are fully visible. Audit any action at any time. No black boxes, ever.',
+    title: 'Dispute & Transaction Handling',
+    description: 'Automated workflows for chargebacks, failed transactions, and payment investigations — improving resolution speed while ensuring compliance with fintech regulations.',
     img: '/frame2.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -29,18 +29,18 @@ const features: Feature[] = [
     ),
   },
   {
-    title: 'Enterprise Security',
-    description: 'All your data is fully isolated — no cross-tenant access, no shared models. Built to meet the strict compliance requirements of the financial industry.',
+    title: 'Support Analytics',
+    description: 'Real-time dashboards and insights to track support performance, customer sentiment, and operational efficiency — helping you continuously improve service quality and reduce costs.',
     img: '/pole.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
       </svg>
     ),
   },
   {
     title: 'Plugins & Integrations',
-    description: 'Connect your agents to the tools you already use — CRMs, databases, APIs, communication platforms, and more. A growing library of plugins, ready out of the box.',
+    description: 'Connect seamlessly with the tools you already use — CRMs, payment platforms, databases, and communication channels. A growing library of fintech-ready plugins.',
     img: '/frame2.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -71,10 +71,10 @@ export default function Features() {
         <div className="features-header reveal">
           <span className="section-tag">&#9632;&nbsp; SERVICES</span>
           <h2 className="features-title">
-            Everything you need to run<br />an autonomous workforce
+            Transformational impact<br />on fintech operations
           </h2>
           <p className="features-subtitle">
-            From creation to execution — deploy agents that work independently, transparently, and securely.
+            Our solution goes beyond simple automation — it redefines how customer support operates in financial services.
           </p>
           <button className="features-cta btn btn-dark">
             Get started

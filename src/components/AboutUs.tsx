@@ -22,14 +22,14 @@ export default function AboutUs() {
         <div className="about-header reveal">
           <span className="section-tag">&#9632;&nbsp; ABOUT US</span>
           <h2 className="about-title">
-            Autonomous workers,<br />
-            built for <span className="about-pill about-pill--blue">
+            Built specifically for<br />
+            <span className="about-pill about-pill--blue">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-              finance
+              financial services
             </span>
           </h2>
           <p className="about-subtitle">
-            We help financial teams deploy autonomous agents that work independently — with full transparency into every decision and complete data isolation.
+            Built for payment service providers, digital wallets, and banks — we understand the regulatory, security, and customer experience challenges unique to fintech.
           </p>
         </div>
 
@@ -58,9 +58,9 @@ export default function AboutUs() {
               ))}
             </div>
             <blockquote className="about-quote">
-              "We deployed a compliance agent in under 10 minutes just by describing it in chat. Every step it took was fully visible and auditable."
+              "supVision reduced our dispute resolution time by 60% and cut support workload in half — while keeping us fully compliant."
             </blockquote>
-            <p className="about-quote-author">— Head of Operations, Financial Services firm</p>
+            <p className="about-quote-author">— Head of Operations, Payment Service Provider</p>
           </div>
 
           {/* Card 3 — two stacked */}

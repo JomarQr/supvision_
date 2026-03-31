@@ -27,13 +27,13 @@ export default function CTABanner({ onContactOpen }: Props) {
             </div>
 
             <h2 className="cta__heading">
-              Your first autonomous agent,<br />
-              ready in minutes.
+              Ready to transform<br />
+              your fintech support?
             </h2>
 
             <p className="cta__sub">
-              Just describe the worker you need in chat — supVision builds it, deploys it,
-              and gives you full visibility into every step it takes.
+              From onboarding and KYC to disputes and transaction issues — supVision automates
+              the entire customer support journey for financial services companies.
             </p>
 
             <button className="cta__btn" onClick={onContactOpen}>

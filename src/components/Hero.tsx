@@ -58,16 +58,16 @@ export default function Hero({ onContactOpen }: HeroProps) {
       {/* Text content */}
       <div className="hero__content">
         <h1 className="hero__heading">
-          Your autonomous workforce,<br />
-          built in minutes.
+          Seamless customer support<br />
+          for fintech companies.
         </h1>
         <p className="hero__sub">
-          Create autonomous agents through a simple chat — just describe the worker you need.
-          Built for financial teams that demand security, transparency, and control.
+          supVision combines advanced automation with deep industry expertise to handle
+          onboarding, KYC queries, transaction issues, and dispute resolution — at scale.
         </p>
         <div className="hero__btns">
           <button className="btn btn-dark hero__btn-primary" onClick={onContactOpen}>
-            Try supVision free
+            Get in touch
           </button>
           <button className="btn btn-light" onClick={() => scrollTo('#features')}>
             See features
