@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const links = [
-  { label: 'Features',   href: '#features' },
-  { label: 'Benefits',   href: '#benefits' },
-  { label: 'Pricing',    href: '#pricing'  },
-  { label: 'Contact Us', href: '#contact', isContact: true },
+  { label: 'Features', href: '#features' },
+  { label: 'Benefits', href: '#benefits' },
+  { label: 'Pricing',  href: '#pricing'  },
 ];
 
 function scrollTo(href: string) {
@@ -59,16 +58,21 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
             <img src="/logo_full.png" alt="supVision.ai" className="nav__logo-img" />
           </a>
 
-          {/* Center links — hidden when scrolled */}
+          {/* Center links */}
           <ul className="nav__links">
             {links.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="nav__link" onClick={(e) => handleLink(e, l.href, l.isContact)}>
+                <a href={l.href} className="nav__link" onClick={(e) => handleLink(e, l.href)}>
                   {l.label}
                 </a>
               </li>
             ))}
           </ul>
+
+          {/* Contact Us CTA */}
+          <button className="nav__cta btn btn-dark btn-sm" onClick={onContactOpen}>
+            Contact Us
+          </button>
 
           {/* Hamburger */}
           <button
@@ -86,10 +90,17 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
       {open && (
         <div className="nav__mobile">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="nav__mobile-link" onClick={(e) => handleLink(e, l.href, l.isContact)}>
+            <a key={l.href} href={l.href} className="nav__mobile-link" onClick={(e) => handleLink(e, l.href)}>
               {l.label}
             </a>
           ))}
+          <button
+            className="btn btn-dark"
+            style={{ marginTop: 8, justifyContent: 'center' }}
+            onClick={() => { setOpen(false); onContactOpen(); }}
+          >
+            Contact Us
+          </button>
         </div>
       )}
 
@@ -133,6 +144,7 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
           height: 60px;
           padding: 0 14px 0 14px;
           gap: 8px;
+          position: relative;
           transition: height 0.35s ease, padding 0.35s ease;
         }
         .nav--scrolled .nav__inner {
@@ -157,13 +169,16 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
           height: 24px;
         }
 
-        /* ── Center links ── */
+        /* ── Center links — absolutely centered in nav ── */
         .nav__links {
           display: flex;
           align-items: center;
           list-style: none;
-          margin: 0 auto;
+          margin: 0;
           padding: 0;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
         }
         .nav__link {
           padding: 7px 13px;
@@ -187,6 +202,7 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
         /* ── CTA ── */
         .nav__cta {
           flex-shrink: 0;
+          margin-left: auto;
           font-size: 13px !important;
           padding: 9px 16px !important;
         }

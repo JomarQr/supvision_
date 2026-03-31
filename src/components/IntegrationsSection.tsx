@@ -121,6 +121,7 @@ export default function IntegrationsSection() {
           font-size: 14px;
           color: var(--c-text-3);
           line-height: 1.65;
+          margin-top: auto;
         }
         .ints-panel__desc strong { color: var(--c-text-2); }
 
@@ -229,6 +230,8 @@ export default function IntegrationsSection() {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: 10px;
+          flex: 1;
+          align-content: start;
         }
 
         .ints-icon-cell {
