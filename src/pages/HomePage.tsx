@@ -37,8 +37,8 @@ export default function HomePage() {
       <div className={`hp-page${leaving ? ' hp-page--out' : ''}`}>
       <main>
         <Hero onContactOpen={goContact} />
-        <IntegrationsSection />
         <Features />
+        <IntegrationsSection />
         <Benefits />
         <Pricing />
 <CTABanner onContactOpen={goContact} />
