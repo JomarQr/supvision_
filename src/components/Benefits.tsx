@@ -246,8 +246,8 @@ export default function Benefits() {
           position: absolute;
           left: 16px;
           right: 16px;
-          top: 50%;
-          transform: translateY(-50%);
+          top: 140px;
+          bottom: 130px;
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-template-rows: 1fr 1fr;
