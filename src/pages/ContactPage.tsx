@@ -25,9 +25,9 @@ export default function ContactPage() {
     setLoading(true);
     setError(false);
     try {
-      const res = await fetch('https://formspree.io/f/xjgprzqk', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),
       });
       if (res.ok) {
