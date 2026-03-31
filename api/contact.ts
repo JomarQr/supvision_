@@ -19,15 +19,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     },
     body: JSON.stringify({
       from: 'supVision Contact <onboarding@resend.dev>',
-      to: 'jevgenij.springis@gmail.com',
+      to: ['jevgenij.springis@gmail.com'],
       reply_to: email,
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    return res.status(500).json({ error: 'Failed to send email' });
+    console.error('Resend error:', JSON.stringify(data));
+    return res.status(500).json({ error: data });
   }
 
   return res.status(200).json({ ok: true });

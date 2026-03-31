@@ -34,6 +34,8 @@ export default function ContactPage() {
         setSent(true);
         setTimeout(() => goBack(undefined), 2500);
       } else {
+        const data = await res.json().catch(() => ({}));
+        console.error('Contact error:', data);
         setError(true);
       }
     } catch {
