@@ -68,14 +68,8 @@ export default function Benefits() {
             <div className="benefits-img-overlay" />
           </div>
 
-          {/* Sprint velocity chip */}
-          <div className="benefits-chip benefits-chip--green">
-            <span className="benefits-chip-dot" style={{ background: '#10b981' }} />
-            Sprint velocity +18%
-          </div>
-
-          {/* Glass chart card */}
-          <div className="benefits-chart-card">
+          {/* Glass chart card — Agent Activity */}
+          <div className="benefits-chart-card benefits-chart-card--top">
             <div className="benefits-chart-header">
               <span className="benefits-chart-title">Agent Activity</span>
               <span className="benefits-chart-badge">Live</span>
@@ -84,10 +78,7 @@ export default function Benefits() {
               {chartBars.map((b) => (
                 <div key={b.label} className="benefits-chart-col">
                   <div className="benefits-chart-bar-wrap">
-                    <div
-                      className="benefits-chart-bar"
-                      style={{ height: `${b.value}%` }}
-                    />
+                    <div className="benefits-chart-bar" style={{ height: `${b.value}%` }} />
                   </div>
                   <span className="benefits-chart-label">{b.label}</span>
                 </div>
@@ -95,6 +86,41 @@ export default function Benefits() {
             </div>
             <div className="benefits-chart-footer">
               <span className="benefits-chart-stat">↑ 23% vs last week</span>
+            </div>
+          </div>
+
+          {/* Glass stat row — two mini cards */}
+          <div className="benefits-mini-cards">
+            <div className="benefits-mini-card">
+              <span className="benefits-mini-label">Disputes resolved</span>
+              <span className="benefits-mini-val">1,284</span>
+              <span className="benefits-mini-change">↑ 41% this month</span>
+            </div>
+            <div className="benefits-mini-card">
+              <span className="benefits-mini-label">Avg. response time</span>
+              <span className="benefits-mini-val">1.2s</span>
+              <span className="benefits-mini-change">↓ 68% vs manual</span>
+            </div>
+          </div>
+
+          {/* Glass line chart — Resolution Rate */}
+          <div className="benefits-chart-card benefits-chart-card--bottom">
+            <div className="benefits-chart-header">
+              <span className="benefits-chart-title">Resolution Rate</span>
+              <span className="benefits-chart-badge">98.4%</span>
+            </div>
+            <svg className="benefits-line-chart" viewBox="0 0 220 48" fill="none" preserveAspectRatio="none">
+              <polyline
+                points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6"
+                stroke="#FC7C00" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
+              />
+              <polyline
+                points="0,40 30,32 60,28 90,20 120,24 150,10 180,8 220,6 220,48 0,48"
+                fill="rgba(252,124,0,0.12)"
+              />
+            </svg>
+            <div className="benefits-chart-footer">
+              <span className="benefits-chart-stat">KYC · Disputes · Transactions</span>
             </div>
           </div>
         </div>
@@ -176,38 +202,10 @@ export default function Benefits() {
           inset: 0;
           background: linear-gradient(160deg, rgba(20,20,30,0.18) 0%, rgba(0,0,0,0.45) 100%);
         }
-        /* Sprint chip */
-        .benefits-chip {
-          position: absolute;
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          background: #fff;
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-full);
-          padding: 7px 14px;
-          font-size: 12px;
-          font-weight: 600;
-          color: var(--color-primary);
-          box-shadow: var(--shadow-md);
-          white-space: nowrap;
-        }
-        .benefits-chip-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-        .benefits-chip--green {
-          top: 20px;
-          right: -10px;
-          animation: fadeInUp 0.6s ease 0.4s both;
-        }
 
-        /* Glass chart card */
+        /* Glass chart cards */
         .benefits-chart-card {
           position: absolute;
-          bottom: 24px;
           left: 16px;
           right: 16px;
           background: rgba(255,255,255,0.14);
@@ -215,8 +213,59 @@ export default function Benefits() {
           -webkit-backdrop-filter: blur(16px);
           border: 1px solid rgba(255,255,255,0.28);
           border-radius: 18px;
-          padding: 16px 18px 14px;
+          padding: 14px 16px 12px;
           animation: fadeInUp 0.6s ease 0.5s both;
+        }
+        .benefits-chart-card--top { top: 16px; }
+        .benefits-chart-card--bottom { bottom: 16px; }
+
+        /* Mini stat cards row */
+        .benefits-mini-cards {
+          position: absolute;
+          left: 16px;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+          animation: fadeInUp 0.6s ease 0.55s both;
+        }
+        .benefits-mini-card {
+          background: rgba(255,255,255,0.14);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.28);
+          border-radius: 14px;
+          padding: 12px 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .benefits-mini-label {
+          font-size: 10px;
+          color: rgba(255,255,255,0.6);
+          font-weight: 500;
+        }
+        .benefits-mini-val {
+          font-size: 22px;
+          font-weight: 700;
+          color: #fff;
+          letter-spacing: -0.03em;
+          line-height: 1.1;
+        }
+        .benefits-mini-change {
+          font-size: 10px;
+          font-weight: 600;
+          color: #FC7C00;
+        }
+
+        /* Line chart SVG */
+        .benefits-line-chart {
+          width: 100%;
+          height: 48px;
+          display: block;
+          margin: 8px 0 4px;
         }
         .benefits-chart-header {
           display: flex;
@@ -262,7 +311,7 @@ export default function Benefits() {
         }
         .benefits-chart-bar {
           width: 100%;
-          background: rgba(214,253,112,0.85);
+          background: rgba(252,124,0,0.85);
           border-radius: 4px 4px 2px 2px;
           min-height: 4px;
           transition: height 0.4s ease;
@@ -363,12 +412,11 @@ export default function Benefits() {
 
         @media (max-width: 900px) {
           .benefits-container { grid-template-columns: 1fr; gap: 40px; align-items: start; }
-          .benefits-img-wrap { min-height: 340px; }
-          .benefits-chip--green { right: 0; }
+          .benefits-img-wrap { min-height: 400px; }
         }
         @media (max-width: 480px) {
-          .benefits-chip { display: none; }
-          .benefits-img-wrap { min-height: 260px; border-radius: 16px; }
+          .benefits-img-wrap { min-height: 320px; border-radius: 16px; }
+          .benefits-mini-val { font-size: 18px; }
           .benefits-title { font-size: 28px; }
           .benefits-cta-btn { width: 100%; justify-content: center; }
           .benefits-content { gap: 24px; }
