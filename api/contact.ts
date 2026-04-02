@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import sgMail from '@sendgrid/mail';
 
 // Simple in-memory rate limiter (resets on cold start, good enough for serverless)
 const rateLimit = new Map<string, { count: number; ts: number }>();
@@ -26,7 +27,6 @@ function isRateLimited(ip: string): boolean {
 }
 
 function sanitize(str: string): string {
-  // Remove CRLF to prevent header injection
   return str.replace(/[\r\n]/g, ' ').trim();
 }
 
@@ -50,8 +50,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   // Check API key is configured
-  if (!process.env.RESEND_API_KEY) {
-    console.error('RESEND_API_KEY is not set');
+  if (!process.env.SENDGRID_API_KEY) {
+    console.error('SENDGRID_API_KEY is not set');
     return res.status(500).json({ error: 'Server misconfiguration' });
   }
 
@@ -79,32 +79,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const safeEmail   = sanitize(email);
   const safeMessage = sanitize(message);
 
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'supVision Contact <onboarding@resend.dev>',
-        to: ['jevgenij.springis@gmail.com', 'info@supvision.ai'],
-        reply_to: safeEmail,
-        subject: `New message from ${safeName}`,
-        text: `Name: ${safeName}\nEmail: ${safeEmail}\n\nMessage:\n${safeMessage}`,
-      }),
-    });
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    if (!response.ok) {
-      // Log internally, never expose to client
-      const errData = await response.json().catch(() => ({}));
-      console.error('Resend error:', JSON.stringify(errData));
-      return res.status(500).json({ error: 'Failed to send message' });
-    }
+  try {
+    await sgMail.sendMultiple({
+      to: ['jevgenij.springis@gmail.com', 'info@supvision.ai'],
+      from: { name: 'supVision Contact', email: 'info@supvision.ai' },
+      replyTo: safeEmail,
+      subject: `New message from ${safeName}`,
+      text: `Name: ${safeName}\nEmail: ${safeEmail}\n\nMessage:\n${safeMessage}`,
+    });
 
     return res.status(200).json({ ok: true });
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error('SendGrid error:', err);
     return res.status(500).json({ error: 'Failed to send message' });
   }
 }
