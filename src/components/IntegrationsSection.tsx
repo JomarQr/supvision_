@@ -31,15 +31,15 @@ export default function IntegrationsSection() {
 
           {/* Left panel */}
           <div className="ints-panel reveal">
-            <h3 className="ints-panel__title">Smart, flexible, and built around your autonomous workflow</h3>
+            <h3 className="ints-panel__title">Full visibility into every agent — in real time</h3>
 
             {/* Mock UI — agent status cards */}
             <div className="ints-mock">
               <div className="ints-mock__row">
                 {[
-                  { label: 'Agent Alpha', status: 'Running', dot: '#10b981' },
-                  { label: 'Agent Beta',  status: 'Idle',    dot: '#9cc1e7' },
-                  { label: 'Agent Gamma', status: 'Error',   dot: '#f87171' },
+                  { label: 'Lead Qualifier',    status: 'Running', dot: '#10b981' },
+                  { label: 'Proposal Writer',   status: 'Idle',    dot: '#9cc1e7' },
+                  { label: 'Meeting Scheduler', status: 'Error',   dot: '#f87171' },
                 ].map(a => (
                   <div className="ints-agent-chip" key={a.label}>
                     <span className="ints-agent-dot" style={{ background: a.dot }} />
@@ -49,7 +49,7 @@ export default function IntegrationsSection() {
                 ))}
               </div>
               <div className="ints-mock__bar-wrap">
-                <div className="ints-mock__bar-label">Confidence score</div>
+                <div className="ints-mock__bar-label">Avg. confidence</div>
                 <div className="ints-mock__bar">
                   <div className="ints-mock__bar-fill" />
                 </div>
@@ -59,18 +59,18 @@ export default function IntegrationsSection() {
                 <div className="ints-mock__toggle">
                   <span className="ints-mock__toggle-knob" />
                 </div>
-                <span className="ints-mock__toggle-label">Auto-reporting enabled</span>
+                <span className="ints-mock__toggle-label">Automated reports — daily at 9:00 AM</span>
               </div>
             </div>
 
             <p className="ints-panel__desc">
-              <strong>Personalize every detail.</strong> From agent roles and thresholds to report cadence and alerts — supVision adapts to how your team actually works.
+              Set confidence thresholds, escalation rules, and report schedules per agent. supVision alerts your team the moment something needs attention — before it becomes a problem.
             </p>
           </div>
 
           {/* Right panel */}
           <div className="ints-panel reveal reveal-d2">
-            <h3 className="ints-panel__title">Integrates seamlessly with the tools you already use</h3>
+            <h3 className="ints-panel__title">Connects to the tools your team uses every day</h3>
 
             <div className="ints-icons-grid">
               {integrationIcons.map(i => (
@@ -81,7 +81,7 @@ export default function IntegrationsSection() {
             </div>
 
             <p className="ints-panel__desc">
-              <strong>Seamless integrations.</strong> Plug supVision into the tools you love. Set up automations, sync your data, and make your systems work smarter together.
+              Slack, Telegram, Jira, email — supVision pushes alerts and reports where your team already communicates. No extra tabs, no context switching.
             </p>
           </div>
 
