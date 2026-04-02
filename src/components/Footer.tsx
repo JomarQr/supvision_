@@ -32,6 +32,8 @@ export default function Footer() {
             <p className="ft__tagline">
               AI-Driven Customer Support for FinTech
             </p>
+            <a href="mailto:info@supvision.ai" className="ft__email">info@supvision.ai</a>
+
             <div className="ft__socials">
               <a href="https://www.linkedin.com/company/supvision-ai/" target="_blank" rel="noopener noreferrer" className="ft__social" aria-label="LinkedIn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -150,6 +152,15 @@ export default function Footer() {
           margin-bottom: 20px;
           max-width: 260px;
         }
+        .ft__email {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--c-text-2);
+          text-decoration: none;
+          margin-bottom: 12px;
+          transition: color 0.15s;
+        }
+        .ft__email:hover { color: var(--c-text); }
         .ft__socials {
           display: flex;
           gap: 8px;
