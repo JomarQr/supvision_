@@ -83,7 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     await sgMail.sendMultiple({
-      to: ['jevgenij.springis@gmail.com', 'info@supvision.ai'],
+      to: ['info@supvision.ai'],
       from: { name: 'supVision Contact', email: 'info@supvision.ai' },
       replyTo: safeEmail,
       subject: `New message from ${safeName}`,
