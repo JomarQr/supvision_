@@ -88,7 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       body: JSON.stringify({
         from: 'supVision Contact <onboarding@resend.dev>',
-        to: ['jevgenij.springis@gmail.com'],
+        to: ['jevgenij.springis@gmail.com', 'info@supvision.ai'],
         reply_to: safeEmail,
         subject: `New message from ${safeName}`,
         text: `Name: ${safeName}\nEmail: ${safeEmail}\n\nMessage:\n${safeMessage}`,
