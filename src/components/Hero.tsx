@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import DashboardMockup from './DashboardMockup';
+import { getSectionScrollTop } from '../utils/scrollToSection';
 
 function smoothScroll(targetY: number, duration = 1000) {
   const startY = window.scrollY;
@@ -17,7 +18,7 @@ function smoothScroll(targetY: number, duration = 1000) {
 
 function scrollTo(href: string) {
   const el = document.querySelector(href);
-  if (el) smoothScroll((el as HTMLElement).offsetTop - 80);
+  if (el) smoothScroll(getSectionScrollTop(el as HTMLElement));
 }
 
 interface HeroProps { onContactOpen: () => void; }

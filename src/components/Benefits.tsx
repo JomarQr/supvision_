@@ -45,6 +45,11 @@ export default function Benefits() {
 
   return (
     <section id="benefits" className="section benefits-section" ref={sectionRef}>
+      <div className="container">
+        <div className="benefits-header reveal">
+          <span className="section-tag">&#9632;&nbsp; BENEFITS</span>
+        </div>
+      </div>
       <div className="container benefits-container">
         {/* Left visual — photo fills full height */}
         <div className="benefits-visual reveal">
@@ -61,21 +66,25 @@ export default function Benefits() {
                   <span className="benefits-chart-title">Agent Activity</span>
                   <span className="benefits-chart-badge">Live</span>
                 </div>
+                <div className="benefits-chart-kpi-row">
+                  <span className="benefits-chart-kpi">3,842</span>
+                  <span className="benefits-chart-kpi-label">weekly sessions handled</span>
+                </div>
                 <svg viewBox="0 0 280 72" className="benefits-bar-svg" preserveAspectRatio="none">
                   {[
-                    { x: 8,  h: 40, v: '55%' },
-                    { x: 48, h: 52, v: '72%' },
-                    { x: 88, h: 63, v: '88%' },
-                    { x: 128,h: 47, v: '65%' },
-                    { x: 168,h: 68, v: '94%' },
-                    { x: 208,h: 35, v: '48%' },
-                    { x: 248,h: 57, v: '79%' },
+                    { x: 8, h: 34 },
+                    { x: 48, h: 42 },
+                    { x: 88, h: 49 },
+                    { x: 128, h: 44 },
+                    { x: 168, h: 58 },
+                    { x: 208, h: 27 },
+                    { x: 248, h: 39 },
                   ].map((b, i) => (
                     <g key={i}>
                       <rect x={b.x} y={72 - b.h} width="22" height={b.h} rx="4"
                         fill="rgba(255,255,255,0.25)"/>
                       <rect x={b.x} y={72 - b.h} width="22" height="6" rx="3"
-                        fill="rgba(255,255,255,0.7)"/>
+                        fill="rgba(255,255,255,0.78)"/>
                     </g>
                   ))}
                 </svg>
@@ -92,92 +101,77 @@ export default function Benefits() {
               {/* 4 square stat blocks */}
               <div className="benefits-mini-cards">
 
-                {/* Disputes resolved — upward trend */}
+                {/* Disputes resolved */}
                 <div className="benefits-mini-card">
                   <div className="benefits-mini-top">
                     <span className="benefits-mini-label">Disputes resolved</span>
                     <span className="benefits-mini-val">1,284</span>
                   </div>
-                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="sg0" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.28)"/>
-                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
-                      </linearGradient>
-                    </defs>
-                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-                    <path d="M0,40 C12,37 22,32 36,26 C50,20 62,15 74,11 C84,8 92,6 100,4 L100,44 L0,44 Z" fill="url(#sg0)"/>
-                    <path d="M0,40 C12,37 22,32 36,26 C50,20 62,15 74,11 C84,8 92,6 100,4" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                    <circle cx="100" cy="4" r="3" fill="#fff"/>
-                    <circle cx="100" cy="4" r="5.5" fill="rgba(255,255,255,0.18)"/>
-                  </svg>
+                  <div className="benefits-mini-stats">
+                    <div className="benefits-mini-stat">
+                      <span className="benefits-mini-stat-label">SLA met</span>
+                      <span className="benefits-mini-stat-value">96%</span>
+                    </div>
+                    <div className="benefits-mini-stat">
+                      <span className="benefits-mini-stat-label">Open</span>
+                      <span className="benefits-mini-stat-value">38</span>
+                    </div>
+                  </div>
                   <span className="benefits-mini-change benefits-mini-change--up">↑ 41% this month</span>
                 </div>
 
-                {/* Avg. response time — downward trend (good) */}
+                {/* Avg. response time */}
                 <div className="benefits-mini-card">
                   <div className="benefits-mini-top">
                     <span className="benefits-mini-label">Avg. response time</span>
                     <span className="benefits-mini-val">1.2s</span>
                   </div>
-                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.24)"/>
-                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
-                      </linearGradient>
-                    </defs>
-                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-                    <path d="M0,4 C12,6 22,10 36,15 C50,20 62,24 74,29 C84,33 92,36 100,40 L100,44 L0,44 Z" fill="url(#sg1)"/>
-                    <path d="M0,4 C12,6 22,10 36,15 C50,20 62,24 74,29 C84,33 92,36 100,40" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                    <circle cx="100" cy="40" r="3" fill="#fff"/>
-                    <circle cx="100" cy="40" r="5.5" fill="rgba(255,255,255,0.18)"/>
-                  </svg>
+                  <div className="benefits-mini-stats">
+                    <div className="benefits-mini-stat">
+                      <span className="benefits-mini-stat-label">P50</span>
+                      <span className="benefits-mini-stat-value">0.9s</span>
+                    </div>
+                    <div className="benefits-mini-stat">
+                      <span className="benefits-mini-stat-label">P95</span>
+                      <span className="benefits-mini-stat-value">2.8s</span>
+                    </div>
+                  </div>
                   <span className="benefits-mini-change benefits-mini-change--up">↓ 68% vs manual</span>
                 </div>
 
-                {/* KYC automation — strong upward */}
+                {/* KYC automation */}
                 <div className="benefits-mini-card">
                   <div className="benefits-mini-top">
                     <span className="benefits-mini-label">KYC automation</span>
                     <span className="benefits-mini-val">94%</span>
                   </div>
-                  <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.28)"/>
-                        <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
-                      </linearGradient>
-                    </defs>
-                    <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-                    <path d="M0,42 C10,38 20,33 32,26 C44,19 56,13 68,9 C78,6 88,4 100,3 L100,44 L0,44 Z" fill="url(#sg2)"/>
-                    <path d="M0,42 C10,38 20,33 32,26 C44,19 56,13 68,9 C78,6 88,4 100,3" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                    <circle cx="100" cy="3" r="3" fill="#fff"/>
-                    <circle cx="100" cy="3" r="5.5" fill="rgba(255,255,255,0.18)"/>
-                  </svg>
+                  <div className="benefits-mini-progress">
+                    <div className="benefits-mini-progress-fill" style={{ width: '94%' }} />
+                  </div>
+                  <div className="benefits-mini-footnote">4.1k of 4.4k queries automated</div>
                   <span className="benefits-mini-change benefits-mini-change--up">↑ queries automated</span>
                 </div>
 
-                {/* Cost reduction — costs falling */}
+                {/* Escalation rate */}
                 <div className="benefits-mini-card">
                   <div className="benefits-mini-top">
-                    <span className="benefits-mini-label">Cost reduction</span>
-                    <span className="benefits-mini-val">-52%</span>
+                    <span className="benefits-mini-label">Escalation rate</span>
+                    <span className="benefits-mini-val">8.6%</span>
                   </div>
                   <svg viewBox="0 0 100 44" fill="none" className="benefits-mini-spark" preserveAspectRatio="none">
                     <defs>
-                      <linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.24)"/>
+                      <linearGradient id="sg4" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.22)"/>
                         <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
                       </linearGradient>
                     </defs>
                     <line x1="0" y1="22" x2="100" y2="22" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
-                    <path d="M0,6 C12,9 22,14 34,20 C46,25 58,28 70,33 C80,36 90,38 100,41 L100,44 L0,44 Z" fill="url(#sg3)"/>
-                    <path d="M0,6 C12,9 22,14 34,20 C46,25 58,28 70,33 C80,36 90,38 100,41" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                    <circle cx="100" cy="41" r="3" fill="#fff"/>
-                    <circle cx="100" cy="41" r="5.5" fill="rgba(255,255,255,0.18)"/>
+                    <path d="M0,8 C12,10 24,12 36,18 C48,24 60,28 72,32 C82,35 91,37 100,39 L100,44 L0,44 Z" fill="url(#sg4)"/>
+                    <path d="M0,8 C12,10 24,12 36,18 C48,24 60,28 72,32 C82,35 91,37 100,39" stroke="rgba(255,255,255,0.88)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                    <circle cx="100" cy="39" r="3" fill="#fff"/>
+                    <circle cx="100" cy="39" r="5.5" fill="rgba(255,255,255,0.18)"/>
                   </svg>
-                  <span className="benefits-mini-change benefits-mini-change--up">↓ support costs</span>
+                  <span className="benefits-mini-change benefits-mini-change--up">↓ 34% vs baseline</span>
                 </div>
 
               </div>
@@ -188,26 +182,29 @@ export default function Benefits() {
                   <span className="benefits-chart-title">Resolution Rate</span>
                   <span className="benefits-chart-badge">98.4%</span>
                 </div>
-                <svg className="benefits-line-chart" viewBox="0 0 280 52" fill="none" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="rgba(255,255,255,0.22)"/>
-                      <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
-                    </linearGradient>
-                  </defs>
-                  {/* Grid lines */}
-                  <line x1="0" y1="17" x2="280" y2="17" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
-                  <line x1="0" y1="34" x2="280" y2="34" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
-                  {/* Area fill */}
-                  <path d="M0,44 C20,42 40,38 60,34 C80,30 100,32 120,26 C140,20 160,16 180,11 C200,7 220,6 240,5 C255,4 268,4 280,3 L280,52 L0,52 Z"
-                    fill="url(#lineGrad)"/>
-                  {/* Line */}
-                  <path d="M0,44 C20,42 40,38 60,34 C80,30 100,32 120,26 C140,20 160,16 180,11 C200,7 220,6 240,5 C255,4 268,4 280,3"
-                    stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                  {/* Dot at end */}
-                  <circle cx="280" cy="3" r="3.5" fill="#fff"/>
-                  <circle cx="280" cy="3" r="6" fill="rgba(255,255,255,0.2)"/>
-                </svg>
+                <div className="benefits-resolution-grid">
+                  <div className="benefits-resolution-row">
+                    <span className="benefits-resolution-label">KYC</span>
+                    <div className="benefits-resolution-track">
+                      <div className="benefits-resolution-fill" style={{ width: '99.1%' }} />
+                    </div>
+                    <span className="benefits-resolution-value">99.1%</span>
+                  </div>
+                  <div className="benefits-resolution-row">
+                    <span className="benefits-resolution-label">Disputes</span>
+                    <div className="benefits-resolution-track">
+                      <div className="benefits-resolution-fill" style={{ width: '97.8%' }} />
+                    </div>
+                    <span className="benefits-resolution-value">97.8%</span>
+                  </div>
+                  <div className="benefits-resolution-row">
+                    <span className="benefits-resolution-label">Transactions</span>
+                    <div className="benefits-resolution-track">
+                      <div className="benefits-resolution-fill" style={{ width: '98.4%' }} />
+                    </div>
+                    <span className="benefits-resolution-value">98.4%</span>
+                  </div>
+                </div>
                 <div className="benefits-chart-footer">
                   <span className="benefits-chart-stat">KYC · Disputes · Transactions</span>
                 </div>
@@ -220,11 +217,10 @@ export default function Benefits() {
         {/* Right text */}
         <div className="benefits-content">
           <div className="reveal reveal-delay-1">
-            <div className="section-label">Benefits</div>
             <h2 className="benefits-title">
               Less guesswork.<br />
               More clarity.<br />
-              <span style={{ color: '#FC7C00' }}>Better results.</span>
+              <span style={{ color: '#72B9E9' }}>Better results.</span>
             </h2>
           </div>
 
@@ -264,6 +260,11 @@ export default function Benefits() {
         .benefits-section {
           background: #fff;
           position: relative;
+        }
+        .benefits-header {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 40px;
         }
         .benefits-section::after {
           content: '';
@@ -378,6 +379,52 @@ export default function Benefits() {
           display: block;
           margin: 6px 0 4px;
         }
+        .benefits-mini-stats {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin: 10px 0 8px;
+        }
+        .benefits-mini-stat {
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 10px;
+          padding: 8px 9px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .benefits-mini-stat-label {
+          font-size: 9px;
+          color: rgba(255,255,255,0.56);
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+        }
+        .benefits-mini-stat-value {
+          font-size: 12px;
+          color: #fff;
+          font-weight: 700;
+          line-height: 1.2;
+        }
+        .benefits-mini-progress {
+          width: 100%;
+          height: 10px;
+          background: rgba(255,255,255,0.12);
+          border-radius: 999px;
+          overflow: hidden;
+          margin: 12px 0 8px;
+        }
+        .benefits-mini-progress-fill {
+          height: 100%;
+          border-radius: inherit;
+          background: linear-gradient(90deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.92) 100%);
+        }
+        .benefits-mini-footnote {
+          font-size: 11px;
+          color: rgba(255,255,255,0.62);
+          line-height: 1.35;
+          margin-bottom: 8px;
+        }
         .benefits-mini-change {
           font-size: 10px;
           font-weight: 600;
@@ -400,6 +447,24 @@ export default function Benefits() {
           align-items: center;
           justify-content: space-between;
           margin-bottom: 14px;
+        }
+        .benefits-chart-kpi-row {
+          display: flex;
+          align-items: baseline;
+          gap: 10px;
+          margin-bottom: 10px;
+        }
+        .benefits-chart-kpi {
+          font-size: 24px;
+          font-weight: 700;
+          color: #fff;
+          letter-spacing: -0.03em;
+          line-height: 1;
+        }
+        .benefits-chart-kpi-label {
+          font-size: 11px;
+          color: rgba(255,255,255,0.62);
+          font-weight: 500;
         }
         .benefits-chart-title {
           font-size: 13px;
@@ -442,6 +507,40 @@ export default function Benefits() {
           font-weight: 600;
           color: rgba(255,255,255,0.7);
         }
+        .benefits-resolution-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .benefits-resolution-row {
+          display: grid;
+          grid-template-columns: 72px 1fr 46px;
+          gap: 10px;
+          align-items: center;
+        }
+        .benefits-resolution-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: rgba(255,255,255,0.72);
+        }
+        .benefits-resolution-track {
+          width: 100%;
+          height: 8px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.12);
+          overflow: hidden;
+        }
+        .benefits-resolution-fill {
+          height: 100%;
+          border-radius: inherit;
+          background: linear-gradient(90deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.92) 100%);
+        }
+        .benefits-resolution-value {
+          font-size: 11px;
+          font-weight: 700;
+          color: #fff;
+          text-align: right;
+        }
 
         /* Content */
         .benefits-content {
@@ -473,14 +572,14 @@ export default function Benefits() {
         .benefits-bullet__check {
           width: 22px;
           height: 22px;
-          background: #FC7C00;
+          background: #72B9E9;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
           margin-top: 2px;
-          box-shadow: 0 2px 8px rgba(252,124,0,0.35);
+          box-shadow: 0 2px 8px rgba(114,185,233,0.35);
         }
         .benefits-bullet__text strong {
           font-size: 15px;
@@ -515,7 +614,7 @@ export default function Benefits() {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          background: #FC7C00;
+          background: #fff;
           color: var(--c-dark);
           display: flex;
           align-items: center;

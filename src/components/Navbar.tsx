@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getSectionScrollTop } from '../utils/scrollToSection';
 
 const links = [
   { label: 'Features',  href: '#features'  },
@@ -10,7 +11,7 @@ const links = [
 function scrollTo(href: string) {
   const el = document.querySelector(href);
   if (!el) return;
-  const targetY = (el as HTMLElement).offsetTop - 80;
+  const targetY = getSectionScrollTop(el as HTMLElement);
   const startY = window.scrollY;
   const diff = targetY - startY;
   let start: number | null = null;
@@ -55,7 +56,7 @@ export default function Navbar({ onContactOpen, alwaysScrolled, onLinkClick }: N
         <div className="nav__inner">
 
           {/* Logo */}
-          <a href="#home" className="nav__logo" onClick={(e) => handleLink(e, '#home')}>
+          <a href="/" className="nav__logo" onClick={(e) => handleLink(e, '#home')}>
             <img src="/logo_full.png" alt="supVision.ai" className="nav__logo-img" />
           </a>
 

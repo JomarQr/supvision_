@@ -1,49 +1,193 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+
+const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
+const TURNSTILE_ACTION = 'contact_form';
+const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+type TurnstileApi = {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      action?: string;
+      theme?: 'light' | 'dark' | 'auto';
+      callback?: (token: string) => void;
+      'expired-callback'?: () => void;
+      'error-callback'?: () => void;
+    }
+  ) => string;
+  reset: (widgetId?: string) => void;
+  remove: (widgetId: string) => void;
+};
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
 
 export default function ContactPage() {
   const navigate = useNavigate();
   const [name, setName]       = useState('');
   const [email, setEmail]     = useState('');
   const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
   const [sent, setSent]       = useState(false);
-  const [error, setError]     = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [formStartedAt] = useState(() => Date.now());
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [captchaLoadError, setCaptchaLoadError] = useState(false);
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) return;
+
+    let cancelled = false;
+
+    const renderTurnstile = () => {
+      if (
+        cancelled ||
+        !turnstileContainerRef.current ||
+        !window.turnstile ||
+        turnstileWidgetIdRef.current
+      ) {
+        return;
+      }
+
+      turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        action: TURNSTILE_ACTION,
+        theme: 'light',
+        callback: (token: string) => {
+          if (cancelled) return;
+          setTurnstileToken(token);
+          setCaptchaLoadError(false);
+        },
+        'expired-callback': () => {
+          if (cancelled) return;
+          setTurnstileToken('');
+        },
+        'error-callback': () => {
+          if (cancelled) return;
+          setTurnstileToken('');
+          setCaptchaLoadError(true);
+        },
+      });
+    };
+
+    const handleLoad = () => {
+      if (cancelled) return;
+      setCaptchaLoadError(false);
+      renderTurnstile();
+    };
+
+    const handleError = () => {
+      if (cancelled) return;
+      setCaptchaLoadError(true);
+    };
+
+    const existingScript = document.getElementById(TURNSTILE_SCRIPT_ID) as HTMLScriptElement | null;
+    if (existingScript) {
+      existingScript.addEventListener('load', handleLoad);
+      existingScript.addEventListener('error', handleError);
+      if (existingScript.dataset.loaded === 'true') {
+        renderTurnstile();
+      }
+    } else {
+      const script = document.createElement('script');
+      script.id = TURNSTILE_SCRIPT_ID;
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.defer = true;
+      script.addEventListener('load', () => {
+        script.dataset.loaded = 'true';
+        handleLoad();
+      });
+      script.addEventListener('error', handleError);
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      cancelled = true;
+
+      if (existingScript) {
+        existingScript.removeEventListener('load', handleLoad);
+        existingScript.removeEventListener('error', handleError);
+      }
+
+      if (turnstileWidgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetIdRef.current);
+        turnstileWidgetIdRef.current = null;
+      }
+    };
+  }, []);
+
   const goBack = (hash?: string) => {
+    const target = !hash || hash === '#home' || hash === '/' ? '/' : `/${hash}`;
     setLeaving(true);
-    setTimeout(() => navigate(hash ? `/${hash}` : '/'), 420);
+    setTimeout(() => navigate(target), 420);
+  };
+
+  const resetTurnstile = () => {
+    setTurnstileToken('');
+    if (turnstileWidgetIdRef.current && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetIdRef.current);
+    }
   };
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrorMessage(null);
+
+    if (turnstileSiteKey && !turnstileToken) {
+      setErrorMessage('Please complete the CAPTCHA.');
+      return;
+    }
+
     setLoading(true);
-    setError(false);
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          website,
+          formStartedAt,
+          turnstileToken,
+        }),
       });
       if (res.ok) {
         setSent(true);
         setTimeout(() => goBack(undefined), 2500);
       } else {
         const data = await res.json().catch(() => ({}));
-        console.error('Contact error:', JSON.stringify(data, null, 2));
-        setError(true);
+        if (import.meta.env.DEV) {
+          console.error('Contact error:', data);
+        }
+        setErrorMessage(typeof data?.error === 'string'
+          ? data.error
+          : 'Something went wrong. Please try again or email us directly.');
+        resetTurnstile();
       }
     } catch {
-      setError(true);
+      setErrorMessage('Something went wrong. Please try again or email us directly.');
+      resetTurnstile();
     } finally {
       setLoading(false);
     }
   };
+
+  const isSubmitDisabled = loading || (Boolean(turnstileSiteKey) && !turnstileToken);
 
   return (
     <>
@@ -53,10 +197,6 @@ export default function ContactPage() {
         <div className="cp-wrap">
           {/* Left — info */}
           <div className="cp-left">
-            <a href="/" onClick={(e) => { e.preventDefault(); goBack(undefined); }} className="cp-logo">
-              <img src="/logo_full.png" alt="supVision.ai" />
-            </a>
-
             <h1 className="cp-title">Reach out today</h1>
             <p className="cp-desc">
               Learn about our journey, mission,<br />
@@ -95,6 +235,18 @@ export default function ContactPage() {
               </div>
             ) : (
               <form className="cp-form" onSubmit={handleSubmit} noValidate>
+                <div className="cp-honeypot" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={e => setWebsite(e.target.value)}
+                  />
+                </div>
                 <div className="cp-field">
                   <label className="cp-label">Full name</label>
                   <input className="cp-input" type="text" placeholder="Your full name"
@@ -113,12 +265,23 @@ export default function ContactPage() {
                     value={message} onChange={e => setMessage(e.target.value)}
                     maxLength={5000} required />
                 </div>
-                {error && (
+                {turnstileSiteKey && (
+                  <div className="cp-field">
+                    <label className="cp-label">Verification</label>
+                    <div ref={turnstileContainerRef} className="cp-captcha" />
+                    {captchaLoadError && (
+                      <p style={{ fontSize: 13, color: '#ef4444', margin: 0 }}>
+                        Verification failed to load. Please refresh the page.
+                      </p>
+                    )}
+                  </div>
+                )}
+                {errorMessage && (
                   <p style={{ fontSize: 13, color: '#ef4444', margin: 0 }}>
-                    Something went wrong. Please try again or email us directly.
+                    {errorMessage}
                   </p>
                 )}
-                <button type="submit" className="cp-submit" disabled={loading}>
+                <button type="submit" className="cp-submit" disabled={isSubmitDisabled}>
                   <span>{loading ? 'Sending...' : 'Submit'}</span>
                   <span className="cp-submit-arrow">↗</span>
                 </button>
@@ -171,8 +334,6 @@ export default function ContactPage() {
           gap: 0;
           box-shadow: 0 4px 24px rgba(97,74,68,0.08);
         }
-        .cp-logo { display: inline-flex; margin-bottom: 32px; }
-        .cp-logo img { height: 24px; width: auto; }
         .cp-title {
           font-size: 38px;
           font-weight: 700;
@@ -241,6 +402,15 @@ export default function ContactPage() {
         }
         .cp-field { display: flex; flex-direction: column; gap: 7px; }
         .cp-field--grow { flex: 1; }
+        .cp-honeypot {
+          position: absolute;
+          left: -9999px;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          opacity: 0;
+          pointer-events: none;
+        }
         .cp-label { font-size: 14px; font-weight: 600; color: var(--c-text); }
         .cp-input {
           width: 100%; padding: 13px 15px;
@@ -250,9 +420,12 @@ export default function ContactPage() {
           color: var(--c-text); background: #fff;
           outline: none; transition: border-color 0.15s;
         }
-        .cp-input:focus { border-color: #FC7C00; }
+        .cp-input:focus { border-color: #72B9E9; }
         .cp-input::placeholder { color: #b5b3b1; }
         .cp-textarea { resize: none; min-height: 130px; }
+        .cp-captcha {
+          min-height: 65px;
+        }
 
         .cp-submit {
           display: inline-flex; align-items: center; gap: 10px;
@@ -265,9 +438,14 @@ export default function ContactPage() {
           font-family: var(--font);
         }
         .cp-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+        .cp-submit:disabled {
+          opacity: 0.65;
+          cursor: not-allowed;
+          transform: none;
+        }
         .cp-submit-arrow {
           width: 26px; height: 26px;
-          background: #FC7C00; color: #0f172a;
+          background: #fff; color: #0f172a;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           font-size: 13px;
@@ -285,7 +463,7 @@ export default function ContactPage() {
         }
         .cp-success-icon {
           width: 56px; height: 56px;
-          background: #FC7C00; border-radius: 50%;
+          background: #72B9E9; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           font-size: 24px; font-weight: 700; color: #0f172a;
         }

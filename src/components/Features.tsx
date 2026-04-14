@@ -11,7 +11,7 @@ interface Feature {
 const features: Feature[] = [
   {
     title: 'Customer Support Automation',
-    description: 'Deploy intelligent virtual agents to handle common customer inquiries — payments, account issues, KYC status — reducing response times and support workload significantly.',
+    description: 'Virtual agents handle routine support requests like payments, account issues, and KYC status updates.',
     img: '/frame1.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -21,7 +21,7 @@ const features: Feature[] = [
   },
   {
     title: 'Dispute & Transaction Handling',
-    description: 'Automated workflows for chargebacks, failed transactions, and payment investigations — improving resolution speed while ensuring compliance with fintech regulations.',
+    description: 'Automate chargebacks, failed transactions, and payment investigations with compliant workflows.',
     img: '/frame2.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -31,7 +31,7 @@ const features: Feature[] = [
   },
   {
     title: 'Support Analytics',
-    description: 'Real-time dashboards and insights to track support performance, customer sentiment, and operational efficiency — helping you continuously improve service quality and reduce costs.',
+    description: 'Track support performance, customer sentiment, and team efficiency in real time.',
     img: '/pole.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -41,7 +41,7 @@ const features: Feature[] = [
   },
   {
     title: 'Plugins & Integrations',
-    description: 'Connect seamlessly with the tools you already use — CRMs, payment platforms, databases, and communication channels. A growing library of fintech-ready plugins.',
+    description: 'Connect CRMs, payment platforms, databases, and communication tools with ready-to-use integrations.',
     img: '/frame2.png',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1615" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -187,11 +187,18 @@ export default function Features() {
           width: 48px;
           height: 48px;
           border-radius: 12px;
-          background: #FC7C00;
+          background: #fff;
+          border: 1px solid rgba(26, 22, 21, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .fcard:hover .fcard__icon,
+        .fcard--active .fcard__icon {
+          background: #72B9E9;
+          border-color: #72B9E9;
         }
 
         .fcard__body {
@@ -206,11 +213,6 @@ export default function Features() {
           color: var(--c-text);
           letter-spacing: -0.02em;
           line-height: 1.25;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .fcard--active .fcard__title {
           white-space: normal;
         }
 

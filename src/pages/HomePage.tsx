@@ -8,6 +8,7 @@ import Benefits from '../components/Benefits';
 import Pricing from '../components/Pricing';
 import CTABanner from '../components/CTABanner';
 import Footer from '../components/Footer';
+import { scrollToSection } from '../utils/scrollToSection';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -21,12 +22,15 @@ export default function HomePage() {
   // On mount: scroll to hash section if coming from another page, else top
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash) {
+    if (hash && hash !== '#home') {
       setTimeout(() => {
         const el = document.querySelector(hash) as HTMLElement | null;
-        if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+        if (el) scrollToSection(el);
       }, 480); // wait for entry animation
     } else {
+      if (hash === '#home') {
+        window.history.replaceState({}, '', '/');
+      }
       window.scrollTo(0, 0);
     }
   }, []);

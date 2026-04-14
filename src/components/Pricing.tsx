@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const CORAL = '#FC7C00';
+const CORAL = '#72B9E9';
 
 const starterFeatures = [
   'Automate up to 10 basic workflows',
@@ -30,6 +31,7 @@ function CheckIcon() {
 
 export default function Pricing() {
   const [annual, setAnnual] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <section id="pricing" className="pr-section">
@@ -45,7 +47,6 @@ export default function Pricing() {
 
             {/* Left — heading & toggle */}
             <div className="pr-left">
-              <span className="pr-tag">Pricing</span>
               <h2 className="pr-heading">
                 Choose the right<br />
                 Autonomous solution<br />
@@ -74,7 +75,7 @@ export default function Pricing() {
               {/* Starter */}
               <div className="pr-plan pr-plan--soon">
                 <div className="pr-plan-name">Starter</div>
-                <div className="pr-plan-desc">Ideal for small agencies starting their autonomous journey.</div>
+                <div className="pr-plan-desc">Ideal for small companies starting their autonomous journey.</div>
                 <div className="pr-plan-price">
                   <span className="pr-plan-sup">€</span>
                   <span className="pr-plan-amount">1,399</span>
@@ -93,7 +94,7 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <button className="pr-btn pr-btn--outline">
+                <button className="pr-btn pr-btn--outline" onClick={() => navigate('/contact')}>
                   Get started
                 </button>
                 <p className="pr-plan-note">No commitment required</p>
@@ -120,7 +121,7 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <button className="pr-btn pr-btn--dark">
+                <button className="pr-btn pr-btn--dark" onClick={() => navigate('/contact')}>
                   Contact sales
                 </button>
                 <p className="pr-plan-note">Custom solutions to fit your business needs</p>
@@ -183,19 +184,6 @@ export default function Pricing() {
           flex-direction: column;
           gap: 0;
         }
-        .pr-tag {
-          display: inline-block;
-          font-size: 13px;
-          font-weight: 500;
-          color: var(--c-text-2);
-          background: rgba(255,255,255,0.7);
-          border: 1px solid rgba(0,0,0,0.08);
-          border-radius: 99px;
-          padding: 5px 14px;
-          margin-bottom: 28px;
-          backdrop-filter: blur(8px);
-          align-self: flex-start;
-        }
         .pr-heading {
           font-size: clamp(36px, 4vw, 54px);
           font-weight: 700;
@@ -254,7 +242,7 @@ export default function Pricing() {
           transform: translateX(20px);
         }
         .pr-badge {
-          background: rgba(200,116,90,0.15);
+          background: rgba(114,185,233,0.18);
           color: ${CORAL};
           border-radius: 99px;
           padding: 2px 8px;

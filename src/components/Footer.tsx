@@ -1,10 +1,23 @@
+import { scrollToSection } from '../utils/scrollToSection';
+
 const pages = ['Home', 'Features', 'Platform', 'Benefits', 'Pricing'];
-const hrefs = ['#home', '#features', '#platform', '#benefits', '#pricing'];
+const hrefs = ['/', '#features', '#platform', '#benefits', '#pricing'];
 
 export default function Footer() {
   const scrollTo = (href: string) => {
+    if (window.location.pathname !== '/') {
+      window.location.assign(href === '/' ? '/' : `/${href}`);
+      return;
+    }
+
+    if (href === '/' || href === '#home') {
+      window.history.replaceState({}, '', '/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     const el = document.querySelector(href);
-    if (el) window.scrollTo({ top: (el as HTMLElement).offsetTop - 80, behavior: 'smooth' });
+    if (el) scrollToSection(el as HTMLElement);
   };
 
   return (
@@ -26,7 +39,7 @@ export default function Footer() {
         <div className="ft__card">
           {/* Brand */}
           <div className="ft__brand">
-            <a href="#home" className="ft__logo" onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}>
+            <a href="/" className="ft__logo" onClick={(e) => { e.preventDefault(); scrollTo('/'); }}>
               <img src="/logo_full.png" alt="supVision.ai" className="ft__logo-img" />
             </a>
             <p className="ft__tagline">

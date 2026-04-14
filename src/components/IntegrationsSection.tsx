@@ -208,7 +208,7 @@ export default function IntegrationsSection() {
         .ints-mock__bar-fill {
           width: 94%;
           height: 100%;
-          background: #FC7C00;
+          background: #72B9E9;
           border-radius: 3px;
         }
         .ints-mock__bar-pct {
@@ -225,7 +225,7 @@ export default function IntegrationsSection() {
         }
         .ints-mock__toggle {
           width: 38px; height: 22px;
-          background: #FC7C00;
+          background: #72B9E9;
           border-radius: 999px;
           position: relative;
           flex-shrink: 0;
@@ -267,7 +267,7 @@ export default function IntegrationsSection() {
         }
         .ints-icon-cell:hover {
           background: var(--c-sky-light);
-          border-color: #FC7C00;
+          border-color: #72B9E9;
           transform: translateY(-2px);
         }
 

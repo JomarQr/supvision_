@@ -366,7 +366,7 @@ export default function ContactModal({ open, onClose }: Props) {
         .cm-submit:hover { opacity: 0.85; transform: translateY(-1px); }
         .cm-submit-arrow {
           width: 26px; height: 26px;
-          background: #FC7C00;
+          background: #72B9E9;
           color: #0f172a;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
@@ -392,7 +392,7 @@ export default function ContactModal({ open, onClose }: Props) {
         }
         .cm-success-icon {
           width: 56px; height: 56px;
-          background: #FC7C00;
+          background: #72B9E9;
           border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           font-size: 24px;
