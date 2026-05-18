@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://supvision.ai/</loc><priority>1.0</priority></url>
+  <url><loc>https://supvision.ai/about</loc><priority>0.8</priority></url>
+  <url><loc>https://supvision.ai/pricing</loc><priority>0.9</priority></url>
+  <url><loc>https://supvision.ai/contact</loc><priority>0.8</priority></url>
+  <url><loc>https://supvision.ai/support-agent</loc><priority>0.8</priority></url>
+  <url><loc>https://supvision.ai/kyc-onboarding</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/dispute-resolution</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/escalation-rules</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/multi-channel</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/audit-logs</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/multi-language</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/integrations</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/industries/payments-processing</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/industries/neobanks</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/industries/crypto-web3</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/industries/lending-credit</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/industries/insurtech</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/roles/head-of-support</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/roles/compliance-risk</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/roles/operations-growth</loc><priority>0.7</priority></url>
+  <url><loc>https://supvision.ai/roles/founders-csuite</loc><priority>0.7</priority></url>
+</urlset>
