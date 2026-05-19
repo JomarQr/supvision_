@@ -3,7 +3,7 @@ import IntegrationFinder from '../components/ui/IntegrationFinder'
 
 export default function Integrations() {
   return (
-    <div className="pt-24">
+    <div className="pt-24" style={{ backgroundColor: '#f5f4f0' }}>
 
 
       <IntegrationFinder />
