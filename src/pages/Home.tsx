@@ -31,12 +31,8 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section className="relative flex min-h-screen items-center bg-white">
-        {/* Clipping wrapper, shrinks on scroll, clips both bg and dashboard */}
-        <div
-          ref={clipRef}
-          className="absolute inset-0 overflow-hidden"
-        >
-          {/* Background image fills the clipping wrapper */}
+        {/* Clipping wrapper — background only, shrinks on scroll */}
+        <div ref={clipRef} className="absolute inset-0 overflow-hidden">
           <div
             className="absolute inset-0"
             style={{
@@ -45,13 +41,52 @@ export default function Home() {
               backgroundPosition: 'center',
             }}
           />
+        </div>
 
-          {/* Dashboard, inside clipping wrapper, gets cut on the right */}
-          <div
-            className="absolute top-1/2 z-10 -translate-y-1/2"
-            style={{ left: '52%', width: '62vw' }}
-          >
-            <div className="relative">
+        {/* Content grid */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-20 pb-16 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+
+            {/* Left: full-width text */}
+            <div>
+              <div className="mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+                An AI support layer tailored for fintech industries
+              </div>
+
+              <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+                Your fintech support team is drowning.
+              </h1>
+
+              <p className="mt-6 text-base leading-relaxed text-white/80 sm:text-lg">
+                SupVision handles KYC queries, disputes, and transaction issues 24/7. Built for regulated financial services.
+              </p>
+
+              <div className="mt-10">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/50 px-3 py-2 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white/10"
+                >
+                  Let's chat
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                </Link>
+
+                <p className="mt-4 text-sm font-medium text-white">
+                  Enterprise-grade security. PCI DSS & GDPR compliant.
+                </p>
+
+                <div className="mt-4 flex items-center gap-3">
+                  <img src="/badge/image.png" alt="Badge" className="h-24 w-auto" />
+                  <img src="/badge/image 26 (3).png" alt="Badge" className="h-16 w-auto" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right: dashboard */}
+            <div className="relative hidden lg:block">
               <img
                 src="/example_of_dashboard.png"
                 alt="Dashboard preview"
@@ -63,7 +98,6 @@ export default function Home() {
                 className="absolute rounded-xl shadow-2xl ring-1 ring-white/10"
                 style={{ width: '32%', top: '83%', left: '-13%', transform: 'translateY(-50%)' }}
               />
-              {/* Layer overlay, bleeds off right edge */}
               <img
                 src="/bg/Layer_1 (1).png"
                 alt=""
@@ -71,60 +105,20 @@ export default function Home() {
                 style={{ width: '30%', top: '30%', right: '22%' }}
               />
             </div>
+
           </div>
         </div>
-
-        {/* Left, text, stays inside the page container */}
-        <div className="relative z-10 w-full max-w-[44rem] px-4 pt-16 sm:px-6 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
-          <div className="mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
-            An AI support layer tailored for fintech industries
-          </div>
-
-          <h1 className="flex flex-col text-4xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-            <span className="whitespace-nowrap">Create your first</span>
-            <span className="whitespace-nowrap font-extrabold">support agent</span>
-            <span className="whitespace-nowrap">for your <span className="font-extrabold">fintech</span></span>
-            <span className="whitespace-nowrap font-extrabold">company.</span>
-          </h1>
-
-          <p className="mt-6 text-sm leading-relaxed text-white sm:text-base">
-            Autonomous support agents for KYC queries, disputes, and transaction issues. Say goodbye to overwhelmed support queues and hello to 24/7 AI-powered resolution.
-          </p>
-
-          <div className="mt-10">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/50 px-3 py-2 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white/10"
-            >
-              Let's chat
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
-            </Link>
-
-            <p className="mt-4 text-sm font-medium text-white">
-              Enterprise-grade security. PCI DSS & GDPR compliant.
-            </p>
-
-            <div className="mt-4 flex items-center gap-3">
-              <img src="/badge/image.png" alt="Badge" className="h-24 w-auto" />
-              <img src="/badge/image 26 (3).png" alt="Badge" className="h-16 w-auto" />
-            </div>
-          </div>
-        </div>
-
       </section>
 
-      {/* Value props */}
+      {/* Stat cards */}
       <section className="pt-6 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {valueProps.map((v) => (
               <div key={v.headline} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-                <h3 className="text-xl font-bold leading-snug text-gray-900">{v.headline}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-gray-500">{v.body}</p>
+                <p className="text-6xl font-black leading-none" style={{ color: '#214995' }}>{v.stat}</p>
+                <h3 className="mt-4 text-xl font-bold leading-snug text-gray-900">{v.headline}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">{v.body}</p>
               </div>
             ))}
           </div>
@@ -554,15 +548,18 @@ const benefits = [
 
 const valueProps = [
   {
-    headline: 'Your fintech support team is drowning.',
-    body: 'SupVision handles KYC queries, disputes, and transaction issues 24/7. Built for regulated financial services.',
-  },
-  {
-    headline: 'Cut support costs by 64%. Without hiring more agents.',
+    stat: '64%',
+    headline: 'Cut support costs. Without hiring more agents.',
     body: 'SupVision deploys AI agents that resolve KYC queries, disputes, and transaction issues in seconds, at the scale your fintech demands.',
   },
   {
+    stat: '1.2s',
     headline: 'From 1.2s response time to zero backlog.',
     body: 'SupVision gives fintech companies AI-powered customer support that\'s fast, compliant, and built to scale without growing your team.',
+  },
+  {
+    stat: '80%',
+    headline: 'Tier-1 tickets resolved. No human required.',
+    body: 'KYC status checks, payment failures, onboarding questions — SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
   },
 ]
