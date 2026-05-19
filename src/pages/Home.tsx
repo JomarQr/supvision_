@@ -132,10 +132,10 @@ export default function Home() {
                   <img
                     src={v.robotOverlay}
                     alt=""
-                    className="pointer-events-none absolute z-20 w-44"
+                    className="pointer-events-none absolute z-20"
                     style={v.robotSide === 'right'
-                      ? { right: '-3rem', bottom: '3.5rem' }
-                      : { left: '-3rem', bottom: '3.5rem' }
+                      ? { width: '13rem', right: '-5rem', bottom: '3.5rem' }
+                      : { width: '22rem', left: '-6rem', bottom: '6rem' }
                     }
                   />
                 )}
