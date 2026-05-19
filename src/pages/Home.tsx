@@ -210,8 +210,8 @@ export default function Home() {
                 {/* Before */}
                 <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
                   <div className="flex-1 flex flex-col">
-                    <p className="mb-3 text-sm font-bold uppercase tracking-widest text-white">Before</p>
-                    <p className="text-sm leading-relaxed text-white">{b.before}</p>
+                    <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
+                    <p className="text-base leading-relaxed text-white">{b.before}</p>
                   </div>
                   <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
                     <img
@@ -225,9 +225,9 @@ export default function Home() {
                 {/* After */}
                 <div className="flex items-start justify-between gap-4 bg-white p-6" style={{ minHeight: '200px' }}>
                   <div className="flex-1 flex flex-col">
-                    <p className="mb-3 text-sm font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
+                    <p className="mb-3 text-base font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
                     <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-500">{b.after}</p>
+                    <p className="mt-2 text-base leading-relaxed text-gray-500">{b.after}</p>
                   </div>
                   <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
                     <img
