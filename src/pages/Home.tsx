@@ -5,6 +5,7 @@ export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const [activeT, setActiveT] = useState(0)
   const [activeWhy, setActiveWhy] = useState(0)
+  const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -410,6 +411,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Feature deep-dive blocks */}
+      {featureSections.map((sec, si) => (
+        <section key={sec.label} className={`py-24 px-4 sm:px-6 lg:px-8 ${si % 2 === 1 ? 'bg-gray-50' : 'bg-white'}`}>
+          <div className="mx-auto max-w-7xl px-6">
+            <div className={`grid gap-16 lg:grid-cols-2 lg:items-start ${si % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+
+              {/* Left: text + accordion */}
+              <div className={si % 2 === 1 ? 'lg:col-start-2' : ''}>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{sec.label}</p>
+                <h2 className="mt-5 text-4xl font-bold leading-snug text-gray-900">{sec.title}</h2>
+                <p className="mt-5 text-base leading-relaxed text-gray-500">{sec.description}</p>
+
+                <div className="mt-10">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                  <div className="divide-y divide-gray-200 border-t border-gray-200">
+                    {sec.features.map((f, fi) => (
+                      <div key={f.title}>
+                        <button
+                          onClick={() => setActiveFeatures(prev => ({ ...prev, [si]: fi === prev[si] ? -1 : fi }))}
+                          className="flex w-full items-center justify-between py-5 text-left"
+                        >
+                          <span className={`text-base font-semibold transition-colors ${fi === activeFeatures[si] ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
+                            {f.title}
+                          </span>
+                          <span className="ml-4 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 text-lg leading-none">
+                            {fi === activeFeatures[si] ? '−' : '+'}
+                          </span>
+                        </button>
+                        {fi === activeFeatures[si] && (
+                          <p className="pb-5 text-sm leading-relaxed text-gray-500">{f.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: static image */}
+              <div
+                className={`sticky top-28 overflow-hidden rounded-2xl ${si % 2 === 1 ? 'lg:col-start-1' : ''}`}
+                style={{ minHeight: '480px', background: sec.bgGradient }}
+              >
+                <div className="absolute inset-5 overflow-hidden rounded-xl bg-white shadow-2xl">
+                  <img
+                    src={sec.img}
+                    alt={sec.title}
+                    className="h-full w-full object-cover object-top"
+                    onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      ))}
+
       {/* Compliance & Security */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
         <div className="mx-auto max-w-7xl px-6">
@@ -589,6 +647,49 @@ function FAQ() {
   )
 }
 
+
+const featureSections = [
+  {
+    label: 'Control',
+    title: 'Define exactly how supVision responds',
+    description: 'Most AI support tools give you a binary choice: automate or escalate. supVision goes deeper — confidence thresholds per query type, topic-level restrictions, and human approval flows for sensitive actions. The more precisely you control, the more confidently you can automate.',
+    img: '/hero_images/Component 174 (1).png',
+    bgGradient: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)',
+    features: [
+      { title: 'Confidence Thresholds', description: 'Set per-topic confidence levels so supVision only automates when it is certain enough. Below threshold, it escalates with full context attached.' },
+      { title: 'Topic Restrictions', description: 'Define exactly which query types are handled by AI and which always route to a human agent — KYC rejections, disputes, high-value account changes.' },
+      { title: 'Escalation Rules', description: 'Build custom escalation logic based on query type, customer tier, account status, or regulatory category. Every rule is logged and auditable.' },
+      { title: 'Response Approval', description: 'Require human sign-off before supVision sends responses in high-risk categories, keeping your team in control without slowing down routine queries.' },
+      { title: 'Data Access Controls', description: 'Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope.' },
+    ],
+  },
+  {
+    label: 'Delegation',
+    title: 'Give each team their own workspace',
+    description: 'Workspaces let you delegate authority without losing oversight. Each team gets their own environment with inherited guardrails. They configure freely and you see everything — no more choosing between access and accountability.',
+    img: '/hero_images/Component 172.png',
+    bgGradient: 'linear-gradient(135deg, #c8d8e8 0%, #8aaac8 50%, #607890 100%)',
+    features: [
+      { title: 'Team Workspaces', description: 'Create dedicated environments for each support team with the right channels, escalation paths, and automation rules, so they build independently within IT-defined guardrails.' },
+      { title: 'Role-Based Access', description: 'Control who can view, configure, or manage supVision settings by assigning role-based permissions — viewer, operator, admin — across your organisation.' },
+      { title: 'Guided Playbooks', description: 'Start from approved response templates so every automation begins with the right structure, tone, and compliance safeguards built in from the start.' },
+      { title: 'SCIM Provisioning', description: 'Automate user access through your identity provider so permissions stay current as teams change, without manual updates or access drift.' },
+    ],
+  },
+  {
+    label: 'Visibility',
+    title: 'Full insight into every automated action',
+    description: 'Every AI decision is logged, every escalation is documented, and every response is traceable — so you always know what happened, why it happened, and who was responsible.',
+    img: '/hero_images/Component 175.png',
+    bgGradient: 'linear-gradient(135deg, #d8e0d0 0%, #a0b890 50%, #708060 100%)',
+    features: [
+      { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context — regulator-ready out of the box.' },
+      { title: 'AI Decision Logs', description: 'See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training.' },
+      { title: 'Log Streaming', description: 'Send real-time workflow data to tools like Datadog or Splunk for centralized monitoring, alerting, and integration with your existing security stack.' },
+      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes — structured, signed, and ready to share without manual extraction.' },
+    ],
+  },
+]
 
 const testimonials: {
   name: string
