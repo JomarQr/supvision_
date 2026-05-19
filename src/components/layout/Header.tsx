@@ -102,6 +102,10 @@ export default function Header() {
   }, [pathname])
 
   useEffect(() => {
+    if (!overviewOpen) setActiveCategory('solutions')
+  }, [overviewOpen])
+
+  useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
       const prev = lastScrollY.current
@@ -230,7 +234,7 @@ export default function Header() {
                               <Link
                                 to={item.to!}
                                 onClick={() => setOverviewOpen(false)}
-                                className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-gray-50"
+                                className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-50"
                               >
                                 <p className="text-sm font-semibold text-gray-900">{item.label}</p>
                                 <p className="text-xs text-gray-400">{item.desc}</p>
@@ -268,7 +272,7 @@ export default function Header() {
                         <ul className="space-y-0.5">
                           {forWhomDropdown.industries.map(item => (
                             <li key={item.label}>
-                              <Link to={item.to} onClick={() => setForWhomOpen(false)} className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-gray-50">
+                              <Link to={item.to} onClick={() => setForWhomOpen(false)} className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-50">
                                 <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
                                 <p className="text-xs text-gray-400 whitespace-normal break-words">{item.desc}</p>
                               </Link>
@@ -286,7 +290,7 @@ export default function Header() {
                         <ul className="space-y-0.5">
                           {forWhomDropdown.roles.map(item => (
                             <li key={item.label}>
-                              <Link to={item.to} onClick={() => setForWhomOpen(false)} className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-gray-50">
+                              <Link to={item.to} onClick={() => setForWhomOpen(false)} className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-50">
                                 <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
                                 <p className="text-xs text-gray-400 whitespace-normal break-words">{item.desc}</p>
                               </Link>
@@ -327,7 +331,7 @@ export default function Header() {
                         <ul className="space-y-1">
                           {resourcesDropdown.learn.map(item => (
                             <li key={item.label}>
-                              <Link to={item.to} onClick={() => setResourcesOpen(false)} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50">
+                              <Link to={item.to} onClick={() => setResourcesOpen(false)} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-blue-50">
                                 {item.label}
                               </Link>
                             </li>
@@ -346,7 +350,7 @@ export default function Header() {
                         <ul className="space-y-1">
                           {resourcesDropdown.company.map(item => (
                             <li key={item.label}>
-                              <Link to={item.to} onClick={() => setResourcesOpen(false)} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50">
+                              <Link to={item.to} onClick={() => setResourcesOpen(false)} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-blue-50">
                                 {item.label}
                               </Link>
                             </li>

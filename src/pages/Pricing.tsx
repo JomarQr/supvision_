@@ -273,9 +273,16 @@ export default function Pricing() {
 
       {/* CTA banner */}
       <section className="px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-2xl bg-gray-900 px-8 py-16 text-center">
+        <div
+          className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
+          style={{
+            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
           <h2 className="text-3xl font-bold text-white">Not sure which plan fits?</h2>
-          <p className="mt-4 text-base text-gray-400">
+          <p className="mt-4 text-base text-blue-200">
             Talk to us. We'll recommend the right plan based on your ticket volume, geography, and compliance requirements.
           </p>
           <Link

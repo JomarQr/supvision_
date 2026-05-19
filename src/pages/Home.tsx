@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom'
 
 export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
+  const [activeT, setActiveT] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveT(i => (i + 1) % testimonials.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -138,7 +146,7 @@ export default function Home() {
               <div key={b.title} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
                 {/* Before */}
                 <div className="bg-gray-900 px-8 py-8">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-500">Before</p>
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
                   <p className="text-sm leading-relaxed text-white">{b.before}</p>
                 </div>
                 {/* After */}
@@ -167,41 +175,72 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6">
 
           {/* Header */}
-          <div className="text-center">
+          <div className="mb-8 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Proof</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Trusted by fintech teams</h2>
             <p className="mt-3 text-base text-gray-500">Companies that moved from overwhelmed to automated.</p>
           </div>
 
-          {/* Client logos */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
-            {clientLogos.map((name) => (
-              <span key={name} className="text-lg font-bold tracking-tight text-gray-300">{name}</span>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div className="my-16 h-px bg-gray-200" />
-
-          {/* Testimonials */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {testimonials.map((t) => (
-              <div key={t.name} className="flex flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-                <p className="flex-1 text-sm leading-relaxed text-gray-600">"{t.quote}"</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div
-                    className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
-                    style={{ backgroundColor: t.color }}
-                  >
-                    {t.initials}
-                  </div>
+          {/* Testimonials carousel */}
+          <div className="mt-4">
+            <div className="rounded-3xl bg-white p-10 shadow-sm ring-1 ring-gray-100">
+              <div className="grid gap-10 lg:grid-cols-[200px_1fr] lg:items-center">
+                {/* Left — photo + name */}
+                <div className="flex flex-row items-center gap-5 lg:flex-col lg:items-start">
+                  <img
+                    src={testimonials[activeT].photo}
+                    alt={testimonials[activeT].name}
+                    className="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-2 ring-gray-100"
+                  />
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{t.name}</p>
-                    <p className="text-xs text-gray-400">{t.role}</p>
+                    <p className="text-base font-bold text-gray-900">{testimonials[activeT].name}</p>
+                    <p className="text-sm text-gray-400">{testimonials[activeT].role}</p>
                   </div>
                 </div>
+                {/* Right — quote */}
+                <p className="text-xl leading-relaxed text-gray-700">
+                  "
+                  {testimonials[activeT].segments.map((s, i) =>
+                    s.bold
+                      ? <strong key={i} className="font-bold text-gray-900">{s.text}</strong>
+                      : <span key={i}>{s.text}</span>
+                  )}
+                  "
+                </p>
               </div>
-            ))}
+            </div>
+
+            {/* Controls */}
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <button
+                onClick={() => setActiveT(i => (i - 1 + testimonials.length) % testimonials.length)}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M14 8a.75.75 0 0 1-.75.75H3.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L3.56 7.25H13.25A.75.75 0 0 1 14 8Z" clipRule="evenodd" />
+                </svg>
+              </button>
+              <div className="flex gap-2">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveT(i)}
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{
+                      width: i === activeT ? '24px' : '8px',
+                      backgroundColor: i === activeT ? '#214995' : '#d1d5db',
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setActiveT(i => (i + 1) % testimonials.length)}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h9.69L9.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
 
         </div>
@@ -243,14 +282,26 @@ export default function Home() {
 
             {/* Right, cert badges */}
             <div className="flex flex-col items-center gap-8 rounded-2xl border border-white/10 bg-white/5 p-12">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Certified & Compliant</p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-white">Certified & Compliant</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
-                <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-28 w-auto" />
-                <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-20 w-auto" />
+                <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-36 w-auto" />
+                <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-28 w-auto" />
               </div>
-              <p className="text-center text-xs leading-relaxed text-gray-500">
+              <p className="text-center text-sm leading-relaxed text-white">
                 Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance built into every interaction.
               </p>
+              <Link
+                to="/contact"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+              >
+                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+                <span className="relative z-10 transition-colors duration-300">Request certificate confirmation</span>
+                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </span>
+              </Link>
             </div>
 
           </div>
@@ -359,7 +410,7 @@ function FAQItem({ item, isOpen, onToggle }: { item: { q: string; a: string }; i
         ref={bodyRef}
         style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
       >
-        <p className="pb-7 text-base leading-relaxed text-gray-500 max-w-3xl">{item.a}</p>
+        <p className="pb-7 text-base leading-relaxed text-gray-500">{item.a}</p>
       </div>
     </div>
   )
@@ -408,34 +459,59 @@ function FAQ() {
 
 const clientLogos = ['Payrails', 'Nuvei', 'Unlimint', 'Ecommpay', 'Payrow', 'Genome']
 
-const testimonials = [
+const testimonials: {
+  name: string
+  role: string
+  photo: string
+  segments: { text: string; bold?: boolean }[]
+}[] = [
   {
     name: 'Dmytriy',
     role: 'Head of Customer Support',
-    initials: 'D',
-    color: '#6366f1',
-    quote: 'We used to hire new people every time we expanded to a new geography. Now we don\'t just skip the hiring, we automatically serve all regions: Europe, the US, Asia, the Middle East. All because of SupVision.',
+    photo: 'https://i.pravatar.cc/150?img=68',
+    segments: [
+      { text: "We used to hire new people every time we expanded to a new geography. Now we don't just skip the hiring — we " },
+      { text: 'automatically serve all regions: Europe, the US, Asia, the Middle East', bold: true },
+      { text: ', without adding a single agent. The setup took three days. We went live across four regions in a week. ' },
+      { text: 'All because of SupVision.', bold: true },
+    ],
   },
   {
     name: 'Alan N.',
     role: 'Customer Success',
-    initials: 'A',
-    color: '#0ea5e9',
-    quote: 'We cut support headcount by 30% while handling 3× the ticket volume. I wish we\'d done this sooner.',
+    photo: 'https://i.pravatar.cc/150?img=11',
+    segments: [
+      { text: 'We ' },
+      { text: 'cut support headcount by 30%', bold: true },
+      { text: ' while handling ' },
+      { text: '3× the ticket volume.', bold: true },
+      { text: ' The agents that stayed are now focused on real escalations, not copy-pasting the same KYC answers all day. ' },
+      { text: "I wish we'd done this sooner — the ROI showed up faster than any tool we've ever deployed.", bold: true },
+    ],
   },
   {
     name: 'Ruslan V.',
     role: 'Head of Operations',
-    initials: 'R',
-    color: '#10b981',
-    quote: 'We went from a 4-hour average resolution time to under 2 minutes for KYC queries. The ROI was visible within the first month.',
+    photo: 'https://i.pravatar.cc/150?img=57',
+    segments: [
+      { text: 'We went from a ' },
+      { text: '4-hour average resolution time to under 2 minutes', bold: true },
+      { text: ' for KYC queries. The ' },
+      { text: 'ROI was visible within the first month', bold: true },
+      { text: ' — our ops costs dropped and CSAT went up at the same time. SupVision didn\'t just speed things up, it made the whole support flow more predictable and auditable.' },
+    ],
   },
   {
     name: 'Cyril B.',
     role: 'Compliance Lead',
-    initials: 'C',
-    color: '#f59e0b',
-    quote: 'Our compliance team was skeptical about automating disputes. SupVision handles edge cases better than we expected, and it logs everything for audit.',
+    photo: 'https://i.pravatar.cc/150?img=33',
+    segments: [
+      { text: 'Our compliance team was skeptical about automating disputes — we thought edge cases would break it. But SupVision ' },
+      { text: 'handles edge cases better than we expected,', bold: true },
+      { text: ' and it ' },
+      { text: 'logs every decision with a full rationale and timestamp.', bold: true },
+      { text: ' When our auditors asked for a trail, we exported it in minutes. That alone justified the cost.' },
+    ],
   },
 ]
 

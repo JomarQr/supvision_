@@ -3,44 +3,28 @@ import { Link } from 'react-router-dom'
 
 const capabilities = [
   {
-    title: 'KYC & Identity Queries',
-    desc: 'Instantly answers verification status, document requirements, and rejection reasons. Guides users through re-submission without a human agent in the loop.',
-    icon: '🪪',
+    title: 'KYC & Onboarding',
+    desc: 'Automate identity verification and onboarding flows',
   },
   {
-    title: 'Transaction Dispute Resolution',
-    desc: 'Pulls real-time transaction data, identifies the dispute type, and resolves or escalates with full context — median resolution under 2 minutes.',
-    icon: '💳',
+    title: 'Dispute Resolution',
+    desc: 'Resolve chargebacks and transaction disputes in real time',
   },
   {
-    title: 'Payment Failure Triage',
-    desc: 'Diagnoses failed payments by querying payment processor APIs in real time. Tells users exactly why a payment failed and what to do next.',
-    icon: '⚡',
+    title: 'Escalation Rules',
+    desc: 'Custom confidence thresholds and seamless human handoffs',
   },
   {
-    title: 'Account & Card Management',
-    desc: 'Handles limit queries, card blocking requests, PIN resets, and account status checks — all without exposing sensitive data beyond what is needed.',
-    icon: '🏦',
+    title: 'Multi-channel Support',
+    desc: 'Email, chat, WhatsApp, Telegram, API — all in one',
   },
   {
-    title: 'Onboarding Assistance',
-    desc: 'Walks new users through onboarding steps, explains document requirements, and handles the most common drop-off points automatically.',
-    icon: '🚀',
+    title: 'Audit Logs',
+    desc: 'Traceable decision trail, regulator-ready exports',
   },
   {
-    title: 'Compliance-Safe Responses',
-    desc: 'Every response follows pre-approved templates for regulated content. The agent never provides financial advice outside its defined scope.',
-    icon: '🔒',
-  },
-  {
-    title: 'Smart Escalation',
-    desc: 'When confidence falls below your threshold, the agent hands off to a human — with the full conversation history, decision trace, and reason attached.',
-    icon: '🤝',
-  },
-  {
-    title: 'Full Audit Trail',
-    desc: 'Every decision, response, and escalation is logged with a timestamp and rationale. Exportable for regulators, auditors, and your compliance team on demand.',
-    icon: '📋',
+    title: 'Multi-language',
+    desc: 'Respond in 50+ languages with no configuration required',
   },
 ]
 
@@ -78,30 +62,88 @@ const howItWorks = [
 
 const useCases = [
   {
+    title: 'Payment declined',
     scenario: '"Why was my payment declined?"',
     resolution: 'Agent queries the payment processor, identifies the failure code (insufficient funds, 3DS failure, blocked card), and tells the customer exactly what happened and what to do — in under 30 seconds.',
   },
   {
+    title: 'KYC stuck',
     scenario: '"My KYC is still pending after 3 days."',
     resolution: 'Agent checks the KYC provider status, surfaces the specific blocker (document quality, mismatched data), and walks the customer through re-submission — no human agent needed.',
   },
   {
+    title: 'Disputed transaction',
     scenario: '"I didn\'t authorise this transaction."',
     resolution: 'Agent opens a dispute ticket, collects required information, applies your escalation rules, and — for eligible disputes — initiates an immediate provisional credit while the case is reviewed.',
   },
   {
+    title: 'Limit increase',
     scenario: '"I need to increase my spending limit."',
     resolution: 'Agent checks eligibility criteria against the customer\'s account profile, explains the outcome, and either processes the request or routes it to the appropriate team with context pre-filled.',
   },
 ]
 
 const integrations = [
-  { category: 'Helpdesks', items: ['Zendesk', 'Intercom', 'Freshdesk', 'Salesforce Service Cloud'] },
-  { category: 'Messaging', items: ['WhatsApp Business', 'Telegram', 'Email', 'Live chat widget'] },
-  { category: 'Core Banking', items: ['Custom core banking APIs', 'Mambu', 'Thought Machine', 'Temenos'] },
-  { category: 'KYC Providers', items: ['Sumsub', 'Jumio', 'Onfido', 'Veriff'] },
-  { category: 'Payment Processors', items: ['Stripe', 'Nuvei', 'Ecommpay', 'Adyen'] },
-  { category: 'CRM', items: ['Salesforce', 'HubSpot', 'Pipedrive', 'Custom CRM via API'] },
+  {
+    category: 'Helpdesks',
+    tools: [
+      { name: 'Zendesk', color: '#03363D', text: '#fff' },
+      { name: 'Intercom', color: '#1F8DED', text: '#fff' },
+      { name: 'Freshdesk', color: '#F5682F', text: '#fff' },
+      { name: 'Salesforce', color: '#00A1E0', text: '#fff' },
+    ],
+    functions: ['Auto ticket creation', 'Conversation routing', 'SLA tracking', 'Seamless agent handoff'],
+  },
+  {
+    category: 'Messaging channels',
+    tools: [
+      { name: 'WhatsApp', color: '#25D366', text: '#fff' },
+      { name: 'Telegram', color: '#26A5E4', text: '#fff' },
+      { name: 'Email', color: '#374151', text: '#fff' },
+      { name: 'Live chat', color: '#6366f1', text: '#fff' },
+    ],
+    functions: ['Unified multi-channel inbox', 'Real-time message delivery', 'File & image attachments', 'Read receipts & status'],
+  },
+  {
+    category: 'Core banking',
+    tools: [
+      { name: 'Mambu', color: '#7C3AED', text: '#fff' },
+      { name: 'Thought Machine', color: '#0F172A', text: '#fff' },
+      { name: 'Temenos', color: '#E11D48', text: '#fff' },
+      { name: 'Custom API', color: '#059669', text: '#fff' },
+    ],
+    functions: ['Live balance & transaction data', 'Card status & limits', 'Account KYC state', 'Real-time account actions'],
+  },
+  {
+    category: 'KYC providers',
+    tools: [
+      { name: 'Sumsub', color: '#FF6B00', text: '#fff' },
+      { name: 'Jumio', color: '#5B21B6', text: '#fff' },
+      { name: 'Onfido', color: '#3D49FB', text: '#fff' },
+      { name: 'Veriff', color: '#00B67A', text: '#fff' },
+    ],
+    functions: ['Verification status checks', 'Document review results', 'Risk signal retrieval', 'Re-submission flow triggers'],
+  },
+  {
+    category: 'Payment processors',
+    tools: [
+      { name: 'Stripe', color: '#635BFF', text: '#fff' },
+      { name: 'Nuvei', color: '#C2410C', text: '#fff' },
+      { name: 'Ecommpay', color: '#1D4ED8', text: '#fff' },
+      { name: 'Adyen', color: '#0ABF53', text: '#fff' },
+    ],
+    functions: ['Decline reason lookup', 'Refund initiation', 'Dispute & chargeback filing', 'Settlement status checks'],
+  },
+  {
+    category: 'CRM',
+    tools: [
+      { name: 'Salesforce', color: '#00A1E0', text: '#fff' },
+      { name: 'HubSpot', color: '#FF7A59', text: '#fff' },
+      { name: 'Pipedrive', color: '#00A76F', text: '#fff' },
+      { name: 'Custom API', color: '#374151', text: '#fff' },
+    ],
+    functions: ['Full customer history', 'Segment & tier data', 'Open issue tracking', 'Account notes & tags'],
+  },
 ]
 
 const agentFaqItems = [
@@ -186,48 +228,103 @@ export default function SupportAgent() {
     <div className="pt-24">
 
       {/* Hero */}
-      <section className="px-4 pt-12 pb-20 sm:px-6 lg:px-8">
+      <section className="px-4 pt-8 pb-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">
-                <span className="flex h-2 w-2 rounded-full bg-green-400" />
-                Live product · Generally available
-              </div>
-              <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
-                Support Agent
-              </h1>
-              <p className="mt-6 text-lg leading-relaxed text-gray-500">
-                An AI agent built specifically for fintech customer support. Resolves KYC queries, transaction disputes, payment failures, and account questions — autonomously, in under 2 minutes, across every channel your customers use.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-gray-500">
-                Not a generic chatbot retrofitted for finance. Built from the ground up for regulated financial services — with compliance, audit logs, and escalation rules baked in from day one.
-              </p>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
-                  style={{ backgroundColor: '#214995' }}
-                >
-                  Book a demo
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                  </svg>
-                </Link>
-                <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-gray-200 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50">
-                  See pricing
-                </Link>
-              </div>
-            </div>
+          <div className="overflow-hidden rounded-3xl border border-gray-100 bg-gray-50">
+            <div className="grid lg:grid-cols-2">
 
-            {/* Stats card */}
-            <div className="grid grid-cols-2 gap-4">
-              {metrics.map((m) => (
-                <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                  <p className="text-3xl font-black text-gray-900" style={{ color: m.value === '<2 min' ? '#214995' : undefined }}>{m.value}</p>
-                  <p className="mt-2 text-xs leading-relaxed text-gray-500">{m.label}</p>
+              {/* Left — text */}
+              <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
+                <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                    <path fillRule="evenodd" d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1 12.75A.75.75 0 0 1 1.75 12H8a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 12.75Z" clipRule="evenodd" />
+                  </svg>
+                  Solutions
+                </p>
+
+                <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
+                  Support Agent
+                </h1>
+
+                <ul className="mt-8 space-y-4">
+                  {[
+                    'Resolves KYC, disputes, and payment queries autonomously in under 2 minutes',
+                    'Connects to your CRM, core banking, and KYC provider — answers with real data',
+                    'Compliant by design — audit logs, escalation rules, and zero financial advice risk',
+                  ].map((h) => (
+                    <li key={h} className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(33,73,149,0.12)' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3" style={{ color: '#214995' }}>
+                          <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="text-sm leading-relaxed text-gray-700">{h}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-10">
+                  <Link
+                    to="/contact"
+                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+                  >
+                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+                    <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Let's chat!</span>
+                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                  </Link>
                 </div>
-              ))}
+              </div>
+
+              {/* Right — diagram */}
+              <div className="flex items-center justify-center px-12 py-14" style={{ backgroundColor: '#214995' }}>
+                <div className="flex flex-col items-center gap-0 w-full max-w-xs">
+                  {/* Top row of 3 icons */}
+                  <div className="flex w-full items-end justify-between">
+                    {[
+                      /* KYC icon */
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg>,
+                      /* Dispute icon */
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                      </svg>,
+                      /* Compliance icon */
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                      </svg>,
+                    ].map((icon, i) => (
+                      <div key={i} className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white text-gray-800 shadow-lg">
+                        {icon}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Connector lines SVG */}
+                  <svg viewBox="0 0 280 80" className="w-full" style={{ height: 80 }}>
+                    {/* Three vertical lines down */}
+                    <line x1="40" y1="0" x2="40" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+                    <line x1="140" y1="0" x2="140" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+                    <line x1="240" y1="0" x2="240" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+                    {/* Horizontal bar */}
+                    <line x1="40" y1="40" x2="240" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+                    {/* Single line down to center */}
+                    <line x1="140" y1="40" x2="140" y2="80" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
+                  </svg>
+
+                  {/* Center agent icon */}
+                  <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gray-900 shadow-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" className="h-10 w-10">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -254,18 +351,17 @@ export default function SupportAgent() {
       </section>
 
       {/* Capabilities */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#214995' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Capabilities</p>
-            <p className="mt-3 text-base text-gray-500">Everything the Support Agent handles autonomously.</p>
+            <p className="text-2xl font-bold uppercase text-white">Capabilities</p>
+            <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Everything the Support Agent handles autonomously.</p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((c) => (
-              <div key={c.title} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <span className="text-3xl">{c.icon}</span>
-                <h3 className="mt-4 text-sm font-bold text-gray-900">{c.title}</h3>
+              <div key={c.title} className="flex flex-col rounded-2xl bg-white p-6">
+                <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-gray-500">{c.desc}</p>
               </div>
             ))}
@@ -273,30 +369,69 @@ export default function SupportAgent() {
         </div>
       </section>
 
-      {/* Use cases */}
+      {/* Use cases — phone mockups */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
+          <div className="mb-16 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Real scenarios</p>
             <p className="mt-3 text-base text-gray-500">What the Support Agent resolves every day.</p>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((uc) => (
-              <div key={uc.scenario} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
-                <div className="bg-gray-100 px-8 py-8">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-400">Customer says</p>
-                  <p className="text-base font-semibold text-gray-900">{uc.scenario}</p>
-                </div>
-                <div className="bg-white px-8 py-8">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: '#214995' }}>Support Agent does</p>
-                  <p className="text-sm leading-relaxed text-gray-700">{uc.resolution}</p>
-                </div>
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                    </svg>
+              <div key={uc.scenario} className="flex flex-col">
+                {/* Label above phone */}
+                <p className="mb-4 text-center text-sm font-semibold text-gray-900">{uc.title}</p>
+                {/* Phone frame */}
+                <div className="flex-1 rounded-[2rem] border-[6px] border-gray-800 bg-white shadow-2xl overflow-hidden">
+                  {/* Status bar */}
+                  <div className="flex items-center justify-between bg-gray-800 px-4 pt-3 pb-2">
+                    <span className="text-[10px] font-semibold text-white">9:41</span>
+                    <div className="h-3 w-16 rounded-full bg-gray-700" />
+                    <div className="flex items-center gap-1">
+                      <div className="h-2 w-2 rounded-full bg-white/60" />
+                      <div className="h-2 w-2 rounded-full bg-white/60" />
+                      <div className="h-2 w-3 rounded-sm bg-white/60" />
+                    </div>
+                  </div>
+                  {/* Chat header */}
+                  <div className="flex items-center gap-2 border-b border-gray-100 bg-white px-4 py-3">
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <path fillRule="evenodd" d="M1 8.74c0 .983.713 1.825 1.69 1.943L3 10.698V13a1 1 0 0 0 1.447.894L7.098 12.5H9.5A2.5 2.5 0 0 0 12 10V8h.5a2.5 2.5 0 0 0 0-5H12a2.5 2.5 0 0 0-2.5-2.5h-6A2.5 2.5 0 0 0 1 3v5.74Z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-900">Support Agent</p>
+                      <p className="text-[10px] text-green-500">● Online</p>
+                    </div>
+                  </div>
+                  {/* Chat messages */}
+                  <div className="flex flex-col gap-3 bg-gray-50 p-4 min-h-[340px]">
+                    {/* Customer bubble */}
+                    <div className="flex justify-end">
+                      <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-gray-200 px-3 py-2">
+                        <p className="text-xs leading-relaxed text-gray-800">{uc.scenario}</p>
+                      </div>
+                    </div>
+                    {/* Typing indicator */}
+                    <div className="flex items-center gap-1 pl-1">
+                      <div className="flex gap-1 rounded-2xl rounded-tl-sm px-3 py-2" style={{ backgroundColor: '#214995' }}>
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" style={{ animationDelay: '0ms' }} />
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" style={{ animationDelay: '150ms' }} />
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" style={{ animationDelay: '300ms' }} />
+                      </div>
+                    </div>
+                    {/* Agent bubble */}
+                    <div className="flex justify-start">
+                      <div className="max-w-[80%] rounded-2xl rounded-tl-sm px-3 py-2 text-white" style={{ backgroundColor: '#214995' }}>
+                        <p className="text-xs leading-relaxed">{uc.resolution}</p>
+                      </div>
+                    </div>
+                    {/* Resolved badge */}
+                    <div className="mt-auto flex justify-center pt-2">
+                      <span className="rounded-full bg-green-100 px-3 py-1 text-[10px] font-semibold text-green-700">✓ Resolved automatically</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -306,24 +441,37 @@ export default function SupportAgent() {
       </section>
 
       {/* Integrations */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#214995' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Integrations</p>
-            <p className="mt-3 text-base text-gray-500">Works on top of your existing stack. No migration required.</p>
+            <p className="text-2xl font-bold uppercase text-white">Integrations</p>
+            <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Works on top of your existing stack. No migration required.</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {integrations.map((group) => (
-              <div key={group.category} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">{group.category}</p>
-                <ul className="space-y-2">
-                  {group.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-gray-700">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#214995' }}>
+              <div key={group.category} className="flex flex-col gap-4 rounded-2xl bg-white p-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{group.category}</p>
+                {/* Logo pills */}
+                <div className="flex flex-wrap gap-2">
+                  {group.tools.map((tool) => (
+                    <span
+                      key={tool.name}
+                      className="rounded-full px-3 py-1 text-xs font-semibold"
+                      style={{ backgroundColor: tool.color, color: tool.text }}
+                    >
+                      {tool.name}
+                    </span>
+                  ))}
+                </div>
+                {/* Function list */}
+                <ul className="space-y-1.5">
+                  {group.functions.map((fn) => (
+                    <li key={fn} className="flex items-start gap-2 text-xs text-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="mt-0.5 h-3 w-3 flex-shrink-0 text-gray-400">
                         <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
-                      {item}
+                      {fn}
                     </li>
                   ))}
                 </ul>
