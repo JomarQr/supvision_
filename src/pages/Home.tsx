@@ -208,27 +208,35 @@ export default function Home() {
             {benefits.map((b) => (
               <div key={b.title} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
                 {/* Before */}
-                <div className="bg-gray-900 px-8 py-8">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
-                  <p className="text-sm leading-relaxed text-white">{b.before}</p>
+                <div className="flex items-center gap-4 bg-gray-900 px-6 py-8">
+                  <div className="flex-1 min-w-0">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
+                    <p className="text-sm leading-relaxed text-white">{b.before}</p>
+                  </div>
+                  <div className="w-28 flex-shrink-0 overflow-hidden rounded-xl" style={{ height: '90px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                    <img
+                      src={b.beforeImg}
+                      alt="Before"
+                      className="h-full w-full object-cover object-top opacity-70"
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                    />
+                  </div>
                 </div>
                 {/* After */}
-                <div className="flex flex-col bg-white">
-                  <div className="px-8 pt-8 pb-4">
+                <div className="flex items-center gap-4 bg-white px-6 py-8">
+                  <div className="flex-1 min-w-0">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
                     <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-gray-500">{b.after}</p>
                   </div>
-                  {b.img && (
-                    <div className="mx-8 mb-6 overflow-hidden rounded-xl border border-gray-100 shadow-sm">
-                      <img
-                        src={b.img}
-                        alt={b.title}
-                        className="w-full object-cover object-top"
-                        style={{ maxHeight: '120px' }}
-                      />
-                    </div>
-                  )}
+                  <div className="w-28 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ height: '90px' }}>
+                    <img
+                      src={b.afterImg}
+                      alt={b.title}
+                      className="h-full w-full object-cover object-top"
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                    />
+                  </div>
                 </div>
                 {/* Arrow — centered on the dividing line */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -607,27 +615,31 @@ const whyItems = [
 const benefits = [
   {
     before: 'Disputes and transaction failures pile up in queues, resolved manually over days.',
+    beforeImg: '/benefits/before-disputes.png',
     title: 'Automated workflows made easy',
     after: 'Resolve disputes and transaction failures in real time, median resolution under 2 minutes, zero manual steps.',
-    img: '/hero_images/ticket-list-resolved.png',
+    afterImg: '/hero_images/ticket-list-resolved.png',
   },
   {
     before: 'Compliance is bolted on after the fact, costly audits, missed escalations, fragile KYC flows.',
+    beforeImg: '/benefits/before-compliance.png',
     title: 'Tailored to a regulated industry',
     after: 'Built for compliance from day one: audit logs, escalation rules, and KYC workflows that meet financial regulations out of the box.',
-    img: '/hero_images/analytics-dashboard.png',
+    afterImg: '/hero_images/analytics-dashboard.png',
   },
   {
     before: 'Generic chatbots fail on context, frustrate users, and escalate everything to humans.',
+    beforeImg: '/benefits/before-chatbot.png',
     title: 'Human-like experience at global scale',
     after: 'Millions of support interactions across channels and geographies, each one personalised, context-aware, and escalated only when it needs a human.',
-    img: '/hero_images/live-chat-response.png',
+    afterImg: '/hero_images/live-chat-response.png',
   },
   {
     before: 'Growing support demand means growing headcount and costs.',
+    beforeImg: '/benefits/before-costs.png',
     title: 'Reduce costs, improve quality',
     after: 'Teams using SupVision report 52% lower support costs and 98.4% resolution rate, tracked in real time on your dashboard.',
-    img: '/hero_images/analytics-dashboard.png',
+    afterImg: '/hero_images/analytics-dashboard.png',
   },
 ]
 
