@@ -76,38 +76,193 @@ const useCases = [
 ]
 
 
-const allIntegrations = [
-  { name: 'Zendesk',          category: 'Helpdesks',          logo: 'https://logo.clearbit.com/zendesk.com' },
-  { name: 'Intercom',         category: 'Helpdesks',          logo: 'https://logo.clearbit.com/intercom.com' },
-  { name: 'Freshdesk',        category: 'Helpdesks',          logo: 'https://logo.clearbit.com/freshdesk.com' },
-  { name: 'Salesforce',       category: 'Helpdesks',          logo: 'https://logo.clearbit.com/salesforce.com' },
-  { name: 'WhatsApp',         category: 'Messaging',          logo: 'https://logo.clearbit.com/whatsapp.com' },
-  { name: 'Telegram',         category: 'Messaging',          logo: 'https://logo.clearbit.com/telegram.org' },
-  { name: 'Gmail',            category: 'Messaging',          logo: 'https://logo.clearbit.com/gmail.com' },
-  { name: 'Twilio',           category: 'Messaging',          logo: 'https://logo.clearbit.com/twilio.com' },
-  { name: 'Mambu',            category: 'Core banking',       logo: 'https://logo.clearbit.com/mambu.com' },
-  { name: 'Thought Machine',  category: 'Core banking',       logo: 'https://logo.clearbit.com/thoughtmachine.net' },
-  { name: 'Temenos',          category: 'Core banking',       logo: 'https://logo.clearbit.com/temenos.com' },
-  { name: 'Finastra',         category: 'Core banking',       logo: 'https://logo.clearbit.com/finastra.com' },
-  { name: 'Sumsub',           category: 'KYC providers',      logo: 'https://logo.clearbit.com/sumsub.com' },
-  { name: 'Jumio',            category: 'KYC providers',      logo: 'https://logo.clearbit.com/jumio.com' },
-  { name: 'Onfido',           category: 'KYC providers',      logo: 'https://logo.clearbit.com/onfido.com' },
-  { name: 'Veriff',           category: 'KYC providers',      logo: 'https://logo.clearbit.com/veriff.com' },
-  { name: 'Stripe',           category: 'Payment processors', logo: 'https://logo.clearbit.com/stripe.com' },
-  { name: 'Adyen',            category: 'Payment processors', logo: 'https://logo.clearbit.com/adyen.com' },
-  { name: 'Nuvei',            category: 'Payment processors', logo: 'https://logo.clearbit.com/nuvei.com' },
-  { name: 'Ecommpay',         category: 'Payment processors', logo: 'https://logo.clearbit.com/ecommpay.com' },
-  { name: 'HubSpot',          category: 'CRM',                logo: 'https://logo.clearbit.com/hubspot.com' },
-  { name: 'Salesforce CRM',   category: 'CRM',                logo: 'https://logo.clearbit.com/salesforce.com' },
-  { name: 'Pipedrive',        category: 'CRM',                logo: 'https://logo.clearbit.com/pipedrive.com' },
-  { name: 'Zoho',             category: 'CRM',                logo: 'https://logo.clearbit.com/zoho.com' },
+interface Integration {
+  name: string
+  category: string
+  logo: string
+  tagline: string
+  functions: string[]
+  description: string
+}
+
+const allIntegrations: Integration[] = [
+  {
+    name: 'Telegram', category: 'Messaging', logo: 'https://logo.clearbit.com/telegram.org',
+    tagline: 'Instant messaging & bot automation',
+    functions: ['Receive & reply to customer messages', 'Send automated notifications', 'Handle file & document requests', 'Support group & channel queries', 'Seamless handoff to human agents'],
+    description: 'supVision connects via Telegram Bot API to handle customer queries in real time. Customers message your Telegram bot and the Support Agent replies instantly — pulling live data from your core banking or KYC provider before every response.',
+  },
+  {
+    name: 'Gmail', category: 'Messaging', logo: 'https://logo.clearbit.com/google.com',
+    tagline: 'Email support automation via Gmail',
+    functions: ['Parse inbound support emails', 'Auto-reply with personalised answers', 'Classify and route by topic', 'Attach transaction or KYC data', 'Escalate complex threads to humans'],
+    description: 'Connect your Gmail inbox to supVision and let the agent triage, classify, and reply to customer emails automatically. No more manually sorting payment failure reports or KYC status inquiries.',
+  },
+  {
+    name: 'Mail / SMTP', category: 'Messaging', logo: 'https://logo.clearbit.com/mailgun.com',
+    tagline: 'Generic email channel via SMTP',
+    functions: ['Inbound email parsing', 'Outbound reply automation', 'Thread-aware conversations', 'HTML & plain-text responses', 'Attachment handling'],
+    description: 'Works with any email provider via standard SMTP/IMAP. Ideal for teams using custom or self-hosted mail servers who want agent automation without switching email infrastructure.',
+  },
+  {
+    name: 'Outlook', category: 'Messaging', logo: 'https://logo.clearbit.com/microsoft.com',
+    tagline: 'Microsoft 365 email & calendar',
+    functions: ['Read & respond to support emails', 'Calendar-based scheduling triggers', 'Teams escalation handoff', 'Shared mailbox support', 'Attachment & template handling'],
+    description: 'Connect supVision to your Microsoft 365 Outlook mailbox. The Support Agent monitors your shared support inbox, responds to routine queries, and escalates complex cases to the right person via Teams.',
+  },
+  {
+    name: 'Excel / Sheets', category: 'Reporting', logo: 'https://logo.clearbit.com/microsoft.com',
+    tagline: 'Export reports to Excel & Google Sheets',
+    functions: ['Automated resolution reports', 'Ticket volume & SLA exports', 'KYC audit trail exports', 'Escalation rate tracking', 'Custom date-range extracts'],
+    description: 'Schedule automatic exports of support metrics, resolution rates, and audit logs directly to Excel or Google Sheets. Share regulator-ready reports with your compliance team without manual data pulls.',
+  },
+  {
+    name: 'WhatsApp', category: 'Messaging', logo: 'https://logo.clearbit.com/whatsapp.com',
+    tagline: 'Customer support over WhatsApp Business',
+    functions: ['Real-time message handling', 'Rich media & document support', 'Template message automation', 'Multi-agent shared inbox', 'Read receipts & delivery status'],
+    description: 'Connect your WhatsApp Business account and let supVision handle KYC queries, payment failures, and transaction disputes over the channel your customers prefer most.',
+  },
+  {
+    name: 'Zendesk', category: 'Helpdesks', logo: 'https://logo.clearbit.com/zendesk.com',
+    tagline: 'AI layer on top of your Zendesk',
+    functions: ['Auto-resolve tickets before agents see them', 'Attach live data to every ticket', 'Trigger macros based on intent', 'Escalate with full context pre-filled', 'SLA-aware prioritisation'],
+    description: 'supVision sits on top of your existing Zendesk setup. It resolves tier-1 tickets automatically and — when escalation is needed — routes to the right agent with the full conversation history and live account data already attached.',
+  },
+  {
+    name: 'Intercom', category: 'Helpdesks', logo: 'https://logo.clearbit.com/intercom.com',
+    tagline: 'Automated conversations in Intercom',
+    functions: ['Auto-answer live chat queries', 'Pull CRM & account data in context', 'Trigger custom bots on keywords', 'Route to human inbox on escalation', 'CSAT & resolution tracking'],
+    description: 'Deploy supVision inside your Intercom workspace. The agent handles live chat queries autonomously, surfacing real-time data from your payment processor or core banking API before every reply.',
+  },
+  {
+    name: 'Freshdesk', category: 'Helpdesks', logo: 'https://logo.clearbit.com/freshdesk.com',
+    tagline: 'Smart ticket resolution in Freshdesk',
+    functions: ['Classify & tag tickets automatically', 'Auto-resolve KYC & payment tickets', 'Pre-fill agent notes on escalation', 'SLA breach prevention triggers', 'Agent collision prevention'],
+    description: 'supVision integrates with Freshdesk to classify, respond to, and close routine tickets without any agent involvement. Complex cases are escalated with full context pre-filled in the ticket.',
+  },
+  {
+    name: 'Salesforce Service', category: 'Helpdesks', logo: 'https://logo.clearbit.com/salesforce.com',
+    tagline: 'Enterprise ticket automation',
+    functions: ['Case auto-creation & classification', 'Einstein-compatible data layer', 'Escalation routing by skill & queue', 'Live account data in case sidebar', 'Full audit log per case'],
+    description: 'Integrate supVision with Salesforce Service Cloud to automate case handling at enterprise scale. Every automated action is written back to the case record for a complete audit trail.',
+  },
+  {
+    name: 'Twilio', category: 'Messaging', logo: 'https://logo.clearbit.com/twilio.com',
+    tagline: 'SMS & voice channel automation',
+    functions: ['Inbound SMS query handling', 'Outbound status notifications', 'Voice IVR integration', 'Two-factor verification flows', 'Multi-country number support'],
+    description: 'Use Twilio to reach customers over SMS or voice. supVision handles inbound text queries and sends proactive notifications — payment confirmations, KYC status updates — without human involvement.',
+  },
+  {
+    name: 'Mambu', category: 'Core banking', logo: 'https://logo.clearbit.com/mambu.com',
+    tagline: 'Live account & loan data from Mambu',
+    functions: ['Real-time balance lookups', 'Loan status & repayment data', 'Account tier & limit checks', 'Transaction history queries', 'Product eligibility checks'],
+    description: 'supVision queries Mambu APIs in real time before every customer response. Balance queries, loan status checks, and account tier lookups are answered with live data — not cached guesses.',
+  },
+  {
+    name: 'Thought Machine', category: 'Core banking', logo: 'https://logo.clearbit.com/thoughtmachine.net',
+    tagline: 'Core banking data via Vault',
+    functions: ['Vault API account reads', 'Smart contract state queries', 'Transaction event lookups', 'Product parameter checks', 'Ledger balance retrieval'],
+    description: 'Connect supVision to Thought Machine Vault to answer account and transaction queries using live ledger data. Smart contract state and product parameters are surfaced in every agent response.',
+  },
+  {
+    name: 'Temenos', category: 'Core banking', logo: 'https://logo.clearbit.com/temenos.com',
+    tagline: 'Enterprise core banking integration',
+    functions: ['Account & product data reads', 'Transaction history lookup', 'Card status & limit queries', 'Customer profile retrieval', 'Multi-entity support'],
+    description: 'Integrate with Temenos T24 or Transact to give the Support Agent access to live account, product, and transaction data across multiple banking entities.',
+  },
+  {
+    name: 'Finastra', category: 'Core banking', logo: 'https://logo.clearbit.com/finastra.com',
+    tagline: 'Fusion-powered banking data',
+    functions: ['FusionFabric API reads', 'Account & payment data retrieval', 'Customer profile access', 'Transaction dispute data', 'Multi-product coverage'],
+    description: 'supVision connects to Finastra FusionFabric APIs to retrieve live customer and account data, enabling accurate, real-time responses to banking queries.',
+  },
+  {
+    name: 'Sumsub', category: 'KYC providers', logo: 'https://logo.clearbit.com/sumsub.com',
+    tagline: 'KYC status & document checks',
+    functions: ['Verification status lookups', 'Document rejection reason retrieval', 'Re-submission flow triggers', 'Risk level & flags surfacing', 'Applicant timeline queries'],
+    description: 'supVision queries the Sumsub API to surface real-time KYC verification status, document rejection reasons, and risk flags — enabling the agent to guide customers through re-submission without a human.',
+  },
+  {
+    name: 'Jumio', category: 'KYC providers', logo: 'https://logo.clearbit.com/jumio.com',
+    tagline: 'Identity verification data in real time',
+    functions: ['Transaction status checks', 'Liveness result retrieval', 'Document quality feedback', 'Watchlist screening status', 'Escalation trigger on risk flags'],
+    description: 'Connect supVision to Jumio to answer questions about identity verification status, document quality issues, and liveness check results — resolved automatically, not manually.',
+  },
+  {
+    name: 'Onfido', category: 'KYC providers', logo: 'https://logo.clearbit.com/onfido.com',
+    tagline: 'Onfido verification workflow automation',
+    functions: ['Check status & result lookups', 'Report detail retrieval', 'SDK re-trigger flows', 'Adverse action reason surfacing', 'Breakdown by check type'],
+    description: 'supVision reads Onfido check results and surfaces specific failure reasons to the customer — telling them exactly which document failed and what to do next, automatically.',
+  },
+  {
+    name: 'Veriff', category: 'KYC providers', logo: 'https://logo.clearbit.com/veriff.com',
+    tagline: 'Veriff session & decision data',
+    functions: ['Session status queries', 'Decision reason lookups', 'Re-verification triggers', 'Fraud signal surfacing', 'Audit log access'],
+    description: 'Pull Veriff session decisions and decline reasons in real time. The Support Agent tells customers exactly why their verification failed and guides them through the retry process.',
+  },
+  {
+    name: 'Stripe', category: 'Payment processors', logo: 'https://logo.clearbit.com/stripe.com',
+    tagline: 'Full Stripe payment data access',
+    functions: ['Charge status & failure codes', 'Refund initiation & status', 'Dispute & chargeback filing', 'Subscription & invoice data', 'Payment method checks'],
+    description: 'supVision queries the Stripe API to diagnose payment failures, initiate refunds, and file disputes — all automatically. Customers get the exact failure reason and next steps in under 30 seconds.',
+  },
+  {
+    name: 'Adyen', category: 'Payment processors', logo: 'https://logo.clearbit.com/adyen.com',
+    tagline: 'Enterprise payment data from Adyen',
+    functions: ['Payment result lookups', 'Refund & reversal initiation', 'Chargeback case management', 'Shopper account data', 'Settlement & balance checks'],
+    description: 'Connect supVision to Adyen to handle payment failure queries, initiate refunds, and manage chargeback flows — with live data from the Adyen management API for every interaction.',
+  },
+  {
+    name: 'Nuvei', category: 'Payment processors', logo: 'https://logo.clearbit.com/nuvei.com',
+    tagline: 'Nuvei transaction & dispute data',
+    functions: ['Transaction status queries', 'Decline code lookup', 'Refund request automation', 'Alternative payment method data', 'Fraud flag retrieval'],
+    description: 'supVision integrates with Nuvei to surface transaction statuses, decline reasons, and refund eligibility — giving customers instant answers on payment failures.',
+  },
+  {
+    name: 'Ecommpay', category: 'Payment processors', logo: 'https://logo.clearbit.com/ecommpay.com',
+    tagline: 'Ecommpay payment query automation',
+    functions: ['Payment status lookups', 'Failure reason surfacing', 'Chargeback initiation', 'Settlement reports', 'Multi-currency support'],
+    description: 'Pull live payment data from Ecommpay to answer customer queries about declined transactions, refund timelines, and chargeback status — automatically, in any currency.',
+  },
+  {
+    name: 'HubSpot', category: 'CRM', logo: 'https://logo.clearbit.com/hubspot.com',
+    tagline: 'Customer data from HubSpot CRM',
+    functions: ['Contact & company profile reads', 'Deal & pipeline status', 'Open ticket history', 'Interaction timeline', 'Custom property lookups'],
+    description: 'supVision reads HubSpot contact and company records to personalise every response. The agent knows the customer\'s history, open tickets, and account tier before it says a word.',
+  },
+  {
+    name: 'Salesforce CRM', category: 'CRM', logo: 'https://logo.clearbit.com/salesforce.com',
+    tagline: 'Enterprise CRM data at agent level',
+    functions: ['Account & contact reads', 'Opportunity & case data', 'Entitlement & SLA checks', 'Activity timeline access', 'Custom object support'],
+    description: 'Connect supVision to Salesforce CRM to pull full account context before every response. Entitlements, case history, and custom objects are all surfaced to the agent in real time.',
+  },
+  {
+    name: 'Pipedrive', category: 'CRM', logo: 'https://logo.clearbit.com/pipedrive.com',
+    tagline: 'Deal & contact data from Pipedrive',
+    functions: ['Contact profile lookups', 'Deal stage & value data', 'Activity & note history', 'Pipeline status surfacing', 'Custom field access'],
+    description: 'Pull customer and deal data from Pipedrive to give the Support Agent full context on every interaction — stage, value, and open activities — without switching tools.',
+  },
+  {
+    name: 'Zoho CRM', category: 'CRM', logo: 'https://logo.clearbit.com/zoho.com',
+    tagline: 'Zoho customer data integration',
+    functions: ['Lead & contact reads', 'Module & custom view access', 'Case & ticket history', 'Workflow trigger support', 'Multi-org compatibility'],
+    description: 'Connect supVision to Zoho CRM to access full customer records, module data, and ticket history — personalising agent responses with live context from your CRM.',
+  },
 ]
 
-const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'Core banking', 'KYC providers', 'Payment processors', 'CRM']
+const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'Core banking', 'KYC providers', 'Payment processors', 'CRM', 'Reporting']
+
+const VISIBLE_LIMIT = 14
 
 function IntegrationFinder() {
   const [active, setActive] = useState('All')
+  const [selected, setSelected] = useState<Integration | null>(null)
+  const [showAll, setShowAll] = useState(false)
+
   const filtered = active === 'All' ? allIntegrations : allIntegrations.filter(i => i.category === active)
+  const showLimit = active === 'All' && !showAll
+  const visible = showLimit ? filtered.slice(0, VISIBLE_LIMIT) : filtered
+  const hidden = showLimit ? filtered.length - VISIBLE_LIMIT : 0
 
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#f5f4f0' }}>
@@ -122,9 +277,7 @@ function IntegrationFinder() {
             </span>{' '}
             in seconds
           </h2>
-          <p className="mt-4 text-base text-gray-500">
-            supVision connects to your existing stack. No migration required.
-          </p>
+          <p className="mt-4 text-base text-gray-500">supVision connects to your existing stack. No migration required.</p>
         </div>
 
         {/* Category filters */}
@@ -132,25 +285,24 @@ function IntegrationFinder() {
           {integrationCategories.map(cat => (
             <button
               key={cat}
-              onClick={() => setActive(cat)}
+              onClick={() => { setActive(cat); setShowAll(false) }}
               className="rounded-full border px-5 py-2 text-sm font-semibold transition-colors"
-              style={
-                active === cat
-                  ? { backgroundColor: '#214995', borderColor: '#214995', color: '#fff' }
-                  : { backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#374151' }
-              }
+              style={active === cat
+                ? { backgroundColor: '#214995', borderColor: '#214995', color: '#fff' }
+                : { backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#374151' }}
             >
               {cat}
             </button>
           ))}
         </div>
 
-        {/* Logo grid */}
-        <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-6">
-          {filtered.map(item => (
-            <div
+        {/* Grid — 5 per row */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          {visible.map(item => (
+            <button
               key={item.name}
-              className="flex flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-5 shadow-sm"
+              onClick={() => setSelected(item)}
+              className="flex flex-col items-start gap-3 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm text-left transition-shadow hover:shadow-md hover:border-gray-300"
             >
               <img
                 src={item.logo}
@@ -158,9 +310,33 @@ function IntegrationFinder() {
                 className="h-10 w-10 rounded-xl object-contain"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
               />
-              <span className="text-center text-xs font-semibold text-gray-700">{item.name}</span>
-            </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">{item.name}</p>
+                <p className="mt-0.5 text-xs text-gray-400">{item.tagline}</p>
+              </div>
+              <ul className="space-y-1">
+                {item.functions.slice(0, 3).map(fn => (
+                  <li key={fn} className="flex items-start gap-1.5 text-xs text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="mt-0.5 h-3 w-3 flex-shrink-0" style={{ color: '#214995' }}>
+                      <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                    </svg>
+                    {fn}
+                  </li>
+                ))}
+              </ul>
+            </button>
           ))}
+
+          {/* +N more card */}
+          {hidden > 0 && (
+            <button
+              onClick={() => setShowAll(true)}
+              className="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-300 bg-white p-5 text-center transition-colors hover:border-gray-400"
+            >
+              <span className="text-2xl font-black text-gray-900">+{hidden}</span>
+              <span className="text-xs font-semibold text-gray-400">more integrations</span>
+            </button>
+          )}
         </div>
 
         {/* Bottom CTA */}
@@ -176,8 +352,85 @@ function IntegrationFinder() {
             </svg>
           </Link>
         </div>
-
       </div>
+
+      {/* Modal */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="relative w-full max-w-lg rounded-3xl bg-white p-8 shadow-2xl"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button
+              onClick={() => setSelected(null)}
+              className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+              </svg>
+            </button>
+
+            {/* Header */}
+            <div className="flex items-center gap-4">
+              <img
+                src={selected.logo}
+                alt={selected.name}
+                className="h-14 w-14 rounded-2xl object-contain"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+              <div>
+                <p className="text-xl font-black text-gray-900">{selected.name}</p>
+                <span className="mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ backgroundColor: 'rgba(33,73,149,0.1)', color: '#214995' }}>
+                  {selected.category}
+                </span>
+              </div>
+            </div>
+
+            {/* Description */}
+            <p className="mt-5 text-sm leading-relaxed text-gray-600">{selected.description}</p>
+
+            {/* Functions */}
+            <div className="mt-5">
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">What you can automate</p>
+              <ul className="space-y-2">
+                {selected.functions.map(fn => (
+                  <li key={fn} className="flex items-start gap-2 text-sm text-gray-700">
+                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(33,73,149,0.1)' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3" style={{ color: '#214995' }}>
+                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    {fn}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* CTA */}
+            <div className="mt-6">
+              <Link
+                to="/contact"
+                onClick={() => setSelected(null)}
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
+                style={{ backgroundColor: '#111827' }}
+              >
+                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+                <span className="relative z-10">Set up this integration</span>
+                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
