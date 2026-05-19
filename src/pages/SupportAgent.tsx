@@ -252,7 +252,7 @@ const allIntegrations: Integration[] = [
 
 const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'Core banking', 'KYC providers', 'Payment processors', 'CRM', 'Reporting']
 
-const VISIBLE_LIMIT = 14
+const VISIBLE_LIMIT = 11
 
 function IntegrationFinder() {
   const [active, setActive] = useState('All')
@@ -297,24 +297,28 @@ function IntegrationFinder() {
         </div>
 
         {/* Grid — 5 per row */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {visible.map(item => (
             <button
               key={item.name}
               onClick={() => setSelected(item)}
-              className="flex flex-col items-start gap-3 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm text-left transition-shadow hover:shadow-md hover:border-gray-300"
+              className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm text-left transition-shadow hover:shadow-md hover:border-gray-300"
             >
-              <img
-                src={item.logo}
-                alt={item.name}
-                className="h-10 w-10 rounded-xl object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-              />
-              <div>
-                <p className="text-sm font-bold text-gray-900">{item.name}</p>
-                <p className="mt-0.5 text-xs text-gray-400">{item.tagline}</p>
+              {/* Logo + name row */}
+              <div className="flex items-center gap-3">
+                <img
+                  src={item.logo}
+                  alt={item.name}
+                  className="h-10 w-10 flex-shrink-0 rounded-xl object-contain"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+                <div>
+                  <p className="text-sm font-bold text-gray-900">{item.name}</p>
+                  <p className="text-xs text-gray-400">{item.tagline}</p>
+                </div>
               </div>
-              <ul className="space-y-1">
+              {/* Functions — full width */}
+              <ul className="w-full space-y-1.5">
                 {item.functions.slice(0, 3).map(fn => (
                   <li key={fn} className="flex items-start gap-1.5 text-xs text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="mt-0.5 h-3 w-3 flex-shrink-0" style={{ color: '#214995' }}>
