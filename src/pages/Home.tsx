@@ -351,33 +351,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why supVision */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
-            <h2 className="mt-5 text-4xl font-bold leading-snug text-gray-900">
-              Why fintech teams choose supVision over generic AI platforms?
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {whyItems.map((item) => (
-              <div key={item.num} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-10">
-                <span className="text-4xl font-black" style={{ color: '#214995' }}>{item.num}</span>
-                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Feature deep-dive header */}
       <section className="pt-24 pb-4 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl px-6 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
-          <h2 className="mt-4 text-4xl font-bold leading-snug text-gray-900">
-            Why fintech teams choose supVision over generic AI platforms?
+          <h2 className="mt-5 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal mx-auto max-w-3xl">
+            Why fintech teams choose <span className="font-bold">supVision</span> over <span className="font-bold">generic AI platforms?</span>
           </h2>
           <p className="mt-4 text-base text-gray-500">Built for regulated financial services from day one — not retrofitted from a SaaS tool.</p>
         </div>
@@ -639,16 +618,17 @@ const featureSections = [
     ],
   },
   {
-    label: 'Delegation',
-    title: 'Give each team their own workspace',
-    description: 'Workspaces let you delegate authority without losing oversight. Each team gets their own environment with inherited guardrails. They configure freely and you see everything — no more choosing between access and accountability.',
+    label: 'Integration',
+    title: 'Connects to your existing stack in days',
+    description: 'supVision runs on top of what you already use — no platform migration, no rip-and-replace. Connect your helpdesk, core banking system, KYC provider, and payment processor, and go live in 3 to 5 business days.',
     img: '/hero_images/Component 172.png',
     bgGradient: 'linear-gradient(135deg, #c8d8e8 0%, #8aaac8 50%, #607890 100%)',
     features: [
-      { title: 'Team Workspaces', description: 'Create dedicated environments for each support team with the right channels, escalation paths, and automation rules, so they build independently within IT-defined guardrails.' },
-      { title: 'Role-Based Access', description: 'Control who can view, configure, or manage supVision settings by assigning role-based permissions — viewer, operator, admin — across your organisation.' },
-      { title: 'Guided Playbooks', description: 'Start from approved response templates so every automation begins with the right structure, tone, and compliance safeguards built in from the start.' },
-      { title: 'SCIM Provisioning', description: 'Automate user access through your identity provider so permissions stay current as teams change, without manual updates or access drift.' },
+      { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud — supVision works inside your existing ticket workflow, not alongside it.' },
+      { title: 'Core Banking & KYC', description: 'Pull live account data, transaction status, and KYC verification results in real time from Sumsub, Jumio, Mambu, and more — before every response.' },
+      { title: 'Payment Processors', description: 'Connect to Stripe, Adyen, Nuvei, and Ecommpay so supVision can resolve payment failure and dispute queries with live data, not guesswork.' },
+      { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously — one supVision instance, every channel your customers use.' },
+      { title: 'Webhook & API', description: 'Integrate with any internal tool via REST API or webhooks. If it has an API, supVision can query it before responding to a customer.' },
     ],
   },
   {
@@ -728,12 +708,6 @@ const complianceFeatures = [
   'Role-based access control and SOC 2-aligned infrastructure',
 ]
 
-const whyItems = [
-  { num: '01', title: 'Fintech-native, not fintech-adapted', description: 'Intercom and Zendesk were built for SaaS and e-commerce. supVision was designed from day one for KYC workflows, transaction disputes, and regulated onboarding, without workarounds.', img: '/hero_images/Component 174 (1).png' },
-  { num: '02', title: 'Compliance is the product, not a checkbox', description: 'Every automated action is logged, traceable, and audit-ready. Escalation rules, confidence thresholds, and KYC decision trails built in, not bolted on after the fact.', img: '/benefits/Built for compliance from day one.png' },
-  { num: '03', title: 'Predictable cost. No per-ticket traps.', description: "Flat monthly pricing means your support costs don't spike when ticket volume grows. No $0.99-per-resolution surprises. No incentive for your vendor to keep issues open.", img: '/hero_images/Component 175.png' },
-  { num: '04', title: 'Live in days, not months', description: 'Works on top of your existing stack, no platform migration, no 6-month implementation project. Connect your tools, set your rules, go live. Your team stays in control.', img: '/hero_images/Component 172.png' },
-]
 
 const benefits = [
   {
