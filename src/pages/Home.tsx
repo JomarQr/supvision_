@@ -350,53 +350,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Compliance */}
-      <section
-        className="relative py-24 px-4 sm:px-6 lg:px-8"
-        style={{ backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+      {/* Why supVision */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-12 text-center">
+            <p className="text-2xl font-bold uppercase text-gray-900">Why supVision</p>
+            <h2 className="mt-4 text-3xl font-bold leading-snug text-gray-900 sm:text-4xl">
+              Why fintech teams choose supVision over generic AI platforms?
+            </h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {whyItems.map((item) => (
+              <div key={item.num} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-10 shadow-sm">
+                <span className="text-4xl font-black" style={{ color: '#214995' }}>{item.num}</span>
+                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Left, text */}
+      {/* Compliance & Security */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
+
+            {/* Left */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-white">Compliance & Security</p>
-              <h2 className="mt-4 text-3xl font-bold leading-snug text-white sm:text-4xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Compliance & Security</p>
+              <h2 className="mt-5 text-3xl font-bold leading-snug text-white sm:text-4xl">
                 Your compliance team will love us as much as your support team does.
               </h2>
               <p className="mt-6 text-base leading-relaxed text-gray-400">
-                Audit logs, escalation rules, traceable decisions, every action taken by supVision is logged, signed, and audit-ready out of the box. Built for regulated financial services from day one.
+                Audit logs, escalation rules, traceable decisions — every action taken by supVision is logged, signed, and audit-ready out of the box. Built for regulated financial services from day one.
               </p>
-
-              {/* Feature list */}
-              <ul className="mt-10 space-y-4">
+              <ul className="mt-10 space-y-5">
                 {complianceFeatures.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
+                  <li key={f} className="flex items-start gap-4">
+                    <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-white">
                         <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
                     </span>
-                    <span className="text-sm leading-relaxed text-gray-300">{f}</span>
+                    <span className="text-base leading-relaxed text-gray-300">{f}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Right, cert badges */}
+            {/* Right — badges */}
             <div className="flex flex-col items-center gap-8 rounded-2xl border border-white/10 bg-white/5 p-12">
-              <p className="text-sm font-semibold uppercase tracking-widest text-white">Certified & Compliant</p>
+              <p className="text-sm font-bold uppercase tracking-widest text-white">Certified & Compliant</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
                 <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-36 w-auto" />
                 <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-28 w-auto" />
               </div>
-              <p className="text-center text-sm leading-relaxed text-white">
+              <p className="text-center text-sm leading-relaxed text-gray-400">
                 Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance built into every interaction.
               </p>
               <Link
                 to="/contact"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
               >
                 <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
                 <span className="relative z-10 transition-colors duration-300">Request certificate confirmation</span>
@@ -409,32 +424,6 @@ export default function Home() {
             </div>
 
           </div>
-        </div>
-      </section>
-
-      {/* Why supVision */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Why supVision</p>
-            <h2 className="mt-3 text-3xl font-bold leading-snug text-gray-900 sm:text-4xl">
-              Why fintech teams choose supVision over generic AI platforms?
-            </h2>
-          </div>
-
-          {/* Items */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            {whyItems.map((item) => (
-              <div key={item.num} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-10 shadow-sm">
-                <span className="text-4xl font-black" style={{ color: '#214995' }}>{item.num}</span>
-                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
-              </div>
-            ))}
-          </div>
-
         </div>
       </section>
 
