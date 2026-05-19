@@ -376,9 +376,13 @@ export default function Home() {
                   style={{ minHeight: '480px' }}
                 >
                   <img
-                    src={sec.img}
+                    src={
+                      activeFeatures[si] >= 0 && sec.features[activeFeatures[si]]?.img
+                        ? sec.features[activeFeatures[si]].img!
+                        : sec.img
+                    }
                     alt={sec.title}
-                    className="h-full w-full object-cover object-top"
+                    className="h-full w-full object-cover object-top transition-all duration-300"
                     style={{ minHeight: '480px' }}
                     onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
                   />
@@ -601,19 +605,19 @@ function FAQ() {
 }
 
 
-const featureSections = [
+const featureSections: { label: string; title: string; description: string; img: string; bgGradient: string; features: { title: string; description: string; img?: string }[] }[] = [
   {
     label: 'Control',
     title: 'Define exactly how supVision responds',
     description: 'Most AI support tools give you a binary choice: automate or escalate. supVision goes deeper — confidence thresholds per query type, topic-level restrictions, and human approval flows for sensitive actions. The more precisely you control, the more confidently you can automate.',
-    img: '/hero_images/Component 174 (1).png',
+    img: '/control/Confidence Thresholds.png',
     bgGradient: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)',
     features: [
-      { title: 'Confidence Thresholds', description: 'Set per-topic confidence levels so supVision only automates when it is certain enough. Below threshold, it escalates with full context attached.' },
-      { title: 'Topic Restrictions', description: 'Define exactly which query types are handled by AI and which always route to a human agent — KYC rejections, disputes, high-value account changes.' },
-      { title: 'Escalation Rules', description: 'Build custom escalation logic based on query type, customer tier, account status, or regulatory category. Every rule is logged and auditable.' },
-      { title: 'Response Approval', description: 'Require human sign-off before supVision sends responses in high-risk categories, keeping your team in control without slowing down routine queries.' },
-      { title: 'Data Access Controls', description: 'Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope.' },
+      { title: 'Confidence Thresholds', description: 'Set per-topic confidence levels so supVision only automates when it is certain enough. Below threshold, it escalates with full context attached.', img: '/control/Confidence Thresholds.png' },
+      { title: 'Topic Restrictions', description: 'Define exactly which query types are handled by AI and which always route to a human agent — KYC rejections, disputes, high-value account changes.', img: '/control/Topic Restrictions.png' },
+      { title: 'Escalation Rules', description: 'Build custom escalation logic based on query type, customer tier, account status, or regulatory category. Every rule is logged and auditable.', img: '/control/Escalation Rules.png' },
+      { title: 'Response Approval', description: 'Require human sign-off before supVision sends responses in high-risk categories, keeping your team in control without slowing down routine queries.', img: '/control/Response Approval.png' },
+      { title: 'Data Access Controls', description: 'Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope.', img: '/control/Data Access Controls.png' },
     ],
   },
   {
