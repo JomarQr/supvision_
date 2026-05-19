@@ -211,7 +211,8 @@ export default function Home() {
                 <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
                   <div className="flex-1 flex flex-col">
                     <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
-                    <p className="text-base leading-relaxed text-white">{b.before}</p>
+                    <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
+                    <p className="mt-2 text-base leading-relaxed text-white/70">{b.before}</p>
                   </div>
                   <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
                     <img
@@ -632,6 +633,7 @@ const whyItems = [
 
 const benefits = [
   {
+    beforeTitle: 'Queues growing every day',
     before: 'Disputes and transaction failures pile up in queues, resolved manually over days.',
     beforeImg: '/benefits/Disputes and transaction failures.png',
     title: 'Automated workflows made easy',
@@ -639,6 +641,7 @@ const benefits = [
     afterImg: '/benefits/Resolve disputes and transaction.png',
   },
   {
+    beforeTitle: 'Compliance as an afterthought',
     before: 'Compliance is bolted on after the fact, costly audits, missed escalations, fragile KYC flows.',
     beforeImg: '/benefits/Compliance is bolted on after the fact.png',
     title: 'Tailored to a regulated industry',
@@ -646,7 +649,8 @@ const benefits = [
     afterImg: '/benefits/Built for compliance from day one.png',
   },
   {
-    before: 'Growing support demand means growing headcount and costs.',
+    beforeTitle: 'Scaling costs, shrinking margins',
+    before: 'Growing support demand means growing headcount and costs with no end in sight.',
     beforeImg: '/benefits/Growing support demand means.png',
     title: 'Reduce costs, improve quality',
     after: 'Teams using SupVision report 52% lower support costs and 98.4% resolution rate, tracked in real time on your dashboard.',
