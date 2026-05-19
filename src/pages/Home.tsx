@@ -124,33 +124,36 @@ export default function Home() {
             {valueProps.map((v) => (
               <div
                 key={v.headline}
-                className={[
-                  'flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm',
-                  v.robot ? 'overflow-visible relative z-10' : 'overflow-hidden',
-                ].join(' ')}
+                className="relative flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm"
+                style={{ overflow: v.robotOverlay ? 'visible' : 'hidden' }}
               >
-                {/* Image area */}
-                {v.robot ? (
-                  <div className="relative h-56 w-full" style={{ overflow: 'visible' }}>
-                    <img
-                      src={v.img}
-                      alt={v.imgAlt}
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 object-cover"
-                      style={{ width: 'calc(100% + 6rem)', height: '130%', maxWidth: 'none', left: '50%' }}
-                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                    />
-                  </div>
-                ) : (
-                  <div className="relative h-56 w-full overflow-hidden bg-gray-50 flex items-center justify-center">
-                    <span className="text-xs text-gray-300 select-none">Screenshot coming soon</span>
-                    <img
-                      src={v.img}
-                      alt={v.imgAlt}
-                      className="absolute inset-0 h-full w-full object-cover object-top"
-                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                    />
-                  </div>
+                {/* Robot overlay — floats outside card */}
+                {v.robotOverlay && (
+                  <img
+                    src={v.robotOverlay}
+                    alt=""
+                    className="pointer-events-none absolute z-20 w-44"
+                    style={v.robotSide === 'right'
+                      ? { right: '-3rem', bottom: '3.5rem' }
+                      : { left: '-3rem', bottom: '3.5rem' }
+                    }
+                  />
                 )}
+
+                {/* Image area — always clipped */}
+                <div
+                  className="relative h-56 w-full overflow-hidden bg-gray-50 flex items-center justify-center"
+                  style={{ borderRadius: '1rem 1rem 0 0' }}
+                >
+                  <span className="text-xs text-gray-300 select-none">Screenshot coming soon</span>
+                  <img
+                    src={v.img}
+                    alt={v.imgAlt}
+                    className="absolute inset-0 h-full w-full object-cover object-top"
+                    onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                  />
+                </div>
+
                 {/* Text */}
                 <div className="p-8">
                   <p className="text-6xl font-black leading-none" style={{ color: '#214995' }}>{v.stat}</p>
@@ -605,6 +608,8 @@ const valueProps = [
     img: '/hero_images/Component 174.png',
     imgAlt: 'Live chat with instant AI response',
     robot: false,
+    robotOverlay: '/robot/robot_flying.png',
+    robotSide: 'right' as const,
   },
   {
     stat: '3 days',
@@ -613,6 +618,8 @@ const valueProps = [
     img: '/hero_images/Component 172.png',
     imgAlt: 'Onboarding and integration setup flow',
     robot: false,
+    robotOverlay: '/robot/robot_on_hand.png',
+    robotSide: 'left' as const,
   },
   {
     stat: '80%',
