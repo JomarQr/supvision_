@@ -115,12 +115,12 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6">
 
           {/* Questions — one flowing block of text */}
-          <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl lg:text-5xl">
+          <h2 className="text-center text-3xl font-bold leading-snug text-gray-900 sm:text-4xl lg:text-5xl">
             Is your fintech support team drowning in KYC queries? Are you hiring more agents just to keep up?
           </h2>
 
           {/* Description */}
-          <p className="mt-8 text-base leading-relaxed text-gray-500 max-w-4xl">
+          <p className="mt-8 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
             SupVision handles KYC queries, disputes, and transaction issues 24/7 — built for regulated financial services. Our AI agents pull live data from your core banking system, KYC provider, and payment processor before every response. No scripted replies. Real answers, in seconds, without a human in the loop.
           </p>
 
