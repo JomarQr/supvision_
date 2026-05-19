@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const [activeT, setActiveT] = useState(0)
-  const [activeWhy, setActiveWhy] = useState(0)
   const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
 
   useEffect(() => {
@@ -355,118 +354,83 @@ export default function Home() {
       {/* Why supVision */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
-
-            {/* Left */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
-              <h2 className="mt-5 text-4xl font-bold leading-snug text-gray-900">
-                Why fintech teams choose supVision over generic AI platforms?
-              </h2>
-              <p className="mt-5 text-base leading-relaxed text-gray-500">
-                Most AI support tools are built for SaaS. supVision is built for fintech — with compliance, KYC, and regulated workflows built in from day one.
-              </p>
-
-              <div className="mt-10">
-                <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                <div className="divide-y divide-gray-200 border-t border-gray-200">
-                  {whyItems.map((item, i) => (
-                    <div key={item.num}>
-                      <button
-                        onClick={() => setActiveWhy(i === activeWhy ? -1 : i)}
-                        className="flex w-full items-center justify-between py-5 text-left"
-                      >
-                        <span className={`text-base font-semibold transition-colors ${i === activeWhy ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
-                          {item.title}
-                        </span>
-                        <span className="ml-4 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 text-lg leading-none">
-                          {i === activeWhy ? '−' : '+'}
-                        </span>
-                      </button>
-                      {i === activeWhy && (
-                        <p className="pb-5 text-sm leading-relaxed text-gray-500">{item.description}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
+          <div className="mb-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
+            <h2 className="mt-5 text-4xl font-bold leading-snug text-gray-900">
+              Why fintech teams choose supVision over generic AI platforms?
+            </h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {whyItems.map((item) => (
+              <div key={item.num} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-gray-50 p-10">
+                <span className="text-4xl font-black" style={{ color: '#214995' }}>{item.num}</span>
+                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
               </div>
-            </div>
-
-            {/* Right — product image panel */}
-            <div
-              className="sticky top-28 overflow-hidden rounded-2xl"
-              style={{ minHeight: '480px', background: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)' }}
-            >
-              <div className="absolute inset-5 overflow-hidden rounded-xl bg-white shadow-2xl">
-                <img
-                  src={whyItems[Math.max(0, activeWhy)].img}
-                  alt={whyItems[Math.max(0, activeWhy)].title}
-                  className="h-full w-full object-cover object-top transition-all duration-500"
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Feature deep-dive blocks */}
-      {featureSections.map((sec, si) => (
-        <section key={sec.label} className={`py-24 px-4 sm:px-6 lg:px-8 ${si % 2 === 1 ? 'bg-gray-50' : 'bg-white'}`}>
-          <div className="mx-auto max-w-7xl px-6">
-            <div className={`grid gap-16 lg:grid-cols-2 lg:items-start ${si % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+      {/* Feature deep-dive blocks — 3 blocks, image wider, no sticky */}
+      {featureSections.map((sec, si) => {
+        const imageLeft = si === 1
+        return (
+          <section key={sec.label} className={`py-24 px-4 sm:px-6 lg:px-8 ${si % 2 === 1 ? 'bg-gray-50' : 'bg-white'}`}>
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
 
-              {/* Left: text + accordion */}
-              <div className={si % 2 === 1 ? 'lg:col-start-2' : ''}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{sec.label}</p>
-                <h2 className="mt-5 text-4xl font-bold leading-snug text-gray-900">{sec.title}</h2>
-                <p className="mt-5 text-base leading-relaxed text-gray-500">{sec.description}</p>
-
-                <div className="mt-10">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                  <div className="divide-y divide-gray-200 border-t border-gray-200">
-                    {sec.features.map((f, fi) => (
-                      <div key={f.title}>
-                        <button
-                          onClick={() => setActiveFeatures(prev => ({ ...prev, [si]: fi === prev[si] ? -1 : fi }))}
-                          className="flex w-full items-center justify-between py-5 text-left"
-                        >
-                          <span className={`text-base font-semibold transition-colors ${fi === activeFeatures[si] ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
-                            {f.title}
-                          </span>
-                          <span className="ml-4 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 text-lg leading-none">
-                            {fi === activeFeatures[si] ? '−' : '+'}
-                          </span>
-                        </button>
-                        {fi === activeFeatures[si] && (
-                          <p className="pb-5 text-sm leading-relaxed text-gray-500">{f.description}</p>
-                        )}
-                      </div>
-                    ))}
+                {/* Image — wider (60%), order changes for block 2 */}
+                <div
+                  className={`relative overflow-hidden rounded-2xl lg:w-[60%] ${imageLeft ? 'lg:order-first' : 'lg:order-last'}`}
+                  style={{ minHeight: '480px', background: sec.bgGradient }}
+                >
+                  <div className="absolute inset-5 overflow-hidden rounded-xl bg-white shadow-2xl">
+                    <img
+                      src={sec.img}
+                      alt={sec.title}
+                      className="h-full w-full object-cover object-top"
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Right: static image */}
-              <div
-                className={`sticky top-28 overflow-hidden rounded-2xl ${si % 2 === 1 ? 'lg:col-start-1' : ''}`}
-                style={{ minHeight: '480px', background: sec.bgGradient }}
-              >
-                <div className="absolute inset-5 overflow-hidden rounded-xl bg-white shadow-2xl">
-                  <img
-                    src={sec.img}
-                    alt={sec.title}
-                    className="h-full w-full object-cover object-top"
-                    onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                  />
+                {/* Text + accordion — narrower (40%) */}
+                <div className="lg:w-[40%] lg:flex-shrink-0">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{sec.label}</p>
+                  <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{sec.title}</h2>
+                  <p className="mt-5 text-sm leading-relaxed text-gray-500">{sec.description}</p>
+
+                  <div className="mt-10">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                    <div className="divide-y divide-gray-200 border-t border-gray-200">
+                      {sec.features.map((f, fi) => (
+                        <div key={f.title}>
+                          <button
+                            onClick={() => setActiveFeatures(prev => ({ ...prev, [si]: fi === prev[si] ? -1 : fi }))}
+                            className="flex w-full items-center justify-between py-4 text-left"
+                          >
+                            <span className={`text-sm font-semibold transition-colors ${fi === activeFeatures[si] ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
+                              {f.title}
+                            </span>
+                            <span className="ml-4 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 text-base leading-none">
+                              {fi === activeFeatures[si] ? '−' : '+'}
+                            </span>
+                          </button>
+                          {fi === activeFeatures[si] && (
+                            <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.description}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
 
+              </div>
             </div>
-          </div>
-        </section>
-      ))}
+          </section>
+        )
+      })}
 
       {/* Compliance & Security */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
