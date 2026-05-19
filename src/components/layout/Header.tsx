@@ -173,9 +173,9 @@ export default function Header() {
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
             <img
-              src="/logo/logo_website_white.png"
+              src="/logo/Component 177 (1).png"
               alt="Logo"
-              className={['h-10 w-auto transition-all duration-300', isLight ? 'brightness-0' : 'group-hover:brightness-0'].join(' ')}
+              className="h-10 w-auto transition-all duration-300"
             />
           </NavLink>
 
