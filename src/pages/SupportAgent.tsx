@@ -75,68 +75,112 @@ const useCases = [
   },
 ]
 
-const integrations = [
-  {
-    category: 'Helpdesks',
-    tools: [
-      { name: 'Zendesk', color: '#03363D', text: '#fff' },
-      { name: 'Intercom', color: '#1F8DED', text: '#fff' },
-      { name: 'Freshdesk', color: '#F5682F', text: '#fff' },
-      { name: 'Salesforce', color: '#00A1E0', text: '#fff' },
-    ],
-    functions: ['Auto ticket creation', 'Conversation routing', 'SLA tracking', 'Seamless agent handoff'],
-  },
-  {
-    category: 'Messaging channels',
-    tools: [
-      { name: 'WhatsApp', color: '#25D366', text: '#fff' },
-      { name: 'Telegram', color: '#26A5E4', text: '#fff' },
-      { name: 'Email', color: '#374151', text: '#fff' },
-      { name: 'Live chat', color: '#6366f1', text: '#fff' },
-    ],
-    functions: ['Unified multi-channel inbox', 'Real-time message delivery', 'File & image attachments', 'Read receipts & status'],
-  },
-  {
-    category: 'Core banking',
-    tools: [
-      { name: 'Mambu', color: '#7C3AED', text: '#fff' },
-      { name: 'Thought Machine', color: '#0F172A', text: '#fff' },
-      { name: 'Temenos', color: '#E11D48', text: '#fff' },
-      { name: 'Custom API', color: '#059669', text: '#fff' },
-    ],
-    functions: ['Live balance & transaction data', 'Card status & limits', 'Account KYC state', 'Real-time account actions'],
-  },
-  {
-    category: 'KYC providers',
-    tools: [
-      { name: 'Sumsub', color: '#FF6B00', text: '#fff' },
-      { name: 'Jumio', color: '#5B21B6', text: '#fff' },
-      { name: 'Onfido', color: '#3D49FB', text: '#fff' },
-      { name: 'Veriff', color: '#00B67A', text: '#fff' },
-    ],
-    functions: ['Verification status checks', 'Document review results', 'Risk signal retrieval', 'Re-submission flow triggers'],
-  },
-  {
-    category: 'Payment processors',
-    tools: [
-      { name: 'Stripe', color: '#635BFF', text: '#fff' },
-      { name: 'Nuvei', color: '#C2410C', text: '#fff' },
-      { name: 'Ecommpay', color: '#1D4ED8', text: '#fff' },
-      { name: 'Adyen', color: '#0ABF53', text: '#fff' },
-    ],
-    functions: ['Decline reason lookup', 'Refund initiation', 'Dispute & chargeback filing', 'Settlement status checks'],
-  },
-  {
-    category: 'CRM',
-    tools: [
-      { name: 'Salesforce', color: '#00A1E0', text: '#fff' },
-      { name: 'HubSpot', color: '#FF7A59', text: '#fff' },
-      { name: 'Pipedrive', color: '#00A76F', text: '#fff' },
-      { name: 'Custom API', color: '#374151', text: '#fff' },
-    ],
-    functions: ['Full customer history', 'Segment & tier data', 'Open issue tracking', 'Account notes & tags'],
-  },
+
+const allIntegrations = [
+  { name: 'Zendesk',          category: 'Helpdesks',          logo: 'https://logo.clearbit.com/zendesk.com' },
+  { name: 'Intercom',         category: 'Helpdesks',          logo: 'https://logo.clearbit.com/intercom.com' },
+  { name: 'Freshdesk',        category: 'Helpdesks',          logo: 'https://logo.clearbit.com/freshdesk.com' },
+  { name: 'Salesforce',       category: 'Helpdesks',          logo: 'https://logo.clearbit.com/salesforce.com' },
+  { name: 'WhatsApp',         category: 'Messaging',          logo: 'https://logo.clearbit.com/whatsapp.com' },
+  { name: 'Telegram',         category: 'Messaging',          logo: 'https://logo.clearbit.com/telegram.org' },
+  { name: 'Gmail',            category: 'Messaging',          logo: 'https://logo.clearbit.com/gmail.com' },
+  { name: 'Twilio',           category: 'Messaging',          logo: 'https://logo.clearbit.com/twilio.com' },
+  { name: 'Mambu',            category: 'Core banking',       logo: 'https://logo.clearbit.com/mambu.com' },
+  { name: 'Thought Machine',  category: 'Core banking',       logo: 'https://logo.clearbit.com/thoughtmachine.net' },
+  { name: 'Temenos',          category: 'Core banking',       logo: 'https://logo.clearbit.com/temenos.com' },
+  { name: 'Finastra',         category: 'Core banking',       logo: 'https://logo.clearbit.com/finastra.com' },
+  { name: 'Sumsub',           category: 'KYC providers',      logo: 'https://logo.clearbit.com/sumsub.com' },
+  { name: 'Jumio',            category: 'KYC providers',      logo: 'https://logo.clearbit.com/jumio.com' },
+  { name: 'Onfido',           category: 'KYC providers',      logo: 'https://logo.clearbit.com/onfido.com' },
+  { name: 'Veriff',           category: 'KYC providers',      logo: 'https://logo.clearbit.com/veriff.com' },
+  { name: 'Stripe',           category: 'Payment processors', logo: 'https://logo.clearbit.com/stripe.com' },
+  { name: 'Adyen',            category: 'Payment processors', logo: 'https://logo.clearbit.com/adyen.com' },
+  { name: 'Nuvei',            category: 'Payment processors', logo: 'https://logo.clearbit.com/nuvei.com' },
+  { name: 'Ecommpay',         category: 'Payment processors', logo: 'https://logo.clearbit.com/ecommpay.com' },
+  { name: 'HubSpot',          category: 'CRM',                logo: 'https://logo.clearbit.com/hubspot.com' },
+  { name: 'Salesforce CRM',   category: 'CRM',                logo: 'https://logo.clearbit.com/salesforce.com' },
+  { name: 'Pipedrive',        category: 'CRM',                logo: 'https://logo.clearbit.com/pipedrive.com' },
+  { name: 'Zoho',             category: 'CRM',                logo: 'https://logo.clearbit.com/zoho.com' },
 ]
+
+const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'Core banking', 'KYC providers', 'Payment processors', 'CRM']
+
+function IntegrationFinder() {
+  const [active, setActive] = useState('All')
+  const filtered = active === 'All' ? allIntegrations : allIntegrations.filter(i => i.category === active)
+
+  return (
+    <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#f5f4f0' }}>
+      <div className="mx-auto max-w-7xl px-6">
+
+        {/* Heading */}
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
+            Find your{' '}
+            <span className="rounded-xl px-3 py-1" style={{ backgroundColor: 'rgba(33,73,149,0.12)', color: '#214995' }}>
+              integration
+            </span>{' '}
+            in seconds
+          </h2>
+          <p className="mt-4 text-base text-gray-500">
+            supVision connects to your existing stack. No migration required.
+          </p>
+        </div>
+
+        {/* Category filters */}
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
+          {integrationCategories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActive(cat)}
+              className="rounded-full border px-5 py-2 text-sm font-semibold transition-colors"
+              style={
+                active === cat
+                  ? { backgroundColor: '#214995', borderColor: '#214995', color: '#fff' }
+                  : { backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#374151' }
+              }
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Logo grid */}
+        <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+          {filtered.map(item => (
+            <div
+              key={item.name}
+              className="flex flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-5 shadow-sm"
+            >
+              <img
+                src={item.logo}
+                alt={item.name}
+                className="h-10 w-10 rounded-xl object-contain"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+              <span className="text-center text-xs font-semibold text-gray-700">{item.name}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-10 flex items-center justify-center gap-3">
+          <p className="text-sm text-gray-500">Can't find your tool? Let's chat about a custom integration</p>
+          <Link
+            to="/contact"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white"
+            style={{ backgroundColor: '#214995' }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+            </svg>
+          </Link>
+        </div>
+
+      </div>
+    </section>
+  )
+}
 
 const agentFaqItems = [
   {
@@ -432,46 +476,7 @@ export default function SupportAgent() {
         </div>
       </section>
 
-      {/* Integrations */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#214995' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-white">Integrations</p>
-            <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Works on top of your existing stack. No migration required.</p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {integrations.map((group) => (
-              <div key={group.category} className="flex flex-col gap-4 rounded-2xl bg-white p-6">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{group.category}</p>
-                {/* Logo pills */}
-                <div className="flex flex-wrap gap-2">
-                  {group.tools.map((tool) => (
-                    <span
-                      key={tool.name}
-                      className="rounded-full px-3 py-1 text-xs font-semibold"
-                      style={{ backgroundColor: tool.color, color: tool.text }}
-                    >
-                      {tool.name}
-                    </span>
-                  ))}
-                </div>
-                {/* Function list */}
-                <ul className="space-y-1.5">
-                  {group.functions.map((fn) => (
-                    <li key={fn} className="flex items-start gap-2 text-xs text-gray-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="mt-0.5 h-3 w-3 flex-shrink-0 text-gray-400">
-                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
-                      </svg>
-                      {fn}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <IntegrationFinder />
 
       {/* Compliance strip */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
