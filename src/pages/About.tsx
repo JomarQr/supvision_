@@ -53,19 +53,17 @@ export default function About() {
 
       {/* Hero */}
       <section className="px-4 pt-16 pb-24 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">
-              <span className="flex h-2 w-2 rounded-full bg-green-400" />
-              About supVision
-            </div>
-            <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              We've been on your side of the queue.
-            </h1>
-            <p className="mt-6 text-xl leading-relaxed text-gray-500">
-              supVision was built by fintech operators who lived the support problem for a decade before deciding to solve it.
-            </p>
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">
+            <span className="flex h-2 w-2 rounded-full bg-green-400" />
+            About us
           </div>
+          <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
+            Let's grow together!
+          </h1>
+          <p className="mt-6 text-xl leading-relaxed text-gray-500 mx-auto max-w-3xl">
+            We believe in financial freedom and accessibility for all, the free flow of value and opportunity across the globe, and pushing the boundaries of what's possible in payments.
+          </p>
         </div>
       </section>
 
