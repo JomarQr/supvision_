@@ -122,17 +122,35 @@ export default function Home() {
           {/* Cards — 2 per row */}
           <div className="mt-16 grid gap-6 sm:grid-cols-2">
             {valueProps.map((v) => (
-              <div key={v.headline} className="flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+              <div
+                key={v.headline}
+                className={[
+                  'flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm',
+                  v.robot ? 'overflow-visible relative z-10' : 'overflow-hidden',
+                ].join(' ')}
+              >
                 {/* Image area */}
-                <div className="relative h-52 w-full overflow-hidden bg-gray-50 flex items-center justify-center">
-                  <span className="text-xs text-gray-300 select-none">Screenshot coming soon</span>
-                  <img
-                    src={v.img}
-                    alt={v.imgAlt}
-                    className="absolute inset-0 h-full w-full object-cover object-top"
-                    onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                  />
-                </div>
+                {v.robot ? (
+                  <div className="relative h-56 w-full" style={{ overflow: 'visible' }}>
+                    <img
+                      src={v.img}
+                      alt={v.imgAlt}
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full object-contain"
+                      style={{ width: '120%', maxWidth: 'none' }}
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                    />
+                  </div>
+                ) : (
+                  <div className="relative h-56 w-full overflow-hidden bg-gray-50 flex items-center justify-center">
+                    <span className="text-xs text-gray-300 select-none">Screenshot coming soon</span>
+                    <img
+                      src={v.img}
+                      alt={v.imgAlt}
+                      className="absolute inset-0 h-full w-full object-cover object-top"
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                    />
+                  </div>
+                )}
                 {/* Text */}
                 <div className="p-8">
                   <p className="text-6xl font-black leading-none" style={{ color: '#214995' }}>{v.stat}</p>
@@ -576,28 +594,32 @@ const valueProps = [
     stat: '64%',
     headline: 'Cut support costs. Without hiring more agents.',
     body: 'SupVision deploys AI agents that resolve KYC queries, disputes, and transaction issues in seconds, at the scale your fintech demands.',
-    img: '/screenshots/analytics-dashboard.png',
+    img: '/hero_images/analytics-dashboard.png',
     imgAlt: 'Analytics dashboard showing cost reduction',
+    robot: false,
   },
   {
     stat: '1.2s',
     headline: 'From 1.2s response time to zero backlog.',
     body: 'SupVision gives fintech companies AI-powered customer support that\'s fast, compliant, and built to scale without growing your team.',
-    img: '/screenshots/live-chat-response.png',
+    img: '/hero_images/live-chat-response.png',
     imgAlt: 'Live chat with instant AI response',
-  },
-  {
-    stat: '80%',
-    headline: 'Tier-1 tickets resolved. No human required.',
-    body: 'KYC status checks, payment failures, onboarding questions — SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
-    img: '/screenshots/ticket-list-resolved.png',
-    imgAlt: 'Ticket list with auto-resolved statuses',
+    robot: true,
   },
   {
     stat: '3 days',
     headline: 'Live in 3 days. Not 6 months.',
     body: 'No platform migration, no lengthy implementation. SupVision connects to your existing helpdesk, KYC provider, and payment processor in days — then you\'re live.',
-    img: '/screenshots/onboarding-setup.png',
+    img: '/hero_images/onboarding-setup.png',
     imgAlt: 'Onboarding and integration setup flow',
+    robot: true,
+  },
+  {
+    stat: '80%',
+    headline: 'Tier-1 tickets resolved. No human required.',
+    body: 'KYC status checks, payment failures, onboarding questions — SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
+    img: '/hero_images/ticket-list-resolved.png',
+    imgAlt: 'Ticket list with auto-resolved statuses',
+    robot: false,
   },
 ]
