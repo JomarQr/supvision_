@@ -135,7 +135,7 @@ export default function Home() {
                     className="pointer-events-none absolute z-20"
                     style={v.robotSide === 'right'
                       ? { width: '13rem', right: '-5rem', bottom: '3.5rem' }
-                      : { width: '22rem', left: '-6rem', bottom: '6rem' }
+                      : { width: '18rem', left: '-7.5rem', bottom: '7.5rem' }
                     }
                   />
                 )}
