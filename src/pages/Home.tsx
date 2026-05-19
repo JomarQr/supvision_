@@ -372,6 +372,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Feature deep-dive header */}
+      <section className="pt-24 pb-4 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="mx-auto max-w-7xl px-6">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
+          <h2 className="mt-4 text-4xl font-bold leading-snug text-gray-900">
+            Why fintech teams choose supVision over generic AI platforms?
+          </h2>
+          <p className="mt-4 text-base text-gray-500">Built for regulated financial services from day one — not retrofitted from a SaaS tool.</p>
+        </div>
+      </section>
+
       {/* Feature deep-dive blocks — 3 blocks, image wider, no sticky */}
       {featureSections.map((sec, si) => {
         const imageLeft = si === 1
