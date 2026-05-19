@@ -147,13 +147,13 @@ const allIntegrations: Integration[] = [
     description: 'Integrate supVision with Salesforce Service Cloud to automate case handling at enterprise scale. Every automated action is written back to the case record for a complete audit trail.',
   },
   {
-    name: 'Twilio', category: 'Messaging', logo: 'https://logo.clearbit.com/twilio.com',
+    name: 'Twilio', category: 'Messaging', logo: '/logos/twillio.png',
     tagline: 'SMS & voice channel automation',
     functions: ['Inbound SMS query handling', 'Outbound status notifications', 'Voice IVR integration', 'Two-factor verification flows', 'Multi-country number support'],
     description: 'Use Twilio to reach customers over SMS or voice. supVision handles inbound text queries and sends proactive notifications — payment confirmations, KYC status updates — without human involvement.',
   },
   {
-    name: 'Mambu', category: 'Core banking', logo: 'https://logo.clearbit.com/mambu.com',
+    name: 'Mambu', category: 'Core banking', logo: '/logos/mambu.png',
     tagline: 'Live account & loan data from Mambu',
     functions: ['Real-time balance lookups', 'Loan status & repayment data', 'Account tier & limit checks', 'Transaction history queries', 'Product eligibility checks'],
     description: 'supVision queries Mambu APIs in real time before every customer response. Balance queries, loan status checks, and account tier lookups are answered with live data — not cached guesses.',
@@ -225,7 +225,7 @@ const allIntegrations: Integration[] = [
     description: 'Pull live payment data from Ecommpay to answer customer queries about declined transactions, refund timelines, and chargeback status — automatically, in any currency.',
   },
   {
-    name: 'HubSpot', category: 'CRM', logo: 'https://logo.clearbit.com/hubspot.com',
+    name: 'HubSpot', category: 'CRM', logo: '/logos/hubspot.png',
     tagline: 'Customer data from HubSpot CRM',
     functions: ['Contact & company profile reads', 'Deal & pipeline status', 'Open ticket history', 'Interaction timeline', 'Custom property lookups'],
     description: 'supVision reads HubSpot contact and company records to personalise every response. The agent knows the customer\'s history, open tickets, and account tier before it says a word.',
@@ -237,13 +237,13 @@ const allIntegrations: Integration[] = [
     description: 'Connect supVision to Salesforce CRM to pull full account context before every response. Entitlements, case history, and custom objects are all surfaced to the agent in real time.',
   },
   {
-    name: 'Pipedrive', category: 'CRM', logo: 'https://logo.clearbit.com/pipedrive.com',
+    name: 'Pipedrive', category: 'CRM', logo: '/logos/Pipedrive.png',
     tagline: 'Deal & contact data from Pipedrive',
     functions: ['Contact profile lookups', 'Deal stage & value data', 'Activity & note history', 'Pipeline status surfacing', 'Custom field access'],
     description: 'Pull customer and deal data from Pipedrive to give the Support Agent full context on every interaction — stage, value, and open activities — without switching tools.',
   },
   {
-    name: 'Zoho CRM', category: 'CRM', logo: 'https://logo.clearbit.com/zoho.com',
+    name: 'Zoho CRM', category: 'CRM', logo: '/logos/zoro.png',
     tagline: 'Zoho customer data integration',
     functions: ['Lead & contact reads', 'Module & custom view access', 'Case & ticket history', 'Workflow trigger support', 'Multi-org compatibility'],
     description: 'Connect supVision to Zoho CRM to access full customer records, module data, and ticket history — personalising agent responses with live context from your CRM.',
@@ -366,7 +366,8 @@ function IntegrationFinder() {
           onClick={() => setSelected(null)}
         >
           <div
-            className="relative w-full max-w-lg rounded-3xl bg-white p-8 shadow-2xl"
+            className="relative w-full max-w-2xl rounded-3xl bg-white p-10 shadow-2xl"
+            style={{ maxHeight: '85vh', overflowY: 'auto' }}
             onClick={e => e.stopPropagation()}
           >
             {/* Close */}
