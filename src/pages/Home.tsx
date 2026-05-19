@@ -372,17 +372,16 @@ export default function Home() {
 
                 {/* Image — wider (60%), order changes for block 2 */}
                 <div
-                  className={`relative overflow-hidden rounded-2xl lg:w-[60%] ${imageLeft ? 'lg:order-first' : 'lg:order-last'}`}
-                  style={{ minHeight: '480px', background: sec.bgGradient }}
+                  className={`overflow-hidden rounded-2xl lg:w-[60%] ${imageLeft ? 'lg:order-first' : 'lg:order-last'}`}
+                  style={{ minHeight: '480px' }}
                 >
-                  <div className="absolute inset-5 overflow-hidden rounded-xl bg-white shadow-2xl">
-                    <img
-                      src={sec.img}
-                      alt={sec.title}
-                      className="h-full w-full object-cover object-top"
-                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                    />
-                  </div>
+                  <img
+                    src={sec.img}
+                    alt={sec.title}
+                    className="h-full w-full object-cover object-top"
+                    style={{ minHeight: '480px' }}
+                    onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                  />
                 </div>
 
                 {/* Text + accordion — narrower (40%) */}
