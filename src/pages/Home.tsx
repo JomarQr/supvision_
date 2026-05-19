@@ -213,7 +213,7 @@ export default function Home() {
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
                     <p className="text-sm leading-relaxed text-white">{b.before}</p>
                   </div>
-                  <div className="w-28 flex-shrink-0 overflow-hidden rounded-xl" style={{ height: '90px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                  <div className="w-44 flex-shrink-0 overflow-hidden rounded-xl" style={{ height: '140px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
                     <img
                       src={b.beforeImg}
                       alt="Before"
@@ -229,7 +229,7 @@ export default function Home() {
                     <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-gray-500">{b.after}</p>
                   </div>
-                  <div className="w-28 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ height: '90px' }}>
+                  <div className="w-44 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ height: '140px' }}>
                     <img
                       src={b.afterImg}
                       alt={b.title}
