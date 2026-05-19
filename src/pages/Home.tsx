@@ -633,24 +633,24 @@ const whyItems = [
 const benefits = [
   {
     before: 'Disputes and transaction failures pile up in queues, resolved manually over days.',
-    beforeImg: '/Component 176.png',
+    beforeImg: '/benefits/Disputes and transaction failures.png',
     title: 'Automated workflows made easy',
     after: 'Resolve disputes and transaction failures in real time, median resolution under 2 minutes, zero manual steps.',
-    afterImg: '/hero_images/ticket-list-resolved.png',
+    afterImg: '/benefits/Resolve disputes and transaction.png',
   },
   {
     before: 'Compliance is bolted on after the fact, costly audits, missed escalations, fragile KYC flows.',
-    beforeImg: '/benefits/before-compliance.png',
+    beforeImg: '/benefits/Compliance is bolted on after the fact.png',
     title: 'Tailored to a regulated industry',
     after: 'Built for compliance from day one: audit logs, escalation rules, and KYC workflows that meet financial regulations out of the box.',
-    afterImg: '/hero_images/analytics-dashboard.png',
+    afterImg: '/benefits/Built for compliance from day one.png',
   },
   {
     before: 'Growing support demand means growing headcount and costs.',
-    beforeImg: '/benefits/before-costs.png',
+    beforeImg: '/benefits/Growing support demand means.png',
     title: 'Reduce costs, improve quality',
     after: 'Teams using SupVision report 52% lower support costs and 98.4% resolution rate, tracked in real time on your dashboard.',
-    afterImg: '/hero_images/analytics-dashboard.png',
+    afterImg: '/benefits/Reduce costs, improve quality.png',
   },
 ]
 
