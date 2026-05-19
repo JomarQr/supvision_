@@ -114,34 +114,15 @@ export default function Home() {
       <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Questions — full width, editorial style */}
-          <div className="border-t border-gray-200">
-            {[
-              'Is your fintech support team drowning in KYC queries and disputes?',
-              'Are payment failures and transaction issues piling up with no resolution in sight?',
-              'Are you hiring more support agents just to keep up with ticket volume?',
-            ].map((q, i) => (
-              <div key={i} className="flex items-center justify-between gap-6 border-b border-gray-200 py-8">
-                <h2 className="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl lg:text-4xl">{q}</h2>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-6 w-6 flex-shrink-0 text-gray-300">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </div>
-            ))}
-          </div>
+          {/* Questions — one flowing block of text */}
+          <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl lg:text-5xl">
+            Is your fintech support team drowning in KYC queries and disputes? Are payment failures and transaction issues piling up with no resolution in sight? Are you hiring more support agents just to keep up with ticket volume?
+          </h2>
 
-          {/* Description — full width, longer */}
-          <div className="mt-12">
-            <p className="text-lg leading-relaxed text-gray-500">
-              SupVision handles KYC queries, disputes, and transaction issues 24/7 — built specifically for regulated financial services. Our AI agents connect directly to your core banking system, KYC provider, and payment processor, pulling live data before every single response. No guessing. No scripted replies. Real answers, in seconds.
-            </p>
-            <p className="mt-5 text-lg leading-relaxed text-gray-500">
-              Most fintech support teams are managing hundreds of repetitive tier-1 tickets every day — KYC status checks, payment failure explanations, onboarding blockers, dispute status updates. SupVision resolves all of them automatically, in under two seconds, without a human in the loop. When a case genuinely needs escalation, your agents receive it with full context already attached.
-            </p>
-            <p className="mt-5 text-lg leading-relaxed text-gray-500">
-              The result: dramatically lower support costs, faster resolution times, and a team that finally has the capacity to focus on complex cases and high-value customers — not endless ticket queues.
-            </p>
-          </div>
+          {/* Description */}
+          <p className="mt-8 text-base leading-relaxed text-gray-500 max-w-4xl">
+            SupVision handles KYC queries, disputes, and transaction issues 24/7 — built for regulated financial services. Our AI agents pull live data from your core banking system, KYC provider, and payment processor before every response. No scripted replies. Real answers, in seconds, without a human in the loop.
+          </p>
 
           {/* Cards */}
           <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
