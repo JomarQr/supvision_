@@ -5,20 +5,6 @@ export default function Integrations() {
   return (
     <div className="pt-24">
 
-      {/* Hero */}
-      <section className="px-4 pt-12 pb-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-3xl">
-            <p className="text-2xl font-bold uppercase text-gray-900">Integrations</p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
-              Works on top of your existing stack.
-            </h1>
-            <p className="mt-6 text-base leading-relaxed text-gray-500">
-              supVision connects to the tools your team already uses — helpdesks, messaging channels, core banking, KYC providers, payment processors, and CRMs. No platform migration. No ripping and replacing. Most teams are live in 3 days.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <IntegrationFinder />
 
