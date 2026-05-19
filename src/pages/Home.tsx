@@ -615,7 +615,7 @@ const whyItems = [
 const benefits = [
   {
     before: 'Disputes and transaction failures pile up in queues, resolved manually over days.',
-    beforeImg: '/benefits/before-disputes.png',
+    beforeImg: '/Component 176.png',
     title: 'Automated workflows made easy',
     after: 'Resolve disputes and transaction failures in real time, median resolution under 2 minutes, zero manual steps.',
     afterImg: '/hero_images/ticket-list-resolved.png',
