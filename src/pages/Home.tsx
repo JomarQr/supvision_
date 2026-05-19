@@ -116,7 +116,7 @@ export default function Home() {
 
           {/* Questions — one flowing block of text */}
           <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl lg:text-5xl">
-            Is your fintech support team drowning in KYC queries and disputes? Are payment failures and transaction issues piling up with no resolution in sight? Are you hiring more support agents just to keep up with ticket volume?
+            Is your fintech support team drowning in KYC queries? Are you hiring more agents just to keep up?
           </h2>
 
           {/* Description */}
