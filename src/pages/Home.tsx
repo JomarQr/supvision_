@@ -115,7 +115,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6">
 
           {/* Question */}
-          <h2 className="text-center text-2xl leading-snug text-gray-900 sm:text-3xl font-normal">
+          <h2 className="text-center text-3xl leading-snug text-gray-900 sm:text-4xl font-normal">
             Is your support team <span className="font-bold">drowning in queries</span> while <span className="font-bold">costs keep climbing?</span>
           </h2>
 
@@ -173,7 +173,7 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/support-agent"
-              className="text-sm font-semibold text-gray-500 underline-offset-4 hover:text-gray-900 hover:underline transition-colors"
+              className="inline-flex items-center rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
             >
               Learn more about how the agent works
             </Link>
