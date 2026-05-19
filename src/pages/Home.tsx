@@ -209,8 +209,8 @@ export default function Home() {
               <div key={b.title} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
                 {/* Before */}
                 <div className="flex items-center justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
+                  <div className="flex-1 flex flex-col justify-start pt-2">
+                    <p className="mb-3 text-sm font-bold uppercase tracking-widest text-white">Before</p>
                     <p className="text-sm leading-relaxed text-white">{b.before}</p>
                   </div>
                   <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
@@ -224,8 +224,8 @@ export default function Home() {
                 </div>
                 {/* After */}
                 <div className="flex items-center justify-between gap-4 bg-white p-6" style={{ minHeight: '200px' }}>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
+                  <div className="flex-1 flex flex-col justify-start pt-2">
+                    <p className="mb-3 text-sm font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
                     <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-gray-500">{b.after}</p>
                   </div>
