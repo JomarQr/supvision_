@@ -208,28 +208,28 @@ export default function Home() {
             {benefits.map((b) => (
               <div key={b.title} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
                 {/* Before */}
-                <div className="flex items-stretch gap-4 bg-gray-900 p-6">
-                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <div className="flex items-stretch gap-6 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
+                  <div className="w-36 flex-shrink-0 flex flex-col justify-center">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
                     <p className="text-sm leading-relaxed text-white">{b.before}</p>
                   </div>
-                  <div className="w-44 flex-shrink-0 overflow-hidden rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                  <div className="flex-1 overflow-hidden rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                     <img
                       src={b.beforeImg}
                       alt="Before"
-                      className="h-full w-full object-cover object-top opacity-70"
+                      className="h-full w-full object-cover object-top"
                       onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
                     />
                   </div>
                 </div>
                 {/* After */}
-                <div className="flex items-stretch gap-4 bg-white p-6">
-                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                <div className="flex items-stretch gap-6 bg-white p-6" style={{ minHeight: '200px' }}>
+                  <div className="w-36 flex-shrink-0 flex flex-col justify-center">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
                     <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-gray-500">{b.after}</p>
                   </div>
-                  <div className="w-44 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex-1 overflow-hidden rounded-xl border border-gray-100 shadow-sm">
                     <img
                       src={b.afterImg}
                       alt={b.title}
@@ -626,13 +626,6 @@ const benefits = [
     title: 'Tailored to a regulated industry',
     after: 'Built for compliance from day one: audit logs, escalation rules, and KYC workflows that meet financial regulations out of the box.',
     afterImg: '/hero_images/analytics-dashboard.png',
-  },
-  {
-    before: 'Generic chatbots fail on context, frustrate users, and escalate everything to humans.',
-    beforeImg: '/benefits/before-chatbot.png',
-    title: 'Human-like experience at global scale',
-    after: 'Millions of support interactions across channels and geographies, each one personalised, context-aware, and escalated only when it needs a human.',
-    afterImg: '/hero_images/live-chat-response.png',
   },
   {
     before: 'Growing support demand means growing headcount and costs.',
