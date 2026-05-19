@@ -208,12 +208,12 @@ export default function Home() {
             {benefits.map((b) => (
               <div key={b.title} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
                 {/* Before */}
-                <div className="flex items-stretch gap-6 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
-                  <div className="w-36 flex-shrink-0 flex flex-col justify-center">
+                <div className="flex items-center justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
+                  <div className="flex-1 flex flex-col justify-center">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white">Before</p>
                     <p className="text-sm leading-relaxed text-white">{b.before}</p>
                   </div>
-                  <div className="flex-1 overflow-hidden rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                  <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
                     <img
                       src={b.beforeImg}
                       alt="Before"
@@ -223,13 +223,13 @@ export default function Home() {
                   </div>
                 </div>
                 {/* After */}
-                <div className="flex items-stretch gap-6 bg-white p-6" style={{ minHeight: '200px' }}>
-                  <div className="w-36 flex-shrink-0 flex flex-col justify-center">
+                <div className="flex items-center justify-between gap-4 bg-white p-6" style={{ minHeight: '200px' }}>
+                  <div className="flex-1 flex flex-col justify-center">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
                     <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-gray-500">{b.after}</p>
                   </div>
-                  <div className="flex-1 overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+                  <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
                     <img
                       src={b.afterImg}
                       alt={b.title}
