@@ -135,8 +135,8 @@ export default function Home() {
                     <img
                       src={v.img}
                       alt={v.imgAlt}
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full object-contain"
-                      style={{ width: '120%', maxWidth: 'none' }}
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 object-cover"
+                      style={{ width: 'calc(100% + 6rem)', height: '130%', maxWidth: 'none', left: '50%' }}
                       onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
                     />
                   </div>
