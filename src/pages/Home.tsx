@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const [activeT, setActiveT] = useState(0)
+  const [activeWhy, setActiveWhy] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -351,22 +352,60 @@ export default function Home() {
       </section>
 
       {/* Why supVision */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Why supVision</p>
-            <h2 className="mt-4 text-3xl font-bold leading-snug text-gray-900 sm:text-4xl">
-              Why fintech teams choose supVision over generic AI platforms?
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {whyItems.map((item) => (
-              <div key={item.num} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-10 shadow-sm">
-                <span className="text-4xl font-black" style={{ color: '#214995' }}>{item.num}</span>
-                <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-gray-500">{item.description}</p>
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
+
+            {/* Left */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
+              <h2 className="mt-5 text-4xl font-bold leading-snug text-gray-900">
+                Why fintech teams choose supVision over generic AI platforms?
+              </h2>
+              <p className="mt-5 text-base leading-relaxed text-gray-500">
+                Most AI support tools are built for SaaS. supVision is built for fintech — with compliance, KYC, and regulated workflows built in from day one.
+              </p>
+
+              <div className="mt-10">
+                <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                <div className="divide-y divide-gray-200 border-t border-gray-200">
+                  {whyItems.map((item, i) => (
+                    <div key={item.num}>
+                      <button
+                        onClick={() => setActiveWhy(i === activeWhy ? -1 : i)}
+                        className="flex w-full items-center justify-between py-5 text-left"
+                      >
+                        <span className={`text-base font-semibold transition-colors ${i === activeWhy ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
+                          {item.title}
+                        </span>
+                        <span className="ml-4 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 text-lg leading-none">
+                          {i === activeWhy ? '−' : '+'}
+                        </span>
+                      </button>
+                      {i === activeWhy && (
+                        <p className="pb-5 text-sm leading-relaxed text-gray-500">{item.description}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Right — product image panel */}
+            <div
+              className="sticky top-28 overflow-hidden rounded-2xl"
+              style={{ minHeight: '480px', background: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)' }}
+            >
+              <div className="absolute inset-5 overflow-hidden rounded-xl bg-white shadow-2xl">
+                <img
+                  src={whyItems[Math.max(0, activeWhy)].img}
+                  alt={whyItems[Math.max(0, activeWhy)].title}
+                  className="h-full w-full object-cover object-top transition-all duration-500"
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -614,10 +653,10 @@ const complianceFeatures = [
 ]
 
 const whyItems = [
-  { num: '01', title: 'Fintech-native, not fintech-adapted', description: 'Intercom and Zendesk were built for SaaS and e-commerce. supVision was designed from day one for KYC workflows, transaction disputes, and regulated onboarding, without workarounds.' },
-  { num: '02', title: 'Compliance is the product, not a checkbox', description: 'Every automated action is logged, traceable, and audit-ready. Escalation rules, confidence thresholds, and KYC decision trails built in, not bolted on after the fact.' },
-  { num: '03', title: 'Predictable cost. No per-ticket traps.', description: "Flat monthly pricing means your support costs don't spike when ticket volume grows. No $0.99-per-resolution surprises. No incentive for your vendor to keep issues open." },
-  { num: '04', title: 'Live in days, not months', description: 'Works on top of your existing stack, no platform migration, no 6-month implementation project. Connect your tools, set your rules, go live. Your team stays in control.' },
+  { num: '01', title: 'Fintech-native, not fintech-adapted', description: 'Intercom and Zendesk were built for SaaS and e-commerce. supVision was designed from day one for KYC workflows, transaction disputes, and regulated onboarding, without workarounds.', img: '/hero_images/Component 174 (1).png' },
+  { num: '02', title: 'Compliance is the product, not a checkbox', description: 'Every automated action is logged, traceable, and audit-ready. Escalation rules, confidence thresholds, and KYC decision trails built in, not bolted on after the fact.', img: '/benefits/Built for compliance from day one.png' },
+  { num: '03', title: 'Predictable cost. No per-ticket traps.', description: "Flat monthly pricing means your support costs don't spike when ticket volume grows. No $0.99-per-resolution surprises. No incentive for your vendor to keep issues open.", img: '/hero_images/Component 175.png' },
+  { num: '04', title: 'Live in days, not months', description: 'Works on top of your existing stack, no platform migration, no 6-month implementation project. Connect your tools, set your rules, go live. Your team stays in control.', img: '/hero_images/Component 172.png' },
 ]
 
 const benefits = [
