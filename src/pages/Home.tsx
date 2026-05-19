@@ -257,73 +257,93 @@ export default function Home() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Header */}
-          <div className="mb-8 text-center">
+          <div className="mb-12 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Proof</p>
             <p className="mt-3 text-base text-gray-500">Companies that moved from overwhelmed to automated.</p>
           </div>
 
-          {/* Testimonials carousel */}
-          <div className="mt-4">
-            <div className="rounded-3xl bg-white p-10 shadow-sm ring-1 ring-gray-100">
-              <div className="grid gap-10 lg:grid-cols-[200px_1fr] lg:items-center">
-                {/* Left — photo + name */}
-                <div className="flex flex-row items-center gap-5 lg:flex-col lg:items-start">
-                  <img
-                    src={testimonials[activeT].photo}
-                    alt={testimonials[activeT].name}
-                    className="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-2 ring-gray-100"
-                  />
-                  <div>
-                    <p className="text-base font-bold text-gray-900">{testimonials[activeT].name}</p>
-                    <p className="text-sm text-gray-400">{testimonials[activeT].role}</p>
-                  </div>
+          {/* Card */}
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" style={{ minHeight: '480px' }}>
+            <div className="grid lg:grid-cols-2" style={{ minHeight: '480px' }}>
+
+              {/* Left — text */}
+              <div className="flex flex-col p-10 lg:p-14 border-r border-gray-100">
+                <p className="text-xs font-black tracking-[0.2em] text-gray-900 uppercase">{testimonials[activeT].company}</p>
+
+                <div className="mt-8 flex-1">
+                  <p className="text-5xl font-serif leading-none text-gray-200 select-none">"</p>
+                  <p className="mt-2 text-xl leading-relaxed text-gray-800" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
+                    {testimonials[activeT].quote}
+                  </p>
                 </div>
-                {/* Right — quote */}
-                <p className="text-xl leading-relaxed text-gray-700">
-                  "
-                  {testimonials[activeT].segments.map((s, i) =>
-                    s.bold
-                      ? <strong key={i} className="font-bold text-gray-900">{s.text}</strong>
-                      : <span key={i}>{s.text}</span>
-                  )}
-                  "
+
+                <p className="mt-8 text-sm text-gray-400">— {testimonials[activeT].name}, {testimonials[activeT].role}</p>
+
+                <div className="mt-6 border-t border-gray-100 pt-6 flex gap-10">
+                  {testimonials[activeT].metrics.map(m => (
+                    <div key={m.label}>
+                      <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
+                      <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 border-t border-gray-100 pt-6">
+                  <button className="flex items-center gap-3 text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    Read full story
+                  </button>
+                </div>
+              </div>
+
+              {/* Right — branded image */}
+              <div
+                className="relative flex items-center justify-center"
+                style={{ background: testimonials[activeT].bgGradient, minHeight: '320px' }}
+              >
+                <p
+                  className="text-5xl font-black tracking-[0.15em] text-white select-none"
+                  style={{ opacity: 0.9 }}
+                >
+                  {testimonials[activeT].company}
                 </p>
               </div>
-            </div>
 
-            {/* Controls */}
-            <div className="mt-6 flex items-center justify-center gap-4">
-              <button
-                onClick={() => setActiveT(i => (i - 1 + testimonials.length) % testimonials.length)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                  <path fillRule="evenodd" d="M14 8a.75.75 0 0 1-.75.75H3.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L3.56 7.25H13.25A.75.75 0 0 1 14 8Z" clipRule="evenodd" />
-                </svg>
-              </button>
-              <div className="flex gap-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveT(i)}
-                    className="h-2 rounded-full transition-all duration-300"
-                    style={{
-                      width: i === activeT ? '24px' : '8px',
-                      backgroundColor: i === activeT ? '#214995' : '#d1d5db',
-                    }}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setActiveT(i => (i + 1) % testimonials.length)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h9.69L9.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </button>
             </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <button
+              onClick={() => setActiveT(i => (i - 1 + testimonials.length) % testimonials.length)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                <path fillRule="evenodd" d="M14 8a.75.75 0 0 1-.75.75H3.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L3.56 7.25H13.25A.75.75 0 0 1 14 8Z" clipRule="evenodd" />
+              </svg>
+            </button>
+            <div className="flex gap-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveT(i)}
+                  className="h-2 rounded-full transition-all duration-300"
+                  style={{ width: i === activeT ? '24px' : '8px', backgroundColor: i === activeT ? '#214995' : '#d1d5db' }}
+                />
+              ))}
+            </div>
+            <button
+              onClick={() => setActiveT(i => (i + 1) % testimonials.length)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h9.69L9.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </button>
           </div>
 
         </div>
@@ -544,55 +564,53 @@ function FAQ() {
 const testimonials: {
   name: string
   role: string
-  photo: string
-  segments: { text: string; bold?: boolean }[]
+  company: string
+  bgGradient: string
+  quote: string
+  metrics: { value: string; label: string }[]
 }[] = [
   {
-    name: 'Dmytriy',
+    name: 'Dmytriy K.',
     role: 'Head of Customer Support',
-    photo: 'https://i.pravatar.cc/150?img=68',
-    segments: [
-      { text: "We used to hire new people every time we expanded to a new geography. Now we don't just skip the hiring — we " },
-      { text: 'automatically serve all regions: Europe, the US, Asia, the Middle East', bold: true },
-      { text: ', without adding a single agent. The setup took three days. We went live across four regions in a week. ' },
-      { text: 'All because of SupVision.', bold: true },
+    company: 'NEOBANK',
+    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
+    quote: "We used to hire new people every time we expanded to a new geography. Now we automatically serve all regions — Europe, the US, Asia, the Middle East — without adding a single agent. The setup took three days.",
+    metrics: [
+      { value: '4 regions', label: 'served without new hires' },
+      { value: '3 days', label: 'to go live globally' },
     ],
   },
   {
     name: 'Alan N.',
-    role: 'Customer Success',
-    photo: 'https://i.pravatar.cc/150?img=11',
-    segments: [
-      { text: 'We ' },
-      { text: 'cut support headcount by 30%', bold: true },
-      { text: ' while handling ' },
-      { text: '3× the ticket volume.', bold: true },
-      { text: ' The agents that stayed are now focused on real escalations, not copy-pasting the same KYC answers all day. ' },
-      { text: "I wish we'd done this sooner — the ROI showed up faster than any tool we've ever deployed.", bold: true },
+    role: 'Customer Success Lead',
+    company: 'PAYTECH',
+    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
+    quote: "We cut support headcount by 30% while handling 3× the ticket volume. The agents that stayed are focused on real escalations, not copy-pasting the same KYC answers all day. ROI showed up faster than any tool we've ever deployed.",
+    metrics: [
+      { value: '30%', label: 'reduction in support headcount' },
+      { value: '3×', label: 'ticket volume, same team' },
     ],
   },
   {
     name: 'Ruslan V.',
     role: 'Head of Operations',
-    photo: 'https://i.pravatar.cc/150?img=57',
-    segments: [
-      { text: 'We went from a ' },
-      { text: '4-hour average resolution time to under 2 minutes', bold: true },
-      { text: ' for KYC queries. The ' },
-      { text: 'ROI was visible within the first month', bold: true },
-      { text: ' — our ops costs dropped and CSAT went up at the same time. SupVision didn\'t just speed things up, it made the whole support flow more predictable and auditable.' },
+    company: 'FINLEND',
+    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
+    quote: "We went from a 4-hour average resolution time to under 2 minutes for KYC queries. Ops costs dropped and CSAT went up at the same time. SupVision made the whole support flow predictable and auditable.",
+    metrics: [
+      { value: '< 2 min', label: 'avg KYC resolution time' },
+      { value: '1 month', label: 'to measurable ROI' },
     ],
   },
   {
     name: 'Cyril B.',
     role: 'Compliance Lead',
-    photo: 'https://i.pravatar.cc/150?img=33',
-    segments: [
-      { text: 'Our compliance team was skeptical about automating disputes — we thought edge cases would break it. But SupVision ' },
-      { text: 'handles edge cases better than we expected,', bold: true },
-      { text: ' and it ' },
-      { text: 'logs every decision with a full rationale and timestamp.', bold: true },
-      { text: ' When our auditors asked for a trail, we exported it in minutes. That alone justified the cost.' },
+    company: 'LENDCORE',
+    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
+    quote: "Our compliance team was skeptical about automating disputes. But SupVision handles edge cases better than we expected, and logs every decision with a full rationale and timestamp. When our auditors asked for a trail, we exported it in minutes.",
+    metrics: [
+      { value: '100%', label: 'automated decision audit coverage' },
+      { value: '< 5 min', label: 'regulator export time' },
     ],
   },
 ]
