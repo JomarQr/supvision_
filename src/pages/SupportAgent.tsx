@@ -395,20 +395,6 @@ export default function SupportAgent() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-8 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">FAQ</p>
-          </div>
-          <div className="mt-12 divide-y divide-gray-200">
-            {agentFaqItems.map((item, i) => (
-              <AgentFAQItem key={i} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div
@@ -436,6 +422,20 @@ export default function SupportAgent() {
             <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-8 text-center">
+            <p className="text-2xl font-bold uppercase text-gray-900">FAQ</p>
+          </div>
+          <div className="mt-12 divide-y divide-gray-200">
+            {agentFaqItems.map((item, i) => (
+              <AgentFAQItem key={i} item={item} />
+            ))}
           </div>
         </div>
       </section>
