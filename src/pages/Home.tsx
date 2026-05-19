@@ -114,10 +114,15 @@ export default function Home() {
       <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Questions — one flowing block of text */}
-          <h2 className="text-center text-3xl font-bold leading-snug text-gray-900 sm:text-4xl lg:text-5xl">
-            Is your fintech support team drowning in KYC queries? Are you hiring more agents just to keep up?
+          {/* Question — 1 line, bold accents */}
+          <h2 className="text-center text-3xl leading-tight text-gray-400 sm:text-4xl lg:text-5xl font-normal whitespace-nowrap">
+            Is your support team <span className="font-bold text-gray-900">drowning in queries</span> while <span className="font-bold text-gray-900">costs keep climbing?</span>
           </h2>
+
+          {/* Sub-description */}
+          <p className="mt-6 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
+            Your support agents are handling hundreds of repetitive queries every day — KYC status checks, payment failures, onboarding blockers. Each ticket takes time. Each escalation costs money. The question isn't whether AI can help — it's whether your team has the right AI, connected to the right systems, working without friction. SupVision makes sure it does.
+          </p>
 
           {/* Cards — 2 per row */}
           <div className="mt-16 grid gap-6 sm:grid-cols-2">
@@ -164,10 +169,28 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Description — full width below cards */}
-          <p className="mt-8 text-base leading-relaxed text-gray-500">
-            SupVision handles KYC queries, disputes, and transaction issues 24/7 — built for regulated financial services. Our AI agents pull live data from your core banking system, KYC provider, and payment processor before every response. No scripted replies. Real answers, in seconds, without a human in the loop.
-          </p>
+          {/* CTAs below cards */}
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <Link
+              to="/support-agent"
+              className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+            >
+              Learn more about how the agent works
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+            <Link
+              to="/integrations"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors hover:opacity-90"
+              style={{ backgroundColor: '#214995' }}
+            >
+              Explore integrations
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
