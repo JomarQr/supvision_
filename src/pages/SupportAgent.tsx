@@ -28,14 +28,6 @@ const capabilities = [
   },
 ]
 
-const metrics = [
-  { value: '<2 min', label: 'Median resolution time for KYC and transaction queries' },
-  { value: '98.4%', label: 'Resolution rate across all supported query types' },
-  { value: '52%', label: 'Average reduction in support operating costs' },
-  { value: '50+', label: 'Languages supported out of the box' },
-  { value: '24/7', label: 'Availability with no degradation at peak volume' },
-  { value: '3 days', label: 'Typical time to go live from contract signed' },
-]
 
 const howItWorks = [
   {

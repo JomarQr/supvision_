@@ -457,7 +457,6 @@ function FAQ() {
   )
 }
 
-const clientLogos = ['Payrails', 'Nuvei', 'Unlimint', 'Ecommpay', 'Payrow', 'Genome']
 
 const testimonials: {
   name: string
