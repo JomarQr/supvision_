@@ -87,13 +87,13 @@ interface Integration {
 
 const allIntegrations: Integration[] = [
   {
-    name: 'Telegram', category: 'Messaging', logo: 'https://logo.clearbit.com/telegram.org',
+    name: 'Telegram', category: 'Messaging', logo: '/logos/telegram.png',
     tagline: 'Instant messaging & bot automation',
     functions: ['Receive & reply to customer messages', 'Send automated notifications', 'Handle file & document requests', 'Support group & channel queries', 'Seamless handoff to human agents'],
     description: 'supVision connects via Telegram Bot API to handle customer queries in real time. Customers message your Telegram bot and the Support Agent replies instantly — pulling live data from your core banking or KYC provider before every response.',
   },
   {
-    name: 'Gmail', category: 'Messaging', logo: 'https://logo.clearbit.com/google.com',
+    name: 'Gmail', category: 'Messaging', logo: '/logos/gmail.png',
     tagline: 'Email support automation via Gmail',
     functions: ['Parse inbound support emails', 'Auto-reply with personalised answers', 'Classify and route by topic', 'Attach transaction or KYC data', 'Escalate complex threads to humans'],
     description: 'Connect your Gmail inbox to supVision and let the agent triage, classify, and reply to customer emails automatically. No more manually sorting payment failure reports or KYC status inquiries.',
@@ -105,43 +105,43 @@ const allIntegrations: Integration[] = [
     description: 'Works with any email provider via standard SMTP/IMAP. Ideal for teams using custom or self-hosted mail servers who want agent automation without switching email infrastructure.',
   },
   {
-    name: 'Outlook', category: 'Messaging', logo: 'https://logo.clearbit.com/microsoft.com',
+    name: 'Outlook', category: 'Messaging', logo: '/logos/outlook.png',
     tagline: 'Microsoft 365 email & calendar',
     functions: ['Read & respond to support emails', 'Calendar-based scheduling triggers', 'Teams escalation handoff', 'Shared mailbox support', 'Attachment & template handling'],
     description: 'Connect supVision to your Microsoft 365 Outlook mailbox. The Support Agent monitors your shared support inbox, responds to routine queries, and escalates complex cases to the right person via Teams.',
   },
   {
-    name: 'Excel / Sheets', category: 'Reporting', logo: 'https://logo.clearbit.com/microsoft.com',
+    name: 'Excel / Sheets', category: 'Reporting', logo: '/logos/excel.png',
     tagline: 'Export reports to Excel & Google Sheets',
     functions: ['Automated resolution reports', 'Ticket volume & SLA exports', 'KYC audit trail exports', 'Escalation rate tracking', 'Custom date-range extracts'],
     description: 'Schedule automatic exports of support metrics, resolution rates, and audit logs directly to Excel or Google Sheets. Share regulator-ready reports with your compliance team without manual data pulls.',
   },
   {
-    name: 'WhatsApp', category: 'Messaging', logo: 'https://logo.clearbit.com/whatsapp.com',
+    name: 'WhatsApp', category: 'Messaging', logo: '/logos/whatsapp.png',
     tagline: 'Customer support over WhatsApp Business',
     functions: ['Real-time message handling', 'Rich media & document support', 'Template message automation', 'Multi-agent shared inbox', 'Read receipts & delivery status'],
     description: 'Connect your WhatsApp Business account and let supVision handle KYC queries, payment failures, and transaction disputes over the channel your customers prefer most.',
   },
   {
-    name: 'Zendesk', category: 'Helpdesks', logo: 'https://logo.clearbit.com/zendesk.com',
+    name: 'Zendesk', category: 'Helpdesks', logo: '/logos/zendesk.png',
     tagline: 'AI layer on top of your Zendesk',
     functions: ['Auto-resolve tickets before agents see them', 'Attach live data to every ticket', 'Trigger macros based on intent', 'Escalate with full context pre-filled', 'SLA-aware prioritisation'],
     description: 'supVision sits on top of your existing Zendesk setup. It resolves tier-1 tickets automatically and — when escalation is needed — routes to the right agent with the full conversation history and live account data already attached.',
   },
   {
-    name: 'Intercom', category: 'Helpdesks', logo: 'https://logo.clearbit.com/intercom.com',
+    name: 'Intercom', category: 'Helpdesks', logo: '/logos/intecom (1).png',
     tagline: 'Automated conversations in Intercom',
     functions: ['Auto-answer live chat queries', 'Pull CRM & account data in context', 'Trigger custom bots on keywords', 'Route to human inbox on escalation', 'CSAT & resolution tracking'],
     description: 'Deploy supVision inside your Intercom workspace. The agent handles live chat queries autonomously, surfacing real-time data from your payment processor or core banking API before every reply.',
   },
   {
-    name: 'Freshdesk', category: 'Helpdesks', logo: 'https://logo.clearbit.com/freshdesk.com',
+    name: 'Freshdesk', category: 'Helpdesks', logo: '/logos/freshdesk.png',
     tagline: 'Smart ticket resolution in Freshdesk',
     functions: ['Classify & tag tickets automatically', 'Auto-resolve KYC & payment tickets', 'Pre-fill agent notes on escalation', 'SLA breach prevention triggers', 'Agent collision prevention'],
     description: 'supVision integrates with Freshdesk to classify, respond to, and close routine tickets without any agent involvement. Complex cases are escalated with full context pre-filled in the ticket.',
   },
   {
-    name: 'Salesforce Service', category: 'Helpdesks', logo: 'https://logo.clearbit.com/salesforce.com',
+    name: 'Salesforce Service', category: 'Helpdesks', logo: '/logos/salesforce.png',
     tagline: 'Enterprise ticket automation',
     functions: ['Case auto-creation & classification', 'Einstein-compatible data layer', 'Escalation routing by skill & queue', 'Live account data in case sidebar', 'Full audit log per case'],
     description: 'Integrate supVision with Salesforce Service Cloud to automate case handling at enterprise scale. Every automated action is written back to the case record for a complete audit trail.',
@@ -231,7 +231,7 @@ const allIntegrations: Integration[] = [
     description: 'supVision reads HubSpot contact and company records to personalise every response. The agent knows the customer\'s history, open tickets, and account tier before it says a word.',
   },
   {
-    name: 'Salesforce CRM', category: 'CRM', logo: 'https://logo.clearbit.com/salesforce.com',
+    name: 'Salesforce CRM', category: 'CRM', logo: '/logos/salesforce.png',
     tagline: 'Enterprise CRM data at agent level',
     functions: ['Account & contact reads', 'Opportunity & case data', 'Entitlement & SLA checks', 'Activity timeline access', 'Custom object support'],
     description: 'Connect supVision to Salesforce CRM to pull full account context before every response. Entitlements, case history, and custom objects are all surfaced to the agent in real time.',
