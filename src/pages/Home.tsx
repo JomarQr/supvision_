@@ -114,14 +114,14 @@ export default function Home() {
       <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Question — 1 line, bold accents */}
-          <h2 className="text-center text-3xl leading-tight text-gray-400 sm:text-4xl lg:text-5xl font-normal whitespace-nowrap">
-            Is your support team <span className="font-bold text-gray-900">drowning in queries</span> while <span className="font-bold text-gray-900">costs keep climbing?</span>
+          {/* Question */}
+          <h2 className="text-center text-2xl leading-snug text-gray-900 sm:text-3xl font-normal">
+            Is your support team <span className="font-bold">drowning in queries</span> while <span className="font-bold">costs keep climbing?</span>
           </h2>
 
           {/* Sub-description */}
-          <p className="mt-6 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
-            Your support agents are handling hundreds of repetitive queries every day — KYC status checks, payment failures, onboarding blockers. Each ticket takes time. Each escalation costs money. The question isn't whether AI can help — it's whether your team has the right AI, connected to the right systems, working without friction. SupVision makes sure it does.
+          <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-2xl">
+            Your agents handle hundreds of repetitive queries daily — KYC checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
           </p>
 
           {/* Cards — 2 per row */}
@@ -170,25 +170,25 @@ export default function Home() {
           </div>
 
           {/* CTAs below cards */}
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/support-agent"
-              className="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+              className="text-sm font-semibold text-gray-500 underline-offset-4 hover:text-gray-900 hover:underline transition-colors"
             >
               Learn more about how the agent works
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
             </Link>
             <Link
               to="/integrations"
-              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors hover:opacity-90"
-              style={{ backgroundColor: '#214995' }}
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+              style={{ backgroundColor: '#111827' }}
             >
-              Explore integrations
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
+              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+              <span className="relative z-10">Explore integrations</span>
+              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
             </Link>
           </div>
         </div>
