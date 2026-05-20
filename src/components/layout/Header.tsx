@@ -376,8 +376,23 @@ export default function Header() {
 
           </nav>
 
-          {/* Log in */}
-          <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className={linkClass}>Log in</a>
+          {/* Log in + CTA */}
+          <div className="flex items-center gap-4">
+            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className={linkClass}>Log in</a>
+            <Link
+              to="/contact"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+              style={{ backgroundColor: '#214995' }}
+            >
+              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
+              <span className="relative z-10">Let's chat!</span>
+              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
+            </Link>
+          </div>
 
         </div>
       </div>
