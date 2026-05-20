@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, Link, useLocation } from 'react-router-dom'
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 
 // ── Overview mega-menu data ──────────────────────────────────────────────────
 const overviewCategories = [
@@ -78,7 +78,17 @@ const resourcesDropdown = {
 // ── Header ───────────────────────────────────────────────────────────────────
 export default function Header() {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
   const isHome = pathname === '/'
+
+  function handleLogoClick(e: React.MouseEvent) {
+    e.preventDefault()
+    if (pathname === '/') {
+      window.scrollTo(0, 0)
+    } else {
+      navigate('/')
+    }
+  }
 
   const [pinned, setPinned] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -171,14 +181,14 @@ export default function Header() {
         <div className="grid h-16 grid-cols-[auto_1fr_auto] items-center gap-8 px-6">
 
           {/* Logo */}
-          <NavLink to="/" className="flex items-center">
+          <a href="/" onClick={handleLogoClick} className="flex items-center">
             <img
               src="/logo/Component 177 (3).png"
               alt="Logo"
               className="h-10 w-auto transition-all duration-300"
               style={{ filter: (isLight || navHovered) ? 'brightness(0)' : 'none' }}
             />
-          </NavLink>
+          </a>
 
           {/* Nav */}
           <nav className="flex items-center justify-center gap-8 whitespace-nowrap">
