@@ -63,8 +63,8 @@ export default function Home() {
           />
           {/* Dashboard — big, absolute, bleeds right */}
           <div
-            className="absolute top-1/2 z-10 -translate-y-1/2"
-            style={{ left: '52%', width: '62vw' }}
+            className="absolute z-10"
+            style={{ left: '52%', width: '62vw', top: '44%', transform: 'translateY(-50%)' }}
           >
             <div className="relative">
               <img
@@ -139,8 +139,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Feature blocks — static, 4 visible */}
-          <div className="mt-4 grid grid-cols-4 gap-3" style={{ paddingRight: '1.5rem' }}>
+        </div>
+
+        {/* Feature blocks — full allowed width, pinned to bottom of hero */}
+        <div className="absolute bottom-10 left-0 right-0 z-10 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-6 grid grid-cols-4 gap-4">
             {heroFeatures.slice(0, 4).map((item) => (
               <div key={item.label} className="flex flex-col items-center gap-2 rounded-2xl bg-white px-3 py-4 shadow-sm text-center">
                 <div style={{ color: '#214995' }}>{item.icon}</div>
