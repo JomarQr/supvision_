@@ -5,6 +5,23 @@ export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const [activeT, setActiveT] = useState(0)
   const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
+  const controlSectionRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!controlSectionRef.current) return
+      const rect = controlSectionRef.current.getBoundingClientRect()
+      const scrolled = -rect.top
+      const totalScrollable = controlSectionRef.current.offsetHeight - window.innerHeight
+      if (scrolled <= 0 || scrolled >= totalScrollable) return
+      const progress = scrolled / totalScrollable
+      const count = featureSections[0].features.length
+      const index = Math.min(Math.floor(progress * count), count - 1)
+      setActiveFeatures(prev => prev[0] === index ? prev : { ...prev, 0: index })
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -362,33 +379,77 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Feature deep-dive blocks — 3 blocks, image wider, no sticky */}
-      {featureSections.map((sec, si) => {
+      {/* Control — scroll-driven sticky section */}
+      <div
+        ref={controlSectionRef}
+        className="relative bg-white"
+        style={{ height: `${featureSections[0].features.length * 100}vh` }}
+      >
+        <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
+          <div className="mx-auto w-full max-w-7xl px-6">
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-8">
+
+              {/* Image — right, 60% */}
+              <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ height: '75vh' }}>
+                <img
+                  key={activeFeatures[0]}
+                  src={featureSections[0].features[activeFeatures[0]]?.img ?? featureSections[0].img}
+                  alt={featureSections[0].features[activeFeatures[0]]?.title}
+                  className="h-full w-full object-cover object-top transition-opacity duration-300"
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+              </div>
+
+              {/* Text + feature list — 40% */}
+              <div className="lg:w-[40%] lg:flex-shrink-0">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[0].label}</p>
+                <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[0].title}</h2>
+                <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[0].description}</p>
+
+                <div className="mt-8">
+                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                  <div className="divide-y divide-gray-100 border-t border-gray-100">
+                    {featureSections[0].features.map((f, fi) => (
+                      <div key={f.title} className="py-3">
+                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[0] ? 'text-gray-900' : 'text-gray-400'}`}>
+                          {f.title}
+                        </p>
+                        {fi === activeFeatures[0] && (
+                          <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Integration & Visibility — normal sections */}
+      {featureSections.slice(1).map((sec, idx) => {
+        const si = idx + 1
         const imageLeft = si === 1
         return (
           <section key={sec.label} className={`py-24 px-4 sm:px-6 lg:px-8 ${si % 2 === 1 ? 'bg-gray-50' : 'bg-white'}`}>
             <div className="mx-auto max-w-7xl px-6">
               <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
 
-                {/* Image — wider (60%), order changes for block 2 */}
                 <div
                   className={`overflow-hidden rounded-2xl lg:w-[60%] ${imageLeft ? 'lg:order-first' : 'lg:order-last'}`}
                   style={{ minHeight: '480px' }}
                 >
                   <img
-                    src={
-                      activeFeatures[si] >= 0 && sec.features[activeFeatures[si]]?.img
-                        ? sec.features[activeFeatures[si]].img!
-                        : sec.img
-                    }
+                    src={sec.img}
                     alt={sec.title}
-                    className="h-full w-full object-cover object-top transition-all duration-300"
+                    className="h-full w-full object-cover object-top"
                     style={{ minHeight: '480px' }}
                     onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
                   />
                 </div>
 
-                {/* Text + accordion — narrower (40%) */}
                 <div className="lg:w-[40%] lg:flex-shrink-0">
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{sec.label}</p>
                   <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{sec.title}</h2>
