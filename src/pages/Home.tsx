@@ -215,56 +215,51 @@ export default function Home() {
       </section>
 
       {/* Benefits */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Header */}
-          <div className="mb-8 text-center">
+          <div className="mb-12 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
           </div>
 
-          {/* Benefit rows */}
-          <div className="flex flex-col gap-4">
-            {benefits.map((b) => (
-              <div key={b.title} className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
-                {/* Before */}
-                <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '200px' }}>
-                  <div className="flex-1 flex flex-col">
-                    <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
-                    <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
-                    <p className="mt-2 text-base leading-relaxed text-white/70">{b.before}</p>
+          {/* Stacked sticky cards — no gaps, each slides over previous */}
+          <div className="flex flex-col">
+            {benefits.map((b, i) => (
+              <div
+                key={b.title}
+                className="sticky"
+                style={{ top: `${108 + i * 28}px`, zIndex: i + 1 }}
+              >
+                <div className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
+                  {/* Before */}
+                  <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '220px' }}>
+                    <div className="flex-1 flex flex-col">
+                      <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
+                      <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
+                      <p className="mt-2 text-base leading-relaxed text-white/70">{b.before}</p>
+                    </div>
+                    <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                      <img src={b.beforeImg} alt="Before" className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                    </div>
                   </div>
-                  <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
-                    <img
-                      src={b.beforeImg}
-                      alt="Before"
-                      className="h-full w-full object-cover object-top"
-                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                    />
+                  {/* After */}
+                  <div className="flex items-start justify-between gap-4 bg-white p-6" style={{ minHeight: '220px' }}>
+                    <div className="flex-1 flex flex-col">
+                      <p className="mb-3 text-base font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
+                      <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
+                      <p className="mt-2 text-base leading-relaxed text-gray-500">{b.after}</p>
+                    </div>
+                    <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
+                      <img src={b.afterImg} alt={b.title} className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                    </div>
                   </div>
-                </div>
-                {/* After */}
-                <div className="flex items-start justify-between gap-4 bg-white p-6" style={{ minHeight: '200px' }}>
-                  <div className="flex-1 flex flex-col">
-                    <p className="mb-3 text-base font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
-                    <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
-                    <p className="mt-2 text-base leading-relaxed text-gray-500">{b.after}</p>
-                  </div>
-                  <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
-                    <img
-                      src={b.afterImg}
-                      alt={b.title}
-                      className="h-full w-full object-cover object-top"
-                      onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                    />
-                  </div>
-                </div>
-                {/* Arrow — centered on the dividing line */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                    </svg>
+                  {/* Arrow */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
