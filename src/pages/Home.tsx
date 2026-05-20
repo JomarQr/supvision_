@@ -118,36 +118,38 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Industries ticker */}
-          <div className="mt-14 overflow-hidden" style={{ marginRight: '-1rem' }}>
-            <div className="flex gap-3" style={{ width: 'max-content', animation: 'ticker 26s linear infinite' }}>
+          {/* Industries ticker — plain icon + text, fades at edges, slides under dashboard */}
+          <div
+            className="mt-14 overflow-hidden"
+            style={{
+              marginLeft: 'calc(-1 * max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem)))',
+              marginRight: '0',
+              paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 78%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 78%, transparent 100%)',
+            }}
+          >
+            <div
+              className="flex items-center gap-10"
+              style={{ width: 'max-content', animation: 'ticker 28s linear infinite' }}
+            >
               {[...heroIndustries, ...heroIndustries].map((item, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 flex flex-col items-center justify-center gap-2.5 rounded-2xl bg-white px-5 py-4 shadow-sm"
-                  style={{ width: '136px' }}
-                >
-                  <div style={{ color: '#214995' }}>{item.icon}</div>
-                  <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{item.label}</span>
+                <div key={i} className="flex-shrink-0 flex items-center gap-2">
+                  <div className="[&_svg]:h-5 [&_svg]:w-5" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.icon}</div>
+                  <span className="text-sm font-semibold whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Features ticker */}
-          <div className="mt-3 overflow-hidden" style={{ marginRight: '-1rem' }}>
-            <div className="flex gap-3" style={{ width: 'max-content', animation: 'ticker-rev 34s linear infinite' }}>
-              {[...heroFeatures, ...heroFeatures].map((item, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 flex flex-col items-center justify-center gap-2.5 rounded-2xl bg-white px-5 py-4 shadow-sm"
-                  style={{ width: '152px' }}
-                >
-                  <div style={{ color: '#214995' }}>{item.icon}</div>
-                  <span className="text-xs font-semibold text-gray-700 text-center leading-tight">{item.label}</span>
-                </div>
-              ))}
-            </div>
+          {/* Feature blocks — static, 4 visible */}
+          <div className="mt-4 grid grid-cols-4 gap-3" style={{ paddingRight: '1.5rem' }}>
+            {heroFeatures.slice(0, 4).map((item) => (
+              <div key={item.label} className="flex flex-col items-center gap-2 rounded-2xl bg-white px-3 py-4 shadow-sm text-center">
+                <div style={{ color: '#214995' }}>{item.icon}</div>
+                <span className="text-xs font-semibold text-gray-700 leading-tight">{item.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
