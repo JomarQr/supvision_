@@ -401,7 +401,7 @@ export default function Home() {
                         <div key={f.title}>
                           <button
                             onClick={() => setActiveFeatures(prev => ({ ...prev, [si]: fi === prev[si] ? -1 : fi }))}
-                            className="flex w-full items-center justify-between py-4 text-left"
+                            className="flex w-full items-center justify-between py-2.5 text-left"
                           >
                             <span className={`text-sm font-semibold transition-colors ${fi === activeFeatures[si] ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
                               {f.title}
@@ -609,7 +609,7 @@ const featureSections: { label: string; title: string; description: string; img:
   {
     label: 'Control',
     title: 'Define exactly how supVision responds',
-    description: 'Most AI support tools give you a binary choice: automate or escalate. supVision goes deeper — confidence thresholds per query type, topic-level restrictions, and human approval flows for sensitive actions. The more precisely you control, the more confidently you can automate.',
+    description: 'supVision goes beyond automate-or-escalate. Set confidence thresholds, restrict topics, and require human approval for sensitive actions — on your terms.',
     img: '/control/Confidence Thresholds.png',
     bgGradient: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)',
     features: [
