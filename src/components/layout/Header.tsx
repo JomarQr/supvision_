@@ -377,7 +377,7 @@ export default function Header() {
           </nav>
 
           {/* Log in */}
-          <NavLink to="/login" className={linkClass}>Log in</NavLink>
+          <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className={linkClass}>Log in</a>
 
         </div>
       </div>
