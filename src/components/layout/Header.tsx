@@ -173,9 +173,10 @@ export default function Header() {
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
             <img
-              src="/logo/Component 177 (1).png"
+              src="/logo/Component 177 (3).png"
               alt="Logo"
               className="h-10 w-auto transition-all duration-300"
+              style={{ filter: (isLight || navHovered) ? 'brightness(0)' : 'none' }}
             />
           </NavLink>
 
