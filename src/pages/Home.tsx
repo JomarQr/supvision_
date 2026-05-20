@@ -478,7 +478,7 @@ export default function Home() {
             {/* Right — image */}
             <div className="overflow-hidden rounded-2xl" style={{ minHeight: '520px' }}>
               <img
-                src="/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png"
+                src="/team.png"
                 alt="supVision team"
                 className="h-full w-full object-cover"
                 style={{ minHeight: '520px' }}
