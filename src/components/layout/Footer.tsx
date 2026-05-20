@@ -5,27 +5,27 @@ const columns = [
     heading: 'Overview',
     links: [
       { label: 'How it works', to: '/' },
-      { label: 'Features', to: '/' },
-      { label: 'Pricing', to: '/' },
-      { label: 'Integrations', to: '/' },
-      { label: 'Security', to: '/' },
+      { label: 'Features', to: '/support-agent' },
+      { label: 'Pricing', to: '/pricing' },
+      { label: 'Integrations', to: '/integrations' },
+      { label: 'Security', to: '/roles/compliance-risk' },
     ],
   },
   {
     heading: 'Industries',
     links: [
-      { label: 'Banking', to: '/industries' },
-      { label: 'Payments', to: '/industries' },
-      { label: 'Crypto & Web3', to: '/industries' },
-      { label: 'Insurance', to: '/industries' },
-      { label: 'Lending', to: '/industries' },
+      { label: 'Banking', to: '/industries/neobanks' },
+      { label: 'Payments', to: '/industries/payments-processing' },
+      { label: 'Crypto & Web3', to: '/industries/crypto-web3' },
+      { label: 'Insurance', to: '/industries/insurtech' },
+      { label: 'Lending', to: '/industries/lending-credit' },
     ],
   },
   {
     heading: 'Resources',
     links: [
       { label: 'Blog', to: '/resources' },
-      { label: 'Documentation', to: '/developers' },
+      { label: 'Documentation', to: '/resources' },
       { label: 'Webinars', to: '/resources' },
       { label: 'Case studies', to: '/resources' },
       { label: 'Status', to: '/resources' },
@@ -36,7 +36,7 @@ const columns = [
     links: [
       { label: 'About us', to: '/about' },
       { label: 'Careers', to: '/about' },
-      { label: 'For partners', to: '/partners' },
+      { label: 'For partners', to: '/contact' },
       { label: 'Press room', to: '/about' },
       { label: 'Contact us', to: '/contact' },
     ],
@@ -44,11 +44,11 @@ const columns = [
   {
     heading: 'Legal',
     links: [
-      { label: 'Compliance', to: '/' },
-      { label: 'Privacy policy', to: '/' },
-      { label: 'Cookie policy', to: '/' },
-      { label: 'Terms of use', to: '/' },
-      { label: 'GDPR', to: '/' },
+      { label: 'Compliance', to: '/roles/compliance-risk' },
+      { label: 'Privacy policy', to: '/contact' },
+      { label: 'Cookie policy', to: '/contact' },
+      { label: 'Terms of use', to: '/contact' },
+      { label: 'GDPR', to: '/contact' },
     ],
   },
 ]
