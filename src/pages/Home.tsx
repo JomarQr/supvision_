@@ -365,6 +365,74 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Built by operators */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+
+            {/* Left — text */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Our story</p>
+              <h2 className="mt-5 text-4xl font-bold leading-snug text-white sm:text-5xl">
+                Built by people who lived the problem.
+              </h2>
+              <p className="mt-6 text-base leading-relaxed text-gray-400">
+                supVision was not built by engineers who read about fintech. It was built by operators who spent over a decade inside financial services — running support teams, managing KYC queues, handling regulator audits, and watching knowledge walk out the door every time an agent left.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-gray-400">
+                We tried every generic AI tool on the market. None of them understood what a chargeback workflow looks like. None of them knew the difference between a payment pending and a payment failed. None of them were built for PSD2 or FCA compliance from day one.
+              </p>
+              <p className="mt-4 text-base font-semibold text-white">
+                So we built what we needed — and opened it up to the industry.
+              </p>
+
+              <div className="mt-10 flex flex-wrap items-center gap-6">
+                <Link
+                  to="/about"
+                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                >
+                  <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+                  <span className="relative z-10 transition-colors duration-300">Read our story</span>
+                  <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                </Link>
+                <div className="flex items-center gap-4">
+                  <div className="h-px w-8 bg-white/20" />
+                  <span className="text-sm text-white/50">10+ years in fintech before writing a line of code</span>
+                </div>
+              </div>
+
+              <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-10">
+                {[
+                  { value: '10+', label: 'Years inside fintech operations' },
+                  { value: '3 days', label: 'Average time to go live' },
+                  { value: '80%', label: 'Tier-1 tickets resolved automatically' },
+                ].map(m => (
+                  <div key={m.label}>
+                    <p className="text-3xl font-black text-white">{m.value}</p>
+                    <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right — image */}
+            <div className="overflow-hidden rounded-2xl" style={{ minHeight: '520px' }}>
+              <img
+                src="/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png"
+                alt="supVision team"
+                className="h-full w-full object-cover"
+                style={{ minHeight: '520px' }}
+              />
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* Feature deep-dive header */}
       <section className="pt-24 pb-4 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="mx-auto max-w-7xl px-6 text-center">
