@@ -955,7 +955,6 @@ const valueProps = [
     img: '/hero_images/Component 172.png',
     imgAlt: 'Onboarding and integration setup flow',
     robot: false,
-    robotOverlay: '/robot/robot_on_hand.png',
     robotSide: 'left' as const,
   },
   {
