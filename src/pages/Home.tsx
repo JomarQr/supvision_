@@ -118,15 +118,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Industries ticker — plain icon + text, fades at edges, slides under dashboard */}
+          {/* Industries ticker — plain icon + text, fades at edges */}
           <div
             className="mt-14 overflow-hidden"
             style={{
-              marginLeft: 'calc(-1 * max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem)))',
-              marginRight: '0',
-              paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))',
-              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 78%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 78%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
             }}
           >
             <div
