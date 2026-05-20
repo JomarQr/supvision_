@@ -6,19 +6,23 @@ export default function Home() {
   const [activeT, setActiveT] = useState(0)
   const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
   const controlSectionRef = useRef<HTMLDivElement>(null)
+  const integrationSectionRef = useRef<HTMLDivElement>(null)
+  const visibilitySectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!controlSectionRef.current) return
-      const rect = controlSectionRef.current.getBoundingClientRect()
+    const makeHandler = (ref: React.RefObject<HTMLDivElement>, sectionIndex: number, featureCount: number) => () => {
+      if (!ref.current) return
+      const rect = ref.current.getBoundingClientRect()
       const scrolled = -rect.top
-      const totalScrollable = controlSectionRef.current.offsetHeight - window.innerHeight
+      const totalScrollable = ref.current.offsetHeight - window.innerHeight
       if (scrolled <= 0 || scrolled >= totalScrollable) return
-      const progress = scrolled / totalScrollable
-      const count = featureSections[0].features.length
-      const index = Math.min(Math.floor(progress * count), count - 1)
-      setActiveFeatures(prev => prev[0] === index ? prev : { ...prev, 0: index })
+      const index = Math.min(Math.floor((scrolled / totalScrollable) * featureCount), featureCount - 1)
+      setActiveFeatures(prev => prev[sectionIndex] === index ? prev : { ...prev, [sectionIndex]: index })
     }
+    const h0 = makeHandler(controlSectionRef, 0, featureSections[0].features.length)
+    const h1 = makeHandler(integrationSectionRef, 1, featureSections[1].features.length)
+    const h2 = makeHandler(visibilitySectionRef, 2, featureSections[2].features.length)
+    const handleScroll = () => { h0(); h1(); h2() }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -429,63 +433,103 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Integration & Visibility — normal sections */}
-      {featureSections.slice(1).map((sec, idx) => {
-        const si = idx + 1
-        const imageLeft = si === 1
-        return (
-          <section key={sec.label} className={`py-24 px-4 sm:px-6 lg:px-8 ${si % 2 === 1 ? 'bg-gray-50' : 'bg-white'}`}>
-            <div className="mx-auto max-w-7xl px-6">
-              <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
+      {/* Integration — scroll-driven sticky, image LEFT */}
+      <div
+        ref={integrationSectionRef}
+        className="relative bg-gray-50"
+        style={{ height: `${featureSections[1].features.length * 100}vh` }}
+      >
+        <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
+          <div className="mx-auto w-full max-w-7xl px-6">
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
 
-                <div
-                  className={`overflow-hidden rounded-2xl lg:w-[60%] ${imageLeft ? 'lg:order-first' : 'lg:order-last'}`}
+              {/* Image — LEFT, 60% */}
+              <div className="order-first overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
+                <img
+                  key={activeFeatures[1]}
+                  src={featureSections[1].features[activeFeatures[1]]?.img ?? featureSections[1].img}
+                  alt={featureSections[1].features[activeFeatures[1]]?.title}
+                  className="h-full w-full object-cover object-top transition-opacity duration-300"
                   style={{ minHeight: '480px' }}
-                >
-                  <img
-                    src={sec.img}
-                    alt={sec.title}
-                    className="h-full w-full object-cover object-top"
-                    style={{ minHeight: '480px' }}
-                    onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                  />
-                </div>
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+              </div>
 
-                <div className="lg:w-[40%] lg:flex-shrink-0">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{sec.label}</p>
-                  <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{sec.title}</h2>
-                  <p className="mt-5 text-sm leading-relaxed text-gray-500">{sec.description}</p>
-
-                  <div className="mt-10">
-                    <p className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                    <div className="divide-y divide-gray-200 border-t border-gray-200">
-                      {sec.features.map((f, fi) => (
-                        <div key={f.title}>
-                          <button
-                            onClick={() => setActiveFeatures(prev => ({ ...prev, [si]: fi === prev[si] ? -1 : fi }))}
-                            className="flex w-full items-center justify-between py-2.5 text-left"
-                          >
-                            <span className={`text-sm font-semibold transition-colors ${fi === activeFeatures[si] ? 'text-gray-900' : 'text-gray-500 hover:text-gray-800'}`}>
-                              {f.title}
-                            </span>
-                            <span className="ml-4 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 text-base leading-none">
-                              {fi === activeFeatures[si] ? '−' : '+'}
-                            </span>
-                          </button>
-                          {fi === activeFeatures[si] && (
-                            <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.description}</p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+              {/* Text — right, 40% */}
+              <div className="lg:w-[40%] lg:flex-shrink-0">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[1].label}</p>
+                <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[1].title}</h2>
+                <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[1].description}</p>
+                <div className="mt-8">
+                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                  <div className="divide-y divide-gray-100 border-t border-gray-100">
+                    {featureSections[1].features.map((f, fi) => (
+                      <div key={f.title} className="py-3">
+                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[1] ? 'text-gray-900' : 'text-gray-400'}`}>
+                          {f.title}
+                        </p>
+                        {fi === activeFeatures[1] && (
+                          <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
-
               </div>
+
             </div>
-          </section>
-        )
-      })}
+          </div>
+        </div>
+      </div>
+
+      {/* Visibility — scroll-driven sticky, image RIGHT */}
+      <div
+        ref={visibilitySectionRef}
+        className="relative bg-white"
+        style={{ height: `${featureSections[2].features.length * 100}vh` }}
+      >
+        <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
+          <div className="mx-auto w-full max-w-7xl px-6">
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
+
+              {/* Image — RIGHT, 60% */}
+              <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
+                <img
+                  key={activeFeatures[2]}
+                  src={featureSections[2].features[activeFeatures[2]]?.img ?? featureSections[2].img}
+                  alt={featureSections[2].features[activeFeatures[2]]?.title}
+                  className="h-full w-full object-cover object-top transition-opacity duration-300"
+                  style={{ minHeight: '480px' }}
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+              </div>
+
+              {/* Text — left, 40% */}
+              <div className="lg:w-[40%] lg:flex-shrink-0">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[2].label}</p>
+                <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[2].title}</h2>
+                <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[2].description}</p>
+                <div className="mt-8">
+                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                  <div className="divide-y divide-gray-100 border-t border-gray-100">
+                    {featureSections[2].features.map((f, fi) => (
+                      <div key={f.title} className="py-3">
+                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[2] ? 'text-gray-900' : 'text-gray-400'}`}>
+                          {f.title}
+                        </p>
+                        {fi === activeFeatures[2] && (
+                          <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Compliance & Security */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
@@ -703,10 +747,10 @@ const featureSections: { label: string; title: string; description: string; img:
     img: '/hero_images/Component 175.png',
     bgGradient: 'linear-gradient(135deg, #d8e0d0 0%, #a0b890 50%, #708060 100%)',
     features: [
-      { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context — regulator-ready out of the box.' },
-      { title: 'AI Decision Logs', description: 'See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training.' },
-      { title: 'Log Streaming', description: 'Send real-time workflow data to tools like Datadog or Splunk for centralized monitoring, alerting, and integration with your existing security stack.' },
-      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes — structured, signed, and ready to share without manual extraction.' },
+      { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context — regulator-ready out of the box.', img: '/visibility/Full Audit Trail.png' },
+      { title: 'AI Decision Logs', description: 'See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training.', img: '/visibility/AI Decision Logs.png' },
+      { title: 'Log Streaming', description: 'Send real-time workflow data to tools like Datadog or Splunk for centralized monitoring, alerting, and integration with your existing security stack.', img: '/visibility/Log Streaming.png' },
+      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes — structured, signed, and ready to share without manual extraction.', img: '/visibility/Regulator Exports.png' },
     ],
   },
 ]
