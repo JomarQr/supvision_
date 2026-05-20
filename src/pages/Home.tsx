@@ -228,7 +228,7 @@ export default function Home() {
               <div
                 key={b.title}
                 className="sticky"
-                style={{ top: `${108 + i * 28}px`, zIndex: i + 1 }}
+                style={{ top: `${108 + i * 40}px`, zIndex: i + 1 }}
               >
                 <div className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
                   {/* Before */}
@@ -842,6 +842,22 @@ const benefits = [
     title: 'Reduce costs, improve quality',
     after: 'Teams using SupVision report 52% lower support costs and 98.4% resolution rate, tracked in real time on your dashboard.',
     afterImg: '/benefits/Reduce costs, improve quality.png',
+  },
+  {
+    beforeTitle: 'Support stops at 5pm',
+    before: 'Customers hit payment failures and KYC blocks at midnight, on weekends, across time zones — with no one available to help.',
+    beforeImg: '/hero_images/live-chat-response.png',
+    title: '24/7 AI support, always on',
+    after: 'supVision resolves queries around the clock with no shift changes, no SLA gaps, and no human fatigue. Every customer gets an instant response.',
+    afterImg: '/hero_images/ticket-list-resolved.png',
+  },
+  {
+    beforeTitle: 'Every new market means more staff',
+    before: 'Expanding to a new region requires hiring and training local support agents — slowing down every market entry.',
+    beforeImg: '/hero_images/onboarding-setup.png',
+    title: 'Go global without scaling headcount',
+    after: 'supVision supports 50+ languages out of the box. Launch in a new market and your support function scales automatically, from day one.',
+    afterImg: '/hero_images/analytics-dashboard.png',
   },
 ]
 
