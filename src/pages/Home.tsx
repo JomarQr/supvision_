@@ -6,7 +6,6 @@ export default function Home() {
   const [activeT, setActiveT] = useState(0)
   const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
   const controlSectionRef = useRef<HTMLDivElement>(null)
-  const integrationSectionRef = useRef<HTMLDivElement>(null)
   const visibilitySectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -20,9 +19,8 @@ export default function Home() {
       setActiveFeatures(prev => prev[sectionIndex] === index ? prev : { ...prev, [sectionIndex]: index })
     }
     const h0 = makeHandler(controlSectionRef, 0, featureSections[0].features.length)
-    const h1 = makeHandler(integrationSectionRef, 1, featureSections[1].features.length)
     const h2 = makeHandler(visibilitySectionRef, 2, featureSections[2].features.length)
-    const handleScroll = () => { h0(); h1(); h2() }
+    const handleScroll = () => { h0(); h2() }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -433,55 +431,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Integration — scroll-driven sticky, image LEFT */}
-      <div
-        ref={integrationSectionRef}
-        className="relative bg-gray-50"
-        style={{ height: `${featureSections[1].features.length * 100}vh` }}
-      >
-        <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
-          <div className="mx-auto w-full max-w-7xl px-6">
-            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
-
-              {/* Image — LEFT, 60% */}
-              <div className="order-first overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
-                <img
-                  key={activeFeatures[1]}
-                  src={featureSections[1].features[activeFeatures[1]]?.img ?? featureSections[1].img}
-                  alt={featureSections[1].features[activeFeatures[1]]?.title}
-                  className="h-full w-full object-cover object-top transition-opacity duration-300"
-                  style={{ minHeight: '480px' }}
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
-              </div>
-
-              {/* Text — right, 40% */}
-              <div className="lg:w-[40%] lg:flex-shrink-0">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[1].label}</p>
-                <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[1].title}</h2>
-                <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[1].description}</p>
-                <div className="mt-8">
-                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                  <div className="divide-y divide-gray-100 border-t border-gray-100">
-                    {featureSections[1].features.map((f, fi) => (
-                      <div key={f.title} className="py-3">
-                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[1] ? 'text-gray-900' : 'text-gray-400'}`}>
-                          {f.title}
-                        </p>
-                        {fi === activeFeatures[1] && (
-                          <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Visibility — scroll-driven sticky, image RIGHT */}
       <div
         ref={visibilitySectionRef}
@@ -530,6 +479,62 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Integration finder */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="rounded-3xl px-10 py-16 text-center" style={{ backgroundColor: '#f0ede8' }}>
+            <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl mx-auto max-w-2xl">
+              Our{' '}
+              <span className="inline-flex items-center rounded-xl px-3 py-1 font-bold" style={{ backgroundColor: 'rgba(33,73,149,0.12)', color: '#214995' }}>
+                integration finder
+              </span>
+              {' '}helps you connect the tools you already use to{' '}
+              <span className="inline-flex items-center rounded-xl px-3 py-1 font-bold" style={{ backgroundColor: 'rgba(33,73,149,0.2)', color: '#214995' }}>
+                automate fintech support
+              </span>
+            </h2>
+
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              {[
+                { label: 'Helpdesk', options: ['Zendesk', 'Intercom', 'Freshdesk', 'Salesforce'] },
+                { label: 'Core Banking & KYC', options: ['Sumsub', 'Jumio', 'Mambu', 'Onfido'] },
+                { label: 'Payment Processor', options: ['Stripe', 'Adyen', 'Nuvei', 'Ecommpay'] },
+                { label: 'Channel', options: ['WhatsApp', 'Telegram', 'Email', 'Live Chat'] },
+              ].map(({ label, options }) => (
+                <div key={label} className="relative">
+                  <select
+                    className="appearance-none rounded-full border-2 border-gray-900 bg-white pl-5 pr-10 py-3 text-sm font-semibold text-gray-900 cursor-pointer focus:outline-none"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>{label}</option>
+                    {options.map(o => <option key={o}>{o}</option>)}
+                  </select>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900">
+                    <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              ))}
+              <Link
+                to="/integrations"
+                className="flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                Show all
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+
+            <p className="mt-8 text-sm text-gray-500">
+              Can't find your tool?{' '}
+              <Link to="/contact" className="font-semibold text-gray-900 hover:underline">
+                Let's talk about your stack →
+              </Link>
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Compliance & Security */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
