@@ -387,15 +387,16 @@ export default function Home() {
       >
         <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
           <div className="mx-auto w-full max-w-7xl px-6">
-            <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-8">
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
 
               {/* Image — right, 60% */}
-              <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ height: '75vh' }}>
+              <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
                 <img
                   key={activeFeatures[0]}
                   src={featureSections[0].features[activeFeatures[0]]?.img ?? featureSections[0].img}
                   alt={featureSections[0].features[activeFeatures[0]]?.title}
                   className="h-full w-full object-cover object-top transition-opacity duration-300"
+                  style={{ minHeight: '480px' }}
                   onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
                 />
               </div>
