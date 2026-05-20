@@ -72,18 +72,6 @@ export default function Home() {
                 alt="Dashboard preview"
                 className="w-full rounded-2xl shadow-2xl ring-1 ring-white/10"
               />
-              <img
-                src="/2nd scree.png"
-                alt="Second screen preview"
-                className="absolute rounded-xl shadow-2xl ring-1 ring-white/10"
-                style={{ width: '32%', top: '83%', left: '-13%', transform: 'translateY(-50%)' }}
-              />
-              <img
-                src="/bg/Layer_1 (1).png"
-                alt=""
-                className="absolute"
-                style={{ width: '30%', top: '30%', right: '22%' }}
-              />
             </div>
           </div>
         </div>
@@ -118,14 +106,6 @@ export default function Home() {
               </span>
             </Link>
 
-            <p className="mt-4 text-sm font-medium text-white">
-              Enterprise-grade security. PCI DSS & GDPR compliant.
-            </p>
-
-            <div className="mt-4 flex items-center gap-3">
-              <img src="/badge/image.png" alt="Badge" className="h-24 w-auto" />
-              <img src="/badge/image 26 (3).png" alt="Badge" className="h-16 w-auto" />
-            </div>
           </div>
         </div>
       </section>
