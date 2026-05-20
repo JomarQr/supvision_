@@ -45,10 +45,10 @@ const columns = [
     heading: 'Legal',
     links: [
       { label: 'Compliance', to: '/roles/compliance-risk' },
-      { label: 'Privacy policy', to: '/contact' },
-      { label: 'Cookie policy', to: '/contact' },
-      { label: 'Terms of use', to: '/contact' },
-      { label: 'GDPR', to: '/contact' },
+      { label: 'Privacy policy', to: '/privacy-policy' },
+      { label: 'Cookie policy', to: '/privacy-policy' },
+      { label: 'Terms of use', to: '/privacy-policy' },
+      { label: 'GDPR', to: '/privacy-policy' },
     ],
   },
 ]

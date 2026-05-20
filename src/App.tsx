@@ -77,6 +77,7 @@ import HeadOfSupport from '@/pages/roles/HeadOfSupport'
 import ComplianceRisk from '@/pages/roles/ComplianceRisk'
 import OperationsGrowth from '@/pages/roles/OperationsGrowth'
 import FoundersCsuite from '@/pages/roles/FoundersCsuite'
+import PrivacyPolicy from '@/pages/PrivacyPolicy'
 import NotFound from '@/pages/NotFound'
 
 export default function App() {
@@ -106,6 +107,7 @@ export default function App() {
         <Route path="/roles/compliance-risk" element={<ComplianceRisk />} />
         <Route path="/roles/operations-growth" element={<OperationsGrowth />} />
         <Route path="/roles/founders-csuite" element={<FoundersCsuite />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
