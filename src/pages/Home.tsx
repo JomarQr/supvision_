@@ -248,6 +248,38 @@ export default function Home() {
               </span>
             </Link>
           </div>
+
+          {/* Dashboard preview */}
+          <div className="mt-16 mx-auto max-w-5xl">
+            <div
+              className="overflow-hidden rounded-2xl"
+              style={{
+                background: '#0d1117',
+                boxShadow: '0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06)',
+              }}
+            >
+              {/* Fake browser bar */}
+              <div className="flex items-center gap-2 px-5 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                <span className="h-3 w-3 rounded-full bg-red-500/70" />
+                <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
+                <span className="h-3 w-3 rounded-full bg-green-500/70" />
+                <div className="mx-auto flex items-center gap-2 rounded-md px-4 py-1.5 text-xs text-white/30" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3">
+                    <path fillRule="evenodd" d="M8 1a2.5 2.5 0 0 1 2.5 2.5V5h-5V3.5A2.5 2.5 0 0 1 8 1Zm-3.5 4v-.5a3.5 3.5 0 1 1 7 0V5h.5A1.5 1.5 0 0 1 13.5 6.5v6A1.5 1.5 0 0 1 12 14H4a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 4 5h.5Z" clipRule="evenodd" />
+                  </svg>
+                  platform.supvision.ai
+                </div>
+              </div>
+              {/* Dashboard image */}
+              <img
+                src="/example_of_dashboard.png"
+                alt="supVision platform dashboard"
+                className="w-full"
+                style={{ display: 'block' }}
+              />
+            </div>
+          </div>
+
         </div>
       </section>
 
