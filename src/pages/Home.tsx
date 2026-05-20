@@ -145,11 +145,21 @@ export default function Home() {
         <div className="absolute bottom-10 left-0 right-0 z-10 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl px-6 grid grid-cols-4 gap-4">
             {heroFeatures.slice(0, 4).map((item) => (
-              <div key={item.label} className="flex items-start gap-3 rounded-2xl bg-white px-5 py-5 shadow-sm">
-                <div className="flex-shrink-0 mt-0.5" style={{ color: '#214995' }}>{item.icon}</div>
+              <div
+                key={item.label}
+                className="flex items-start gap-3 rounded-2xl px-5 py-5"
+                style={{
+                  background: 'rgba(255,255,255,0.12)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+                }}
+              >
+                <div className="flex-shrink-0 mt-0.5 text-white">{item.icon}</div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-800 leading-snug">{item.label}</p>
-                  {item.desc && <p className="mt-1 text-xs leading-snug text-gray-400">{item.desc}</p>}
+                  <p className="text-sm font-semibold text-white leading-snug">{item.label}</p>
+                  {item.desc && <p className="mt-1 text-xs leading-snug text-white/60">{item.desc}</p>}
                 </div>
               </div>
             ))}
