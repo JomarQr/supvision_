@@ -81,6 +81,15 @@
     scroll-behavior: auto;
   }
 
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes ticker-rev {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
   body {
     @apply bg-white text-gray-900 font-sans antialiased;
   }
