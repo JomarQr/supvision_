@@ -15,7 +15,7 @@ export const allIntegrations: Integration[] = [
     name: 'Telegram', category: 'Messaging', logo: '/logos/telegram.png',
     tagline: 'Instant messaging & bot automation',
     functions: ['Receive & reply to customer messages', 'Send automated notifications', 'Handle file & document requests', 'Support group & channel queries', 'Seamless handoff to human agents'],
-    description: 'supVision connects via Telegram Bot API to handle customer queries in real time. Customers message your Telegram bot and the Support Agent replies instantly — pulling live data from your core banking or KYC provider before every response.',
+    description: 'supVision connects via Telegram Bot API to handle customer queries in real time. Customers message your Telegram bot and the Support Agent replies instantly — pulling live data from your KYC provider and knowledge base before every response.',
   },
   {
     name: 'Gmail', category: 'Messaging', logo: '/logos/gmail.png',
@@ -57,7 +57,7 @@ export const allIntegrations: Integration[] = [
     name: 'Intercom', category: 'Helpdesks', logo: '/logos/intecom (1).png',
     tagline: 'Automated conversations in Intercom',
     functions: ['Auto-answer live chat queries', 'Pull CRM & account data in context', 'Trigger custom bots on keywords', 'Route to human inbox on escalation', 'CSAT & resolution tracking'],
-    description: 'Deploy supVision inside your Intercom workspace. The agent handles live chat queries autonomously, surfacing real-time data from your payment processor or core banking API before every reply.',
+    description: 'Deploy supVision inside your Intercom workspace. The agent handles live chat queries autonomously, surfacing real-time data from your KYC provider and CRM before every reply.',
   },
   {
     name: 'Freshdesk', category: 'Helpdesks', logo: '/logos/freshdesk.png',

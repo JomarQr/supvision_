@@ -39,7 +39,7 @@ const howItWorks = [
   {
     step: '02',
     title: 'Agent reads full context',
-    desc: 'Pulls live data from your CRM, core banking API, KYC provider, and payment processor. No guessing — every response is grounded in the customer\'s actual account state.',
+    desc: 'Pulls live data from your CRM, KYC provider, and knowledge base. No guessing — every response is grounded in the customer\'s actual account state and your internal policies.',
   },
   {
     step: '03',

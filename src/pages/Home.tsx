@@ -759,7 +759,7 @@ const faqItems = [
   },
   {
     q: 'How long does it take to go live?',
-    a: 'Most teams are live within 3–5 business days. supVision connects to your existing helpdesk, CRM, and core banking APIs, no platform migration required. You configure escalation rules, set confidence thresholds, and go. There is no 6-month implementation project.',
+    a: 'Most teams are live within 3–5 business days. supVision connects to your existing helpdesk, CRM, and KYC providers — no platform migration required. You configure escalation rules, set confidence thresholds, and go. There is no 6-month implementation project.',
   },
   {
     q: 'What happens when supVision cannot resolve an issue?',
@@ -771,7 +771,7 @@ const faqItems = [
   },
   {
     q: 'Can supVision work with our existing tools?',
-    a: 'supVision integrates with the tools your team already uses, Zendesk, Intercom, Salesforce, Freshdesk, and custom CRMs via API. On the back end it connects to your core banking system, KYC provider, and payment processor to resolve queries with real data, not generic responses.',
+    a: 'supVision integrates with the tools your team already uses — Zendesk, Intercom, Salesforce, Freshdesk, and custom CRMs. It also connects to your KYC provider and knowledge base to resolve queries with real data and your own internal policies, not generic responses.',
   },
   {
     q: 'How is supVision priced?',
@@ -888,13 +888,13 @@ const featureSections: { label: string; title: string; description: string; img:
   {
     label: 'Integration',
     title: 'Connects to your existing stack in days',
-    description: 'supVision runs on top of what you already use — no platform migration, no rip-and-replace. Connect your helpdesk, core banking system, KYC provider, and payment processor, and go live in 3 to 5 business days.',
+    description: 'supVision runs on top of what you already use — no platform migration, no rip-and-replace. Connect your helpdesk, KYC provider, CRM, and knowledge base, and go live in 3 to 5 business days.',
     img: '/hero_images/Component 172.png',
     bgGradient: 'linear-gradient(135deg, #c8d8e8 0%, #8aaac8 50%, #607890 100%)',
     features: [
       { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud — supVision works inside your existing ticket workflow, not alongside it.' },
-      { title: 'Core Banking & KYC', description: 'Pull live account data, transaction status, and KYC verification results in real time from Sumsub, Jumio, Mambu, and more — before every response.' },
-      { title: 'Payment Processors', description: 'Connect to Stripe, Adyen, Nuvei, and Ecommpay so supVision can resolve payment failure and dispute queries with live data, not guesswork.' },
+      { title: 'KYC Providers', description: 'Pull live verification status, document rejection reasons, and risk flags in real time from Sumsub, Jumio, Veriff, and Onfido — before every response.' },
+      { title: 'Knowledge Base', description: 'Index your Confluence spaces, Notion pages, or Guru cards so the agent answers using your own internal policies and procedures — not generic responses.' },
       { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously — one supVision instance, every channel your customers use.' },
       { title: 'Webhook & API', description: 'Integrate with any internal tool via REST API or webhooks. If it has an API, supVision can query it before responding to a customer.' },
     ],
@@ -1042,7 +1042,7 @@ const valueProps = [
   {
     stat: '3 days',
     headline: 'Live in 3 days. Not 6 months.',
-    body: 'No platform migration, no lengthy implementation. SupVision connects to your existing helpdesk, KYC provider, and payment processor in days — then you\'re live.',
+    body: 'No platform migration, no lengthy implementation. SupVision connects to your existing helpdesk, KYC provider, and CRM in days — then you\'re live.',
     img: '/hero_images/Component 172.png',
     imgAlt: 'Onboarding and integration setup flow',
     robot: false,
