@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import IntegrationFinder from '../components/ui/IntegrationFinder'
 
 export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
@@ -83,16 +82,16 @@ export default function Home() {
 
         {/* Left content column */}
         <div
-          className="relative z-10 flex flex-col"
+          className="relative z-10 flex flex-col self-stretch"
           style={{
             width: '53vw',
             paddingTop: '6rem',
-            paddingBottom: '3rem',
+            paddingBottom: '12rem',
             paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))',
           }}
         >
           {/* Text block */}
-          <div className="pr-8">
+          <div className="pr-8 mt-12">
             <div className="mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
               An AI support layer tailored for fintech industries
             </div>
@@ -107,28 +106,11 @@ export default function Home() {
               Next generation AI support agent. Not the type that people try to bypass to speak to a real person — but a full fledged support that is able to resolve 80% of queries without any human intervention.
             </p>
 
-            <div className="mt-10">
-              <Link
-                to="/contact"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/40 pl-6 pr-1.5 py-1.5 text-base font-semibold text-white"
-              >
-                <span
-                  className="absolute right-[6px] top-1/2 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]"
-                  style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.2)' }}
-                />
-                <span className="relative z-10">Let's chat</span>
-                <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
           </div>
 
           {/* Industries ticker — plain icon + text, fades at edges */}
           <div
-            className="mt-14 overflow-hidden"
+            className="mt-auto overflow-hidden"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
@@ -145,6 +127,24 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="mt-8 pr-8">
+            <Link
+              to="/contact"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/40 pl-6 pr-1.5 py-1.5 text-base font-semibold text-white"
+            >
+              <span
+                className="absolute right-[6px] top-1/2 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]"
+                style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.2)' }}
+              />
+              <span className="relative z-10">Let's chat</span>
+              <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
+            </Link>
           </div>
 
         </div>
@@ -267,72 +267,12 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Integrations preview */}
-          <div className="mt-16 -mx-6">
-            <IntegrationFinder />
-          </div>
-
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
-        <div className="mx-auto max-w-7xl px-6">
-
-          <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
-          </div>
-
-          {/* Stacked sticky cards */}
-          <div className="flex flex-col gap-4">
-            {benefits.map((b, i) => (
-              <div
-                key={b.title}
-                className="sticky"
-                style={{ top: `${108 + i * 40}px`, zIndex: i + 1 }}
-              >
-                <div className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
-                  {/* Before */}
-                  <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '220px' }}>
-                    <div className="flex-1 flex flex-col">
-                      <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
-                      <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
-                      <p className="mt-2 text-base leading-relaxed text-white/70">{b.before}</p>
-                    </div>
-                    <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
-                      <img src={b.beforeImg} alt="Before" className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                    </div>
-                  </div>
-                  {/* After */}
-                  <div className="flex items-start justify-between gap-4 bg-white p-6" style={{ minHeight: '220px' }}>
-                    <div className="flex-1 flex flex-col">
-                      <p className="mb-3 text-base font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
-                      <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
-                      <p className="mt-2 text-base leading-relaxed text-gray-500">{b.after}</p>
-                    </div>
-                    <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
-                      <img src={b.afterImg} alt={b.title} className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                    </div>
-                  </div>
-                  {/* Arrow */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
         </div>
       </section>
 
       {/* Integration finder */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="rounded-3xl px-10 py-16 text-center" style={{ backgroundColor: '#f0ede8' }}>
             <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl mx-auto max-w-2xl">
               Our{' '}
@@ -442,6 +382,61 @@ export default function Home() {
               </Link>
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
+        <div className="mx-auto max-w-7xl px-6">
+
+          <div className="mb-12 text-center">
+            <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
+          </div>
+
+          {/* Stacked sticky cards */}
+          <div className="flex flex-col gap-4">
+            {benefits.map((b, i) => (
+              <div
+                key={b.title}
+                className="sticky"
+                style={{ top: `${108 + i * 40}px`, zIndex: i + 1 }}
+              >
+                <div className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
+                  {/* Before */}
+                  <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '220px' }}>
+                    <div className="flex-1 flex flex-col">
+                      <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
+                      <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
+                      <p className="mt-2 text-base leading-relaxed text-white/70">{b.before}</p>
+                    </div>
+                    <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
+                      <img src={b.beforeImg} alt="Before" className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                    </div>
+                  </div>
+                  {/* After */}
+                  <div className="flex items-start justify-between gap-4 bg-white p-6" style={{ minHeight: '220px' }}>
+                    <div className="flex-1 flex flex-col">
+                      <p className="mb-3 text-base font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
+                      <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
+                      <p className="mt-2 text-base leading-relaxed text-gray-500">{b.after}</p>
+                    </div>
+                    <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
+                      <img src={b.afterImg} alt={b.title} className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                    </div>
+                  </div>
+                  {/* Arrow */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 
