@@ -32,9 +32,9 @@ const overviewCategories = [
     items: [
       { label: 'Helpdesks', desc: 'Zendesk, Intercom, Freshdesk, Salesforce Service Cloud', to: '/integrations#helpdesks' },
       { label: 'Messaging channels', desc: 'WhatsApp, Telegram, Email, live chat widget', to: '/integrations#messaging' },
-      { label: 'Core banking', desc: 'Real-time account, transaction and card data', to: '/integrations#banking' },
+      { label: 'Knowledge base', desc: 'Confluence, Notion, Guru — policies your agent follows', to: '/integrations#knowledge' },
       { label: 'KYC providers', desc: 'Sumsub, Jumio, Onfido, Veriff and more', to: '/integrations#kyc' },
-      { label: 'Payment processors', desc: 'Stripe, Nuvei, Ecommpay, Adyen and more', to: '/integrations#payments' },
+      { label: 'Collaboration', desc: 'Slack, Teams, Jira, Linear for escalation workflows', to: '/integrations#collaboration' },
       { label: 'CRM', desc: 'Salesforce, HubSpot, Pipedrive and more', to: '/integrations#crm' },
     ],
   },
@@ -79,8 +79,6 @@ const resourcesDropdown = {
 export default function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const isHome = pathname === '/'
-
   function handleLogoClick(e: React.MouseEvent) {
     e.preventDefault()
     if (pathname === '/') {
@@ -90,16 +88,29 @@ export default function Header() {
     }
   }
 
-  const [pinned, setPinned] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    const check = () => {
+      const el = document.elementFromPoint(window.innerWidth / 2, 90)
+      if (!el) { setIsDark(false); return }
+      let node: Element | null = el
+      while (node && node !== document.body) {
+        if (node.hasAttribute('data-nav-dark')) { setIsDark(true); return }
+        node = node.parentElement
+      }
+      setIsDark(false)
+    }
+    window.addEventListener('scroll', check, { passive: true })
+    check()
+    return () => window.removeEventListener('scroll', check)
+  }, [pathname])
 
   const [overviewOpen, setOverviewOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState('solutions')
   const [forWhomOpen, setForWhomOpen] = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
 
-  const pinnedRef = useRef(false)
-  const lastScrollY = useRef(0)
   const overviewTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const forWhomTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const resourcesTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -115,25 +126,6 @@ export default function Header() {
     if (!overviewOpen) setActiveCategory('solutions')
   }, [overviewOpen])
 
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY
-      const prev = lastScrollY.current
-      if (y < prev && y > 80 && !pinnedRef.current) {
-        pinnedRef.current = true
-        setPinned(true)
-        requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
-      } else if ((y > prev || y <= 10) && pinnedRef.current) {
-        pinnedRef.current = false
-        setVisible(false)
-        setTimeout(() => setPinned(false), 300)
-      }
-      lastScrollY.current = y
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   const open = (setter: (v: boolean) => void, timer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>) => {
     if (timer.current) clearTimeout(timer.current)
     setter(true)
@@ -142,11 +134,7 @@ export default function Header() {
     timer.current = setTimeout(() => setter(false), 120)
   }
 
-  const isLight = pinned
-  const linkClass = [
-    'text-base font-semibold transition-colors duration-300 hover:!text-[#214995]',
-    isLight ? 'text-gray-900' : 'text-white group-hover:text-gray-900',
-  ].join(' ')
+  const linkClass = `text-base font-semibold transition-colors duration-300 ${isDark ? 'text-white hover:!text-white/70' : 'text-gray-900 hover:!text-[#214995]'}`
 
   const activeCat = overviewCategories.find(c => c.key === activeCategory) ?? overviewCategories[0]
 
@@ -159,22 +147,16 @@ export default function Header() {
         className="fixed inset-0 z-40 bg-black transition-opacity duration-300 pointer-events-none"
         style={{ opacity: navHovered ? 0.45 : 0 }}
       />
-    <header
-      className={[
-        pinned ? 'fixed' : 'absolute',
-        'top-0 left-0 right-0 z-50 px-4 pt-4 sm:px-6 lg:px-8 transition-transform duration-300',
-        pinned ? (visible ? 'translate-y-0' : '-translate-y-full') : 'translate-y-0',
-      ].join(' ')}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
       <div
-        className={[
-          'group mx-auto max-w-7xl rounded-2xl transition-all duration-300',
-          isLight
-            ? 'bg-white shadow-lg'
-            : isHome
-              ? 'bg-transparent hover:bg-white hover:shadow-lg'
-              : 'bg-gray-900/95 backdrop-blur-sm hover:bg-white hover:shadow-lg',
-        ].join(' ')}
+        className="group mx-auto max-w-7xl rounded-2xl"
+        style={{
+          background: 'rgba(255,255,255,0.12)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255,255,255,0.25)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+        }}
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
@@ -183,10 +165,10 @@ export default function Header() {
           {/* Logo */}
           <a href="/" onClick={handleLogoClick} className="flex items-center">
             <img
-              src="/logo/Component 177 (3).png"
+              src="/Component 156 (3).png"
               alt="Logo"
               className="h-10 w-auto transition-all duration-300"
-              style={{ filter: (isLight || navHovered) ? 'brightness(0)' : 'none' }}
+              style={isDark ? { filter: 'brightness(0) invert(1)' } : undefined}
             />
           </a>
 

@@ -1,29 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import IntegrationFinder from '../components/ui/IntegrationFinder'
 
 export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
+  const dashboardPanelRef = useRef<HTMLDivElement>(null)
+  const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const [activeT, setActiveT] = useState(0)
   const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
-  const controlSectionRef = useRef<HTMLDivElement>(null)
-  const visibilitySectionRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const makeHandler = (ref: React.RefObject<HTMLDivElement>, sectionIndex: number, featureCount: number) => () => {
-      if (!ref.current) return
-      const rect = ref.current.getBoundingClientRect()
-      const scrolled = -rect.top
-      const totalScrollable = ref.current.offsetHeight - window.innerHeight
-      if (scrolled <= 0 || scrolled >= totalScrollable) return
-      const index = Math.min(Math.floor((scrolled / totalScrollable) * featureCount), featureCount - 1)
-      setActiveFeatures(prev => prev[sectionIndex] === index ? prev : { ...prev, [sectionIndex]: index })
-    }
-    const h0 = makeHandler(controlSectionRef, 0, featureSections[0].features.length)
-    const h2 = makeHandler(visibilitySectionRef, 2, featureSections[2].features.length)
-    const handleScroll = () => { h0(); h2() }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const [controlTab, setControlTab] = useState<0 | 1 | 2>(0)
+  const [stackFilters, setStackFilters] = useState<Record<string, string | null>>({})
+  const [showAllStacks, setShowAllStacks] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -42,6 +29,12 @@ export default function Home() {
       clipRef.current.style.right = `${margin}px`
       clipRef.current.style.borderBottomLeftRadius = `${radius}px`
       clipRef.current.style.borderBottomRightRadius = `${radius}px`
+      if (dashboardPanelRef.current && dashboardGlassRef.current) {
+        const vpWidth = window.innerWidth
+        const panelRight = dashboardPanelRef.current.offsetLeft + dashboardPanelRef.current.offsetWidth
+        const clipFromRight = Math.max(0, panelRight - (vpWidth - margin))
+        dashboardGlassRef.current.style.clipPath = clipFromRight > 0 ? `inset(0 ${clipFromRight}px 0 0)` : ''
+      }
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -50,8 +43,8 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative flex min-h-screen items-start bg-white">
-        {/* Clipping wrapper — shrinks on scroll, clips bg + dashboard */}
+      <section data-nav-dark className="relative flex min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
+        {/* Clipping wrapper — shrinks on scroll, clips only bg */}
         <div ref={clipRef} className="absolute inset-0 overflow-hidden">
           <div
             className="absolute inset-0"
@@ -61,18 +54,30 @@ export default function Home() {
               backgroundPosition: 'center',
             }}
           />
-          {/* Dashboard — big, absolute, bleeds right */}
+        </div>
+
+        {/* Hero right — main dashboard, вне clipRef, clipPath синхронизирован со скроллом */}
+        <div
+          ref={dashboardPanelRef}
+          className="absolute z-20"
+          style={{ left: '53%', width: '52vw', top: '48%', transform: 'translateY(-50%)' }}
+        >
           <div
-            className="absolute z-10"
-            style={{ left: '54%', width: '62vw', top: '47%', transform: 'translateY(-50%)' }}
+            ref={dashboardGlassRef}
+            className="rounded-2xl p-3"
+            style={{
+              background: 'rgba(255,255,255,0.12)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+            }}
           >
-            <div className="relative">
-              <img
-                src="/example_of_dashboard.png"
-                alt="Dashboard preview"
-                className="w-full rounded-2xl shadow-2xl ring-1 ring-white/10"
-              />
-            </div>
+            <img
+              src="/image 178 (1)-Photoroom 2.png"
+              alt="Dashboard preview"
+              className="w-full rounded-xl"
+            />
           </div>
         </div>
 
@@ -81,7 +86,7 @@ export default function Home() {
           className="relative z-10 flex flex-col"
           style={{
             width: '53vw',
-            paddingTop: '8rem',
+            paddingTop: '6rem',
             paddingBottom: '3rem',
             paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))',
           }}
@@ -93,24 +98,27 @@ export default function Home() {
             </div>
 
             <h1 className="flex flex-col text-4xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-              <span className="whitespace-nowrap">Create your first</span>
-              <span className="whitespace-nowrap font-extrabold">support agent</span>
-              <span className="whitespace-nowrap">for your <span className="font-extrabold">fintech</span></span>
-              <span className="whitespace-nowrap font-extrabold">company.</span>
+              <span className="whitespace-nowrap"><span className="font-semibold">Fintech</span> Support</span>
+              <span className="whitespace-nowrap">That <span className="font-semibold">Solves,</span></span>
+              <span className="whitespace-nowrap">Not Escalates.</span>
             </h1>
 
-            <p className="mt-6 text-sm leading-relaxed text-white sm:text-base">
-              Autonomous support agents for KYC queries, disputes, and transaction issues. Say goodbye to overwhelmed support queues and hello to 24/7 AI-powered resolution.
+            <p className="mt-6 text-sm leading-relaxed text-white max-w-sm">
+              Next generation AI support agent. Not the type that people try to bypass to speak to a real person — but a full fledged support that is able to resolve 80% of queries without any human intervention.
             </p>
 
             <div className="mt-10">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/50 px-3 py-2 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white/10"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/40 pl-6 pr-1.5 py-1.5 text-base font-semibold text-white"
               >
-                Let's chat
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                <span
+                  className="absolute right-[6px] top-1/2 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]"
+                  style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.2)' }}
+                />
+                <span className="relative z-10">Let's chat</span>
+                <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
                 </span>
@@ -156,7 +164,17 @@ export default function Home() {
                   boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
                 }}
               >
-                <div className="flex-shrink-0 mt-0.5 text-white">{item.icon}</div>
+                <div
+                  className="flex-shrink-0 flex items-center justify-center rounded-full"
+                  style={{
+                    width: '40px', height: '40px',
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    color: '#fff',
+                  }}
+                >
+                  {item.icon}
+                </div>
                 <div>
                   <p className="text-sm font-semibold text-white leading-snug">{item.label}</p>
                   {item.desc && <p className="mt-1 text-xs leading-snug text-white/60">{item.desc}</p>}
@@ -249,35 +267,9 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Dashboard preview */}
-          <div className="mt-16 mx-auto max-w-5xl">
-            <div
-              className="overflow-hidden rounded-2xl"
-              style={{
-                background: '#0d1117',
-                boxShadow: '0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06)',
-              }}
-            >
-              {/* Fake browser bar */}
-              <div className="flex items-center gap-2 px-5 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                <span className="h-3 w-3 rounded-full bg-red-500/70" />
-                <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
-                <span className="h-3 w-3 rounded-full bg-green-500/70" />
-                <div className="mx-auto flex items-center gap-2 rounded-md px-4 py-1.5 text-xs text-white/30" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3">
-                    <path fillRule="evenodd" d="M8 1a2.5 2.5 0 0 1 2.5 2.5V5h-5V3.5A2.5 2.5 0 0 1 8 1Zm-3.5 4v-.5a3.5 3.5 0 1 1 7 0V5h.5A1.5 1.5 0 0 1 13.5 6.5v6A1.5 1.5 0 0 1 12 14H4a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 4 5h.5Z" clipRule="evenodd" />
-                  </svg>
-                  platform.supvision.ai
-                </div>
-              </div>
-              {/* Dashboard image */}
-              <img
-                src="/example_of_dashboard.png"
-                alt="supVision platform dashboard"
-                className="w-full"
-                style={{ display: 'block' }}
-              />
-            </div>
+          {/* Integrations preview */}
+          <div className="mt-16 -mx-6">
+            <IntegrationFinder />
           </div>
 
         </div>
@@ -291,8 +283,8 @@ export default function Home() {
             <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
           </div>
 
-          {/* Stacked sticky cards — no gaps, each slides over previous */}
-          <div className="flex flex-col">
+          {/* Stacked sticky cards */}
+          <div className="flex flex-col gap-4">
             {benefits.map((b, i) => (
               <div
                 key={b.title}
@@ -354,37 +346,96 @@ export default function Home() {
             </h2>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              {[
-                { label: 'Helpdesk', options: ['Zendesk', 'Intercom', 'Freshdesk', 'Salesforce'] },
-                { label: 'Core Banking & KYC', options: ['Sumsub', 'Jumio', 'Mambu', 'Onfido'] },
-                { label: 'Payment Processor', options: ['Stripe', 'Adyen', 'Nuvei', 'Ecommpay'] },
-                { label: 'Channel', options: ['WhatsApp', 'Telegram', 'Email', 'Live Chat'] },
-              ].map(({ label, options }) => (
-                <div key={label} className="relative">
-                  <select
-                    className="appearance-none rounded-full border-2 border-gray-900 bg-white pl-5 pr-10 py-3 text-sm font-semibold text-gray-900 cursor-pointer focus:outline-none"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>{label}</option>
-                    {options.map(o => <option key={o}>{o}</option>)}
-                  </select>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900">
-                    <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-                </div>
+              {integrationGroups.map(group => (
+                <IntegrationSelect
+                  key={group.label}
+                  label={group.label}
+                  options={group.options}
+                  value={stackFilters[group.label] ?? null}
+                  onChange={(name) => setStackFilters(prev => ({ ...prev, [group.label]: name }))}
+                />
               ))}
+            </div>
+
+            {/* Suggested stacks */}
+            {(() => {
+              const active = Object.values(stackFilters).filter(Boolean) as string[]
+              const filtered = active.length === 0
+                ? automationStacks
+                : automationStacks.filter(s => active.every(t => s.tools.includes(t)))
+              const LIMIT = 9
+              const needsMore = !showAllStacks && filtered.length > LIMIT
+              const visible = needsMore ? filtered.slice(0, LIMIT) : filtered
+              return (
+                <div className="mt-10">
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                      {active.length > 0 ? `${filtered.length} matching stack${filtered.length !== 1 ? 's' : ''}` : 'Popular automation stacks'}
+                    </p>
+                    {active.length > 0 && (
+                      <button onClick={() => setStackFilters({})} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
+                        Clear filters ×
+                      </button>
+                    )}
+                  </div>
+                  {filtered.length === 0 ? (
+                    <p className="text-sm text-gray-400 py-4">No stacks match this combination yet. <Link to="/contact" className="font-semibold text-gray-900 hover:underline">Let's build one together →</Link></p>
+                  ) : (
+                    <>
+                    <div className="grid grid-cols-3 gap-3">
+                      {visible.map(stack => (
+                        <Link
+                          key={stack.label}
+                          to="/contact"
+                          className="group flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 transition-all hover:border-gray-400 hover:shadow-sm"
+                        >
+                          <div className="flex items-center -space-x-2 flex-shrink-0">
+                            {stack.logos.map((logo, i) => (
+                              <StackLogo key={i} {...logo} />
+                            ))}
+                          </div>
+                          <div className="text-left min-w-0">
+                            <p className="text-xs font-bold text-gray-900 leading-snug">{stack.label}</p>
+                            <p className="text-xs text-gray-400 leading-snug">{stack.desc}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    {(needsMore || (showAllStacks && filtered.length > LIMIT)) && (
+                      <div className="mt-3 flex justify-center">
+                        {needsMore ? (
+                          <button onClick={() => setShowAllStacks(true)} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
+                            +{filtered.length - LIMIT} more ↓
+                          </button>
+                        ) : (
+                          <button onClick={() => setShowAllStacks(false)} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
+                            Show less ↑
+                          </button>
+                        )}
+                      </div>
+                    )}
+                    </>
+                  )}
+                </div>
+              )
+            })()}
+
+            <div className="mt-10 flex justify-center">
               <Link
                 to="/integrations"
-                className="flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
               >
-                Show all
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
+                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[30]" style={{ backgroundColor: '#214995' }} />
+                <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Show all integrations</span>
+                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </span>
               </Link>
             </div>
 
-            <p className="mt-8 text-sm text-gray-500">
+            <p className="mt-6 text-sm text-gray-500 text-center">
               Can't find your tool?{' '}
               <Link to="/contact" className="font-semibold text-gray-900 hover:underline">
                 Let's talk about your stack →
@@ -404,16 +455,16 @@ export default function Home() {
           </div>
 
           {/* Card */}
-          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" style={{ minHeight: '480px' }}>
-            <div className="grid lg:grid-cols-2" style={{ minHeight: '480px' }}>
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" style={{ height: '520px' }}>
+            <div className="grid lg:grid-cols-2 h-full">
 
               {/* Left — text */}
-              <div className="flex flex-col p-10 lg:p-14 border-r border-gray-100">
+              <div className="flex flex-col p-8 lg:p-10 border-r border-gray-100 overflow-hidden">
                 <p className="text-xs font-black tracking-[0.2em] text-gray-900 uppercase">{testimonials[activeT].company}</p>
 
                 <div className="mt-8 flex-1">
                   <p className="text-5xl font-serif leading-none text-gray-200 select-none">"</p>
-                  <p className="mt-2 text-xl leading-relaxed text-gray-800" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
+                  <p className="mt-2 text-base leading-relaxed text-gray-800" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
                     {testimonials[activeT].quote}
                   </p>
                 </div>
@@ -444,7 +495,7 @@ export default function Home() {
               {/* Right — branded image */}
               <div
                 className="relative flex items-center justify-center"
-                style={{ background: testimonials[activeT].bgGradient, minHeight: '320px' }}
+                style={{ background: testimonials[activeT].bgGradient }}
               >
                 <p
                   className="text-5xl font-black tracking-[0.15em] text-white select-none"
@@ -491,8 +542,9 @@ export default function Home() {
       </section>
 
       {/* Built by operators */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
-        <div className="mx-auto max-w-7xl px-6">
+      <section data-nav-dark className="py-3 px-2 sm:px-3">
+        <div>
+          <div className="rounded-3xl bg-gray-950 px-10 py-16 lg:px-16">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
 
             {/* Left — text */}
@@ -556,6 +608,7 @@ export default function Home() {
 
           </div>
         </div>
+        </div>
       </section>
 
       {/* Feature deep-dive header */}
@@ -569,107 +622,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Control — scroll-driven sticky section */}
-      <div
-        ref={controlSectionRef}
-        className="relative bg-white"
-        style={{ height: `${featureSections[0].features.length * 100}vh` }}
-      >
-        <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
-          <div className="mx-auto w-full max-w-7xl px-6">
-            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
+      {/* Control + Visibility — tabbed */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="mx-auto w-full max-w-7xl px-6">
 
-              {/* Image — right, 60% */}
-              <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
-                <img
-                  key={activeFeatures[0]}
-                  src={featureSections[0].features[activeFeatures[0]]?.img ?? featureSections[0].img}
-                  alt={featureSections[0].features[activeFeatures[0]]?.title}
-                  className="h-full w-full object-cover object-top transition-opacity duration-300"
-                  style={{ minHeight: '480px' }}
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
-              </div>
+          {/* Tab switcher */}
+          <div className="mb-12 flex gap-2">
+            {([0, 1, 2] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setControlTab(tab)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${controlTab === tab ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              >
+                {featureSections[tab].label}
+              </button>
+            ))}
+          </div>
 
-              {/* Text + feature list — 40% */}
-              <div className="lg:w-[40%] lg:flex-shrink-0">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[0].label}</p>
-                <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[0].title}</h2>
-                <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[0].description}</p>
+          {/* Content */}
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
 
-                <div className="mt-8">
-                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                  <div className="divide-y divide-gray-100 border-t border-gray-100">
-                    {featureSections[0].features.map((f, fi) => (
-                      <div key={f.title} className="py-3">
-                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[0] ? 'text-gray-900' : 'text-gray-400'}`}>
+            {/* Image — right */}
+            <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
+              <img
+                key={`${controlTab}-${activeFeatures[controlTab]}`}
+                src={featureSections[controlTab].features[activeFeatures[controlTab]]?.img ?? featureSections[controlTab].img}
+                alt={featureSections[controlTab].features[activeFeatures[controlTab]]?.title}
+                className="h-full w-full object-cover object-top"
+                style={{ minHeight: '480px' }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+            </div>
+
+            {/* Text + accordion */}
+            <div className="lg:w-[40%] lg:flex-shrink-0">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
+              <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[controlTab].title}</h2>
+              <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[controlTab].description}</p>
+
+              <div className="mt-8">
+                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                <div className="divide-y divide-gray-100 border-t border-gray-100">
+                  {featureSections[controlTab].features.map((f, fi) => (
+                    <div
+                      key={f.title}
+                      className="cursor-pointer py-3"
+                      onClick={() => setActiveFeatures(prev => ({ ...prev, [controlTab]: fi }))}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[controlTab] ? 'text-gray-900' : 'text-gray-400'}`}>
                           {f.title}
                         </p>
-                        {fi === activeFeatures[0] && (
-                          <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
-                        )}
+                        <span className="flex-shrink-0 text-xl font-light leading-none text-gray-400">
+                          {fi === activeFeatures[controlTab] ? '−' : '+'}
+                        </span>
                       </div>
-                    ))}
-                  </div>
+                      {fi === activeFeatures[controlTab] && (
+                        <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-
             </div>
+
           </div>
         </div>
-      </div>
-
-      {/* Visibility — scroll-driven sticky, image RIGHT */}
-      <div
-        ref={visibilitySectionRef}
-        className="relative bg-white"
-        style={{ height: `${featureSections[2].features.length * 100}vh` }}
-      >
-        <div className="sticky top-0 flex items-center px-4 sm:px-6 lg:px-8" style={{ height: '100vh' }}>
-          <div className="mx-auto w-full max-w-7xl px-6">
-            <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
-
-              {/* Image — LEFT, 60% */}
-              <div className="overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
-                <img
-                  key={activeFeatures[2]}
-                  src={featureSections[2].features[activeFeatures[2]]?.img ?? featureSections[2].img}
-                  alt={featureSections[2].features[activeFeatures[2]]?.title}
-                  className="h-full w-full object-cover object-top transition-opacity duration-300"
-                  style={{ minHeight: '480px' }}
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
-              </div>
-
-              {/* Text — left, 40% */}
-              <div className="lg:w-[40%] lg:flex-shrink-0">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[2].label}</p>
-                <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[2].title}</h2>
-                <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[2].description}</p>
-                <div className="mt-8">
-                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                  <div className="divide-y divide-gray-100 border-t border-gray-100">
-                    {featureSections[2].features.map((f, fi) => (
-                      <div key={f.title} className="py-3">
-                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[2] ? 'text-gray-900' : 'text-gray-400'}`}>
-                          {f.title}
-                        </p>
-                        {fi === activeFeatures[2] && (
-                          <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       {/* Compliance & Security */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
+      <section data-nav-dark className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
 
@@ -712,7 +734,7 @@ export default function Home() {
               >
                 <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
                 <span className="relative z-10 transition-colors duration-300">Request certificate confirmation</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
@@ -1053,9 +1075,9 @@ const heroIndustries = [
 ]
 
 const heroFeatures = [
-  { label: 'Confidence Thresholds', desc: 'Set minimum accuracy levels before the AI responds automatically', icon: S('M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z') },
+  { label: 'Confidence Thresholds', desc: 'Set minimum accuracy levels before AI responds', icon: S('M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z') },
   { label: 'Topic Restrictions', desc: 'Define which queries AI handles and which always route to a human', icon: S('M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z', true) },
-  { label: 'Escalation Rules', desc: 'Custom handoff logic based on query type, customer tier, or risk level', icon: S('M15.22 6.268a.75.75 0 0 1 .968-.431l5.942 2.28a.75.75 0 0 1 .431.97l-2.28 5.941a.75.75 0 1 1-1.4-.537l1.63-4.251-1.086.43a11.293 11.293 0 0 0-5.18 4.458.75.75 0 0 1-1.242.044L9.75 13.5l-3.75 3.75a.75.75 0 0 1-1.06-1.06l4.5-4.5a.75.75 0 0 1 1.06 0l2.044 2.044a12.793 12.793 0 0 1 5.595-4.973l1.085-.43-4.251-1.63a.75.75 0 0 1-.432-.968Z', true) },
+  { label: 'Escalation Rules', desc: 'Custom handoff logic by query type or risk level', icon: S('M15.22 6.268a.75.75 0 0 1 .968-.431l5.942 2.28a.75.75 0 0 1 .431.97l-2.28 5.941a.75.75 0 1 1-1.4-.537l1.63-4.251-1.086.43a11.293 11.293 0 0 0-5.18 4.458.75.75 0 0 1-1.242.044L9.75 13.5l-3.75 3.75a.75.75 0 0 1-1.06-1.06l4.5-4.5a.75.75 0 0 1 1.06 0l2.044 2.044a12.793 12.793 0 0 1 5.595-4.973l1.085-.43-4.251-1.63a.75.75 0 0 1-.432-.968Z', true) },
   { label: 'Response Approval', desc: 'Require human sign-off before sending in high-risk categories', icon: S('M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53-1.954-1.954a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.137-.089l3.833-5.175Z', true) },
   { label: 'Data Access Controls', icon: S('M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z', true) },
   { label: 'Full Audit Trail', icon: S(['M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z', 'M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z'], true) },
@@ -1065,4 +1087,352 @@ const heroFeatures = [
   { label: 'Multi-channel', icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']) },
   { label: 'Log Streaming', icon: S('M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm14.25 6a.75.75 0 0 1-.22.53l-2.25 2.25a.75.75 0 1 1-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 1 1 1.06-1.06l2.25 2.25c.141.14.22.331.22.53Zm-10.28-.53a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L8.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-2.25 2.25Z', true) },
   { label: 'Regulator Exports', icon: S('M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z', true) },
+]
+
+const integrationGroups: { label: string; options: { name: string; color: string; letter: string; logoUrl: string }[] }[] = [
+  {
+    label: 'Helpdesk',
+    options: [
+      { name: 'Zendesk', color: '#03363D', letter: 'Z', logoUrl: '/logos/zendesk.png' },
+      { name: 'Intercom', color: '#1F8FEF', letter: 'I', logoUrl: '/logos/intecom (1).png' },
+      { name: 'Freshdesk', color: '#25C16F', letter: 'F', logoUrl: '/logos/freshdesk.png' },
+      { name: 'Salesforce', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
+    ],
+  },
+  {
+    label: 'KYC',
+    options: [
+      { name: 'Sumsub', color: '#FF6B00', letter: 'S', logoUrl: 'https://logo.clearbit.com/sumsub.com' },
+      { name: 'Jumio', color: '#0066CC', letter: 'J', logoUrl: 'https://logo.clearbit.com/jumio.com' },
+      { name: 'Veriff', color: '#3245FB', letter: 'V', logoUrl: 'https://logo.clearbit.com/veriff.com' },
+      { name: 'Onfido', color: '#1A1A2E', letter: 'O', logoUrl: 'https://logo.clearbit.com/onfido.com' },
+    ],
+  },
+  {
+    label: 'CRM',
+    options: [
+      { name: 'HubSpot', color: '#FF7A59', letter: 'H', logoUrl: '/logos/hubspot.png' },
+      { name: 'Salesforce', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
+      { name: 'Pipedrive', color: '#1A1F36', letter: 'P', logoUrl: '/logos/Pipedrive.png' },
+      { name: 'Zoho CRM', color: '#E42527', letter: 'Z', logoUrl: '/logos/zoro.png' },
+    ],
+  },
+  {
+    label: 'Channel',
+    options: [
+      { name: 'WhatsApp', color: '#25D366', letter: 'W', logoUrl: '/logos/whatsapp.png' },
+      { name: 'Telegram', color: '#26A5E4', letter: 'T', logoUrl: '/logos/telegram.png' },
+      { name: 'Email', color: '#EA4335', letter: '@', logoUrl: '/logos/gmail.png' },
+      { name: 'Live Chat', color: '#7C3AED', letter: 'LC', logoUrl: '/logos/intecom (1).png' },
+    ],
+  },
+]
+
+function IntegrationLogo({ logoUrl, color, letter, size }: { logoUrl: string; color: string; letter: string; size: number }) {
+  const [err, setErr] = useState(false)
+  return err ? (
+    <span
+      className="flex flex-shrink-0 items-center justify-center rounded-lg text-white font-bold leading-none"
+      style={{ backgroundColor: color, width: size, height: size, fontSize: size * 0.4 }}
+    >
+      {letter}
+    </span>
+  ) : (
+    <img
+      src={logoUrl}
+      alt=""
+      className="flex-shrink-0 rounded-lg object-contain bg-white"
+      style={{ width: size, height: size }}
+      onError={() => setErr(true)}
+    />
+  )
+}
+
+function IntegrationSelect({ label, options, value, onChange }: {
+  label: string
+  options: { name: string; color: string; letter: string; logoUrl: string }[]
+  value: string | null
+  onChange: (name: string | null) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const selected = value ? options.find(o => o.name === value) ?? null : null
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(v => !v)}
+        className={`flex items-center gap-2 rounded-full border-2 bg-white pl-4 pr-4 py-3 text-sm font-semibold cursor-pointer focus:outline-none transition-colors hover:bg-gray-50 ${selected ? 'border-gray-900 text-gray-900' : 'border-gray-900 text-gray-900'}`}
+      >
+        {selected && <IntegrationLogo logoUrl={selected.logoUrl} color={selected.color} letter={selected.letter} size={20} />}
+        <span>{selected ? selected.name : label}</span>
+        {selected ? (
+          <span
+            onClick={(e) => { e.stopPropagation(); onChange(null) }}
+            className="flex h-4 w-4 items-center justify-center rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300 text-xs leading-none"
+          >×</span>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+            className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
+            <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+          </svg>
+        )}
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-2 min-w-[200px] overflow-hidden rounded-2xl border border-gray-100 bg-white py-2 shadow-xl">
+          {options.map(opt => (
+            <button
+              key={opt.name}
+              onClick={() => { onChange(opt.name); setOpen(false) }}
+              className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 ${value === opt.name ? 'bg-gray-50' : ''}`}
+            >
+              <IntegrationLogo logoUrl={opt.logoUrl} color={opt.color} letter={opt.letter} size={28} />
+              {opt.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
+  const [err, setErr] = useState(false)
+  return err ? (
+    <span
+      className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-white font-bold"
+      style={{ backgroundColor: color, fontSize: '9px' }}
+    >
+      {letter}
+    </span>
+  ) : (
+    <img
+      src={logoUrl}
+      alt=""
+      className="h-7 w-7 rounded-full border-2 border-white object-contain bg-white"
+      onError={() => setErr(true)}
+    />
+  )
+}
+
+const automationStacks: { label: string; desc: string; tools: string[]; logos: { logoUrl: string; color: string; letter: string }[] }[] = [
+  {
+    label: 'KYC onboarding automation',
+    desc: 'Zendesk · Sumsub · Slack',
+    tools: ['Zendesk', 'Sumsub'],
+    logos: [
+      { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
+      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+    ],
+  },
+  {
+    label: 'Dispute escalation flow',
+    desc: 'Intercom · Onfido · Jira',
+    tools: ['Intercom', 'Onfido'],
+    logos: [
+      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
+      { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' },
+    ],
+  },
+  {
+    label: 'Policy-driven responses',
+    desc: 'Freshdesk · Notion · Teams',
+    tools: ['Freshdesk'],
+    logos: [
+      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
+      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+      { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' },
+    ],
+  },
+  {
+    label: 'CRM-aware support',
+    desc: 'Salesforce · Veriff · Slack',
+    tools: ['Salesforce', 'Veriff'],
+    logos: [
+      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
+      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+    ],
+  },
+  {
+    label: 'WhatsApp KYC support',
+    desc: 'WhatsApp · Jumio · HubSpot',
+    tools: ['WhatsApp', 'Jumio'],
+    logos: [
+      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
+      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+    ],
+  },
+  {
+    label: 'Telegram verification bot',
+    desc: 'Telegram · Sumsub · Pipedrive',
+    tools: ['Telegram', 'Sumsub'],
+    logos: [
+      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
+      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+    ],
+  },
+  {
+    label: 'Email triage & routing',
+    desc: 'Email · Onfido · Confluence',
+    tools: ['Email', 'Onfido'],
+    logos: [
+      { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
+      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
+      { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
+    ],
+  },
+  {
+    label: 'HubSpot onboarding flow',
+    desc: 'HubSpot · Veriff · Intercom',
+    tools: ['HubSpot', 'Veriff', 'Intercom'],
+    logos: [
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+    ],
+  },
+  {
+    label: 'Zendesk + identity check',
+    desc: 'Zendesk · Veriff · Slack',
+    tools: ['Zendesk', 'Veriff'],
+    logos: [
+      { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
+      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+    ],
+  },
+  {
+    label: 'Intercom + Sumsub combo',
+    desc: 'Intercom · Sumsub · HubSpot',
+    tools: ['Intercom', 'Sumsub'],
+    logos: [
+      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+    ],
+  },
+  {
+    label: 'WhatsApp sales support',
+    desc: 'WhatsApp · Salesforce · Veriff',
+    tools: ['WhatsApp', 'Salesforce'],
+    logos: [
+      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
+      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
+      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+    ],
+  },
+  {
+    label: 'Freshdesk + KYC queue',
+    desc: 'Freshdesk · Jumio · Linear',
+    tools: ['Freshdesk', 'Jumio'],
+    logos: [
+      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
+      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
+      { logoUrl: '/logos/linear.png', color: '#5E6AD2', letter: 'L' },
+    ],
+  },
+  {
+    label: 'Telegram CRM integration',
+    desc: 'Telegram · HubSpot · Sumsub',
+    tools: ['Telegram', 'HubSpot'],
+    logos: [
+      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+    ],
+  },
+  {
+    label: 'Zoho + WhatsApp onboarding',
+    desc: 'Zoho CRM · WhatsApp · Onfido',
+    tools: ['Zoho CRM', 'WhatsApp'],
+    logos: [
+      { logoUrl: '/logos/zoro.png', color: '#E42527', letter: 'Z' },
+      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
+      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
+    ],
+  },
+  {
+    label: 'Email + Salesforce pipeline',
+    desc: 'Email · Salesforce · Jumio',
+    tools: ['Email', 'Salesforce'],
+    logos: [
+      { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
+      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
+      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
+    ],
+  },
+  {
+    label: 'Live chat verification',
+    desc: 'Live Chat · Sumsub · Pipedrive',
+    tools: ['Live Chat', 'Sumsub'],
+    logos: [
+      { logoUrl: '/logos/intecom (1).png', color: '#7C3AED', letter: 'LC' },
+      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+    ],
+  },
+  {
+    label: 'Intercom + Veriff onboarding',
+    desc: 'Intercom · Veriff · Notion',
+    tools: ['Intercom', 'Veriff'],
+    logos: [
+      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+    ],
+  },
+  {
+    label: 'Zendesk + Jumio queue',
+    desc: 'Zendesk · Jumio · Teams',
+    tools: ['Zendesk', 'Jumio'],
+    logos: [
+      { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
+      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
+      { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' },
+    ],
+  },
+  {
+    label: 'Pipedrive deal support',
+    desc: 'Pipedrive · Onfido · Telegram',
+    tools: ['Pipedrive', 'Onfido'],
+    logos: [
+      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
+      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
+    ],
+  },
+  {
+    label: 'Freshdesk enterprise stack',
+    desc: 'Freshdesk · Salesforce · Veriff',
+    tools: ['Freshdesk', 'Salesforce'],
+    logos: [
+      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
+      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
+      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+    ],
+  },
+  {
+    label: 'WhatsApp + Pipedrive flow',
+    desc: 'WhatsApp · Pipedrive · Sumsub',
+    tools: ['WhatsApp', 'Pipedrive'],
+    logos: [
+      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
+      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+    ],
+  },
 ]

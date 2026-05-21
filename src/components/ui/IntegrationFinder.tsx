@@ -78,28 +78,28 @@ export const allIntegrations: Integration[] = [
     description: 'Use Twilio to reach customers over SMS or voice. supVision handles inbound text queries and sends proactive notifications — payment confirmations, KYC status updates — without human involvement.',
   },
   {
-    name: 'Mambu', category: 'Core banking', logo: '/logos/mambu.png',
-    tagline: 'Live account & loan data from Mambu',
-    functions: ['Real-time balance lookups', 'Loan status & repayment data', 'Account tier & limit checks', 'Transaction history queries', 'Product eligibility checks'],
-    description: 'supVision queries Mambu APIs in real time before every customer response. Balance queries, loan status checks, and account tier lookups are answered with live data — not cached guesses.',
+    name: 'Confluence', category: 'Knowledge base', logo: '/logos/confluence.png',
+    tagline: 'Internal policies & procedure docs',
+    functions: ['Index support runbooks & SOPs', 'Answer queries from internal docs', 'Keep responses in sync with policy updates', 'Surface relevant pages per query type', 'Restrict access by team or space'],
+    description: 'supVision indexes your Confluence spaces to answer support queries using your own internal policies, scripts, and procedures — so every AI response follows the rules your team wrote.',
   },
   {
-    name: 'Thought Machine', category: 'Core banking', logo: 'https://logo.clearbit.com/thoughtmachine.net',
-    tagline: 'Core banking data via Vault',
-    functions: ['Vault API account reads', 'Smart contract state queries', 'Transaction event lookups', 'Product parameter checks', 'Ledger balance retrieval'],
-    description: 'Connect supVision to Thought Machine Vault to answer account and transaction queries using live ledger data. Smart contract state and product parameters are surfaced in every agent response.',
+    name: 'Notion', category: 'Knowledge base', logo: '/logos/notion.png',
+    tagline: 'Support knowledge from Notion pages',
+    functions: ['Sync playbooks & escalation guides', 'Answer from internal FAQs', 'Update KB without retraining', 'Page-level access control', 'Multi-workspace support'],
+    description: 'Connect supVision to your Notion workspace and let the agent answer customer queries using the same knowledge your support team relies on — always up to date, never stale.',
   },
   {
-    name: 'Temenos', category: 'Core banking', logo: 'https://logo.clearbit.com/temenos.com',
-    tagline: 'Enterprise core banking integration',
-    functions: ['Account & product data reads', 'Transaction history lookup', 'Card status & limit queries', 'Customer profile retrieval', 'Multi-entity support'],
-    description: 'Integrate with Temenos T24 or Transact to give the Support Agent access to live account, product, and transaction data across multiple banking entities.',
+    name: 'Guru', category: 'Knowledge base', logo: 'https://logo.clearbit.com/getguru.com',
+    tagline: 'Verified knowledge cards for AI answers',
+    functions: ['Ingest verified answer cards', 'Trigger card suggestions per intent', 'Flag outdated content automatically', 'Role-based content access', 'Confidence scoring per card'],
+    description: 'supVision uses your Guru cards as a verified knowledge layer. When a customer asks a question, the agent surfaces the right card — and flags it for review if the confidence is too low to respond.',
   },
   {
-    name: 'Finastra', category: 'Core banking', logo: 'https://logo.clearbit.com/finastra.com',
-    tagline: 'Fusion-powered banking data',
-    functions: ['FusionFabric API reads', 'Account & payment data retrieval', 'Customer profile access', 'Transaction dispute data', 'Multi-product coverage'],
-    description: 'supVision connects to Finastra FusionFabric APIs to retrieve live customer and account data, enabling accurate, real-time responses to banking queries.',
+    name: 'Document360', category: 'Knowledge base', logo: '/logos/document360.png',
+    tagline: 'Customer-facing & internal KB',
+    functions: ['Index public & private KB articles', 'Answer from structured help content', 'Category-based content routing', 'Version-aware article serving', 'Multilingual KB support'],
+    description: 'supVision connects to Document360 to serve answers directly from your structured knowledge base — both internal agent guides and public-facing help articles — with no manual prompt engineering needed.',
   },
   {
     name: 'Sumsub', category: 'KYC providers', logo: 'https://logo.clearbit.com/sumsub.com',
@@ -126,28 +126,28 @@ export const allIntegrations: Integration[] = [
     description: 'Pull Veriff session decisions and decline reasons in real time. The Support Agent tells customers exactly why their verification failed and guides them through the retry process.',
   },
   {
-    name: 'Stripe', category: 'Payment processors', logo: 'https://logo.clearbit.com/stripe.com',
-    tagline: 'Full Stripe payment data access',
-    functions: ['Charge status & failure codes', 'Refund initiation & status', 'Dispute & chargeback filing', 'Subscription & invoice data', 'Payment method checks'],
-    description: 'supVision queries the Stripe API to diagnose payment failures, initiate refunds, and file disputes — all automatically. Customers get the exact failure reason and next steps in under 30 seconds.',
+    name: 'Slack', category: 'Collaboration', logo: '/logos/slack.png',
+    tagline: 'Escalation alerts & team notifications',
+    functions: ['Real-time escalation alerts', 'Assign cases to agents via Slack', 'Daily resolution summary digests', 'SLA breach notifications', 'Custom alert routing by channel'],
+    description: 'supVision sends escalation alerts and resolution summaries directly to your Slack workspace. When an edge case needs a human, the right agent is notified instantly with full context attached.',
   },
   {
-    name: 'Adyen', category: 'Payment processors', logo: 'https://logo.clearbit.com/adyen.com',
-    tagline: 'Enterprise payment data from Adyen',
-    functions: ['Payment result lookups', 'Refund & reversal initiation', 'Chargeback case management', 'Shopper account data', 'Settlement & balance checks'],
-    description: 'Connect supVision to Adyen to handle payment failure queries, initiate refunds, and manage chargeback flows — with live data from the Adyen management API for every interaction.',
+    name: 'Microsoft Teams', category: 'Collaboration', logo: '/logos/teams.png',
+    tagline: 'Escalation routing via Microsoft Teams',
+    functions: ['Escalation notifications to Teams channels', 'Agent assignment via adaptive cards', 'SLA breach alerts', 'Resolution status updates', 'Compliance team notifications'],
+    description: 'Route escalations and compliance alerts to the right Microsoft Teams channel. supVision sends structured notifications with full case context so agents never start from zero.',
   },
   {
-    name: 'Nuvei', category: 'Payment processors', logo: 'https://logo.clearbit.com/nuvei.com',
-    tagline: 'Nuvei transaction & dispute data',
-    functions: ['Transaction status queries', 'Decline code lookup', 'Refund request automation', 'Alternative payment method data', 'Fraud flag retrieval'],
-    description: 'supVision integrates with Nuvei to surface transaction statuses, decline reasons, and refund eligibility — giving customers instant answers on payment failures.',
+    name: 'Jira', category: 'Collaboration', logo: '/logos/jira.png',
+    tagline: 'Escalation-to-ticket automation',
+    functions: ['Auto-create Jira issues on escalation', 'Link support cases to product bugs', 'Sync resolution status back to agent', 'Priority mapping by case type', 'Custom field population'],
+    description: 'When supVision escalates a case that requires a product fix or investigation, it automatically creates a Jira issue with the full context — so nothing falls through the cracks between support and engineering.',
   },
   {
-    name: 'Ecommpay', category: 'Payment processors', logo: 'https://logo.clearbit.com/ecommpay.com',
-    tagline: 'Ecommpay payment query automation',
-    functions: ['Payment status lookups', 'Failure reason surfacing', 'Chargeback initiation', 'Settlement reports', 'Multi-currency support'],
-    description: 'Pull live payment data from Ecommpay to answer customer queries about declined transactions, refund timelines, and chargeback status — automatically, in any currency.',
+    name: 'Linear', category: 'Collaboration', logo: '/logos/linear.png',
+    tagline: 'Issue tracking for escalated cases',
+    functions: ['Auto-create issues on escalation', 'Attach conversation context', 'Status sync back to support agent', 'Team & project routing', 'Priority assignment by case severity'],
+    description: 'Connect supVision to Linear to automatically file issues when escalated cases require engineering involvement. Full conversation context and KYC or payment data is attached to every issue.',
   },
   {
     name: 'HubSpot', category: 'CRM', logo: '/logos/hubspot.png',
@@ -175,7 +175,7 @@ export const allIntegrations: Integration[] = [
   },
 ]
 
-export const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'Core banking', 'KYC providers', 'Payment processors', 'CRM', 'Reporting']
+export const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'KYC providers', 'Knowledge base', 'CRM', 'Collaboration', 'Reporting']
 
 const VISIBLE_LIMIT = 11
 
