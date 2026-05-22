@@ -198,7 +198,7 @@ export default function Analytics() {
               {/* Right - image */}
               <div className="relative hidden lg:block" style={{ aspectRatio: '1/1' }}>
                 <img
-                  src="/example_of_dashboard.png"
+                  src="/analytics.png"
                   alt="Analytics Dashboard"
                   className="absolute rounded-2xl object-cover"
                   style={{ top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 2rem)' }}

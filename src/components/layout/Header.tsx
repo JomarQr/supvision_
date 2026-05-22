@@ -40,7 +40,7 @@ const overviewCategories = [
   },
   {
     key: 'analytics',
-    label: 'Analytics Dashboard',
+    label: 'Analytics',
     items: [
       { label: 'Analytics Dashboard', desc: 'Real-time visibility into bot vs human, team performance, and every trend', to: '/analytics' },
     ],
