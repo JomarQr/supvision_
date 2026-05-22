@@ -299,14 +299,14 @@ export default function About() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Our office</p>
             <h2 className="mt-3 text-2xl font-bold text-gray-900">We are headquartered in Tallinn, Estonia - serving fintech teams globally.</h2>
           </div>
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div className="grid gap-8 lg:grid-cols-2" style={{ height: '360px' }}>
             {/* Map image */}
-            <div className="overflow-hidden rounded-3xl" style={{ height: '300px' }}>
+            <div className="overflow-hidden rounded-3xl h-full">
               <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" />
             </div>
 
             {/* Info */}
-            <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-10 shadow-sm">
+            <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-10 shadow-sm h-full overflow-hidden">
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Headquarter</p>
                 <h3 className="mt-2 text-2xl font-bold text-gray-900">Tallinn, Estonia</h3>
@@ -361,11 +361,17 @@ export default function About() {
           <h2 className="text-3xl font-bold text-white">Ready to stop living the problem?</h2>
           <p className="mt-4 text-base text-blue-200">Talk to someone who has been in your position. We'll show you exactly what supVision does for teams like yours.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100">
-              Book a demo
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
+            <Link
+              to="/contact"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+            >
+              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+              <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Book a demo</span>
+              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
             </Link>
             <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
