@@ -46,15 +46,6 @@ const trustItems = [
     title: 'GDPR right-to-erasure, built in',
     desc: 'Submit a deletion request and every record tied to that customer - conversation history, decision logs, escalation records - is purged within the required timeframe. No manual steps needed.',
   },
-  {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5">
-        <path fillRule="evenodd" d="M6.28 2.217A.75.75 0 0 0 5 2.75v.56l-.542.271A4.998 4.998 0 0 0 2 7.68V9a3 3 0 0 0 2.122 2.87L5 12.175V13.5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-1.325l.878-.305A3 3 0 0 0 14 9V7.68a4.998 4.998 0 0 0-2.458-4.099L11 3.31v-.56a.75.75 0 0 0-1.28-.533L8 3.917 6.28 2.217Z" clipRule="evenodd" />
-      </svg>
-    ),
-    title: 'Role-based access, no shared credentials',
-    desc: 'Every team member has scoped access - agents see only what they need, compliance officers get read-only audit access, and admins control permissions centrally. No shared logins, no privilege creep.',
-  },
 ]
 
 const highlights = [
@@ -75,26 +66,38 @@ export default function Security() {
             className="overflow-hidden rounded-3xl border"
             style={{ backgroundColor: '#EEF4FF', borderColor: 'rgba(33,73,149,0.15)' }}
           >
-            <div className="px-10 py-14 lg:px-14">
-              <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                  <path fillRule="evenodd" d="M8 1a2 2 0 0 1 2 2v.5h.5A1.5 1.5 0 0 1 12 5v8a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 13V5a1.5 1.5 0 0 1 1.5-1.5H6V3a2 2 0 0 1 2-2Zm0 1.5a.5.5 0 0 0-.5.5v.5h1V3a.5.5 0 0 0-.5-.5Z" clipRule="evenodd" />
-                </svg>
-                Security & Compliance
-              </p>
-              <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl max-w-2xl">
-                Your data never leaves your control.
-              </h1>
-              <p className="mt-4 text-base leading-relaxed text-gray-600 max-w-2xl">
-                supVision was built for regulated financial services from day one. That means your customer data is protected, anonymised, and never accessible to anyone outside your organisation — including us.
-              </p>
-              <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-2xl">
-                {highlights.map((h) => (
-                  <div key={h.label} className="rounded-2xl bg-white/70 px-4 py-4 border border-white">
-                    <p className="text-xl font-black" style={{ color: '#214995' }}>{h.value}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">{h.label}</p>
-                  </div>
-                ))}
+            <div className="grid lg:grid-cols-2">
+              {/* Left - text */}
+              <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
+                <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                    <path fillRule="evenodd" d="M8 1a2 2 0 0 1 2 2v.5h.5A1.5 1.5 0 0 1 12 5v8a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 13V5a1.5 1.5 0 0 1 1.5-1.5H6V3a2 2 0 0 1 2-2Zm0 1.5a.5.5 0 0 0-.5.5v.5h1V3a.5.5 0 0 0-.5-.5Z" clipRule="evenodd" />
+                  </svg>
+                  Security & Compliance
+                </p>
+                <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
+                  Your data never leaves your control.
+                </h1>
+                <p className="mt-4 text-base leading-relaxed text-gray-600">
+                  supVision was built for regulated financial services from day one. That means your customer data is protected, anonymised, and never accessible to anyone outside your organisation — including us.
+                </p>
+                <div className="mt-10 grid grid-cols-2 gap-4">
+                  {highlights.map((h) => (
+                    <div key={h.label} className="rounded-2xl bg-white/70 px-4 py-4 border border-white">
+                      <p className="text-xl font-black" style={{ color: '#214995' }}>{h.value}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-gray-500">{h.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right - image */}
+              <div className="relative hidden lg:block">
+                <img
+                  src="/Component 184 (1).png"
+                  alt="Security"
+                  className="absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)] rounded-2xl object-cover"
+                />
               </div>
             </div>
           </div>
@@ -122,24 +125,27 @@ export default function Security() {
                 <p className="mt-2 text-sm leading-relaxed text-gray-500">{item.desc}</p>
               </div>
             ))}
-          </div>
 
-          {/* Trust banner */}
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-6 rounded-2xl px-8 py-6" style={{ backgroundColor: '#f0f4ff' }}>
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#214995' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-6 w-6 text-white">
-                  <path fillRule="evenodd" d="M8 1a2 2 0 0 1 2 2v.5h.5A1.5 1.5 0 0 1 12 5v8a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 13V5a1.5 1.5 0 0 1 1.5-1.5H6V3a2 2 0 0 1 2-2Zm0 1.5a.5.5 0 0 0-.5.5v.5h1V3a.5.5 0 0 0-.5-.5Z" clipRule="evenodd" />
+            {/* "We cannot see your data" card — replaces 6th item */}
+            <div className="rounded-2xl p-6 shadow-sm" style={{ backgroundColor: '#111827' }}>
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5 text-white">
+                  <path fillRule="evenodd" d="M6.28 2.217A.75.75 0 0 0 5 2.75v.56l-.542.271A4.998 4.998 0 0 0 2 7.68V9a3 3 0 0 0 2.122 2.87L5 12.175V13.5a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5v-1.325l.878-.305A3 3 0 0 0 14 9V7.68a4.998 4.998 0 0 0-2.458-4.099L11 3.31v-.56a.75.75 0 0 0-1.28-.533L8 3.917 6.28 2.217Z" clipRule="evenodd" />
                 </svg>
               </div>
-              <div>
-                <p className="text-sm font-bold text-gray-900">We cannot see your data. By design.</p>
-                <p className="mt-0.5 text-sm text-gray-500">supVision has no administrative access to your customer conversations, records, or PII. Zero-access architecture is not a setting — it is how the system is built.</p>
-              </div>
+              <h3 className="text-sm font-bold text-white">We cannot see your data. By design.</h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                supVision has no administrative access to your customer conversations, records, or PII. Zero-access architecture is not a setting — it is how the system is built.
+              </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <img src="/badge/image.png" alt="PCI DSS" className="h-16 w-auto" />
-              <img src="/badge/image 26 (3).png" alt="GDPR" className="h-14 w-auto" />
+          </div>
+
+          {/* Certificates - centered, no card */}
+          <div className="mt-16 flex flex-col items-center gap-6">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Certifications</p>
+            <div className="flex flex-wrap items-center justify-center gap-10">
+              <img src="/badge/image.png" alt="PCI DSS" className="h-28 w-auto" />
+              <img src="/badge/image 26 (3).png" alt="GDPR" className="h-24 w-auto" />
             </div>
           </div>
         </div>
