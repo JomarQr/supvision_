@@ -270,7 +270,9 @@ export default function Header() {
                       <div className="min-w-0 pl-6">
                         <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
                           <span style={{ backgroundColor: '#214995', width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            <img src="/icons/user (2).png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)', margin: 0, padding: 0 }} />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white" style={{ width: '12px', height: '12px', display: 'block' }}>
+                              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                            </svg>
                           </span>
                           By role
                         </p>
