@@ -330,9 +330,9 @@ export default function About() {
             {/* Info */}
             <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-10 shadow-sm">
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Headquarters</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Headquarter</p>
                 <h3 className="mt-2 text-2xl font-bold text-gray-900">Tallinn, Estonia</h3>
-                <p className="mt-1 text-sm text-gray-500">European Union · GMT+2</p>
+                <p className="mt-1 text-sm text-gray-500">Our European base where the supVision team builds, ships, and supports fintech teams operating across global markets.</p>
               </div>
 
               <div className="h-px bg-gray-100" />
@@ -347,7 +347,7 @@ export default function About() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">WILARIUM OÜ</p>
-                    <p className="mt-1 text-sm text-gray-700">Harju maakond, Tallinn,<br />Kesklinna linnaosa,<br />Vesivärava tn 50, 10152</p>
+                    <p className="mt-1 text-sm text-gray-700">Harju maakond, Tallinn, Kesklinna linnaosa, Vesivärava tn 50, 10152</p>
                   </div>
                 </div>
 
