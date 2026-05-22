@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import IntegrationFinder from '../components/ui/IntegrationFinder'
 
 const capabilities = [
   {
@@ -289,7 +288,7 @@ export default function Analytics() {
                   <h3 className="mt-1 text-xl font-black text-gray-900">Ticket saves over time</h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Blue tracks bot activity, green tracks support. The bot handles the vast majority of ticket saves every day. Spikes in the green line reveal where human agents stepped in — spot handoff quality issues and staffing pressure before they compound.</p>
                 </div>
-                <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full mt-auto" />
+                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
               <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
                 <div className="px-8 pt-8 pb-4">
@@ -297,7 +296,7 @@ export default function Analytics() {
                   <h3 className="mt-1 text-xl font-black text-gray-900">Bot vs human — ticket saves</h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Bot handles <strong>90%</strong> of all ticket saves (35,526). Support steps in for the remaining 10%. Out of 7,085 unique tickets, 3,704 were fully resolved by human agents.</p>
                 </div>
-                <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full mt-auto" />
+                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
             </div>
 
@@ -309,7 +308,7 @@ export default function Analytics() {
                   <h3 className="mt-1 text-xl font-black text-gray-900">Message flow by day</h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Blue = bot replies (600–1,100/day), green = support replies, amber = external messages from merchants or providers. See when external pressure rises and which days your human agents absorbed the most load.</p>
                 </div>
-                <img src="/analytics%20screenz/messages%20daily%20trend%201.png" alt="Messages daily trend" className="w-full mt-auto" />
+                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/messages%20daily%20trend%201.png" alt="Messages daily trend" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
               <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
                 <div className="px-8 pt-8 pb-4">
@@ -317,7 +316,7 @@ export default function Analytics() {
                   <h3 className="mt-1 text-xl font-black text-gray-900">Who drives the conversation</h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Bot: <strong>67%</strong> (21,301 msgs). Support: 15% (4,676). External participants: 19% (6,002). Understand who is generating volume and where to focus optimisation.</p>
                 </div>
-                <img src="/analytics%20screenz/messages%20daily%20trend%202.png" alt="Messages ownership mix" className="w-full mt-auto" />
+                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/messages%20daily%20trend%202.png" alt="Messages ownership mix" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
             </div>
 
@@ -328,7 +327,7 @@ export default function Analytics() {
                 <h3 className="mt-1 text-xl font-black text-gray-900">Daily workload split across all metrics</h3>
                 <p className="mt-2 text-sm leading-relaxed text-gray-500 max-w-3xl">Ticket saves (blue), final transitions (red), and messages (amber) on one chart. See how workload distributes across your support funnel and identify days where volume or escalations spiked — without switching between views.</p>
               </div>
-              <img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full mt-auto" />
+              <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" /></div>
             </div>
 
             {/* Row 4: Heatmaps side by side */}
@@ -339,7 +338,7 @@ export default function Analytics() {
                   <h3 className="mt-1 text-xl font-black text-gray-900">When your queue is busiest</h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Peak Mon–Fri 08:00–16:00, with evenings busier than early mornings. Weekends stay quiet. Use this to plan human shifts around real demand — not assumptions.</p>
                 </div>
-                <img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full mt-auto" />
+                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
               <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
                 <div className="px-8 pt-8 pb-4">
@@ -347,53 +346,10 @@ export default function Analytics() {
                   <h3 className="mt-1 text-xl font-black text-gray-900">Per-agent activity by hour</h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Bar chart showing messages per hour in local timezone. Two clear peaks: morning 07:00–08:00 and evening 19:00–20:00. Isolate shift starts, queue bursts, and closing windows for each agent individually.</p>
                 </div>
-                <img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full mt-auto" />
+                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      <IntegrationFinder />
-
-      {/* Compliance strip */}
-      <section className="py-3 px-2 sm:px-3">
-        <div>
-          <div className="overflow-hidden rounded-3xl bg-gray-900 px-10 py-14 lg:px-16">
-            <div className="grid gap-8 lg:grid-cols-3 lg:items-center">
-              <div className="lg:col-span-2">
-                <p className="text-2xl font-bold uppercase text-white">Data you can trust</p>
-                <p className="mt-4 text-base leading-relaxed text-gray-400">
-                  Every metric in the Analytics Dashboard is sourced directly from your live ticket and conversation data. No sampling, no approximations. All data is retained with full audit trails — access logs, export history, and role-based permissions are part of every plan.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {['Real-time data', 'Role-based access', 'Export audit trail', 'GDPR compliant', 'BI tool connectors'].map(tag => (
-                    <span key={tag} className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-gray-300">{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="flex items-center justify-center gap-6">
-                <div className="flex flex-col items-start gap-6">
-                  <div className="flex items-center justify-center gap-8">
-                    <img src="/badge/image.png" alt="PCI DSS" className="h-36 w-auto" />
-                    <img src="/badge/image 26 (3).png" alt="GDPR" className="h-28 w-auto" />
-                  </div>
-                  <Link
-                    to="/security"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white ml-6"
-                  >
-                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-                    <span className="relative z-10">Learn more</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                  </Link>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
