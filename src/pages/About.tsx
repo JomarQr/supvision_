@@ -243,30 +243,13 @@ export default function About() {
           {/* Metrics below */}
           <div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {[
-              {
-                value: '10+', label: 'Years inside fintech operations',
-                icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
-              },
-              {
-                value: '24/7', label: 'The reality of fintech customer support',
-                icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>,
-              },
-              {
-                value: '8 weeks', label: 'Average agent onboarding time we kept repeating',
-                icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>,
-              },
-              {
-                value: '3 days', label: 'Time to go live with supVision',
-                icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>,
-              },
+              { value: '10+', label: 'Years inside fintech operations' },
+              { value: '24/7', label: 'The reality of fintech customer support' },
+              { value: '8 weeks', label: 'Average agent onboarding time we kept repeating' },
+              { value: '3 days', label: 'Time to go live with supVision' },
             ].map((m) => (
               <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
-                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
-                    {m.icon}
-                  </div>
-                </div>
+                <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
                 <p className="mt-3 text-xs leading-relaxed text-gray-500">{m.label}</p>
               </div>
             ))}
