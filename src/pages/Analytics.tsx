@@ -244,32 +244,6 @@ export default function Analytics() {
         </div>
       </section>
 
-      {/* Capabilities */}
-      <section className="py-8 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="overflow-hidden rounded-3xl px-10 py-14" style={{ backgroundColor: '#214995' }}>
-            <div className="mb-12 text-center">
-              <p className="text-2xl font-bold uppercase text-white">Capabilities</p>
-              <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Everything the Analytics Dashboard shows out of the box.</p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {capabilities.map((c) => (
-                <div key={c.title} className="flex flex-col rounded-2xl bg-white p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: '#214995' }}>
-                      {c.icon}
-                    </div>
-                    <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
-                  </div>
-                  <p className="text-sm leading-relaxed text-gray-500">{c.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Dashboard screenshots */}
       <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
