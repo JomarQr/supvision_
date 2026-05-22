@@ -317,14 +317,9 @@ export default function About() {
             <h2 className="mt-3 text-2xl font-bold text-gray-900">We are headquartered in Tallinn, Estonia - serving fintech teams globally.</h2>
           </div>
           <div className="grid gap-8 lg:grid-cols-2 lg:items-stretch">
-            {/* Map */}
+            {/* Map image */}
             <div className="overflow-hidden rounded-3xl" style={{ minHeight: '380px' }}>
-              <iframe
-                title="WILARIUM OÜ office"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=24.7436%2C59.4350%2C24.7636%2C59.4400&layer=mapnik&marker=59.4370%2C24.7536"
-                className="h-full w-full"
-                style={{ minHeight: '380px', filter: 'grayscale(1) invert(1) contrast(0.85)', border: 'none' }}
-              />
+              <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" style={{ minHeight: '380px' }} />
             </div>
 
             {/* Info */}
