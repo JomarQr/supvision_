@@ -224,6 +224,27 @@ export default function Analytics() {
         </div>
       </section>
 
+      {/* How it works */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">How it works</p>
+              <h2 className="mt-3 text-3xl font-bold text-gray-900">From raw event data to<br /><span className="font-black">actionable insight</span> — automatically.</h2>
+            </div>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {howItWorks.map((step) => (
+              <div key={step.step} className="grid lg:grid-cols-[80px_1fr_2fr] items-start gap-6 py-8">
+                <span className="text-5xl font-black leading-none" style={{ color: 'rgba(33,73,149,0.15)' }}>{step.step}</span>
+                <h3 className="text-base font-bold text-gray-900 pt-1">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Dashboard screenshots */}
       <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
@@ -282,25 +303,6 @@ export default function Analytics() {
               </div>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">How it works</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">From raw event data to <span className="font-black">actionable insight</span> — automatically.</h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {howItWorks.map((step) => (
-              <div key={step.step} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-8 shadow-sm text-center">
-                <span className="text-5xl font-black" style={{ color: '#214995' }}>{step.step}</span>
-                <span className="mt-3 text-sm font-bold text-gray-900">{step.title}</span>
-                <p className="mt-3 text-sm leading-relaxed text-gray-500">{step.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

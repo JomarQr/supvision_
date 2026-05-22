@@ -26,6 +26,13 @@ export default function Home() {
   useEffect(() => {
     const onScroll = () => {
       if (!clipRef.current) return
+      if (window.innerWidth < 1024) {
+        clipRef.current.style.left = '0px'
+        clipRef.current.style.right = '0px'
+        clipRef.current.style.borderBottomLeftRadius = '0px'
+        clipRef.current.style.borderBottomRightRadius = '0px'
+        return
+      }
       const progress = Math.min(window.scrollY / 60, 1)
       const margin = progress * 28
       const radius = progress * 48
@@ -47,7 +54,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section data-nav-dark className="relative flex min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
+      <section data-nav-dark className="relative flex lg:min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
         {/* Clipping wrapper - shrinks on scroll, clips only bg */}
         <div ref={clipRef} className="absolute inset-0 overflow-hidden">
           <div
@@ -90,20 +97,20 @@ export default function Home() {
           className="relative z-10 flex w-full flex-col self-stretch lg:w-[53vw]"
           style={{
             paddingTop: '6rem',
-            paddingBottom: '6rem',
+            paddingBottom: '2rem',
             paddingLeft: 'max(1rem, calc((100vw - 80rem) / 2 + 1.5rem))',
             paddingRight: '1rem',
           }}
         >
           {/* Text block */}
           <div className="pr-8 mt-12">
-            <div className="mb-6 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
+            <div className="mb-6 hidden lg:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
               An AI support layer tailored for fintech industries
             </div>
 
-            <h1 className="mt-3 flex flex-col text-3xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-              <span><span className="font-semibold">Agentic</span> Support Team</span>
-              <span>for <span className="font-semibold">Fintech</span> Industry</span>
+            <h1 className="mt-3 flex flex-col text-4xl font-light leading-tight tracking-tight text-white lg:text-6xl">
+              <span><span className="font-semibold">Autonomous</span> Support</span>
+              <span><span className="font-semibold">Agent</span> for Fintech</span>
             </h1>
 
             <p className="mt-8 text-base leading-relaxed text-white max-w-xl">
@@ -113,9 +120,20 @@ export default function Home() {
           </div>
 
           <div className="mt-8 pr-8">
+            {/* Mobile button: simple centered text + arrow, no fill animation, no circle */}
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/40 pl-6 pr-1.5 py-1.5 text-base font-semibold text-white"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-white/40 py-3 text-base font-semibold text-white lg:hidden"
+            >
+              <span>Let's chat</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+            {/* Desktop button: full animation */}
+            <Link
+              to="/contact"
+              className="group relative hidden overflow-hidden rounded-full border border-white/40 pl-6 pr-1.5 py-1.5 text-base font-semibold text-white lg:inline-flex lg:items-center lg:gap-3"
             >
               <span
                 className="absolute right-[6px] top-1/2 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]"
@@ -130,9 +148,62 @@ export default function Home() {
             </Link>
           </div>
 
+          {/* Mobile dashboard preview */}
+          <div className="mt-8 pr-4 lg:hidden">
+            <div
+              className="rounded-2xl p-3"
+              style={{
+                background: 'rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.25)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+              }}
+            >
+              <img
+                src="/image 178 (1)-Photoroom 2.png"
+                alt="Dashboard preview"
+                className="w-full rounded-xl"
+              />
+            </div>
+          </div>
+
+          {/* Mobile feature blocks - below dashboard image */}
+          <div className="mt-6 pr-4 pb-8 lg:hidden grid grid-cols-1 gap-3">
+            {heroFeatures.slice(0, 2).map((item) => (
+              <div
+                key={item.label}
+                className="flex items-start gap-3 rounded-2xl px-5 py-5"
+                style={{
+                  background: 'rgba(255,255,255,0.12)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+                }}
+              >
+                <div
+                  className="flex-shrink-0 flex items-center justify-center rounded-full"
+                  style={{
+                    width: '40px', height: '40px',
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    color: '#fff',
+                  }}
+                >
+                  {item.icon}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white leading-snug">{item.label}</p>
+                  {item.desc && <p className="mt-1 text-xs leading-snug text-white/60">{item.desc}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+
           {/* Industries ticker - plain icon + text, fades at edges */}
           <div
-            className="mt-24 overflow-hidden"
+            className="mt-24 hidden overflow-hidden lg:block"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
@@ -153,9 +224,9 @@ export default function Home() {
 
         </div>
 
-        {/* Feature blocks - full allowed width, pinned to bottom of hero */}
-        <div className="absolute bottom-10 left-0 right-0 z-10 px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+        {/* Feature blocks - desktop only, pinned to bottom of hero */}
+        <div className="hidden lg:absolute lg:bottom-10 lg:left-0 lg:right-0 lg:z-10 lg:block lg:px-8">
+          <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-4 lg:gap-4">
             {heroFeatures.slice(0, 4).map((item) => (
               <div
                 key={item.label}
@@ -211,12 +282,12 @@ export default function Home() {
                 className="relative flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm"
                 style={{ overflow: v.robotOverlay ? 'visible' : 'hidden' }}
               >
-                {/* Robot overlay - floats outside card */}
+                {/* Robot overlay - floats outside card, desktop only */}
                 {v.robotOverlay && (
                   <img
                     src={v.robotOverlay}
                     alt=""
-                    className="pointer-events-none absolute z-20"
+                    className="pointer-events-none absolute z-20 hidden lg:block"
                     style={v.robotSide === 'right'
                       ? { width: '13rem', right: '-5rem', bottom: '3.5rem' }
                       : { width: '18rem', left: '-10rem', bottom: '8rem' }
@@ -249,7 +320,27 @@ export default function Home() {
           </div>
 
           {/* CTAs below cards */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          {/* Mobile CTAs - full width row */}
+          <div className="mt-10 flex items-center gap-3 lg:hidden">
+            <Link
+              to="/support-agent"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+            >
+              Learn more
+            </Link>
+            <Link
+              to="/integrations"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
+              style={{ backgroundColor: '#111827' }}
+            >
+              Explore
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          </div>
+          {/* Desktop CTAs */}
+          <div className="mt-10 hidden lg:flex items-center justify-center gap-4">
             <Link
               to="/support-agent"
               className="inline-flex items-center rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
@@ -285,47 +376,33 @@ export default function Home() {
       </section>
 
       {/* Control + Visibility - tabbed */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-7xl px-6">
+      <section className="py-12 lg:py-24">
 
-          {/* Tab switcher */}
-          <div className="mb-12 flex gap-2">
+          {/* Tab switcher - edge-to-edge scroll on mobile */}
+          <div className="mb-8 lg:mb-12 flex justify-center gap-2 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {([0, 1, 2, 3] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setControlTab(tab)}
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${controlTab === tab ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                className={`flex-shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-colors ${controlTab === tab ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
               >
                 {featureSections[tab].label}
               </button>
             ))}
           </div>
 
+        <div className="mx-auto w-full max-w-7xl px-4 lg:px-6">
+
           {/* Content */}
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
 
-            {/* Image - right */}
-            <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
-              <img
-                key={`${controlTab}-${activeFeatures[controlTab]}`}
-                src={featureSections[controlTab].features[activeFeatures[controlTab]]?.img ?? featureSections[controlTab].img}
-                alt={featureSections[controlTab].features[activeFeatures[controlTab]]?.title}
-                className="h-full w-full object-cover object-top"
-                style={{
-                  minHeight: '480px',
-                  animation: 'feature-img-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both',
-                }}
-                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-              />
-            </div>
-
-            {/* Text + accordion */}
+            {/* Text + accordion - first on mobile */}
             <div className="lg:w-[40%] lg:flex-shrink-0">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
-              <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[controlTab].title}</h2>
-              <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[controlTab].description}</p>
+              <h2 className="mt-3 text-2xl font-bold leading-snug text-gray-900 lg:mt-5 lg:text-3xl">{featureSections[controlTab].title}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-gray-500 lg:mt-5">{featureSections[controlTab].description}</p>
 
-              <div className="mt-8">
+              <div className="mt-6 lg:mt-8">
                 <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
                 <div className="divide-y divide-gray-100 border-t border-gray-100">
                   {featureSections[controlTab].features.map((f, fi) => (
@@ -356,15 +433,30 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Image - below text on mobile, right on desktop */}
+            <div className="overflow-hidden rounded-2xl lg:w-[60%] min-h-[220px] lg:min-h-[480px]">
+              <img
+                key={`${controlTab}-${activeFeatures[controlTab]}`}
+                src={featureSections[controlTab].features[activeFeatures[controlTab]]?.img ?? featureSections[controlTab].img}
+                alt={featureSections[controlTab].features[activeFeatures[controlTab]]?.title}
+                className="h-full w-full object-cover object-top"
+                style={{
+                  minHeight: 'inherit',
+                  animation: 'feature-img-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both',
+                }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* Integration finder */}
-      <section className="pt-8 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="rounded-3xl px-10 py-16 text-center" style={{ backgroundColor: '#f0ede8' }}>
-            <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl mx-auto max-w-2xl">
+      <section className="pt-8 pb-20 px-3 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl sm:px-6">
+          <div className="rounded-2xl lg:rounded-3xl px-4 py-10 lg:px-10 lg:py-16 text-center" style={{ backgroundColor: '#f0ede8' }}>
+            <h2 className="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl lg:text-4xl mx-auto max-w-2xl">
               Our{' '}
               <span className="inline-flex items-center rounded-xl px-3 py-1 font-bold" style={{ backgroundColor: 'rgba(33,73,149,0.12)', color: '#214995' }}>
                 integration finder
@@ -375,16 +467,17 @@ export default function Home() {
               </span>
             </h2>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-10 flex flex-nowrap items-center justify-center gap-3 lg:flex-wrap">
               {integrationGroups.map(group => (
-                <IntegrationSelect
-                  key={group.label}
-                  label={group.label}
-                  options={group.options}
-                  value={stackFilters[group.label] ?? null}
-                  onChange={(name) => setStackFilters(prev => ({ ...prev, [group.label]: name }))}
-                  comingSoon={group.label === 'KYC'}
-                />
+                <div key={group.label} className={group.label === 'KYC' ? 'hidden lg:block' : 'flex-shrink-0'}>
+                  <IntegrationSelect
+                    label={group.label}
+                    options={group.options}
+                    value={stackFilters[group.label] ?? null}
+                    onChange={(name) => setStackFilters(prev => ({ ...prev, [group.label]: name }))}
+                    comingSoon={group.label === 'KYC'}
+                  />
+                </div>
               ))}
             </div>
 
@@ -394,9 +487,11 @@ export default function Home() {
               const filtered = active.length === 0
                 ? automationStacks
                 : automationStacks.filter(s => active.every(t => s.tools.includes(t)))
-              const LIMIT = 9
-              const needsMore = !showAllStacks && filtered.length > LIMIT
-              const visible = needsMore ? filtered.slice(0, LIMIT) : filtered
+              const MOBILE_LIMIT = 4
+              const DESKTOP_LIMIT = 9
+              const needsMore = !showAllStacks && filtered.length > DESKTOP_LIMIT
+              const visible = needsMore ? filtered.slice(0, DESKTOP_LIMIT) : filtered
+              const mobileVisible = filtered.slice(0, MOBILE_LIMIT)
               return (
                 <div className="mt-10">
                   <div className="mb-4 flex items-center justify-between">
@@ -413,16 +508,33 @@ export default function Home() {
                     <p className="text-sm text-gray-400 py-4">No stacks match this combination yet. <Link to="/contact" className="font-semibold text-gray-900 hover:underline">Let's build one together →</Link></p>
                   ) : (
                     <>
-                    <div className="grid grid-cols-3 gap-3">
-                      {visible.map(stack => (
-                        <div
-                          key={stack.label}
-                          className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3"
-                        >
+                    {/* Mobile: max 4, +N more goes to /integrations */}
+                    <div className="lg:hidden grid grid-cols-1 gap-3 text-left">
+                      {mobileVisible.map(stack => (
+                        <div key={stack.label} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
                           <div className="flex items-center -space-x-2 flex-shrink-0">
-                            {stack.logos.map((logo, i) => (
-                              <StackLogo key={i} {...logo} />
-                            ))}
+                            {stack.logos.map((logo, i) => <StackLogo key={i} {...logo} />)}
+                          </div>
+                          <div className="text-left min-w-0">
+                            <p className="text-xs font-bold text-gray-900 leading-snug">{stack.label}</p>
+                            <p className="text-xs text-gray-400 leading-snug">{stack.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                      {filtered.length > MOBILE_LIMIT && (
+                        <div className="mt-1 flex justify-center">
+                          <Link to="/integrations" className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
+                            +{filtered.length - MOBILE_LIMIT} more ↓
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                    {/* Desktop: max 9, expand inline */}
+                    <div className="hidden lg:grid grid-cols-3 gap-3 text-left">
+                      {visible.map(stack => (
+                        <div key={stack.label} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
+                          <div className="flex items-center -space-x-2 flex-shrink-0">
+                            {stack.logos.map((logo, i) => <StackLogo key={i} {...logo} />)}
                           </div>
                           <div className="text-left min-w-0">
                             <p className="text-xs font-bold text-gray-900 leading-snug">{stack.label}</p>
@@ -431,11 +543,11 @@ export default function Home() {
                         </div>
                       ))}
                     </div>
-                    {(needsMore || (showAllStacks && filtered.length > LIMIT)) && (
-                      <div className="mt-3 flex justify-center">
+                    {(needsMore || (showAllStacks && filtered.length > DESKTOP_LIMIT)) && (
+                      <div className="mt-3 hidden lg:flex justify-center">
                         {needsMore ? (
                           <button onClick={() => setShowAllStacks(true)} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
-                            +{filtered.length - LIMIT} more ↓
+                            +{filtered.length - DESKTOP_LIMIT} more ↓
                           </button>
                         ) : (
                           <button onClick={() => setShowAllStacks(false)} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
@@ -450,10 +562,21 @@ export default function Home() {
               )
             })()}
 
-            <div className="mt-10 flex justify-center">
+            <div className="mt-8 lg:mt-10 flex justify-center">
+              {/* Mobile: simple full-width button */}
               <Link
                 to="/integrations"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 lg:hidden"
+              >
+                Show all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+              {/* Desktop: animated button */}
+              <Link
+                to="/integrations"
+                className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
               >
                 <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[30]" style={{ backgroundColor: '#214995' }} />
                 <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Show all integrations</span>
@@ -479,11 +602,15 @@ export default function Home() {
       <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
         <div className="mx-auto max-w-7xl px-6">
 
-          <div className="mb-4 text-center">
+          {/* Mobile: sticky Benefits label below navbar */}
+          <div
+            className="mb-4 text-center sticky sm:relative z-[49] sm:z-auto py-3 sm:py-0"
+            style={{ top: '72px', backgroundColor: '#faf8f5' }}
+          >
             <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
           </div>
 
-          {/* Column headers - sticky below navbar */}
+          {/* Column headers - sticky below navbar, desktop only */}
           <div
             className="hidden sm:grid grid-cols-2 mb-3 px-1 sticky z-20 py-3 rounded-xl"
             style={{ top: '100px', backgroundColor: '#faf8f5' }}
@@ -514,8 +641,16 @@ export default function Home() {
                       <p className="text-base leading-relaxed text-white/70">{b.before}</p>
                     </div>
                   </div>
+                  {/* Mobile arrow - exactly at the border between Before and After */}
+                  <div className="flex sm:hidden items-center justify-center bg-gray-900 pb-0 -mb-[1px] relative z-10">
+                    <div className="flex h-9 w-9 -mb-4 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white rotate-90">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
                   {/* After */}
-                  <div className="flex items-start bg-white p-6" style={{ minHeight: '160px' }}>
+                  <div className="flex items-start bg-white p-6 pt-8 sm:pt-6" style={{ minHeight: '160px' }}>
                     <div className="flex flex-col">
                       <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] sm:hidden" style={{ color: '#214995' }}>After</p>
                       <div className="mb-3 flex items-center gap-3">
@@ -527,8 +662,8 @@ export default function Home() {
                       <p className="text-base leading-relaxed text-gray-500">{b.after}</p>
                     </div>
                   </div>
-                  {/* Arrow */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                  {/* Desktop arrow - absolute centered between left/right halves */}
+                  <div className="hidden sm:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                         <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
@@ -660,60 +795,91 @@ export default function Home() {
       {/* Built by operators */}
       <section data-nav-dark className="py-3 px-2 sm:px-3">
         <div>
-          <div className="rounded-3xl bg-gray-950 px-10 py-16 lg:px-16">
-          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="rounded-3xl bg-gray-950 px-4 py-10 lg:px-16 lg:py-16">
+          <div className="grid gap-10 lg:gap-16 lg:grid-cols-2 lg:items-center">
 
             {/* Left - text */}
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Our story</p>
-              <h2 className="mt-5 text-4xl font-bold leading-snug text-white sm:text-5xl">
+              <h2 className="mt-4 text-3xl font-bold leading-snug text-white lg:mt-5 lg:text-5xl">
                 Built by people with 10+ years in fintech.
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-gray-400">
+              <p className="mt-4 text-sm leading-relaxed text-gray-400 lg:mt-6 lg:text-base">
                 supVision was not built by engineers who read about fintech. It was built by operators who spent over a decade inside financial services - running support teams, managing verification queues, handling regulator audits, and watching knowledge walk out the door every time an agent left.
               </p>
-              <p className="mt-4 text-base leading-relaxed text-gray-400">
-                We tried every generic AI tool on the market. None of them understood what a chargeback workflow looks like. None of them knew the difference between a payment pending and a payment failed. None of them were built for PSD2 or FCA compliance from day one.
-              </p>
-              <p className="mt-4 text-base font-semibold text-white">
-                So we built what we needed - and opened it up to the industry.
-              </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-6">
-                <Link
-                  to="/about"
-                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
-                >
-                  <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                  <span className="relative z-10 transition-colors duration-300">Read our story</span>
-                  <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </Link>
-                <div className="flex items-center gap-4">
-                  <div className="h-px w-8 bg-white/20" />
-                  <span className="text-sm text-white/50">10+ years in fintech before writing a line of code</span>
-                </div>
-              </div>
-
-              <div className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-10">
+              {/* Mobile: metrics right after paragraph */}
+              <div className="mt-6 grid grid-cols-3 gap-4 border-t border-white/10 pt-6 lg:hidden">
                 {[
                   { value: '10+', label: 'Years inside fintech operations' },
                   { value: '3 days', label: 'Average time to go live' },
                   { value: '93%', label: 'Ticket saves — no human agent needed' },
                 ].map(m => (
                   <div key={m.label}>
-                    <p className="text-3xl font-black text-white">{m.value}</p>
+                    <p className="text-2xl font-black text-white">{m.value}</p>
+                    <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile photo */}
+              <div className="mt-6 overflow-hidden rounded-2xl lg:hidden">
+                <img src="/team.png" alt="supVision team" className="w-full object-cover" />
+              </div>
+
+              <p className="mt-4 text-sm font-semibold text-white lg:text-base">
+                So we built what we needed - and opened it up to the industry.
+              </p>
+
+              <div className="mt-6 lg:mt-10">
+                {/* Mobile button */}
+                <Link
+                  to="/about"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 py-3 text-sm font-semibold text-white lg:hidden"
+                >
+                  Read our story
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </Link>
+                {/* Desktop button: animated */}
+                <div className="hidden lg:flex flex-wrap items-center gap-6">
+                  <Link
+                    to="/about"
+                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                  >
+                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+                    <span className="relative z-10 transition-colors duration-300">Read our story</span>
+                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                  </Link>
+                  <div className="flex items-center gap-4">
+                    <div className="h-px w-8 bg-white/20" />
+                    <span className="text-sm text-white/50">10+ years in fintech before writing a line of code</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Desktop metrics */}
+              <div className="mt-8 hidden lg:grid grid-cols-3 gap-6 border-t border-white/10 pt-10">
+                {[
+                  { value: '10+', label: 'Years inside fintech operations' },
+                  { value: '3 days', label: 'Average time to go live' },
+                  { value: '93%', label: 'Ticket saves — no human agent needed' },
+                ].map(m => (
+                  <div key={m.label}>
+                    <p className="text-2xl font-black text-white lg:text-3xl">{m.value}</p>
                     <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right - image */}
-            <div className="overflow-hidden rounded-2xl" style={{ minHeight: '520px' }}>
+            {/* Right - image, desktop only */}
+            <div className="hidden lg:block overflow-hidden rounded-2xl" style={{ minHeight: '520px' }}>
               <img
                 src="/team.png"
                 alt="supVision team"
@@ -730,46 +896,55 @@ export default function Home() {
 
       {/* Compliance & Security */}
       <section className="py-3 px-2 sm:px-3">
-        <div className="rounded-3xl bg-gray-50 px-10 py-16 lg:px-16">
+        <div className="rounded-3xl bg-gray-50 px-4 py-10 lg:px-16 lg:py-16">
           <div className="mx-auto max-w-7xl">
-          <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
+          <div className="grid gap-8 lg:gap-16 lg:grid-cols-2 lg:items-start">
 
             {/* Left */}
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Compliance & Security</p>
-              <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900 sm:text-4xl">
-                Your compliance team will love us as much as your support team does.
+              <h2 className="mt-4 text-2xl font-bold leading-snug text-gray-900 lg:mt-5 lg:text-4xl">
+                Built for regulated financial services from day one.
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-gray-500">
-                Audit logs, escalation rules, traceable decisions - every action taken by supVision is logged, signed, and audit-ready out of the box. Built for regulated financial services from day one.
-              </p>
-              <ul className="mt-10 space-y-5">
+              <ul className="mt-6 space-y-4">
                 {complianceFeatures.map((f) => (
-                  <li key={f} className="flex items-start gap-4">
-                    <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-white">
+                  <li key={f} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
                         <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
                     </span>
-                    <span className="text-base leading-relaxed text-gray-700">{f}</span>
+                    <span className="text-sm leading-relaxed text-gray-700 lg:text-base">{f}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             {/* Right - badges */}
-            <div className="flex flex-col items-center gap-8 rounded-2xl border border-gray-200 bg-white p-12">
+            <div className="flex flex-col items-center gap-6 rounded-2xl border border-gray-200 bg-white p-6 lg:p-12 lg:gap-8">
               <p className="text-sm font-bold uppercase tracking-widest text-gray-900">Certified & Compliant</p>
-              <div className="flex flex-wrap items-center justify-center gap-8">
-                <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-36 w-auto" />
-                <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-28 w-auto" />
+              <div className="flex items-center justify-center gap-6">
+                <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-24 w-auto lg:h-36" />
+                <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-20 w-auto lg:h-28" />
               </div>
               <p className="text-center text-sm leading-relaxed text-gray-500">
-                Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance built into every interaction.
+                Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance.
               </p>
+              {/* Mobile: full-width, no animation */}
               <Link
                 to="/security"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                className="flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white lg:hidden"
+                style={{ backgroundColor: '#214995' }}
+              >
+                Learn more
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+              {/* Desktop: animated */}
+              <Link
+                to="/security"
+                className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
                 style={{ backgroundColor: '#214995' }}
               >
                 <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
@@ -788,7 +963,7 @@ export default function Home() {
       </section>
 
       {/* Pre-FAQ CTA with inline form */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-8 px-2 sm:px-4 lg:py-16 lg:px-8">
         <div
           className="mx-auto max-w-7xl rounded-2xl overflow-hidden"
           style={{
@@ -797,63 +972,19 @@ export default function Home() {
             backgroundPosition: 'center',
           }}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="flex flex-col lg:grid lg:grid-cols-2">
 
-            {/* Left - text */}
-            <div className="flex flex-col justify-start px-10 py-16 lg:px-16">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Book a demo</p>
-              <h2 className="mt-4 text-4xl font-bold leading-tight text-white">Most teams are live within 3 days.</h2>
-              <p className="mt-4 text-lg text-blue-200">We'd be glad to show how AI agents handle queries, disputes, and transaction issues, so your team focuses on what needs them.</p>
-              <ul className="mt-8 flex flex-col gap-3">
-                {['30-minute live walkthrough', 'Tailored to your support stack', 'No commitment required'].map(item => (
-                  <li key={item} className="flex items-center gap-3 text-sm text-white/80">
-                    <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
-                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-10 border-t border-white/10 pt-8 flex flex-col gap-5">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Email</p>
-                  <a href="mailto:info@supvision.ai" className="mt-1 block text-sm font-semibold text-white hover:text-blue-200 transition-colors">
-                    info@supvision.ai
-                  </a>
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Contact us directly</p>
-                  <div className="mt-3 flex items-center gap-2">
-                    <a href="https://www.linkedin.com/company/supvision-ai/" target="_blank" rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                      </svg>
-                    </a>
-                    <a href="https://t.me/+447737124949" target="_blank" rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                      </svg>
-                    </a>
-                    <a href="https://wa.me/447737124949" target="_blank" rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
+            {/* Top text */}
+            <div className="px-5 pt-10 pb-0 lg:px-16 lg:py-16 lg:pb-0 lg:flex lg:flex-col lg:justify-start">
+              <p className="text-center text-sm font-bold uppercase tracking-[0.2em] text-white lg:text-left lg:text-xs lg:text-blue-300">Book a demo</p>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-white lg:text-4xl">Most teams are live within 3 days.</h2>
+              <p className="mt-3 text-base text-blue-200">30 minutes. We'll show exactly how it works for your stack.</p>
             </div>
 
-            {/* Right - inline form */}
-            <div className="flex items-center px-10 py-16 lg:px-12">
+            {/* Form - appears second on mobile (right after description), right column on desktop */}
+            <div className="px-5 py-6 lg:px-12 lg:py-16 lg:row-span-2 lg:flex lg:items-center">
               {demoSubmitted ? (
-                <div className="w-full rounded-2xl bg-white p-10 text-center shadow-xl">
+                <div className="w-full rounded-2xl bg-white p-8 text-center shadow-xl">
                   <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-7 w-7 text-white">
                       <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
@@ -863,13 +994,13 @@ export default function Home() {
                   <p className="mt-2 text-base text-gray-500">We'll get back to you within one business day.</p>
                 </div>
               ) : (
-                <div className="w-full rounded-2xl bg-white p-8 shadow-xl">
+                <div className="w-full rounded-2xl bg-white p-6 lg:p-8 shadow-xl">
                   <form
                     ref={demoFormRef}
                     noValidate
                     onSubmit={(e: FormEvent<HTMLFormElement>) => {
                       e.preventDefault()
-                      const valid = demoFormRef.current?.checkValidity() ?? false
+                      const valid = (e.currentTarget as HTMLFormElement).checkValidity()
                       setDemoFormIsValid(valid)
                       setDemoAttempted(true)
                       if (valid && demoAgreed) setDemoSubmitted(true)
@@ -928,10 +1059,7 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={() => setDemoAgreed(!demoAgreed)}
-                        className={[
-                          'mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors',
-                          demoAgreed ? 'border-transparent' : 'border-gray-300 bg-white',
-                        ].join(' ')}
+                        className={['mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors', demoAgreed ? 'border-transparent' : 'border-gray-300 bg-white'].join(' ')}
                         style={demoAgreed ? { backgroundColor: '#214995' } : {}}
                       >
                         {demoAgreed && (
@@ -941,14 +1069,25 @@ export default function Home() {
                         )}
                       </button>
                       <p className="text-xs leading-relaxed text-gray-500">
-                        I agree to the{' '}
-                        <Link to="/" className="font-semibold text-gray-900 underline">Privacy Policy</Link>.
+                        I agree to the <Link to="/" className="font-semibold text-gray-900 underline">Privacy Policy</Link>.
                       </p>
                     </div>
                     <div className="pt-1">
+                      {/* Mobile: full-width, no animation */}
                       <button
                         type="submit"
-                        className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
+                        className="flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-bold uppercase tracking-widest text-white lg:hidden"
+                        style={{ backgroundColor: '#111827' }}
+                      >
+                        Send request
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                          <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                      {/* Desktop: animated */}
+                      <button
+                        type="submit"
+                        className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
                         style={{ backgroundColor: '#111827' }}
                       >
                         <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
@@ -971,6 +1110,73 @@ export default function Home() {
                   </form>
                 </div>
               )}
+            </div>
+
+            {/* Bottom text - bullets + contact (one line on mobile) */}
+            <div className="px-5 py-8 lg:px-16 lg:pt-8 lg:pb-16">
+              <ul className="flex flex-col gap-3">
+                {['30-minute live walkthrough', 'Tailored to your support stack', 'No commitment required'].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-base text-white/80">
+                    <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
+                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Email + contact */}
+              <div className="mt-6 border-t border-white/10 pt-6">
+                {/* Mobile: email address + big icons left-aligned, no labels */}
+                <div className="flex items-center justify-between lg:hidden">
+                  <a href="mailto:info@supvision.ai" className="text-sm font-semibold text-white hover:text-blue-200 transition-colors">
+                    info@supvision.ai
+                  </a>
+                  <div className="flex items-center gap-2">
+                    <a href="https://www.linkedin.com/company/supvision-ai/" target="_blank" rel="noopener noreferrer"
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                      </svg>
+                    </a>
+                    <a href="https://t.me/+447737124949" target="_blank" rel="noopener noreferrer"
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                      </svg>
+                    </a>
+                    <a href="https://wa.me/447737124949" target="_blank" rel="noopener noreferrer"
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                {/* Desktop: full labels layout */}
+                <div className="hidden lg:flex flex-col gap-5">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Email</p>
+                    <a href="mailto:info@supvision.ai" className="mt-1 block text-sm font-semibold text-white hover:text-blue-200 transition-colors">info@supvision.ai</a>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Contact us directly</p>
+                    <div className="mt-3 flex items-center gap-2">
+                      <a href="https://www.linkedin.com/company/supvision-ai/" target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                      </a>
+                      <a href="https://t.me/+447737124949" target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                      </a>
+                      <a href="https://wa.me/447737124949" target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -1086,12 +1292,13 @@ function FAQ() {
 
         <div className="mt-12 divide-y divide-gray-200">
           {faqItems.map((item, i) => (
-            <FAQItem
-              key={i}
-              item={item}
-              isOpen={open === i}
-              onToggle={() => setOpen(open === i ? null : i)}
-            />
+            <div key={i} className={i >= 5 ? 'hidden lg:block' : ''}>
+              <FAQItem
+                item={item}
+                isOpen={open === i}
+                onToggle={() => setOpen(open === i ? null : i)}
+              />
+            </div>
           ))}
         </div>
 
