@@ -10,7 +10,7 @@ const overviewCategories = [
       { label: 'Support Agent', desc: 'AI-powered fintech customer support, 24/7', to: '/support-agent', locked: false },
       { label: 'Sales Agent', desc: 'Automated sales conversations at scale', locked: true },
       { label: 'Operations Agent', desc: 'Internal ops & workflow automation', locked: true },
-      { label: 'Analytics Dashboard', desc: 'Real-time visibility into bot vs human, team performance, and every trend', to: '/analytics', locked: false },
+      { label: 'Analytics Agent', desc: 'Data-driven insights from every interaction', locked: true },
       { label: 'Coordinator Agent', desc: 'Multi-agent orchestration layer', locked: true },
     ],
   },
@@ -36,6 +36,13 @@ const overviewCategories = [
       { label: 'Identity providers', desc: 'Sumsub, Jumio, Onfido, Veriff and more', to: '/integrations#kyc' },
       { label: 'Collaboration', desc: 'Slack, Teams, Jira, Linear for escalation workflows', to: '/integrations#collaboration' },
       { label: 'CRM', desc: 'Salesforce, HubSpot, Pipedrive and more', to: '/integrations#crm' },
+    ],
+  },
+  {
+    key: 'analytics',
+    label: 'Analytics Dashboard',
+    items: [
+      { label: 'Analytics Dashboard', desc: 'Real-time visibility into bot vs human, team performance, and every trend', to: '/analytics' },
     ],
   },
 ]
