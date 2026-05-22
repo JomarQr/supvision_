@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Home() {
@@ -10,6 +10,8 @@ export default function Home() {
   const [controlTab, setControlTab] = useState<0 | 1 | 2>(0)
   const [stackFilters, setStackFilters] = useState<Record<string, string | null>>({})
   const [showAllStacks, setShowAllStacks] = useState(false)
+  const [demoSubmitted, setDemoSubmitted] = useState(false)
+  const [demoAgreed, setDemoAgreed] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -43,7 +45,7 @@ export default function Home() {
     <div>
       {/* Hero */}
       <section data-nav-dark className="relative flex min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
-        {/* Clipping wrapper — shrinks on scroll, clips only bg */}
+        {/* Clipping wrapper - shrinks on scroll, clips only bg */}
         <div ref={clipRef} className="absolute inset-0 overflow-hidden">
           <div
             className="absolute inset-0"
@@ -55,10 +57,10 @@ export default function Home() {
           />
         </div>
 
-        {/* Hero right — main dashboard, вне clipRef, clipPath синхронизирован со скроллом */}
+        {/* Hero right - main dashboard, вне clipRef, clipPath синхронизирован со скроллом */}
         <div
           ref={dashboardPanelRef}
-          className="absolute z-20"
+          className="absolute z-20 hidden lg:block"
           style={{ left: '53%', width: '52vw', top: '48%', transform: 'translateY(-50%)' }}
         >
           <div
@@ -82,12 +84,12 @@ export default function Home() {
 
         {/* Left content column */}
         <div
-          className="relative z-10 flex flex-col self-stretch"
+          className="relative z-10 flex w-full flex-col self-stretch lg:w-[53vw]"
           style={{
-            width: '53vw',
             paddingTop: '6rem',
-            paddingBottom: '12rem',
-            paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))',
+            paddingBottom: '6rem',
+            paddingLeft: 'max(1rem, calc((100vw - 80rem) / 2 + 1.5rem))',
+            paddingRight: '1rem',
           }}
         >
           {/* Text block */}
@@ -96,19 +98,18 @@ export default function Home() {
               An AI support layer tailored for fintech industries
             </div>
 
-            <h1 className="flex flex-col text-4xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-              <span className="whitespace-nowrap"><span className="font-semibold">Fintech</span> Support</span>
-              <span className="whitespace-nowrap">That <span className="font-semibold">Solves,</span></span>
-              <span className="whitespace-nowrap">Not Escalates.</span>
+            <h1 className="flex flex-col text-3xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <span><span className="font-semibold">Agentic</span> Support Team</span>
+              <span>for <span className="font-semibold">Fintech</span> Industry</span>
             </h1>
 
-            <p className="mt-6 text-sm leading-relaxed text-white max-w-sm">
-              Next generation AI support agent. Not the type that people try to bypass to speak to a real person — but a full fledged support that is able to resolve 80% of queries without any human intervention.
+            <p className="mt-6 text-sm leading-relaxed text-white max-w-md">
+              Next generation AI support agent. Not the type that people try to bypass to speak to a real person - but a full fledged support that is able to resolve 80% of queries without any human intervention.
             </p>
 
           </div>
 
-          {/* Industries ticker — plain icon + text, fades at edges */}
+          {/* Industries ticker - plain icon + text, fades at edges */}
           <div
             className="mt-auto overflow-hidden"
             style={{
@@ -149,9 +150,9 @@ export default function Home() {
 
         </div>
 
-        {/* Feature blocks — full allowed width, pinned to bottom of hero */}
+        {/* Feature blocks - full allowed width, pinned to bottom of hero */}
         <div className="absolute bottom-10 left-0 right-0 z-10 px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl px-6 grid grid-cols-4 gap-4">
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
             {heroFeatures.slice(0, 4).map((item) => (
               <div
                 key={item.label}
@@ -196,10 +197,10 @@ export default function Home() {
 
           {/* Sub-description */}
           <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-2xl">
-            Your agents handle hundreds of repetitive queries daily — KYC checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
+            Your agents handle hundreds of repetitive queries daily - identity verification checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
           </p>
 
-          {/* Cards — 2 per row */}
+          {/* Cards - 2 per row */}
           <div className="mt-16 grid gap-6 sm:grid-cols-2">
             {valueProps.map((v) => (
               <div
@@ -207,7 +208,7 @@ export default function Home() {
                 className="relative flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm"
                 style={{ overflow: v.robotOverlay ? 'visible' : 'hidden' }}
               >
-                {/* Robot overlay — floats outside card */}
+                {/* Robot overlay - floats outside card */}
                 {v.robotOverlay && (
                   <img
                     src={v.robotOverlay}
@@ -220,7 +221,7 @@ export default function Home() {
                   />
                 )}
 
-                {/* Image area — always clipped */}
+                {/* Image area - always clipped */}
                 <div
                   className="relative h-56 w-full overflow-hidden bg-gray-50 flex items-center justify-center"
                   style={{ borderRadius: '1rem 1rem 0 0' }}
@@ -270,8 +271,95 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why supVision header */}
+      <section className="pt-10 pb-4 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
+          <h2 className="mt-5 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal mx-auto max-w-3xl">
+            Why fintech teams choose <span className="font-bold">supVision</span> over <span className="font-bold">generic AI platforms?</span>
+          </h2>
+          <p className="mt-4 text-base text-gray-500">Built for regulated financial services from day one - not retrofitted from a SaaS tool.</p>
+        </div>
+      </section>
+
+      {/* Control + Visibility - tabbed */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl px-6">
+
+          {/* Tab switcher */}
+          <div className="mb-12 flex gap-2">
+            {([0, 1, 2] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setControlTab(tab)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${controlTab === tab ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              >
+                {featureSections[tab].label}
+              </button>
+            ))}
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
+
+            {/* Image - right */}
+            <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
+              <img
+                key={`${controlTab}-${activeFeatures[controlTab]}`}
+                src={featureSections[controlTab].features[activeFeatures[controlTab]]?.img ?? featureSections[controlTab].img}
+                alt={featureSections[controlTab].features[activeFeatures[controlTab]]?.title}
+                className="h-full w-full object-cover object-top"
+                style={{
+                  minHeight: '480px',
+                  animation: 'feature-img-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both',
+                }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+            </div>
+
+            {/* Text + accordion */}
+            <div className="lg:w-[40%] lg:flex-shrink-0">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
+              <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[controlTab].title}</h2>
+              <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[controlTab].description}</p>
+
+              <div className="mt-8">
+                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
+                <div className="divide-y divide-gray-100 border-t border-gray-100">
+                  {featureSections[controlTab].features.map((f, fi) => (
+                    <div
+                      key={f.title}
+                      className="cursor-pointer py-3"
+                      onClick={() => setActiveFeatures(prev => ({ ...prev, [controlTab]: fi }))}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[controlTab] ? 'text-gray-900' : 'text-gray-400'}`}>
+                          {f.title}
+                        </p>
+                        <span className="flex-shrink-0 text-xl font-light leading-none text-gray-400">
+                          {fi === activeFeatures[controlTab] ? '−' : '+'}
+                        </span>
+                      </div>
+                      {fi === activeFeatures[controlTab] && (
+                        <p
+                          className="mt-1.5 text-sm leading-relaxed text-gray-500"
+                          style={{ animation: 'feature-text-in 0.3s ease both' }}
+                        >
+                          {f.description}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* Integration finder */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="pt-8 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           <div className="rounded-3xl px-10 py-16 text-center" style={{ backgroundColor: '#f0ede8' }}>
             <h2 className="text-3xl font-bold leading-snug text-gray-900 sm:text-4xl mx-auto max-w-2xl">
@@ -293,6 +381,7 @@ export default function Home() {
                   options={group.options}
                   value={stackFilters[group.label] ?? null}
                   onChange={(name) => setStackFilters(prev => ({ ...prev, [group.label]: name }))}
+                  comingSoon={group.label === 'KYC'}
                 />
               ))}
             </div>
@@ -389,8 +478,17 @@ export default function Home() {
       <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
         <div className="mx-auto max-w-7xl px-6">
 
-          <div className="mb-12 text-center">
+          <div className="mb-4 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
+          </div>
+
+          {/* Column headers - sticky below navbar */}
+          <div
+            className="hidden sm:grid grid-cols-2 mb-3 px-1 sticky z-20 py-3 rounded-xl"
+            style={{ top: '100px', backgroundColor: '#faf8f5' }}
+          >
+            <p className="text-lg font-bold text-gray-400 text-center">Before</p>
+            <p className="text-lg font-bold text-center" style={{ color: '#214995' }}>After</p>
           </div>
 
           {/* Stacked sticky cards */}
@@ -399,29 +497,33 @@ export default function Home() {
               <div
                 key={b.title}
                 className="sticky"
-                style={{ top: `${108 + i * 40}px`, zIndex: i + 1 }}
+                style={{ top: `${154 + i * 40}px`, zIndex: i + 21 }}
               >
-                <div className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
+                <div className="relative grid grid-cols-1 sm:grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
                   {/* Before */}
-                  <div className="flex items-start justify-between gap-4 bg-gray-900 p-6" style={{ minHeight: '220px' }}>
-                    <div className="flex-1 flex flex-col">
-                      <p className="mb-3 text-base font-bold uppercase tracking-widest text-white">Before</p>
-                      <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
-                      <p className="mt-2 text-base leading-relaxed text-white/70">{b.before}</p>
-                    </div>
-                    <div className="flex-shrink-0 overflow-hidden rounded-xl" style={{ width: '160px', height: '160px', backgroundColor: 'rgba(255,255,255,0.06)' }}>
-                      <img src={b.beforeImg} alt="Before" className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  <div className="flex items-start bg-gray-900 p-6" style={{ minHeight: '160px' }}>
+                    <div className="flex flex-col">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 sm:hidden">Before</p>
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                          {b.beforeIcon}
+                        </div>
+                        <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
+                      </div>
+                      <p className="text-base leading-relaxed text-white/70">{b.before}</p>
                     </div>
                   </div>
                   {/* After */}
-                  <div className="flex items-start justify-between gap-4 bg-white p-6" style={{ minHeight: '220px' }}>
-                    <div className="flex-1 flex flex-col">
-                      <p className="mb-3 text-base font-bold uppercase tracking-widest" style={{ color: '#214995' }}>After SupVision</p>
-                      <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
-                      <p className="mt-2 text-base leading-relaxed text-gray-500">{b.after}</p>
-                    </div>
-                    <div className="flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 shadow-sm" style={{ width: '160px', height: '160px' }}>
-                      <img src={b.afterImg} alt={b.title} className="h-full w-full object-cover object-top" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  <div className="flex items-start bg-white p-6" style={{ minHeight: '160px' }}>
+                    <div className="flex flex-col">
+                      <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] sm:hidden" style={{ color: '#214995' }}>After</p>
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
+                          {b.afterIcon}
+                        </div>
+                        <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
+                      </div>
+                      <p className="text-base leading-relaxed text-gray-500">{b.after}</p>
                     </div>
                   </div>
                   {/* Arrow */}
@@ -440,8 +542,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Industries */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Industries</p>
+            <h2 className="mt-4 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal">
+              Built for <span className="font-bold">your industry</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {industries.map((ind) => (
+              <Link
+                key={ind.name}
+                to={ind.to}
+                className="relative overflow-hidden rounded-2xl group"
+                style={{ aspectRatio: '3/4', display: 'block' }}
+              >
+                <img
+                  src={ind.img}
+                  alt={ind.name}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="text-sm font-bold text-white leading-tight">{ind.name}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Proof */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
 
           <div className="mb-12 text-center">
@@ -450,21 +584,30 @@ export default function Home() {
           </div>
 
           {/* Card */}
-          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" style={{ height: '520px' }}>
-            <div className="grid lg:grid-cols-2 h-full">
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex flex-col sm:grid sm:h-[320px]" style={{ gridTemplateColumns: '240px 1fr' }}>
 
-              {/* Left — text */}
-              <div className="flex flex-col p-8 lg:p-10 border-r border-gray-100 overflow-hidden">
-                <p className="text-xs font-black tracking-[0.2em] text-gray-900 uppercase">{testimonials[activeT].company}</p>
+              {/* Left - identity */}
+              <div
+                className="flex flex-col items-center justify-center p-8 min-h-[160px] sm:min-h-0"
+                style={{
+                  backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
+                <p className="text-xl font-black text-white text-center">{testimonials[activeT].name}</p>
+                <p className="mt-2 text-base text-white/70 text-center">{testimonials[activeT].role}</p>
+              </div>
 
-                <div className="mt-8 flex-1">
+              {/* Right - quote + metrics + CTA */}
+              <div className="flex flex-col p-8 lg:p-10 overflow-hidden">
+                <div className="flex-1">
                   <p className="text-5xl font-serif leading-none text-gray-200 select-none">"</p>
-                  <p className="mt-2 text-base leading-relaxed text-gray-800" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
+                  <p className="mt-2 text-lg leading-relaxed text-gray-800" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
                     {testimonials[activeT].quote}
                   </p>
                 </div>
-
-                <p className="mt-8 text-sm text-gray-400">— {testimonials[activeT].name}, {testimonials[activeT].role}</p>
 
                 <div className="mt-6 border-t border-gray-100 pt-6 flex gap-10">
                   {testimonials[activeT].metrics.map(m => (
@@ -475,29 +618,6 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="mt-6 border-t border-gray-100 pt-6">
-                  <button className="flex items-center gap-3 text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                    Read full story
-                  </button>
-                </div>
-              </div>
-
-              {/* Right — branded image */}
-              <div
-                className="relative flex items-center justify-center"
-                style={{ background: testimonials[activeT].bgGradient }}
-              >
-                <p
-                  className="text-5xl font-black tracking-[0.15em] text-white select-none"
-                  style={{ opacity: 0.9 }}
-                >
-                  {testimonials[activeT].company}
-                </p>
               </div>
 
             </div>
@@ -542,20 +662,20 @@ export default function Home() {
           <div className="rounded-3xl bg-gray-950 px-10 py-16 lg:px-16">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
 
-            {/* Left — text */}
+            {/* Left - text */}
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Our story</p>
               <h2 className="mt-5 text-4xl font-bold leading-snug text-white sm:text-5xl">
-                Built by people who lived the problem.
+                Built by people with 10+ years in fintech.
               </h2>
               <p className="mt-6 text-base leading-relaxed text-gray-400">
-                supVision was not built by engineers who read about fintech. It was built by operators who spent over a decade inside financial services — running support teams, managing KYC queues, handling regulator audits, and watching knowledge walk out the door every time an agent left.
+                supVision was not built by engineers who read about fintech. It was built by operators who spent over a decade inside financial services - running support teams, managing verification queues, handling regulator audits, and watching knowledge walk out the door every time an agent left.
               </p>
               <p className="mt-4 text-base leading-relaxed text-gray-400">
                 We tried every generic AI tool on the market. None of them understood what a chargeback workflow looks like. None of them knew the difference between a payment pending and a payment failed. None of them were built for PSD2 or FCA compliance from day one.
               </p>
               <p className="mt-4 text-base font-semibold text-white">
-                So we built what we needed — and opened it up to the industry.
+                So we built what we needed - and opened it up to the industry.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-6">
@@ -591,7 +711,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right — image */}
+            {/* Right - image */}
             <div className="overflow-hidden rounded-2xl" style={{ minHeight: '520px' }}>
               <img
                 src="/team.png"
@@ -606,98 +726,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Feature deep-dive header */}
-      <section className="pt-24 pb-4 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
-          <h2 className="mt-5 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal mx-auto max-w-3xl">
-            Why fintech teams choose <span className="font-bold">supVision</span> over <span className="font-bold">generic AI platforms?</span>
-          </h2>
-          <p className="mt-4 text-base text-gray-500">Built for regulated financial services from day one — not retrofitted from a SaaS tool.</p>
-        </div>
-      </section>
-
-      {/* Control + Visibility — tabbed */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="mx-auto w-full max-w-7xl px-6">
-
-          {/* Tab switcher */}
-          <div className="mb-12 flex gap-2">
-            {([0, 1, 2] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setControlTab(tab)}
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${controlTab === tab ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
-              >
-                {featureSections[tab].label}
-              </button>
-            ))}
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-8">
-
-            {/* Image — right */}
-            <div className="order-last overflow-hidden rounded-2xl lg:w-[60%]" style={{ minHeight: '480px' }}>
-              <img
-                key={`${controlTab}-${activeFeatures[controlTab]}`}
-                src={featureSections[controlTab].features[activeFeatures[controlTab]]?.img ?? featureSections[controlTab].img}
-                alt={featureSections[controlTab].features[activeFeatures[controlTab]]?.title}
-                className="h-full w-full object-cover object-top"
-                style={{ minHeight: '480px' }}
-                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-              />
-            </div>
-
-            {/* Text + accordion */}
-            <div className="lg:w-[40%] lg:flex-shrink-0">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
-              <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900">{featureSections[controlTab].title}</h2>
-              <p className="mt-5 text-sm leading-relaxed text-gray-500">{featureSections[controlTab].description}</p>
-
-              <div className="mt-8">
-                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                <div className="divide-y divide-gray-100 border-t border-gray-100">
-                  {featureSections[controlTab].features.map((f, fi) => (
-                    <div
-                      key={f.title}
-                      className="cursor-pointer py-3"
-                      onClick={() => setActiveFeatures(prev => ({ ...prev, [controlTab]: fi }))}
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[controlTab] ? 'text-gray-900' : 'text-gray-400'}`}>
-                          {f.title}
-                        </p>
-                        <span className="flex-shrink-0 text-xl font-light leading-none text-gray-400">
-                          {fi === activeFeatures[controlTab] ? '−' : '+'}
-                        </span>
-                      </div>
-                      {fi === activeFeatures[controlTab] && (
-                        <p className="mt-1.5 text-sm leading-relaxed text-gray-500">{f.description}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* Compliance & Security */}
-      <section data-nav-dark className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-950">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="py-3 px-2 sm:px-3">
+        <div className="rounded-3xl bg-gray-50 px-10 py-16 lg:px-16">
+          <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
 
             {/* Left */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Compliance & Security</p>
-              <h2 className="mt-5 text-3xl font-bold leading-snug text-white sm:text-4xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#214995' }}>Compliance & Security</p>
+              <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900 sm:text-4xl">
                 Your compliance team will love us as much as your support team does.
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-gray-400">
-                Audit logs, escalation rules, traceable decisions — every action taken by supVision is logged, signed, and audit-ready out of the box. Built for regulated financial services from day one.
+              <p className="mt-6 text-base leading-relaxed text-gray-500">
+                Audit logs, escalation rules, traceable decisions - every action taken by supVision is logged, signed, and audit-ready out of the box. Built for regulated financial services from day one.
               </p>
               <ul className="mt-10 space-y-5">
                 {complianceFeatures.map((f) => (
@@ -707,34 +750,179 @@ export default function Home() {
                         <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
                     </span>
-                    <span className="text-base leading-relaxed text-gray-300">{f}</span>
+                    <span className="text-base leading-relaxed text-gray-700">{f}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Right — badges */}
-            <div className="flex flex-col items-center gap-8 rounded-2xl border border-white/10 bg-white/5 p-12">
-              <p className="text-sm font-bold uppercase tracking-widest text-white">Certified & Compliant</p>
+            {/* Right - badges */}
+            <div className="flex flex-col items-center gap-8 rounded-2xl border border-gray-200 bg-white p-12">
+              <p className="text-sm font-bold uppercase tracking-widest text-gray-900">Certified & Compliant</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
                 <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-36 w-auto" />
                 <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-28 w-auto" />
               </div>
-              <p className="text-center text-sm leading-relaxed text-gray-400">
+              <p className="text-center text-sm leading-relaxed text-gray-500">
                 Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance built into every interaction.
               </p>
               <Link
-                to="/contact"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                to="/roles/compliance-risk"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#214995' }}
               >
-                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                <span className="relative z-10 transition-colors duration-300">Request certificate confirmation</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
+                <span className="relative z-10">Learn more</span>
+                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
                 </span>
               </Link>
+            </div>
+
+          </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pre-FAQ CTA with inline form */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div
+          className="mx-auto max-w-7xl rounded-2xl overflow-hidden"
+          style={{
+            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+
+            {/* Left - text */}
+            <div className="flex flex-col justify-center px-10 py-16 lg:px-16">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Book a demo</p>
+              <h2 className="mt-4 text-4xl font-bold leading-tight text-white">Most teams are live within 3 days.</h2>
+              <p className="mt-4 text-lg text-blue-200">No platform migration. No 6-month project.</p>
+              <ul className="mt-8 flex flex-col gap-3">
+                {['30-minute live walkthrough', 'Tailored to your support stack', 'No commitment required'].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-white/80">
+                    <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
+                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right - inline form */}
+            <div className="flex items-center px-10 py-16 lg:px-12">
+              {demoSubmitted ? (
+                <div className="w-full rounded-2xl bg-white p-10 text-center shadow-xl">
+                  <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-7 w-7 text-white">
+                      <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">Message sent!</h2>
+                  <p className="mt-2 text-base text-gray-500">We'll get back to you within one business day.</p>
+                </div>
+              ) : (
+                <div className="w-full rounded-2xl bg-white p-8 shadow-xl">
+                  <form
+                    onSubmit={(e: FormEvent<HTMLFormElement>) => { e.preventDefault(); setDemoSubmitted(true) }}
+                    className="flex flex-col gap-4"
+                  >
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label className="mb-1.5 block text-sm font-semibold text-gray-700" htmlFor="demo-name">
+                          Full name <span style={{ color: '#214995' }}>*</span>
+                        </label>
+                        <input
+                          id="demo-name"
+                          type="text"
+                          required
+                          placeholder="Your full name"
+                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+                      <div>
+                        <label className="mb-1.5 block text-sm font-semibold text-gray-700" htmlFor="demo-email">
+                          Email <span style={{ color: '#214995' }}>*</span>
+                        </label>
+                        <input
+                          id="demo-email"
+                          type="email"
+                          required
+                          placeholder="Your email address"
+                          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-semibold text-gray-700" htmlFor="demo-company">
+                        Company
+                      </label>
+                      <input
+                        id="demo-company"
+                        type="text"
+                        placeholder="Your company name"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-sm font-semibold text-gray-700" htmlFor="demo-message">
+                        What are you looking to solve?
+                      </label>
+                      <textarea
+                        id="demo-message"
+                        rows={3}
+                        placeholder="Describe your support challenges..."
+                        className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                      />
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setDemoAgreed(!demoAgreed)}
+                        className={[
+                          'mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors',
+                          demoAgreed ? 'border-transparent' : 'border-gray-300 bg-white',
+                        ].join(' ')}
+                        style={demoAgreed ? { backgroundColor: '#214995' } : {}}
+                      >
+                        {demoAgreed && (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
+                            <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </button>
+                      <p className="text-xs leading-relaxed text-gray-500">
+                        I agree to the{' '}
+                        <Link to="/" className="font-semibold text-gray-900 underline">Privacy Policy</Link>.
+                      </p>
+                    </div>
+                    <div className="pt-1">
+                      <button
+                        type="submit"
+                        disabled={!demoAgreed}
+                        className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+                        style={{ backgroundColor: '#111827' }}
+                      >
+                        <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
+                        <span className="relative z-10 uppercase tracking-widest">Send request</span>
+                        <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                            <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
             </div>
 
           </div>
@@ -750,11 +938,11 @@ export default function Home() {
 const faqItems = [
   {
     q: 'What types of support queries can supVision handle?',
-    a: 'supVision is built for the full spectrum of fintech support: KYC verification questions, transaction disputes, payment failures, account onboarding, card and limit queries, and regulatory information requests. If it\'s a repeatable support case in a financial services context, supVision can resolve it autonomously.',
+    a: 'supVision is built for the full spectrum of fintech support: identity verification questions, transaction disputes, payment failures, account onboarding, card and limit queries, and regulatory information requests. If it\'s a repeatable support case in a financial services context, supVision can resolve it autonomously.',
   },
   {
     q: 'How long does it take to go live?',
-    a: 'Most teams are live within 3–5 business days. supVision connects to your existing helpdesk, CRM, and KYC providers — no platform migration required. You configure escalation rules, set confidence thresholds, and go. There is no 6-month implementation project.',
+    a: 'Most teams are live within 3–5 business days. supVision connects to your existing helpdesk, CRM, and identity verification providers - no platform migration required. You configure escalation rules, set confidence thresholds, and go. There is no 6-month implementation project.',
   },
   {
     q: 'What happens when supVision cannot resolve an issue?',
@@ -766,7 +954,7 @@ const faqItems = [
   },
   {
     q: 'Can supVision work with our existing tools?',
-    a: 'supVision integrates with the tools your team already uses — Zendesk, Intercom, Salesforce, Freshdesk, and custom CRMs. It also connects to your KYC provider and knowledge base to resolve queries with real data and your own internal policies, not generic responses.',
+    a: 'supVision integrates with the tools your team already uses - Zendesk, Intercom, Salesforce, Freshdesk, and custom CRMs. It also connects to your identity provider and knowledge base to resolve queries with real data and your own internal policies, not generic responses.',
   },
   {
     q: 'How is supVision priced?',
@@ -837,7 +1025,7 @@ function FAQ() {
   }
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <section className="py-24 px-4 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -869,12 +1057,12 @@ const featureSections: { label: string; title: string; description: string; img:
   {
     label: 'Control',
     title: 'Define exactly how supVision responds',
-    description: 'supVision goes beyond automate-or-escalate. Set confidence thresholds, restrict topics, and require human approval for sensitive actions — on your terms.',
+    description: 'supVision goes beyond automate-or-escalate. Set confidence thresholds, restrict topics, and require human approval for sensitive actions - on your terms.',
     img: '/control/Confidence Thresholds.png',
     bgGradient: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)',
     features: [
       { title: 'Confidence Thresholds', description: 'Set per-topic confidence levels so supVision only automates when it is certain enough. Below threshold, it escalates with full context attached.', img: '/control/Confidence Thresholds.png' },
-      { title: 'Topic Restrictions', description: 'Define exactly which query types are handled by AI and which always route to a human agent — KYC rejections, disputes, high-value account changes.', img: '/control/Topic Restrictions.png' },
+      { title: 'Topic Restrictions', description: 'Define exactly which query types are handled by AI and which always route to a human agent - verification rejections, disputes, high-value account changes.', img: '/control/Topic Restrictions.png' },
       { title: 'Escalation Rules', description: 'Build custom escalation logic based on query type, customer tier, account status, or regulatory category. Every rule is logged and auditable.', img: '/control/Escalation Rules.png' },
       { title: 'Response Approval', description: 'Require human sign-off before supVision sends responses in high-risk categories, keeping your team in control without slowing down routine queries.', img: '/control/Response Approval.png' },
       { title: 'Data Access Controls', description: 'Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope.', img: '/control/Data Access Controls.png' },
@@ -883,28 +1071,28 @@ const featureSections: { label: string; title: string; description: string; img:
   {
     label: 'Integration',
     title: 'Connects to your existing stack in days',
-    description: 'supVision runs on top of what you already use — no platform migration, no rip-and-replace. Connect your helpdesk, KYC provider, CRM, and knowledge base, and go live in 3 to 5 business days.',
+    description: 'supVision runs on top of what you already use - no platform migration, no rip-and-replace. Connect your helpdesk, identity verification provider, CRM, and knowledge base, and go live in 3 to 5 business days.',
     img: '/hero_images/Component 172.png',
     bgGradient: 'linear-gradient(135deg, #c8d8e8 0%, #8aaac8 50%, #607890 100%)',
     features: [
-      { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud — supVision works inside your existing ticket workflow, not alongside it.' },
-      { title: 'KYC Providers', description: 'Pull live verification status, document rejection reasons, and risk flags in real time from Sumsub, Jumio, Veriff, and Onfido — before every response.' },
-      { title: 'Knowledge Base', description: 'Index your Confluence spaces, Notion pages, or Guru cards so the agent answers using your own internal policies and procedures — not generic responses.' },
-      { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously — one supVision instance, every channel your customers use.' },
+      { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud - supVision works inside your existing ticket workflow, not alongside it.' },
+      { title: 'Identity Providers', description: 'Pull live verification status and identity data in real time - before every response.' },
+      { title: 'Knowledge Base', description: 'Index your Confluence spaces, Notion pages, or Guru cards so the agent answers using your own internal policies and procedures - not generic responses.' },
+      { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously - one supVision instance, every channel your customers use.' },
       { title: 'Webhook & API', description: 'Integrate with any internal tool via REST API or webhooks. If it has an API, supVision can query it before responding to a customer.' },
     ],
   },
   {
     label: 'Visibility',
     title: 'Full insight into every automated action',
-    description: 'Every AI decision is logged, every escalation is documented, and every response is traceable — so you always know what happened, why it happened, and who was responsible.',
+    description: 'Every AI decision is logged, every escalation is documented, and every response is traceable - so you always know what happened, why it happened, and who was responsible.',
     img: '/hero_images/Component 175.png',
     bgGradient: 'linear-gradient(135deg, #d8e0d0 0%, #a0b890 50%, #708060 100%)',
     features: [
-      { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context — regulator-ready out of the box.', img: '/visibility/Full Audit Trail.png' },
+      { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context - regulator-ready out of the box.', img: '/visibility/Full Audit Trail.png' },
       { title: 'AI Decision Logs', description: 'See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training.', img: '/visibility/AI Decision Logs.png' },
       { title: 'Log Streaming', description: 'Send real-time workflow data to tools like Datadog or Splunk for centralized monitoring, alerting, and integration with your existing security stack.', img: '/visibility/Log Streaming.png' },
-      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes — structured, signed, and ready to share without manual extraction.', img: '/visibility/Regulator Exports.png' },
+      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes - structured, signed, and ready to share without manual extraction.', img: '/visibility/Regulator Exports.png' },
     ],
   },
 ]
@@ -914,6 +1102,7 @@ const testimonials: {
   role: string
   company: string
   bgGradient: string
+  avatar: string
   quote: string
   metrics: { value: string; label: string }[]
 }[] = [
@@ -922,7 +1111,8 @@ const testimonials: {
     role: 'Head of Customer Support',
     company: 'NEOBANK',
     bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
-    quote: "We used to hire new people every time we expanded to a new geography. Now we automatically serve all regions — Europe, the US, Asia, the Middle East — without adding a single agent. The setup took three days.",
+    avatar: '/team.png',
+    quote: "We used to hire new people every time we expanded to a new geography. Now we automatically serve all regions - Europe, the US, Asia, the Middle East - without adding a single agent. The setup took three days.",
     metrics: [
       { value: '4 regions', label: 'served without new hires' },
       { value: '3 days', label: 'to go live globally' },
@@ -933,7 +1123,8 @@ const testimonials: {
     role: 'Customer Success Lead',
     company: 'PAYTECH',
     bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
-    quote: "We cut support headcount by 30% while handling 3× the ticket volume. The agents that stayed are focused on real escalations, not copy-pasting the same KYC answers all day. ROI showed up faster than any tool we've ever deployed.",
+    avatar: '/image 178 (1)-Photoroom 2.png',
+    quote: "We cut support headcount by 30% while handling 3× the ticket volume. The agents that stayed are focused on real escalations, not copy-pasting the same repetitive answers all day. ROI showed up faster than any tool we've ever deployed.",
     metrics: [
       { value: '30%', label: 'reduction in support headcount' },
       { value: '3×', label: 'ticket volume, same team' },
@@ -944,9 +1135,10 @@ const testimonials: {
     role: 'Head of Operations',
     company: 'FINLEND',
     bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
-    quote: "We went from a 4-hour average resolution time to under 2 minutes for KYC queries. Ops costs dropped and CSAT went up at the same time. SupVision made the whole support flow predictable and auditable.",
+    avatar: '/team.png',
+    quote: "We went from a 4-hour average resolution time to under 2 minutes for verification queries. Ops costs dropped and CSAT went up at the same time. SupVision made the whole support flow predictable and auditable.",
     metrics: [
-      { value: '< 2 min', label: 'avg KYC resolution time' },
+      { value: '< 2 min', label: 'avg verification resolution time' },
       { value: '1 month', label: 'to measurable ROI' },
     ],
   },
@@ -955,6 +1147,7 @@ const testimonials: {
     role: 'Compliance Lead',
     company: 'LENDCORE',
     bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
+    avatar: '/image 178 (1)-Photoroom 2.png',
     quote: "Our compliance team was skeptical about automating disputes. But SupVision handles edge cases better than we expected, and logs every decision with a full rationale and timestamp. When our auditors asked for a trail, we exported it in minutes.",
     metrics: [
       { value: '100%', label: 'automated decision audit coverage' },
@@ -965,7 +1158,7 @@ const testimonials: {
 
 const complianceFeatures = [
   'Full audit trail for every automated decision and escalation',
-  'KYC workflow logic with built-in confidence thresholds',
+  'Verification workflow logic with built-in confidence thresholds',
   'GDPR-compliant data handling and right-to-erasure support',
   'PCI DSS aligned, no raw card data ever touches our system',
   'Role-based access control and SOC 2-aligned infrastructure',
@@ -977,41 +1170,51 @@ const benefits = [
     beforeTitle: 'Queues growing every day',
     before: 'Disputes and transaction failures pile up in queues, resolved manually over days.',
     beforeImg: '/benefits/Disputes and transaction failures.png',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" /></svg>,
     title: 'Automated workflows made easy',
     after: 'Resolve disputes and transaction failures in real time, median resolution under 2 minutes, zero manual steps.',
     afterImg: '/benefits/Resolve disputes and transaction.png',
+    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>,
   },
   {
     beforeTitle: 'Compliance as an afterthought',
-    before: 'Compliance is bolted on after the fact, costly audits, missed escalations, fragile KYC flows.',
+    before: 'Compliance is bolted on after the fact, costly audits, missed escalations, fragile verification flows.',
     beforeImg: '/benefits/Compliance is bolted on after the fact.png',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>,
     title: 'Tailored to a regulated industry',
-    after: 'Built for compliance from day one: audit logs, escalation rules, and KYC workflows that meet financial regulations out of the box.',
+    after: 'Built for compliance from day one: audit logs, escalation rules, and verification workflows that meet financial regulations out of the box.',
     afterImg: '/benefits/Built for compliance from day one.png',
+    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>,
   },
   {
     beforeTitle: 'Scaling costs, shrinking margins',
     before: 'Growing support demand means growing headcount and costs with no end in sight.',
     beforeImg: '/benefits/Growing support demand means.png',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>,
     title: 'Reduce costs, improve quality',
     after: 'Teams using SupVision report 52% lower support costs and 98.4% resolution rate, tracked in real time on your dashboard.',
     afterImg: '/benefits/Reduce costs, improve quality.png',
+    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
   },
   {
     beforeTitle: 'Support stops at 5pm',
-    before: 'Customers hit payment failures and KYC blocks at midnight, on weekends, across time zones — with no one available to help.',
+    before: 'Customers hit payment failures and verification blocks at midnight, on weekends, across time zones - with no one available to help.',
     beforeImg: '/hero_images/live-chat-response.png',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
     title: '24/7 AI support, always on',
     after: 'supVision resolves queries around the clock with no shift changes, no SLA gaps, and no human fatigue. Every customer gets an instant response.',
     afterImg: '/hero_images/ticket-list-resolved.png',
+    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>,
   },
   {
     beforeTitle: 'Every new market means more staff',
-    before: 'Expanding to a new region requires hiring and training local support agents — slowing down every market entry.',
+    before: 'Expanding to a new region requires hiring and training local support agents - slowing down every market entry.',
     beforeImg: '/hero_images/onboarding-setup.png',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" /></svg>,
     title: 'Go global without scaling headcount',
     after: 'supVision supports 50+ languages out of the box. Launch in a new market and your support function scales automatically, from day one.',
     afterImg: '/hero_images/analytics-dashboard.png',
+    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>,
   },
 ]
 
@@ -1019,7 +1222,7 @@ const valueProps = [
   {
     stat: '64%',
     headline: 'Cut support costs. Without hiring more agents.',
-    body: 'SupVision deploys AI agents that resolve KYC queries, disputes, and transaction issues in seconds, at the scale your fintech demands.',
+    body: 'SupVision deploys AI agents that resolve support queries, disputes, and transaction issues in seconds, at the scale your fintech demands.',
     img: '/hero_images/Component 174 (1).png',
     imgAlt: 'Analytics dashboard showing cost reduction',
     robot: false,
@@ -1037,7 +1240,7 @@ const valueProps = [
   {
     stat: '3 days',
     headline: 'Live in 3 days. Not 6 months.',
-    body: 'No platform migration, no lengthy implementation. SupVision connects to your existing helpdesk, KYC provider, and CRM in days — then you\'re live.',
+    body: 'No platform migration, no lengthy implementation. SupVision connects to your existing helpdesk, identity verification provider, and CRM in days - then you\'re live.',
     img: '/hero_images/Component 172.png',
     imgAlt: 'Onboarding and integration setup flow',
     robot: false,
@@ -1046,7 +1249,7 @@ const valueProps = [
   {
     stat: '80%',
     headline: 'Tier-1 tickets resolved. No human required.',
-    body: 'KYC status checks, payment failures, onboarding questions — SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
+    body: 'Identity status checks, payment failures, onboarding questions - SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
     img: '/hero_images/Component 175.png',
     imgAlt: 'Tier-1 tickets resolved automatically',
     robot: false,
@@ -1061,10 +1264,68 @@ const S = (d: string | string[], fr = false) => (
   </svg>
 )
 
+const industries = [
+  {
+    name: 'Payments & Processing',
+    subtitle: 'Dispute resolution, chargebacks, and transaction queries - automated.',
+    img: '/for_whom/Payments & Processing.png',
+    to: '/industries/payments-processing',
+    bullets: [
+      'Automated chargeback and dispute resolution - median response under 2 minutes',
+      'Real-time transaction status queries answered without agent involvement',
+      'PCI DSS aligned - no raw card data ever touches our system',
+    ],
+  },
+  {
+    name: 'Neobanks & Digital Banking',
+    subtitle: 'Account support, identity verification, and onboarding - at the scale digital banks demand.',
+    img: '/for_whom/Neobanks & Digital Banking.png',
+    to: '/industries/neobanks',
+    bullets: [
+      'Identity verification and onboarding queries resolved autonomously - no queue, no wait',
+      '24/7 account and card support without adding headcount',
+      'FCA and GDPR compliant from day one - no retrofitting required',
+    ],
+  },
+  {
+    name: 'InsurTech',
+    subtitle: 'Policy queries, claims status, and coverage questions - handled automatically.',
+    img: '/for_whom/InsurTech.png',
+    to: '/industries/insurtech',
+    bullets: [
+      'Claims status updates and policy queries resolved without agent involvement',
+      '24/7 policyholder support across every channel',
+      'Full audit trail for every AI-generated response - audit-ready by default',
+    ],
+  },
+  {
+    name: 'Lending & Credit',
+    subtitle: 'Loan status, repayment queries, and credit questions - answered instantly.',
+    img: '/for_whom/Lending & Credit.png',
+    to: '/industries/lending-credit',
+    bullets: [
+      'Loan application status updates resolved autonomously',
+      'Repayment and credit queries answered in real time without manual review',
+      'GDPR aligned - customer data handled with full compliance controls',
+    ],
+  },
+  {
+    name: 'Web3',
+    subtitle: 'Wallet support, transaction queries, and onboarding - at crypto speed.',
+    img: '/for_whom/Web3.png',
+    to: '/industries/crypto-web3',
+    bullets: [
+      'Transaction and wallet queries resolved without manual intervention',
+      '24/7 support for onboarding, token transfers, and account access',
+      'Built for the pace and scale of Web3 user growth',
+    ],
+  },
+]
+
 const heroIndustries = [
   { label: 'Payments & Processing', icon: S(['M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z', 'M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z']) },
   { label: 'Neobanks', icon: S('M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6ZM20.25 10.332v9.418H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.418a.75.75 0 0 1 0-1.5h15.75a.75.75 0 0 1 0 1.5Zm-4.5 0v5.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75v-5.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75Zm-8.25-.75a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75H7.5Z', true) },
-  { label: 'Crypto & Web3', icon: S('M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z', true) },
+  { label: 'Web3', icon: S('M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z', true) },
   { label: 'Lending & Credit', icon: S(['M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z', 'M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z', 'M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z']) },
   { label: 'InsurTech', icon: S('M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z', true) },
 ]
@@ -1077,7 +1338,7 @@ const heroFeatures = [
   { label: 'Data Access Controls', icon: S('M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z', true) },
   { label: 'Full Audit Trail', icon: S(['M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z', 'M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z'], true) },
   { label: 'AI Decision Logs', icon: S('M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z', true) },
-  { label: 'KYC & Onboarding', icon: S('M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z', true) },
+  { label: 'Identity & Onboarding', icon: S('M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z', true) },
   { label: 'Dispute Resolution', icon: S('M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.54 15h6.42l.5 1.5H8.29l.5-1.5Zm8.085-8.995a.75.75 0 1 0-.75-1.299 12.81 12.81 0 0 0-3.558 3.05L11.03 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l2.47-2.47 1.617 1.618a.75.75 0 0 0 1.146-.102 11.312 11.312 0 0 1 3.612-3.321Z', true) },
   { label: 'Multi-channel', icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']) },
   { label: 'Log Streaming', icon: S('M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm14.25 6a.75.75 0 0 1-.22.53l-2.25 2.25a.75.75 0 1 1-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 1 1 1.06-1.06l2.25 2.25c.141.14.22.331.22.53Zm-10.28-.53a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L8.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-2.25 2.25Z', true) },
@@ -1091,7 +1352,7 @@ const integrationGroups: { label: string; options: { name: string; color: string
       { name: 'Zendesk', color: '#03363D', letter: 'Z', logoUrl: '/logos/zendesk.png' },
       { name: 'Intercom', color: '#1F8FEF', letter: 'I', logoUrl: '/logos/intecom (1).png' },
       { name: 'Freshdesk', color: '#25C16F', letter: 'F', logoUrl: '/logos/freshdesk.png' },
-      { name: 'Salesforce', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
+      { name: 'Salesforce Service', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
     ],
   },
   {
@@ -1107,9 +1368,10 @@ const integrationGroups: { label: string; options: { name: string; color: string
     label: 'CRM',
     options: [
       { name: 'HubSpot', color: '#FF7A59', letter: 'H', logoUrl: '/logos/hubspot.png' },
-      { name: 'Salesforce', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
+      { name: 'Salesforce CRM', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
       { name: 'Pipedrive', color: '#1A1F36', letter: 'P', logoUrl: '/logos/Pipedrive.png' },
       { name: 'Zoho CRM', color: '#E42527', letter: 'Z', logoUrl: '/logos/zoro.png' },
+      { name: 'Mambu', color: '#FF3B00', letter: 'M', logoUrl: '/logos/mambu.png' },
     ],
   },
   {
@@ -1117,8 +1379,14 @@ const integrationGroups: { label: string; options: { name: string; color: string
     options: [
       { name: 'WhatsApp', color: '#25D366', letter: 'W', logoUrl: '/logos/whatsapp.png' },
       { name: 'Telegram', color: '#26A5E4', letter: 'T', logoUrl: '/logos/telegram.png' },
-      { name: 'Email', color: '#EA4335', letter: '@', logoUrl: '/logos/gmail.png' },
-      { name: 'Live Chat', color: '#7C3AED', letter: 'LC', logoUrl: '/logos/intecom (1).png' },
+      { name: 'Gmail', color: '#EA4335', letter: '@', logoUrl: '/logos/gmail.png' },
+      { name: 'Mail / SMTP', color: '#6B7280', letter: 'M', logoUrl: '/mail.png' },
+      { name: 'Outlook', color: '#0078D4', letter: 'O', logoUrl: '/logos/outlook.png' },
+      { name: 'Facebook Messenger', color: '#0084FF', letter: 'F', logoUrl: '/logos/facebook messenger.png' },
+      { name: 'WeChat', color: '#07C160', letter: 'W', logoUrl: '/logos/wechat.png' },
+      { name: 'Line', color: '#00B900', letter: 'L', logoUrl: '/logos/line.png' },
+      { name: 'Viber', color: '#7360F2', letter: 'V', logoUrl: '/logos/viber.png' },
+      { name: 'Twilio SMS', color: '#F22F46', letter: 'T', logoUrl: '/logos/twillio.png' },
     ],
   },
 ]
@@ -1143,11 +1411,12 @@ function IntegrationLogo({ logoUrl, color, letter, size }: { logoUrl: string; co
   )
 }
 
-function IntegrationSelect({ label, options, value, onChange }: {
+function IntegrationSelect({ label, options, value, onChange, comingSoon }: {
   label: string
   options: { name: string; color: string; letter: string; logoUrl: string }[]
   value: string | null
   onChange: (name: string | null) => void
+  comingSoon?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -1162,38 +1431,39 @@ function IntegrationSelect({ label, options, value, onChange }: {
   }, [])
 
   return (
-    <div ref={ref} className="relative">
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => { if (comingSoon) setOpen(true) }}
+      onMouseLeave={() => { if (comingSoon) setOpen(false) }}
+    >
       <button
-        onClick={() => setOpen(v => !v)}
-        className={`flex items-center gap-2 rounded-full border-2 bg-white pl-4 pr-4 py-3 text-sm font-semibold cursor-pointer focus:outline-none transition-colors hover:bg-gray-50 ${selected ? 'border-gray-900 text-gray-900' : 'border-gray-900 text-gray-900'}`}
+        onClick={() => { if (!comingSoon) setOpen(v => !v) }}
+        className={`flex items-center gap-2 rounded-full border-2 bg-white pl-4 pr-4 py-3 text-sm font-semibold focus:outline-none transition-colors ${comingSoon ? 'cursor-default text-gray-400 border-gray-200' : 'cursor-pointer hover:bg-gray-50 border-gray-900 text-gray-900'}`}
       >
-        {selected && <IntegrationLogo logoUrl={selected.logoUrl} color={selected.color} letter={selected.letter} size={20} />}
-        <span>{selected ? selected.name : label}</span>
-        {selected ? (
-          <span
-            onClick={(e) => { e.stopPropagation(); onChange(null) }}
-            className="flex h-4 w-4 items-center justify-center rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300 text-xs leading-none"
-          >×</span>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-            className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
-            <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-          </svg>
-        )}
+        <span>{label}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+          className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${comingSoon ? 'text-gray-300' : 'text-gray-500'}`}>
+          <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+        </svg>
       </button>
 
       {open && (
         <div className="absolute left-0 top-full z-50 mt-2 min-w-[200px] overflow-hidden rounded-2xl border border-gray-100 bg-white py-2 shadow-xl">
-          {options.map(opt => (
-            <button
-              key={opt.name}
-              onClick={() => { onChange(opt.name); setOpen(false) }}
-              className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 ${value === opt.name ? 'bg-gray-50' : ''}`}
-            >
-              <IntegrationLogo logoUrl={opt.logoUrl} color={opt.color} letter={opt.letter} size={28} />
-              {opt.name}
-            </button>
-          ))}
+          {comingSoon ? (
+            <div className="px-4 py-3 text-sm font-semibold text-gray-400">Coming soon</div>
+          ) : (
+            options.map(opt => (
+              <button
+                key={opt.name}
+                onClick={() => { onChange(opt.name); setOpen(false) }}
+                className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 ${value === opt.name ? 'bg-gray-50' : ''}`}
+              >
+                <IntegrationLogo logoUrl={opt.logoUrl} color={opt.color} letter={opt.letter} size={28} />
+                {opt.name}
+              </button>
+            ))
+          )}
         </div>
       )}
     </div>
@@ -1221,23 +1491,23 @@ function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string;
 
 const automationStacks: { label: string; desc: string; tools: string[]; logos: { logoUrl: string; color: string; letter: string }[] }[] = [
   {
-    label: 'KYC onboarding automation',
-    desc: 'Zendesk · Sumsub · Slack',
-    tools: ['Zendesk', 'Sumsub'],
+    label: 'Onboarding automation',
+    desc: 'Zendesk · Confluence · Slack',
+    tools: ['Zendesk'],
     logos: [
       { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
-      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+      { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
       { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
     ],
   },
   {
     label: 'Dispute escalation flow',
-    desc: 'Intercom · Onfido · Jira',
-    tools: ['Intercom', 'Onfido'],
+    desc: 'Intercom · Jira · Slack',
+    tools: ['Intercom'],
     logos: [
       { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
       { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' },
+      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
     ],
   },
   {
@@ -1252,182 +1522,182 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
   },
   {
     label: 'CRM-aware support',
-    desc: 'Salesforce · Veriff · Slack',
-    tools: ['Salesforce', 'Veriff'],
+    desc: 'Salesforce · HubSpot · Slack',
+    tools: ['Salesforce CRM'],
     logos: [
       { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
       { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
     ],
   },
   {
-    label: 'WhatsApp KYC support',
-    desc: 'WhatsApp · Jumio · HubSpot',
-    tools: ['WhatsApp', 'Jumio'],
+    label: 'WhatsApp support flow',
+    desc: 'WhatsApp · HubSpot · Mambu',
+    tools: ['WhatsApp'],
     logos: [
       { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
       { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
-    label: 'Telegram verification bot',
-    desc: 'Telegram · Sumsub · Pipedrive',
-    tools: ['Telegram', 'Sumsub'],
+    label: 'Telegram CRM bot',
+    desc: 'Telegram · Pipedrive · HubSpot',
+    tools: ['Telegram'],
     logos: [
       { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
-      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
       { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
     ],
   },
   {
     label: 'Email triage & routing',
-    desc: 'Email · Onfido · Confluence',
-    tools: ['Email', 'Onfido'],
+    desc: 'Gmail · Confluence · Jira',
+    tools: ['Gmail'],
     logos: [
       { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
-      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
       { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
+      { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' },
     ],
   },
   {
     label: 'HubSpot onboarding flow',
-    desc: 'HubSpot · Veriff · Intercom',
-    tools: ['HubSpot', 'Veriff', 'Intercom'],
+    desc: 'HubSpot · Intercom · Mambu',
+    tools: ['HubSpot'],
     logos: [
       { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
       { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
-    label: 'Zendesk + identity check',
-    desc: 'Zendesk · Veriff · Slack',
-    tools: ['Zendesk', 'Veriff'],
+    label: 'Zendesk + Mambu stack',
+    desc: 'Zendesk · Mambu · Slack',
+    tools: ['Zendesk'],
     logos: [
       { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
-      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
       { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
     ],
   },
   {
-    label: 'Intercom + Sumsub combo',
-    desc: 'Intercom · Sumsub · HubSpot',
-    tools: ['Intercom', 'Sumsub'],
+    label: 'Intercom + Notion combo',
+    desc: 'Intercom · HubSpot · Notion',
+    tools: ['Intercom'],
     logos: [
       { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
       { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-    ],
-  },
-  {
-    label: 'WhatsApp sales support',
-    desc: 'WhatsApp · Salesforce · Veriff',
-    tools: ['WhatsApp', 'Salesforce'],
-    logos: [
-      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
-    ],
-  },
-  {
-    label: 'Freshdesk + KYC queue',
-    desc: 'Freshdesk · Jumio · Linear',
-    tools: ['Freshdesk', 'Jumio'],
-    logos: [
-      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
-      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
-      { logoUrl: '/logos/linear.png', color: '#5E6AD2', letter: 'L' },
-    ],
-  },
-  {
-    label: 'Telegram CRM integration',
-    desc: 'Telegram · HubSpot · Sumsub',
-    tools: ['Telegram', 'HubSpot'],
-    logos: [
-      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
-    ],
-  },
-  {
-    label: 'Zoho + WhatsApp onboarding',
-    desc: 'Zoho CRM · WhatsApp · Onfido',
-    tools: ['Zoho CRM', 'WhatsApp'],
-    logos: [
-      { logoUrl: '/logos/zoro.png', color: '#E42527', letter: 'Z' },
-      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
-    ],
-  },
-  {
-    label: 'Email + Salesforce pipeline',
-    desc: 'Email · Salesforce · Jumio',
-    tools: ['Email', 'Salesforce'],
-    logos: [
-      { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
-      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
-    ],
-  },
-  {
-    label: 'Live chat verification',
-    desc: 'Live Chat · Sumsub · Pipedrive',
-    tools: ['Live Chat', 'Sumsub'],
-    logos: [
-      { logoUrl: '/logos/intecom (1).png', color: '#7C3AED', letter: 'LC' },
-      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
-      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-    ],
-  },
-  {
-    label: 'Intercom + Veriff onboarding',
-    desc: 'Intercom · Veriff · Notion',
-    tools: ['Intercom', 'Veriff'],
-    logos: [
-      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
       { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
     ],
   },
   {
-    label: 'Zendesk + Jumio queue',
-    desc: 'Zendesk · Jumio · Teams',
-    tools: ['Zendesk', 'Jumio'],
+    label: 'WhatsApp sales support',
+    desc: 'WhatsApp · Salesforce · Mambu',
+    tools: ['WhatsApp', 'Salesforce CRM'],
+    logos: [
+      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
+      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+    ],
+  },
+  {
+    label: 'Freshdesk + Linear queue',
+    desc: 'Freshdesk · Linear · Notion',
+    tools: ['Freshdesk'],
+    logos: [
+      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
+      { logoUrl: '/logos/linear.png', color: '#5E6AD2', letter: 'L' },
+      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+    ],
+  },
+  {
+    label: 'Telegram CRM integration',
+    desc: 'Telegram · HubSpot · Pipedrive',
+    tools: ['Telegram'],
+    logos: [
+      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+    ],
+  },
+  {
+    label: 'Zoho + WhatsApp flow',
+    desc: 'Zoho CRM · WhatsApp · Guru',
+    tools: ['Zoho CRM', 'WhatsApp'],
+    logos: [
+      { logoUrl: '/logos/zoro.png', color: '#E42527', letter: 'Z' },
+      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
+      { logoUrl: '/guru.png', color: '#CC4E00', letter: 'G' },
+    ],
+  },
+  {
+    label: 'Email + Salesforce pipeline',
+    desc: 'Gmail · Salesforce · Confluence',
+    tools: ['Gmail', 'Salesforce CRM'],
+    logos: [
+      { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
+      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
+      { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
+    ],
+  },
+  {
+    label: 'Live chat + Pipedrive',
+    desc: 'Intercom · Pipedrive · Notion',
+    tools: ['Intercom'],
+    logos: [
+      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+    ],
+  },
+  {
+    label: 'Intercom + Mambu onboarding',
+    desc: 'Intercom · Mambu · Notion',
+    tools: ['Intercom'],
+    logos: [
+      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+    ],
+  },
+  {
+    label: 'Zendesk + Teams queue',
+    desc: 'Zendesk · Teams · Linear',
+    tools: ['Zendesk'],
     logos: [
       { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
-      { logoUrl: 'https://logo.clearbit.com/jumio.com', color: '#0066CC', letter: 'J' },
       { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' },
+      { logoUrl: '/logos/linear.png', color: '#5E6AD2', letter: 'L' },
     ],
   },
   {
     label: 'Pipedrive deal support',
-    desc: 'Pipedrive · Onfido · Telegram',
-    tools: ['Pipedrive', 'Onfido'],
+    desc: 'Pipedrive · Telegram · HubSpot',
+    tools: ['Pipedrive'],
     logos: [
       { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-      { logoUrl: 'https://logo.clearbit.com/onfido.com', color: '#1A1A2E', letter: 'O' },
       { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
+      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
     ],
   },
   {
     label: 'Freshdesk enterprise stack',
-    desc: 'Freshdesk · Salesforce · Veriff',
-    tools: ['Freshdesk', 'Salesforce'],
+    desc: 'Freshdesk · Salesforce · Mambu',
+    tools: ['Freshdesk', 'Salesforce CRM'],
     logos: [
       { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
       { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: 'https://logo.clearbit.com/veriff.com', color: '#3245FB', letter: 'V' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
     label: 'WhatsApp + Pipedrive flow',
-    desc: 'WhatsApp · Pipedrive · Sumsub',
-    tools: ['WhatsApp', 'Pipedrive'],
+    desc: 'WhatsApp · Pipedrive · Mambu',
+    tools: ['WhatsApp'],
     logos: [
       { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
       { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-      { logoUrl: 'https://logo.clearbit.com/sumsub.com', color: '#FF6B00', letter: 'S' },
+      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
     ],
   },
 ]

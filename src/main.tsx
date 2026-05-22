@@ -14,7 +14,7 @@ const app = (
   </StrictMode>
 )
 
-// If pre-rendered HTML is present, hydrate it — otherwise create from scratch (dev)
+// If pre-rendered HTML is present, hydrate it - otherwise create from scratch (dev)
 if (container.innerHTML.trim()) {
   hydrateRoot(container, app)
 } else {

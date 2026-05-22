@@ -14,7 +14,7 @@ const contacts = [
   },
   {
     label: 'Telegram',
-    href: 'https://t.me/supvision',
+    href: 'https://t.me/+447737124949',
     bg: '#2AABEE',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -34,7 +34,7 @@ const contacts = [
   },
   {
     label: 'WhatsApp',
-    href: 'https://wa.me/message/supvision',
+    href: 'https://wa.me/447737124949',
     bg: '#25D366',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -52,7 +52,7 @@ export default function ChatWidget() {
       className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
       onMouseLeave={() => setOpen(false)}
     >
-      {/* Contact buttons — раскрываются вверх */}
+      {/* Contact buttons - раскрываются вверх */}
       <div className="flex flex-col items-end gap-2">
         {contacts.map((c, i) => (
           <a
@@ -80,7 +80,7 @@ export default function ChatWidget() {
         ))}
       </div>
 
-      {/* Main square button — 2×2 grid of coloured blocks */}
+      {/* Main square button - 2×2 grid of coloured blocks */}
       <div
         className="grid grid-cols-2 overflow-hidden rounded-xl shadow-xl cursor-pointer"
         onMouseEnter={() => setOpen(true)}

@@ -29,7 +29,7 @@ function PageTransition() {
       requestAnimationFrame(() => {
         setOpacity(1)
         setTimeout(() => {
-          // Scroll to top while screen is dark — user never sees it
+          // Scroll to top while screen is dark - user never sees it
           document.documentElement.scrollTop = 0
           document.body.scrollTop = 0
           navigate(href)

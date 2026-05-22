@@ -9,7 +9,7 @@ const plans = [
     tagline: 'For early-stage fintech teams automating their first support flows.',
     highlight: false,
     badge: null,
-    cta: 'Get started',
+    cta: 'Request price',
     ctaTo: '/contact',
     groups: [
       {
@@ -24,7 +24,7 @@ const plans = [
       {
         label: 'Capabilities',
         features: [
-          { text: 'KYC status & onboarding queries' },
+          { text: 'Identity verification & onboarding queries' },
           { text: 'Standard escalation to human agent' },
           { text: 'Pre-built fintech response templates' },
           { text: 'Basic analytics dashboard' },
@@ -42,7 +42,7 @@ const plans = [
     tagline: 'For scaling fintechs with high ticket volume and compliance requirements.',
     highlight: true,
     badge: 'Most popular',
-    cta: 'Get started',
+    cta: 'Request price',
     ctaTo: '/contact',
     groups: [
       {
@@ -57,7 +57,7 @@ const plans = [
       {
         label: 'Capabilities',
         features: [
-          { text: 'KYC + dispute resolution + transaction queries', bold: true },
+          { text: 'Identity verification, dispute resolution & transaction queries', bold: true },
           { text: 'Custom escalation rules & confidence thresholds' },
           { text: 'Multi-language support (20+ languages)' },
           { text: 'API access & webhook integrations' },
@@ -77,7 +77,7 @@ const plans = [
     tagline: 'Private infrastructure, higher limits, and tailored compliance workflows.',
     highlight: false,
     badge: null,
-    cta: 'Contact us',
+    cta: 'Request price',
     ctaTo: '/contact',
     groups: [
       {
@@ -92,7 +92,7 @@ const plans = [
       {
         label: 'Enterprise-grade',
         features: [
-          { text: 'Full KYC, disputes, transactions & custom workflows', bold: true },
+          { text: 'Full identity verification, disputes, transactions & custom workflows', bold: true },
           { text: 'Private cloud infrastructure & dedicated environment' },
           { text: 'Custom SLAs with guaranteed uptime' },
           { text: '50+ languages with regional compliance rules' },
@@ -113,7 +113,7 @@ const comparisonRows = [
   { label: 'Active support agents', starter: '1', growth: '3', enterprise: 'Unlimited' },
   { label: 'Communication channels', starter: '2', growth: '5', enterprise: 'All + custom' },
   { label: 'Audit log retention', starter: '30 days', growth: '90 days', enterprise: 'Unlimited' },
-  { label: 'KYC query automation', starter: '✓', growth: '✓', enterprise: '✓' },
+  { label: 'Verification query automation', starter: '✓', growth: '✓', enterprise: '✓' },
   { label: 'Dispute resolution', starter: 'No', growth: '✓', enterprise: '✓' },
   { label: 'Transaction issue handling', starter: 'No', growth: '✓', enterprise: '✓' },
   { label: 'Custom escalation rules', starter: 'No', growth: '✓', enterprise: '✓' },
@@ -154,14 +154,14 @@ export default function Pricing() {
                 className={[
                   'relative flex flex-col h-full rounded-2xl',
                   plan.highlight
-                    ? 'border-2 border-indigo-600 bg-white shadow-xl'
+                    ? 'border-2 border-[#214995] bg-white shadow-xl'
                     : 'border border-gray-200 bg-white shadow-sm',
                 ].join(' ')}
               >
                 {/* Badge */}
                 {plan.badge && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-4 py-1 text-xs font-semibold text-white">
+                    <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-semibold text-white" style={{ backgroundColor: '#214995' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3">
                         <path fillRule="evenodd" d="M8 1.75a.75.75 0 0 1 .692.462l1.41 3.393 3.664.293a.75.75 0 0 1 .428 1.317l-2.791 2.39.853 3.575a.75.75 0 0 1-1.12.814L8 11.668l-3.136 1.326a.75.75 0 0 1-1.12-.814l.852-3.574-2.79-2.39a.75.75 0 0 1 .427-1.318l3.663-.293 1.41-3.393A.75.75 0 0 1 8 1.75Z" clipRule="evenodd" />
                       </svg>
@@ -173,20 +173,11 @@ export default function Pricing() {
                 <div className="flex flex-col flex-1 p-8">
                   {/* Plan header */}
                   <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-lg">{plan.icon}</span>
-                    <h2 className="text-lg font-bold text-gray-900">{plan.name}</h2>
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-2xl">{plan.icon}</span>
+                    <h2 className="text-3xl font-black text-gray-900">{plan.name}</h2>
                   </div>
 
-                  {/* Price */}
-                  <div className="mt-6 flex items-end gap-1">
-                    <span className={['font-black leading-none text-gray-900', plan.price === 'Custom' ? 'text-4xl' : 'text-5xl'].join(' ')}>
-                      {plan.price}
-                    </span>
-                    {plan.period && (
-                      <span className="mb-1 text-sm text-gray-400">{plan.period}</span>
-                    )}
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-500">{plan.tagline}</p>
+                  <p className="mt-4 text-sm leading-relaxed text-gray-500">{plan.tagline}</p>
 
                   {/* Feature groups */}
                   <div className="mt-8 flex flex-col gap-6 flex-1">
@@ -197,7 +188,8 @@ export default function Pricing() {
                           {group.features.map((f, fi) => (
                             <li key={fi} className="flex items-start gap-2.5">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                                className={['mt-0.5 h-4 w-4 flex-shrink-0', plan.highlight ? 'text-indigo-600' : 'text-green-500'].join(' ')}>
+                                className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500"
+                                style={plan.highlight ? { color: '#214995' } : undefined}>
                                 <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                               </svg>
                               <span className={['text-sm leading-relaxed text-gray-600', f.bold ? 'font-semibold text-gray-900' : ''].join(' ')}>
@@ -224,9 +216,10 @@ export default function Pricing() {
                     className={[
                       'mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold transition-colors',
                       plan.highlight
-                        ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                        ? 'text-white'
                         : 'bg-gray-100 text-gray-900 hover:bg-gray-200',
                     ].join(' ')}
+                    style={plan.highlight ? { backgroundColor: '#214995' } : undefined}
                   >
                     {plan.cta}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
@@ -287,12 +280,15 @@ export default function Pricing() {
           </p>
           <Link
             to="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100"
+            className="group relative mt-8 inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
           >
-            Talk to sales
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-            </svg>
+            <span className="absolute right-[6px] top-1/2 h-9 w-9 -translate-y-1/2 rounded-full bg-white transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-gray-900">Talk to sales</span>
+            <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </span>
           </Link>
         </div>
       </section>

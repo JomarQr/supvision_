@@ -4,7 +4,7 @@ import IntegrationFinder from '../components/ui/IntegrationFinder'
 
 const capabilities = [
   {
-    title: 'KYC & Onboarding',
+    title: 'Identity & Onboarding',
     desc: 'Automate identity verification and onboarding flows',
   },
   {
@@ -17,7 +17,7 @@ const capabilities = [
   },
   {
     title: 'Multi-channel Support',
-    desc: 'Email, chat, WhatsApp, Telegram, API — all in one',
+    desc: 'Email, chat, WhatsApp, Telegram, API - all in one',
   },
   {
     title: 'Audit Logs',
@@ -39,7 +39,7 @@ const howItWorks = [
   {
     step: '02',
     title: 'Agent reads full context',
-    desc: 'Pulls live data from your CRM, KYC provider, and knowledge base. No guessing — every response is grounded in the customer\'s actual account state and your internal policies.',
+    desc: 'Pulls live data from your CRM, identity verification provider, and knowledge base. No guessing - every response is grounded in the customer\'s actual account state and your internal policies.',
   },
   {
     step: '03',
@@ -49,7 +49,7 @@ const howItWorks = [
   {
     step: '04',
     title: 'Logs everything for compliance',
-    desc: 'The full decision trail — query, data pulled, response, confidence score, outcome — is written to your audit log in real time. Regulator-ready exports available on demand.',
+    desc: 'The full decision trail - query, data pulled, response, confidence score, outcome - is written to your audit log in real time. Regulator-ready exports available on demand.',
   },
 ]
 
@@ -57,17 +57,17 @@ const useCases = [
   {
     title: 'Payment declined',
     scenario: '"Why was my payment declined?"',
-    resolution: 'Agent queries the payment processor, identifies the failure code (insufficient funds, 3DS failure, blocked card), and tells the customer exactly what happened and what to do — in under 30 seconds.',
+    resolution: 'Agent queries the payment processor, identifies the failure code (insufficient funds, 3DS failure, blocked card), and tells the customer exactly what happened and what to do - in under 30 seconds.',
   },
   {
-    title: 'KYC stuck',
-    scenario: '"My KYC is still pending after 3 days."',
-    resolution: 'Agent checks the KYC provider status, surfaces the specific blocker (document quality, mismatched data), and walks the customer through re-submission — no human agent needed.',
+    title: 'Verification stuck',
+    scenario: '"My verification is still pending after 3 days."',
+    resolution: 'Agent checks the verification provider status, surfaces the specific blocker (document quality, mismatched data), and walks the customer through re-submission - no human agent needed.',
   },
   {
     title: 'Disputed transaction',
     scenario: '"I didn\'t authorise this transaction."',
-    resolution: 'Agent opens a dispute ticket, collects required information, applies your escalation rules, and — for eligible disputes — initiates an immediate provisional credit while the case is reviewed.',
+    resolution: 'Agent opens a dispute ticket, collects required information, applies your escalation rules, and - for eligible disputes - initiates an immediate provisional credit while the case is reviewed.',
   },
   {
     title: 'Limit increase',
@@ -79,27 +79,27 @@ const useCases = [
 const agentFaqItems = [
   {
     q: 'Does the Support Agent replace our human support team?',
-    a: 'No. The Support Agent handles the repetitive, high-volume tier-1 queries — KYC status checks, transaction questions, payment failures — so your human agents can focus on complex cases that actually need them. Most teams using supVision reduce tier-1 volume by over 80%, which means their support staff spends more time on work that matters.',
+    a: 'No. The Support Agent handles the repetitive, high-volume tier-1 queries - identity status checks, transaction questions, payment failures - so your human agents can focus on complex cases that actually need them. Most teams using supVision reduce tier-1 volume by over 80%, which means their support staff spends more time on work that matters.',
   },
   {
     q: 'How does the agent know the correct answer for our specific product?',
-    a: 'The Support Agent connects to your core banking API, KYC provider, payment processor, and CRM in real time. It does not guess — it reads the customer\'s actual account state before responding. You also configure a knowledge base with your product-specific policies, escalation rules, and approved response templates during onboarding.',
+    a: 'The Support Agent connects to your core banking API, identity verification provider, payment processor, and CRM in real time. It does not guess - it reads the customer\'s actual account state before responding. You also configure a knowledge base with your product-specific policies, escalation rules, and approved response templates during onboarding.',
   },
   {
     q: 'What happens when the agent does not know the answer?',
-    a: 'You set a confidence threshold. When the agent\'s confidence falls below it, it escalates to a human agent automatically — passing the full conversation history, the data it retrieved, and the reason for escalation. Your human agents never start from zero.',
+    a: 'You set a confidence threshold. When the agent\'s confidence falls below it, it escalates to a human agent automatically - passing the full conversation history, the data it retrieved, and the reason for escalation. Your human agents never start from zero.',
   },
   {
     q: 'How long does it take to go live?',
-    a: 'Most teams are fully live within 3 to 5 business days. The integration runs on top of your existing helpdesk and channels — no platform migration, no re-training your team. Day 1 is connecting your data sources. Day 2 is configuring escalation rules and response templates. Day 3 is testing and go-live.',
+    a: 'Most teams are fully live within 3 to 5 business days. The integration runs on top of your existing helpdesk and channels - no platform migration, no re-training your team. Day 1 is connecting your data sources. Day 2 is configuring escalation rules and response templates. Day 3 is testing and go-live.',
   },
   {
     q: 'Which channels does the Support Agent work on?',
-    a: 'Email, live chat widget, WhatsApp Business, Telegram, and any channel accessible via API. All conversations are unified — the agent sees full context regardless of which channel the customer used previously.',
+    a: 'Email, live chat widget, WhatsApp Business, Telegram, and any channel accessible via API. All conversations are unified - the agent sees full context regardless of which channel the customer used previously.',
   },
   {
     q: 'How does the agent handle sensitive financial data?',
-    a: 'The Support Agent operates on a zero-retention model for sensitive fields. PII and card data are never stored beyond the active session. All data in transit is encrypted, and the infrastructure is SOC 2-aligned. The agent retrieves only the fields it needs to answer the specific query — nothing more.',
+    a: 'The Support Agent operates on a zero-retention model for sensitive fields. PII and card data are never stored beyond the active session. All data in transit is encrypted, and the infrastructure is SOC 2-aligned. The agent retrieves only the fields it needs to answer the specific query - nothing more.',
   },
   {
     q: 'Can we customise what the agent can and cannot do?',
@@ -107,7 +107,7 @@ const agentFaqItems = [
   },
   {
     q: 'Is the Support Agent compliant with financial regulations?',
-    a: 'Yes. Every response follows compliance-approved templates that your team configures. The agent does not provide financial advice, make credit decisions, or take actions outside its defined scope. All decisions are logged with a timestamp and rationale — exportable in formats your regulators and auditors expect.',
+    a: 'Yes. Every response follows compliance-approved templates that your team configures. The agent does not provide financial advice, make credit decisions, or take actions outside its defined scope. All decisions are logged with a timestamp and rationale - exportable in formats your regulators and auditors expect.',
   },
 ]
 
@@ -163,7 +163,7 @@ export default function SupportAgent() {
           <div className="overflow-hidden rounded-3xl border border-gray-100 bg-gray-50">
             <div className="grid lg:grid-cols-2">
 
-              {/* Left — text */}
+              {/* Left - text */}
               <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
                 <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
@@ -178,9 +178,9 @@ export default function SupportAgent() {
 
                 <ul className="mt-8 space-y-4">
                   {[
-                    'Resolves KYC, disputes, and payment queries autonomously in under 2 minutes',
-                    'Connects to your CRM, core banking, and KYC provider — answers with real data',
-                    'Compliant by design — audit logs, escalation rules, and zero financial advice risk',
+                    'Resolves verification, disputes, and payment queries autonomously in under 2 minutes',
+                    'Connects to your CRM, core banking, and identity verification provider - answers with real data',
+                    'Compliant by design - audit logs, escalation rules, and zero financial advice risk',
                   ].map((h) => (
                     <li key={h} className="flex items-start gap-3">
                       <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(33,73,149,0.12)' }}>
@@ -209,7 +209,7 @@ export default function SupportAgent() {
                 </div>
               </div>
 
-              {/* Right — diagram */}
+              {/* Right - diagram */}
               <div className="flex items-center justify-center px-12 py-14" style={{ backgroundColor: '#214995' }}>
                 <div className="flex flex-col items-center gap-0 w-full max-w-xs">
                   {/* Top row of 3 icons */}
@@ -265,7 +265,7 @@ export default function SupportAgent() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">How it works</p>
-            <p className="mt-3 text-base text-gray-500">From customer message to resolution — in seconds.</p>
+            <p className="mt-3 text-base text-gray-500">From customer message to resolution - in seconds.</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -299,7 +299,7 @@ export default function SupportAgent() {
         </div>
       </section>
 
-      {/* Use cases — phone mockups */}
+      {/* Use cases - phone mockups */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
@@ -379,7 +379,7 @@ export default function SupportAgent() {
             <div className="lg:col-span-2">
               <p className="text-2xl font-bold uppercase text-white">Built for regulated finance</p>
               <p className="mt-4 text-base leading-relaxed text-gray-400">
-                Every response follows compliance-approved templates. Escalation rules, confidence thresholds, and KYC decision logic are configurable by your compliance team — not by engineers. Audit logs are written in real time and exportable in formats your regulators expect.
+                Every response follows compliance-approved templates. Escalation rules, confidence thresholds, and verification decision logic are configurable by your compliance team - not by engineers. Audit logs are written in real time and exportable in formats your regulators expect.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 {['GDPR compliant', 'PCI DSS aligned', 'Audit logs', 'SOC 2-aligned infra', 'Right-to-erasure support'].map(tag => (
@@ -426,12 +426,15 @@ export default function SupportAgent() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
             >
-              Book a demo
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
+              <span className="absolute right-[6px] top-1/2 h-9 w-9 -translate-y-1/2 rounded-full bg-white transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-gray-900">Book a demo</span>
+              <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
             </Link>
             <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
