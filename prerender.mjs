@@ -30,6 +30,7 @@ const routes = [
   '/roles/compliance-risk',
   '/roles/operations-growth',
   '/roles/founders-csuite',
+  '/security',
 ]
 
 for (const url of routes) {

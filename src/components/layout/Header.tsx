@@ -294,7 +294,7 @@ export default function Header() {
             </div>
 
             <NavLink to="/pricing" end className={linkClass}>Pricing</NavLink>
-            <NavLink to="/roles/compliance-risk" end className={linkClass}>Security</NavLink>
+            <NavLink to="/security" end className={linkClass}>Security</NavLink>
 
           </nav>
 
@@ -409,7 +409,7 @@ export default function Header() {
               </div>
 
               <Link to="/pricing" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Pricing</Link>
-              <Link to="/roles/compliance-risk" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Security</Link>
+              <Link to="/security" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Security</Link>
 
               <div className="mt-3 flex flex-col gap-3 border-t border-gray-100 pt-4">
                 <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
