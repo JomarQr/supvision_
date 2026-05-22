@@ -7,12 +7,12 @@ const data = {
   description: 'InsurTech support combines the regulatory complexity of financial services with the emotional stakes of claims. Customers contacting you about a claim are often stressed. They need fast, accurate, empathetic answers - and everything needs to be logged for regulatory purposes. supVision handles all of it.',
   heroImage: '/for_whom/InsurTech.png',
   highlights: [
-    '80% of policy and claims status queries resolved without a human',
+    '93% of policy and claims status queries saved by AI',
     '100% of interactions logged and audit-ready for FCA and regulatory review',
     'Claims triage handled consistently - no more agent-dependent outcomes',
   ],
   metrics: [
-    { value: '80%', label: 'Of policy and claims status queries resolved without a human' },
+    { value: '93%', label: 'Of policy and claims status queries saved by AI' },
     { value: '<2 min', label: 'Median response time for claims status and policy queries' },
     { value: '100%', label: 'Of interactions logged and audit-ready for FCA and regulatory review' },
     { value: '50+', label: 'Languages for international insurance products' },

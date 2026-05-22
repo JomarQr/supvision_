@@ -6,7 +6,7 @@ const data = {
   subtitle: 'Automate identity verification and onboarding flows.',
   description: 'Identity verification is the most common source of support tickets in fintech - and the most repetitive. supVision\'s Support Agent resolves verification status queries, explains document rejections, and guides users through re-submission without a human agent involved. Every interaction is logged and audit-ready.',
   highlights: [
-    'Up to 80% reduction in verification-related support tickets',
+    '93% of verification tickets saved by AI — no human agent needed',
     'Real-time status pulled directly from your identity provider',
     'Every interaction logged and audit-ready for regulators',
   ],
@@ -26,7 +26,7 @@ const data = {
     { step: '04', title: 'Logs everything', desc: 'The full decision trail is written to your audit log in real time - what data was retrieved, what was said, and what action was taken.' },
   ],
   ctaTitle: 'Stop losing users at identity verification.',
-  ctaDesc: 'Automate verification support and cut verification-related ticket volume by up to 80%.',
+  ctaDesc: 'Automate verification support and save 93% of verification tickets — no human agent needed.',
 }
 
 const faq = [

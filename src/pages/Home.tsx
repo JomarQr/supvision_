@@ -107,7 +107,7 @@ export default function Home() {
             </h1>
 
             <p className="mt-8 text-base leading-relaxed text-white max-w-xl">
-              AI support that resolves 80% of queries without human intervention — and coordinates with partners, providers, and colleagues across your entire workflow.
+              AI support that saves 93% of tickets without human intervention — handling 72% of all message flow and fully closing 49% of cases on its own.
             </p>
 
           </div>
@@ -702,7 +702,7 @@ export default function Home() {
                 {[
                   { value: '10+', label: 'Years inside fintech operations' },
                   { value: '3 days', label: 'Average time to go live' },
-                  { value: '80%', label: 'Tier-1 tickets resolved automatically' },
+                  { value: '93%', label: 'Ticket saves — no human agent needed' },
                 ].map(m => (
                   <div key={m.label}>
                     <p className="text-3xl font-black text-white">{m.value}</p>
@@ -1309,9 +1309,9 @@ const valueProps = [
     robotSide: 'left' as const,
   },
   {
-    stat: '80%',
-    headline: 'Tier-1 tickets resolved. No human required.',
-    body: 'Identity status checks, payment failures, onboarding questions - SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
+    stat: '93%',
+    headline: 'Ticket saves. No human required.',
+    body: 'supVision handles 72% of all message flow and fully closes 49% of cases on its own. Your agents step in only when they\'re genuinely needed.',
     img: '/hero_images/Component 175.png',
     imgAlt: 'Tier-1 tickets resolved automatically',
     robot: false,

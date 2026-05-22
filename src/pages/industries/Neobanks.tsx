@@ -14,7 +14,7 @@ const data = {
   metrics: [
     { value: '24/7', label: 'Support availability matching your app availability' },
     { value: '3 days', label: 'Typical time from signed contract to live agent' },
-    { value: '70%', label: 'Reduction in verification-related support ticket volume' },
+    { value: '93%', label: 'Of verification-related tickets saved by AI — no human needed' },
     { value: '50+', label: 'Languages supported for international expansion' },
     { value: '98%', label: 'Customer satisfaction score across automated interactions' },
   ],

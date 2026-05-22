@@ -13,7 +13,7 @@ const data = {
   ],
   metrics: [
     { value: '<2 min', label: 'Median resolution for transaction disputes and failure queries' },
-    { value: '80%', label: 'Of tier-1 payment queries resolved without a human agent' },
+    { value: '93%', label: 'Of tier-1 payment queries saved by AI' },
     { value: '52%', label: 'Average reduction in support operating costs' },
     { value: '24/7', label: 'Availability across all payment channels and geographies' },
     { value: '50+', label: 'Languages supported for global payment operations' },

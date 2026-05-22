@@ -6,12 +6,12 @@ const data = {
   subtitle: 'Cut queues, automate tier-1, free your agents for the work that actually needs them.',
   heroImage: '/by_role/support.png',
   highlights: [
-    '80% of tier-1 queries resolved without agent involvement',
+    '93% of tickets saved by AI — no human agent needed',
     'Less than 2 minute median response time across all channels',
     '52% average reduction in support operating costs',
   ],
   metrics: [
-    { value: '80%', label: 'Of tier-1 queries resolved without agent involvement' },
+    { value: '93%', label: 'Of tickets saved by AI — no human agent needed' },
     { value: '<2 min', label: 'Median first response time across all channels' },
     { value: '52%', label: 'Average reduction in support operating costs' },
     { value: '24/7', label: 'Coverage without shifts, overtime, or on-call rotas' },

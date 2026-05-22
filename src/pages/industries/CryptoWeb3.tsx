@@ -9,12 +9,12 @@ const data = {
   highlights: [
     'Elastic capacity - handles market-spike volume without degradation',
     'Blockchain-level transaction data for wallet and withdrawal queries',
-    '80% of tier-1 Web3 support queries resolved autonomously, 24/7',
+    '93% of tier-1 Web3 support queries handled by AI, 24/7',
   ],
   metrics: [
     { value: '∞', label: 'Elastic capacity - handles volume spikes without degradation' },
     { value: '<2 min', label: 'Median resolution for wallet and transaction queries' },
-    { value: '80%', label: 'Of tier-1 Web3 support queries resolved autonomously' },
+    { value: '93%', label: 'Of tier-1 Web3 support queries handled by AI' },
     { value: '24/7', label: 'Always on - Web3 markets never close and neither does the agent' },
     { value: '3 days', label: 'From signed contract to live agent handling real queries' },
   ],

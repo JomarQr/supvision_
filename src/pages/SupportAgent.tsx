@@ -85,7 +85,7 @@ const useCases = [
 const agentFaqItems = [
   {
     q: 'Does the Support Agent replace our human support team?',
-    a: 'No. The Support Agent handles the repetitive, high-volume tier-1 queries - identity status checks, transaction questions, payment failures - so your human agents can focus on complex cases that actually need them. Most teams using supVision reduce tier-1 volume by over 80%, which means their support staff spends more time on work that matters.',
+    a: 'No. The Support Agent handles the repetitive, high-volume tier-1 queries - identity status checks, transaction questions, payment failures - so your human agents can focus on complex cases that actually need them. supVision saves over 93% of tickets without a human agent — handling 72% of all message flow and fully closing 49% of cases autonomously, so your team focuses on what actually needs them.',
   },
   {
     q: 'How does the agent know the correct answer for our specific product?',
