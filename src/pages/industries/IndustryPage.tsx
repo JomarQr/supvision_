@@ -147,11 +147,14 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       {/* Integrations / stacks */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-8 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Integrations</p>
+            <h3 className="mt-2 text-2xl font-bold text-gray-900">Popular automation stacks</h3>
+          </div>
           <div className="rounded-3xl border border-gray-100 bg-white px-10 py-10">
-            <div className="mb-6 text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Integrations</p>
-              <h3 className="mt-2 text-xl font-bold text-gray-900">Popular automation stacks</h3>
-            </div>
+            <p className="mb-8 text-sm leading-relaxed text-gray-500 w-full">
+              supVision connects with the tools your team already uses. These stacks are pre-configured for {data.title} workflows — ready to deploy in days without custom development or platform migration.
+            </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {data.stacks.map((stack) => (
                 <div
