@@ -271,19 +271,86 @@ export default function Analytics() {
         </div>
       </section>
 
-      {/* Dashboard preview */}
+      {/* Dashboard screenshots */}
       <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">What you see</p>
-            <p className="mt-3 text-base text-gray-500">A live view of your entire support operation in one place.</p>
+            <p className="text-2xl font-bold uppercase text-gray-900">Inside the dashboard</p>
+            <p className="mt-3 text-base text-gray-500">Every chart you see below is live — built from your actual ticket and conversation data.</p>
           </div>
-          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-            <img
-              src="/example_of_dashboard.png"
-              alt="Analytics Dashboard Preview"
-              className="w-full"
-            />
+
+          <div className="flex flex-col gap-6">
+
+            {/* Row 1: Ticket saves — trend (2/3) + donut (1/3) */}
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="lg:col-span-2 flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-8 pt-8 pb-4">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
+                  <h3 className="mt-1 text-xl font-black text-gray-900">Ticket saves over time</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Blue tracks bot activity, green tracks support. The bot handles the vast majority of ticket saves every day. Spikes in the green line reveal where human agents stepped in — spot handoff quality issues and staffing pressure before they compound.</p>
+                </div>
+                <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full mt-auto" />
+              </div>
+              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-8 pt-8 pb-4">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Ownership Mix</p>
+                  <h3 className="mt-1 text-xl font-black text-gray-900">Bot vs human — ticket saves</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Bot handles <strong>90%</strong> of all ticket saves (35,526). Support steps in for the remaining 10%. Out of 7,085 unique tickets, 3,704 were fully resolved by human agents.</p>
+                </div>
+                <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full mt-auto" />
+              </div>
+            </div>
+
+            {/* Row 2: Messages — trend (2/3) + donut (1/3) */}
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="lg:col-span-2 flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-8 pt-8 pb-4">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
+                  <h3 className="mt-1 text-xl font-black text-gray-900">Message flow by day</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Blue = bot replies (600–1,100/day), green = support replies, amber = external messages from merchants or providers. See when external pressure rises and which days your human agents absorbed the most load.</p>
+                </div>
+                <img src="/analytics%20screenz/messages%20daily%20trend%201.png" alt="Messages daily trend" className="w-full mt-auto" />
+              </div>
+              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-8 pt-8 pb-4">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Ownership Mix</p>
+                  <h3 className="mt-1 text-xl font-black text-gray-900">Who drives the conversation</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Bot: <strong>67%</strong> (21,301 msgs). Support: 15% (4,676). External participants: 19% (6,002). Understand who is generating volume and where to focus optimisation.</p>
+                </div>
+                <img src="/analytics%20screenz/messages%20daily%20trend%202.png" alt="Messages ownership mix" className="w-full mt-auto" />
+              </div>
+            </div>
+
+            {/* Row 3: Daily workload split — full width */}
+            <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="px-8 pt-8 pb-4">
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
+                <h3 className="mt-1 text-xl font-black text-gray-900">Daily workload split across all metrics</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-500 max-w-3xl">Ticket saves (blue), final transitions (red), and messages (amber) on one chart. See how workload distributes across your support funnel and identify days where volume or escalations spiked — without switching between views.</p>
+              </div>
+              <img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full mt-auto" />
+            </div>
+
+            {/* Row 4: Heatmaps side by side */}
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-8 pt-8 pb-4">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Weekly Rhythm</p>
+                  <h3 className="mt-1 text-xl font-black text-gray-900">When your queue is busiest</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Peak Mon–Fri 08:00–16:00, with evenings busier than early mornings. Weekends stay quiet. Use this to plan human shifts around real demand — not assumptions.</p>
+                </div>
+                <img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full mt-auto" />
+              </div>
+              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-8 pt-8 pb-4">
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Hourly Concentration</p>
+                  <h3 className="mt-1 text-xl font-black text-gray-900">Per-agent activity by hour</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Bar chart showing messages per hour in local timezone. Two clear peaks: morning 07:00–08:00 and evening 19:00–20:00. Isolate shift starts, queue bursts, and closing windows for each agent individually.</p>
+                </div>
+                <img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full mt-auto" />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
