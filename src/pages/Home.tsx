@@ -557,7 +557,7 @@ export default function Home() {
                 key={ind.name}
                 to={ind.to}
                 className="relative overflow-hidden rounded-2xl group"
-                style={{ aspectRatio: '3/4', display: 'block' }}
+                style={{ aspectRatio: '1/1', display: 'block' }}
               >
                 <img
                   src={ind.img}
