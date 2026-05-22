@@ -301,8 +301,8 @@ export default function About() {
           </div>
           <div className="grid gap-8 lg:grid-cols-2 lg:items-stretch">
             {/* Map image */}
-            <div className="overflow-hidden rounded-3xl" style={{ minHeight: '380px' }}>
-              <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" style={{ minHeight: '380px' }} />
+            <div className="overflow-hidden rounded-3xl" style={{ height: '300px' }}>
+              <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" />
             </div>
 
             {/* Info */}
