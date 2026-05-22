@@ -251,8 +251,8 @@ export default function Header() {
                     <div className="grid grid-cols-2 divide-x divide-gray-100">
                       <div className="min-w-0 pr-6">
                         <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
-                          <span className="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                            <img src="/icons/pie-chart.png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                          <span style={{ backgroundColor: '#214995', width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            <img src="/icons/pie-chart.png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)', margin: 0, padding: 0 }} />
                           </span>
                           By industry
                         </p>
@@ -269,8 +269,8 @@ export default function Header() {
                       </div>
                       <div className="min-w-0 pl-6">
                         <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
-                          <span className="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                            <img src="/icons/user (2).png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                          <span style={{ backgroundColor: '#214995', width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            <img src="/icons/user (2).png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)', margin: 0, padding: 0 }} />
                           </span>
                           By role
                         </p>
