@@ -413,10 +413,9 @@ export default function Home() {
                     <>
                     <div className="grid grid-cols-3 gap-3">
                       {visible.map(stack => (
-                        <Link
+                        <div
                           key={stack.label}
-                          to="/contact"
-                          className="group flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 transition-all hover:border-gray-400 hover:shadow-sm"
+                          className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3"
                         >
                           <div className="flex items-center -space-x-2 flex-shrink-0">
                             {stack.logos.map((logo, i) => (
@@ -427,7 +426,7 @@ export default function Home() {
                             <p className="text-xs font-bold text-gray-900 leading-snug">{stack.label}</p>
                             <p className="text-xs text-gray-400 leading-snug">{stack.desc}</p>
                           </div>
-                        </Link>
+                        </div>
                       ))}
                     </div>
                     {(needsMore || (showAllStacks && filtered.length > LIMIT)) && (
