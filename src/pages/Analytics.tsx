@@ -280,9 +280,9 @@ export default function Analytics() {
 
           <div className="flex flex-col gap-6">
 
-            {/* Row 1: Ticket saves — trend (2/3) + donut (1/3) */}
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-2 flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+            {/* Row 1: Ticket saves — trend slightly wider than donut */}
+            <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
+              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
                 <div className="px-8 pt-8 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
                   <h3 className="mt-1 text-xl font-black text-gray-900">Ticket saves over time</h3>
@@ -300,53 +300,31 @@ export default function Analytics() {
               </div>
             </div>
 
-            {/* Row 2: Messages — trend (2/3) + donut (1/3) */}
+            {/* Row 3: 3 cards side by side */}
             <div className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-2 flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-                <div className="px-8 pt-8 pb-4">
+              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+                <div className="px-6 pt-7 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
-                  <h3 className="mt-1 text-xl font-black text-gray-900">Message flow by day</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Blue = bot replies (600–1,100/day), green = support replies, amber = external messages from merchants or providers. See when external pressure rises and which days your human agents absorbed the most load.</p>
+                  <h3 className="mt-1 text-base font-black text-gray-900">Daily workload split</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Ticket saves (blue), final transitions (red), and messages (amber) on one chart — spot days where volume or escalations spiked without switching views.</p>
                 </div>
-                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/messages%20daily%20trend%201.png" alt="Messages daily trend" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="px-5 pb-5 mt-auto"><img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
               <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-                <div className="px-8 pt-8 pb-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Ownership Mix</p>
-                  <h3 className="mt-1 text-xl font-black text-gray-900">Who drives the conversation</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Bot: <strong>67%</strong> (21,301 msgs). Support: 15% (4,676). External participants: 19% (6,002). Understand who is generating volume and where to focus optimisation.</p>
-                </div>
-                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/messages%20daily%20trend%202.png" alt="Messages ownership mix" className="w-full rounded-2xl border border-gray-100" /></div>
-              </div>
-            </div>
-
-            {/* Row 3: Daily workload split — full width */}
-            <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-              <div className="px-8 pt-8 pb-4">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
-                <h3 className="mt-1 text-xl font-black text-gray-900">Daily workload split across all metrics</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500 max-w-3xl">Ticket saves (blue), final transitions (red), and messages (amber) on one chart. See how workload distributes across your support funnel and identify days where volume or escalations spiked — without switching between views.</p>
-              </div>
-              <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" /></div>
-            </div>
-
-            {/* Row 4: Heatmaps side by side */}
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-                <div className="px-8 pt-8 pb-4">
+                <div className="px-6 pt-7 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Weekly Rhythm</p>
-                  <h3 className="mt-1 text-xl font-black text-gray-900">When your queue is busiest</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Peak Mon–Fri 08:00–16:00, with evenings busier than early mornings. Weekends stay quiet. Use this to plan human shifts around real demand — not assumptions.</p>
+                  <h3 className="mt-1 text-base font-black text-gray-900">When your queue is busiest</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Clear Mon–Fri 08–16 peak. Plan human shifts around real demand, not assumptions.</p>
                 </div>
-                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="px-5 pb-5 mt-auto"><img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
               <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-                <div className="px-8 pt-8 pb-4">
+                <div className="px-6 pt-7 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Hourly Concentration</p>
-                  <h3 className="mt-1 text-xl font-black text-gray-900">Per-agent activity by hour</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Bar chart showing messages per hour in local timezone. Two clear peaks: morning 07:00–08:00 and evening 19:00–20:00. Isolate shift starts, queue bursts, and closing windows for each agent individually.</p>
+                  <h3 className="mt-1 text-base font-black text-gray-900">Per-agent activity by hour</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Messages by hour in local timezone. Two peaks: morning 07–08h and evening 19–20h. Isolate shift starts and queue bursts per agent.</p>
                 </div>
-                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="px-5 pb-5 mt-auto"><img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" /></div>
               </div>
             </div>
 
