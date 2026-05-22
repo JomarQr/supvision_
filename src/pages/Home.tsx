@@ -6,12 +6,15 @@ export default function Home() {
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const [activeT, setActiveT] = useState(0)
-  const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0 })
-  const [controlTab, setControlTab] = useState<0 | 1 | 2>(0)
+  const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0, 3: 0 })
+  const [controlTab, setControlTab] = useState<0 | 1 | 2 | 3>(0)
   const [stackFilters, setStackFilters] = useState<Record<string, string | null>>({})
   const [showAllStacks, setShowAllStacks] = useState(false)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
   const [demoAgreed, setDemoAgreed] = useState(false)
+  const [demoAttempted, setDemoAttempted] = useState(false)
+  const [demoFormIsValid, setDemoFormIsValid] = useState(false)
+  const demoFormRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -98,36 +101,15 @@ export default function Home() {
               An AI support layer tailored for fintech industries
             </div>
 
-            <h1 className="flex flex-col text-3xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mt-3 flex flex-col text-3xl font-light leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
               <span><span className="font-semibold">Agentic</span> Support Team</span>
               <span>for <span className="font-semibold">Fintech</span> Industry</span>
             </h1>
 
-            <p className="mt-6 text-sm leading-relaxed text-white max-w-md">
-              Next generation AI support agent. Not the type that people try to bypass to speak to a real person - but a full fledged support that is able to resolve 80% of queries without any human intervention.
+            <p className="mt-8 text-base leading-relaxed text-white max-w-xl">
+              AI support that resolves 80% of queries without human intervention — and coordinates with partners, providers, and colleagues across your entire workflow.
             </p>
 
-          </div>
-
-          {/* Industries ticker - plain icon + text, fades at edges */}
-          <div
-            className="mt-auto overflow-hidden"
-            style={{
-              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
-            }}
-          >
-            <div
-              className="flex items-center gap-10"
-              style={{ width: 'max-content', animation: 'ticker 28s linear infinite' }}
-            >
-              {[...heroIndustries, ...heroIndustries].map((item, i) => (
-                <div key={i} className="flex-shrink-0 flex items-center gap-2">
-                  <div className="[&_svg]:h-5 [&_svg]:w-5" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.icon}</div>
-                  <span className="text-sm font-semibold whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.label}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="mt-8 pr-8">
@@ -146,6 +128,27 @@ export default function Home() {
                 </svg>
               </span>
             </Link>
+          </div>
+
+          {/* Industries ticker - plain icon + text, fades at edges */}
+          <div
+            className="mt-24 overflow-hidden"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
+            }}
+          >
+            <div
+              className="flex items-center gap-10"
+              style={{ width: 'max-content', animation: 'ticker 28s linear infinite' }}
+            >
+              {[...heroIndustries, ...heroIndustries].map((item, i) => (
+                <div key={i} className="flex-shrink-0 flex items-center gap-2">
+                  <div className="[&_svg]:h-5 [&_svg]:w-5" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.icon}</div>
+                  <span className="text-sm font-semibold whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
@@ -196,7 +199,7 @@ export default function Home() {
           </h2>
 
           {/* Sub-description */}
-          <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-2xl">
+          <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
             Your agents handle hundreds of repetitive queries daily - identity verification checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
           </p>
 
@@ -274,11 +277,10 @@ export default function Home() {
       {/* Why supVision header */}
       <section className="pt-10 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Why supVision</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Solution</p>
           <h2 className="mt-5 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal mx-auto max-w-3xl">
-            Why fintech teams choose <span className="font-bold">supVision</span> over <span className="font-bold">generic AI platforms?</span>
+            Built for <span className="font-bold">regulated financial services</span> from day one
           </h2>
-          <p className="mt-4 text-base text-gray-500">Built for regulated financial services from day one - not retrofitted from a SaaS tool.</p>
         </div>
       </section>
 
@@ -288,7 +290,7 @@ export default function Home() {
 
           {/* Tab switcher */}
           <div className="mb-12 flex gap-2">
-            {([0, 1, 2] as const).map((tab) => (
+            {([0, 1, 2, 3] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setControlTab(tab)}
@@ -578,8 +580,8 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6">
 
           <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Proof</p>
-            <p className="mt-3 text-base text-gray-500">Companies that moved from overwhelmed to automated.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Results</p>
+            <p className="mt-3 text-3xl font-bold text-gray-900">Companies that moved from overwhelmed to automated.</p>
           </div>
 
           {/* Card */}
@@ -734,7 +736,7 @@ export default function Home() {
 
             {/* Left */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#214995' }}>Compliance & Security</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Compliance & Security</p>
               <h2 className="mt-5 text-3xl font-bold leading-snug text-gray-900 sm:text-4xl">
                 Your compliance team will love us as much as your support team does.
               </h2>
@@ -766,7 +768,7 @@ export default function Home() {
                 Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance built into every interaction.
               </p>
               <Link
-                to="/roles/compliance-risk"
+                to="/security"
                 className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
                 style={{ backgroundColor: '#214995' }}
               >
@@ -798,10 +800,10 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
             {/* Left - text */}
-            <div className="flex flex-col justify-center px-10 py-16 lg:px-16">
+            <div className="flex flex-col justify-start px-10 py-16 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Book a demo</p>
               <h2 className="mt-4 text-4xl font-bold leading-tight text-white">Most teams are live within 3 days.</h2>
-              <p className="mt-4 text-lg text-blue-200">No platform migration. No 6-month project.</p>
+              <p className="mt-4 text-lg text-blue-200">We'd be glad to show how AI agents handle queries, disputes, and transaction issues, so your team focuses on what needs them.</p>
               <ul className="mt-8 flex flex-col gap-3">
                 {['30-minute live walkthrough', 'Tailored to your support stack', 'No commitment required'].map(item => (
                   <li key={item} className="flex items-center gap-3 text-sm text-white/80">
@@ -814,6 +816,38 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
+
+              <div className="mt-10 border-t border-white/10 pt-8 flex flex-col gap-5">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Email</p>
+                  <a href="mailto:info@supvision.ai" className="mt-1 block text-sm font-semibold text-white hover:text-blue-200 transition-colors">
+                    info@supvision.ai
+                  </a>
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-300">Contact us directly</p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <a href="https://www.linkedin.com/company/supvision-ai/" target="_blank" rel="noopener noreferrer"
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                      </svg>
+                    </a>
+                    <a href="https://t.me/+447737124949" target="_blank" rel="noopener noreferrer"
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                      </svg>
+                    </a>
+                    <a href="https://wa.me/447737124949" target="_blank" rel="noopener noreferrer"
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Right - inline form */}
@@ -831,7 +865,15 @@ export default function Home() {
               ) : (
                 <div className="w-full rounded-2xl bg-white p-8 shadow-xl">
                   <form
-                    onSubmit={(e: FormEvent<HTMLFormElement>) => { e.preventDefault(); setDemoSubmitted(true) }}
+                    ref={demoFormRef}
+                    noValidate
+                    onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                      e.preventDefault()
+                      const valid = demoFormRef.current?.checkValidity() ?? false
+                      setDemoFormIsValid(valid)
+                      setDemoAttempted(true)
+                      if (valid && demoAgreed) setDemoSubmitted(true)
+                    }}
                     className="flex flex-col gap-4"
                   >
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -906,8 +948,7 @@ export default function Home() {
                     <div className="pt-1">
                       <button
                         type="submit"
-                        disabled={!demoAgreed}
-                        className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+                        className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
                         style={{ backgroundColor: '#111827' }}
                       >
                         <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
@@ -918,6 +959,14 @@ export default function Home() {
                           </svg>
                         </span>
                       </button>
+                      {demoAttempted && (!demoFormIsValid || !demoAgreed) && (
+                        <p className="mt-3 flex items-center gap-2 text-xs text-red-500">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0">
+                            <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
+                          </svg>
+                          Please fill in all required fields and confirm the Privacy Policy.
+                        </p>
+                      )}
                     </div>
                   </form>
                 </div>
@@ -1071,27 +1120,41 @@ const featureSections: { label: string; title: string; description: string; img:
     label: 'Integration',
     title: 'Connects to your existing stack in days',
     description: 'supVision runs on top of what you already use - no platform migration, no rip-and-replace. Connect your helpdesk, identity verification provider, CRM, and knowledge base, and go live in 3 to 5 business days.',
-    img: '/hero_images/Component 172.png',
+    img: '/foto for solutions/Helpdesk Connectors.png',
     bgGradient: 'linear-gradient(135deg, #c8d8e8 0%, #8aaac8 50%, #607890 100%)',
     features: [
-      { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud - supVision works inside your existing ticket workflow, not alongside it.' },
-      { title: 'Identity Providers', description: 'Pull live verification status and identity data in real time - before every response.' },
-      { title: 'Knowledge Base', description: 'Index your Confluence spaces, Notion pages, or Guru cards so the agent answers using your own internal policies and procedures - not generic responses.' },
-      { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously - one supVision instance, every channel your customers use.' },
-      { title: 'Webhook & API', description: 'Integrate with any internal tool via REST API or webhooks. If it has an API, supVision can query it before responding to a customer.' },
+      { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud - supVision works inside your existing ticket workflow, not alongside it.', img: '/foto for solutions/Helpdesk Connectors.png' },
+      { title: 'Identity Providers', description: 'Pull live verification status and identity data in real time - before every response.', img: '/foto for solutions/Identity Providers.png' },
+      { title: 'Knowledge Base', description: 'Index your Confluence spaces, Notion pages, or Guru cards so the agent answers using your own internal policies and procedures - not generic responses.', img: '/foto for solutions/Knowledge Base.png' },
+      { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously - one supVision instance, every channel your customers use.', img: '/foto for solutions/Messaging Channels.png' },
+      { title: 'Webhook & API', description: 'Integrate with any internal tool via REST API or webhooks. If it has an API, supVision can query it before responding to a customer.', img: '/foto for solutions/Webhook & API.png' },
     ],
   },
   {
     label: 'Visibility',
     title: 'Full insight into every automated action',
     description: 'Every AI decision is logged, every escalation is documented, and every response is traceable - so you always know what happened, why it happened, and who was responsible.',
-    img: '/hero_images/Component 175.png',
+    img: '/foto for solutions/Regulator Exports (3).png',
     bgGradient: 'linear-gradient(135deg, #d8e0d0 0%, #a0b890 50%, #708060 100%)',
     features: [
       { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context - regulator-ready out of the box.', img: '/visibility/Full Audit Trail.png' },
       { title: 'AI Decision Logs', description: 'See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training.', img: '/visibility/AI Decision Logs.png' },
       { title: 'Log Streaming', description: 'Send real-time workflow data to tools like Datadog or Splunk for centralized monitoring, alerting, and integration with your existing security stack.', img: '/visibility/Log Streaming.png' },
-      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes - structured, signed, and ready to share without manual extraction.', img: '/visibility/Regulator Exports.png' },
+      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes - structured, signed, and ready to share without manual extraction.', img: '/foto for solutions/Regulator Exports (3).png' },
+    ],
+  },
+  {
+    label: 'Orchestration',
+    title: 'Fits any business structure. We handle the setup.',
+    description: 'supVision adapts to your existing processes — not the other way around. The agent connects to your apps, emails, and databases on its own, then acts across your entire workflow with minimal effort from your side. We handle the implementation from day one.',
+    img: '/foto for solutions/Zero-disruption deployment.png',
+    bgGradient: 'linear-gradient(135deg, #e0d8f0 0%, #a090c8 50%, #705890 100%)',
+    features: [
+      { title: 'Zero-disruption deployment', description: 'supVision connects to your current stack without requiring platform migration or process redesign. The agent learns your workflows and goes live in days — your team keeps working as usual.', img: '/foto for solutions/Zero-disruption deployment.png' },
+      { title: 'Autonomous data access', description: 'The agent independently checks emails, internal apps, and databases to gather the context it needs before responding. No manual data pulling, no copy-paste between systems.', img: '/foto for solutions/Autonomous data access.png' },
+      { title: 'Beyond tier-1: complex multi-party resolutions', description: 'supVision handles cases where resolution requires communication with the client, a provider, and internal teams simultaneously — not just an auto-reply. Incorrect transaction status? The agent contacts both the client and the provider, confirms the correct status, and updates the record. Funds held in limbo? It coordinates next steps with all parties and resolves the hold. Duplicate charge? It verifies both sides, initiates the reversal, and keeps the client informed throughout.', img: '/foto for solutions/Beyond tier-1_ complex multi-party resolutions.png' },
+      { title: 'Adapts to your org structure', description: 'Whether you route issues through a single team or across multiple departments and external partners, supVision maps to your actual processes and acts accordingly — no rigid templates.', img: '/foto for solutions/Adapts to your org structure.png' },
+      { title: 'We do the implementation', description: 'Our team configures integrations, maps your workflows, and runs the onboarding end-to-end. Your team reviews and approves. Minimum effort from your side, maximum output from day one.', img: '/foto for solutions/We do the implementation.png' },
     ],
   },
 ]
@@ -1160,7 +1223,7 @@ const complianceFeatures = [
   'Verification workflow logic with built-in confidence thresholds',
   'GDPR-compliant data handling and right-to-erasure support',
   'PCI DSS aligned, no raw card data ever touches our system',
-  'Role-based access control and SOC 2-aligned infrastructure',
+  'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records',
 ]
 
 
@@ -1176,42 +1239,42 @@ const benefits = [
     afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>,
   },
   {
-    beforeTitle: 'Compliance as an afterthought',
-    before: 'Compliance is bolted on after the fact, costly audits, missed escalations, fragile verification flows.',
+    beforeTitle: 'Support team rotates every few months',
+    before: 'Agents leave, new ones need onboarding, and quality drops every time someone quits. Constant recruiting, training, and handover costs with no end in sight.',
     beforeImg: '/benefits/Compliance is bolted on after the fact.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>,
-    title: 'Tailored to a regulated industry',
-    after: 'Built for compliance from day one: audit logs, escalation rules, and verification workflows that meet financial regulations out of the box.',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" /></svg>,
+    title: 'Zero turnover. Consistent quality.',
+    after: 'supVision never quits, never needs retraining, and delivers the same quality on day 1 and year 3. No offboarding, no knowledge loss, no gap in coverage.',
     afterImg: '/benefits/Built for compliance from day one.png',
     afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>,
   },
   {
     beforeTitle: 'Scaling costs, shrinking margins',
-    before: 'Growing support demand means growing headcount and costs with no end in sight.',
+    before: 'Growing support demand means more headcount — salaries, sick days, annual leave, bonuses, and constant retraining with no end in sight.',
     beforeImg: '/benefits/Growing support demand means.png',
     beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>,
-    title: 'Reduce costs, improve quality',
-    after: 'Teams using SupVision report 52% lower support costs and 98.4% resolution rate, tracked in real time on your dashboard.',
+    title: 'Reduce costs by up to 80%',
+    after: 'No salaries, no sick pay, no vacation cover, no bonuses. Teams using supVision cut support operating costs by up to 80% while maintaining a 98.4% resolution rate.',
     afterImg: '/benefits/Reduce costs, improve quality.png',
     afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
   },
   {
     beforeTitle: 'Support stops at 5pm',
-    before: 'Customers hit payment failures and verification blocks at midnight, on weekends, across time zones - with no one available to help.',
+    before: 'Customers hit payment failures at midnight and on weekends. Finding agents willing to cover nights, holidays, and time zones is nearly impossible — and expensive.',
     beforeImg: '/hero_images/live-chat-response.png',
     beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
     title: '24/7 AI support, always on',
-    after: 'supVision resolves queries around the clock with no shift changes, no SLA gaps, and no human fatigue. Every customer gets an instant response.',
+    after: 'supVision resolves queries around the clock — no shift changes, no sick days, no holidays. Every customer gets an instant response at any hour, in any time zone.',
     afterImg: '/hero_images/ticket-list-resolved.png',
     afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>,
   },
   {
-    beforeTitle: 'Every new market means more staff',
-    before: 'Expanding to a new region requires hiring and training local support agents - slowing down every market entry.',
+    beforeTitle: 'Agents rely on Google Translate',
+    before: 'Your support team uses Google Translate to handle foreign-language queries. Mistranslations, awkward phrasing, and miscommunication with partners happen every day.',
     beforeImg: '/hero_images/onboarding-setup.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" /></svg>,
-    title: 'Go global without scaling headcount',
-    after: 'supVision supports 50+ languages out of the box. Launch in a new market and your support function scales automatically, from day one.',
+    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" /></svg>,
+    title: 'Native fluency in 50+ languages',
+    after: 'supVision responds in the customer\'s language — natively, not translated. No awkward phrasing, no miscommunication. Launch in any region from day one without hiring local agents.',
     afterImg: '/hero_images/analytics-dashboard.png',
     afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>,
   },

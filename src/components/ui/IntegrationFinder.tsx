@@ -228,7 +228,7 @@ export default function IntegrationFinder() {
   const hidden = showLimit ? filtered.length - VISIBLE_LIMIT : 0
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#f5f4f0' }}>
+    <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
       <div className="mx-auto max-w-7xl px-6">
 
         <div className="mb-12 text-center">

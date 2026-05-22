@@ -234,7 +234,7 @@ export default function Pricing() {
       </section>
 
       {/* Comparison table */}
-      <section className="px-4 pb-24 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="px-4 pb-24 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-5xl pt-16">
           <div className="text-center mb-12">
             <p className="text-2xl font-bold uppercase text-gray-900">Compare</p>

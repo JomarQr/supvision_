@@ -6,26 +6,32 @@ const capabilities = [
   {
     title: 'Identity & Onboarding',
     desc: 'Automate identity verification and onboarding flows',
+    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v9A1.5 1.5 0 0 0 4.5 14h7a1.5 1.5 0 0 0 1.5-1.5V5.621a1.5 1.5 0 0 0-.44-1.06L9.94 2.439A1.5 1.5 0 0 0 8.878 2H4.5Zm3 5.5a.75.75 0 0 0-1.5 0v2.69L5.47 9.22a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l1.75-1.75a.75.75 0 1 0-1.06-1.06L7.5 10.19V7.5Z" clipRule="evenodd" /></svg>,
   },
   {
     title: 'Dispute Resolution',
     desc: 'Resolve chargebacks and transaction disputes in real time',
+    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>,
   },
   {
     title: 'Escalation Rules',
     desc: 'Custom confidence thresholds and seamless human handoffs',
+    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M8 1a.75.75 0 0 1 .75.75V6h-1.5V1.75A.75.75 0 0 1 8 1ZM4.11 3.05a.75.75 0 0 1 1.06 0l.76.76-.53.53a5.5 5.5 0 0 0-.614.807.75.75 0 0 1-1.23-.855 7.01 7.01 0 0 1 .784-1.03l-.226-.226a.75.75 0 0 1 0-1.06Zm7.78 0a.75.75 0 0 0-1.06 0l-.76.76.53.53a5.5 5.5 0 0 1 .614.807.75.75 0 0 0 1.23-.855 7.01 7.01 0 0 0-.784-1.03l.226-.226a.75.75 0 0 0 0-1.06ZM8 13a5 5 0 1 0 0-10A5 5 0 0 0 8 13Zm.75-7.5h-1.5v3.25l2.25 1.5.75-1.125-1.5-1v-2.625Z" clipRule="evenodd" /></svg>,
   },
   {
     title: 'Multi-channel Support',
     desc: 'Email, chat, WhatsApp, Telegram, API - all in one',
+    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M1 8.74C1 9.99 1.99 11 3.2 11H4v1.5a.5.5 0 0 0 .854.354l1.896-1.854H9.8c1.21 0 2.2-1.01 2.2-2.26V4.26C12 3.01 11.01 2 9.8 2H3.2C1.99 2 1 3.01 1 4.26v4.48Zm11.5-.74c0 .706-.271 1.35-.714 1.832l.007.009 1.386 1.355A.5.5 0 0 0 14 10.5V9h.8c1.21 0 2.2-1.01 2.2-2.26V4.26C17 3.01 16.01 2 14.8 2H12.5v.74H13c1.21 0 2.2 1.01 2.2 2.26v3.48C15.2 9.49 14.5 10 13.7 10h-.9A1.7 1.7 0 0 1 12.5 8Z" clipRule="evenodd" /></svg>,
   },
   {
     title: 'Audit Logs',
     desc: 'Traceable decision trail, regulator-ready exports',
+    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4 4a2 2 0 0 1 2-2h4.75a.75.75 0 0 1 .53.22l2.25 2.25a.75.75 0 0 1 .22.53V12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm5 .5V3.5l2 2H9.5A.5.5 0 0 1 9 5.5ZM5.5 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5Zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z" clipRule="evenodd" /></svg>,
   },
   {
     title: 'Multi-language',
     desc: 'Respond in 50+ languages with no configuration required',
+    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM5.5 5.5A.5.5 0 0 1 6 5h.5V4h-1a.5.5 0 0 1 0-1h1a1 1 0 0 1 1 1v.5h.5a.5.5 0 0 1 0 1H7v2H5.5a.5.5 0 0 1 0-1H6V6h-.5a.5.5 0 0 1-.5-.5ZM8 9a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z" clipRule="evenodd" /></svg>,
   },
 ]
 
@@ -160,7 +166,7 @@ export default function SupportAgent() {
       {/* Hero */}
       <section className="px-4 pt-8 pb-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="overflow-hidden rounded-3xl border border-gray-100 bg-gray-50">
+          <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white">
             <div className="grid lg:grid-cols-2">
 
               {/* Left - text */}
@@ -209,50 +215,14 @@ export default function SupportAgent() {
                 </div>
               </div>
 
-              {/* Right - diagram */}
-              <div className="flex items-center justify-center px-12 py-14" style={{ backgroundColor: '#214995' }}>
-                <div className="flex flex-col items-center gap-0 w-full max-w-xs">
-                  {/* Top row of 3 icons */}
-                  <div className="flex w-full items-end justify-between">
-                    {[
-                      /* KYC icon */
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                      </svg>,
-                      /* Dispute icon */
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-                      </svg>,
-                      /* Compliance icon */
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-8 w-8">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                      </svg>,
-                    ].map((icon, i) => (
-                      <div key={i} className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white text-gray-800 shadow-lg">
-                        {icon}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Connector lines SVG */}
-                  <svg viewBox="0 0 280 80" className="w-full" style={{ height: 80 }}>
-                    {/* Three vertical lines down */}
-                    <line x1="40" y1="0" x2="40" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
-                    <line x1="140" y1="0" x2="140" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
-                    <line x1="240" y1="0" x2="240" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
-                    {/* Horizontal bar */}
-                    <line x1="40" y1="40" x2="240" y2="40" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
-                    {/* Single line down to center */}
-                    <line x1="140" y1="40" x2="140" y2="80" stroke="white" strokeWidth="1.5" strokeOpacity="0.5" />
-                  </svg>
-
-                  {/* Center agent icon */}
-                  <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gray-900 shadow-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" className="h-10 w-10">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-                    </svg>
-                  </div>
-                </div>
+              {/* Right - image */}
+              <div className="relative hidden lg:block" style={{ aspectRatio: '1/1' }}>
+                <img
+                  src="/Component 185 (2).png"
+                  alt="Support Agent"
+                  className="absolute inset-4 rounded-2xl object-cover"
+                  style={{ top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 2rem)' }}
+                />
               </div>
 
             </div>
@@ -261,7 +231,7 @@ export default function SupportAgent() {
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="pt-8 pb-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">How it works</p>
@@ -281,26 +251,33 @@ export default function SupportAgent() {
       </section>
 
       {/* Capabilities */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#214995' }}>
+      <section className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-white">Capabilities</p>
-            <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Everything the Support Agent handles autonomously.</p>
-          </div>
+          <div className="overflow-hidden rounded-3xl px-10 py-14" style={{ backgroundColor: '#214995' }}>
+            <div className="mb-12 text-center">
+              <p className="text-2xl font-bold uppercase text-white">Capabilities</p>
+              <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Everything the Support Agent handles autonomously.</p>
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((c) => (
-              <div key={c.title} className="flex flex-col rounded-2xl bg-white p-6">
-                <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">{c.desc}</p>
-              </div>
-            ))}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {capabilities.map((c) => (
+                <div key={c.title} className="flex flex-col rounded-2xl bg-white p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: '#214995' }}>
+                      {c.icon}
+                    </div>
+                    <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
+                  </div>
+                  <p className="text-sm leading-relaxed text-gray-500">{c.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Use cases - phone mockups */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Real scenarios</p>
@@ -373,30 +350,48 @@ export default function SupportAgent() {
       <IntegrationFinder />
 
       {/* Compliance strip */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-8 lg:grid-cols-3 lg:items-center">
-            <div className="lg:col-span-2">
-              <p className="text-2xl font-bold uppercase text-white">Built for regulated finance</p>
-              <p className="mt-4 text-base leading-relaxed text-gray-400">
-                Every response follows compliance-approved templates. Escalation rules, confidence thresholds, and verification decision logic are configurable by your compliance team - not by engineers. Audit logs are written in real time and exportable in formats your regulators expect.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                {['GDPR compliant', 'PCI DSS aligned', 'Audit logs', 'SOC 2-aligned infra', 'Right-to-erasure support'].map(tag => (
-                  <span key={tag} className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-gray-300">{tag}</span>
-                ))}
+      <section className="py-3 px-2 sm:px-3">
+        <div>
+          <div className="overflow-hidden rounded-3xl bg-gray-900 px-10 py-14 lg:px-16">
+            <div className="grid gap-8 lg:grid-cols-3 lg:items-center">
+              <div className="lg:col-span-2">
+                <p className="text-2xl font-bold uppercase text-white">Built for regulated finance</p>
+                <p className="mt-4 text-base leading-relaxed text-gray-400">
+                  Every response follows compliance-approved templates. Escalation rules, confidence thresholds, and verification decision logic are configurable by your compliance team - not by engineers. Audit logs are written in real time and exportable in formats your regulators expect.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {['GDPR compliant', 'PCI DSS aligned', 'Audit logs', 'SOC 2-aligned infra', 'Right-to-erasure support'].map(tag => (
+                    <span key={tag} className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-gray-300">{tag}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex items-center justify-center gap-6">
-              <img src="/badge/image.png" alt="PCI DSS" className="h-24 w-auto" />
-              <img src="/badge/image 26 (3).png" alt="GDPR" className="h-16 w-auto" />
+              <div className="flex items-center justify-center gap-6">
+                <div className="flex flex-col items-start gap-6">
+                  <div className="flex items-center gap-8">
+                    <img src="/badge/image.png" alt="PCI DSS" className="h-36 w-auto" />
+                    <img src="/badge/image 26 (3).png" alt="GDPR" className="h-28 w-auto" />
+                  </div>
+                  <Link
+                    to="/security"
+                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white ml-6"
+                  >
+                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
+                    <span className="relative z-10">Learn more</span>
+                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-8 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">FAQ</p>

@@ -27,7 +27,7 @@ const timeline = [
     img: '/hero_images/ticket-list-resolved.png',
   },
   {
-    year: '2023',
+    year: '2026',
     title: 'We built what we needed',
     desc: 'supVision was built by fintech operators for fintech operators. Not a chatbot with a compliance badge - a purpose-built AI support layer that understands regulated financial services from the inside.',
     img: '/hero_images/onboarding-setup.png',
@@ -70,21 +70,26 @@ export default function About() {
 
     const updateHeight = () => {
       const extra = Math.max(0, track.scrollWidth - window.innerWidth)
-      section.style.height = `calc(100vh + ${extra * 0.65}px)`
+      // section height drives how long the sticky panel is pinned; sticky element is calc(100vh-5rem)
+      section.style.height = `calc(100vh - 5rem + ${extra * 0.65}px)`
     }
 
     const handleScroll = () => {
       const rect = section.getBoundingClientRect()
-      const scrollable = section.offsetHeight - window.innerHeight
+      const navH = 80 // px — fixed navbar height
+      // section sticks when its top hits navH; scrollable distance = total height minus viewport minus navH
+      const scrollable = section.offsetHeight - (window.innerHeight - navH)
       if (scrollable <= 0) return
-      const progress = Math.min(1, Math.max(0, -rect.top / scrollable))
+      // progress: 0 when section top is at navH, 1 when fully scrolled
+      const progress = Math.min(1, Math.max(0, -(rect.top - navH) / scrollable))
       const maxX = track.scrollWidth - window.innerWidth
       track.style.transform = `translateX(-${progress * maxX}px)`
 
       const seg = progress * (timeline.length - 1)
       dotFillRefs.current.forEach((el, i) => {
         if (!el) return
-        const fill = Math.min(1, Math.max(0, seg - i + 0.4))
+        // fill goes 0→1 as the card travels from off-screen to centered (seg i-1 → i)
+        const fill = Math.min(1, Math.max(0, seg - i + 1))
         el.style.transform = `scale(${fill})`
       })
       lineFillRefs.current.forEach((el, i) => {
@@ -141,7 +146,7 @@ export default function About() {
 
       {/* Story - horizontal pin scroll */}
       <div ref={storyRef} className="relative">
-        <div className="sticky top-0 h-screen overflow-hidden" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="sticky top-20 overflow-hidden" style={{ backgroundColor: '#faf8f5', height: 'calc(100vh - 5rem)' }}>
           {/* Header - centered */}
           <div className="pt-16 pb-10 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Our story</p>
@@ -151,53 +156,32 @@ export default function About() {
           {/* Horizontal track - first card starts at screen center */}
           <div
             ref={trackRef}
-            className="flex gap-6 pr-32 will-change-transform"
-            style={{ width: 'max-content', paddingLeft: 'calc(50vw - 200px)' }}
+            className="flex gap-6 will-change-transform"
+            style={{ width: 'max-content', paddingLeft: 'calc(50vw - 200px)', paddingRight: 'calc(50vw - 200px)', paddingBottom: '40px' }}
           >
             {timeline.map((item, i) => (
-              <div
-                key={item.year}
-                className="flex-shrink-0 w-[400px] overflow-hidden rounded-3xl bg-white shadow-md border border-gray-100"
-              >
-                <div className="relative h-56 overflow-hidden bg-gray-100">
-                  <img src={item.img} alt={item.title} className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                  <span className="absolute bottom-4 left-5 text-3xl font-black text-white/90">{item.year}</span>
+              <div key={item.year} className="flex-shrink-0 w-[400px] flex flex-col">
+                {/* Card — fixed height so all dots stay at the same Y */}
+                <div
+                  className="rounded-3xl bg-white shadow-md border border-gray-100 p-8 flex flex-col overflow-hidden"
+                  style={{ height: '260px' }}
+                >
                   <span
-                    className="absolute top-4 right-4 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white"
-                    style={{ backgroundColor: '#214995' }}
+                    className="text-xs font-bold uppercase tracking-widest"
+                    style={{ color: '#214995' }}
                   >{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="mt-4 text-base font-bold text-gray-900">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-500 overflow-hidden">{item.desc}</p>
                 </div>
-                <div className="p-7">
-                  <h3 className="text-base font-bold text-gray-900">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-500">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Progress timeline - dots + lines */}
-          <div className="absolute bottom-8 left-0 right-0 px-16">
-            <div className="flex items-center">
-              {timeline.map((item, i) => (
-                <>
-                  {/* Dot */}
-                  <div key={item.year} className="flex flex-col items-center flex-shrink-0">
-                    <div
-                      className="relative h-5 w-5 rounded-full border-2 flex items-center justify-center overflow-hidden"
-                      style={{ borderColor: '#214995', backgroundColor: 'white' }}
-                    >
-                      <div
-                        ref={el => { dotFillRefs.current[i] = el }}
-                        className="h-full w-full rounded-full"
-                        style={{ backgroundColor: '#214995', transform: 'scale(0)', transformOrigin: 'center' }}
-                      />
-                    </div>
-                    <span className="mt-2 text-xs font-bold text-gray-500">{item.year}</span>
-                  </div>
-                  {/* Line between dots */}
+                {/* Dot row — relative to full 400px column so line spans correctly */}
+                <div className="relative mt-8" style={{ height: '40px' }}>
+                  {/* Line sits behind the dot (z-0), spans from this dot's center to next dot's center */}
                   {i < timeline.length - 1 && (
-                    <div key={`line-${i}`} className="relative flex-1 h-1.5 mx-1 rounded-full bg-gray-200">
+                    <div
+                      className="absolute rounded-full bg-gray-200"
+                      style={{ left: '20px', top: '50%', transform: 'translateY(-50%)', right: '-44px', height: '4px', zIndex: 0 }}
+                    >
                       <div
                         ref={el => { lineFillRefs.current[i] = el }}
                         className="absolute left-0 top-0 h-full rounded-full"
@@ -205,15 +189,30 @@ export default function About() {
                       />
                     </div>
                   )}
-                </>
-              ))}
-            </div>
+
+                  {/* Dot on top of line */}
+                  <div
+                    className="relative h-10 w-10 rounded-full border-2 flex items-center justify-center overflow-hidden bg-white"
+                    style={{ borderColor: '#214995', zIndex: 1 }}
+                  >
+                    <div
+                      ref={el => { dotFillRefs.current[i] = el }}
+                      className="h-full w-full rounded-full"
+                      style={{ backgroundColor: '#214995', transform: 'scale(0)', transformOrigin: 'center' }}
+                    />
+                  </div>
+                </div>
+
+                {/* Year below the dot */}
+                <span className="mt-3 block text-base font-bold text-gray-700">{item.year}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* The problem we lived */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="pt-10 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           {/* Text + photo */}
           <div className="grid gap-12 lg:grid-cols-2 lg:items-start">

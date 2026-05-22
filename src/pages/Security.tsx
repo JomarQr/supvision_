@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
 
 const trustItems = [
   {
@@ -54,6 +55,74 @@ const highlights = [
   { value: 'AES-256', label: 'Encryption at rest across all customer data' },
   { value: 'TLS 1.3', label: 'Encryption in transit on every connection' },
 ]
+
+const faqs = [
+  { q: 'Can supVision employees access our customer data?', a: 'No. supVision operates on a zero-access architecture. No employee at supVision — including engineers and support staff — can read, export, or access your customer conversations, records, or PII. This is a structural property of the system, not a policy setting.' },
+  { q: 'Do you sign NDAs? Is our data legally protected?', a: 'Yes. All client data is protected under a mutual NDA signed at the start of every engagement. Beyond the legal protection, supVision\'s architecture makes it technically impossible for our staff to access your customer records — the NDA formalises what the system already enforces. If you have a preferred NDA format, we can work with yours.' },
+  { q: 'Does supVision train AI models on our data?', a: 'Never. Your customer data is not used to train, fine-tune, or improve any AI model — ours or anyone else\'s. All processing happens within your deployment boundary and the results are never shared outside your organisation.' },
+  { q: 'How is customer data protected in transit and at rest?', a: 'All data is encrypted in transit using TLS 1.3 and at rest using AES-256. No raw card data ever touches our system. Our infrastructure is SOC 2-aligned and hosted in ISO 27001-certified data centres.' },
+  { q: 'How does supVision handle GDPR right-to-erasure requests?', a: 'Submit a deletion request through the supVision dashboard or API and every record tied to that customer — conversation history, decision logs, escalation records — is purged within the required timeframe. No manual steps from your team are needed.' },
+  { q: 'Is supVision PCI DSS compliant?', a: 'Yes. supVision is PCI DSS aligned. No raw card data ever enters our system — PII and payment data is stripped and tokenised before reaching the AI processing layer. We provide documentation to support your own PCI DSS audit requirements.' },
+  { q: 'What happens to our data if we cancel?', a: 'You can export all your data before contract end. We provide a 30-day export window after cancellation. After that, all data is permanently deleted from our systems per GDPR requirements. We will confirm deletion in writing.' },
+  { q: 'Who controls access permissions inside supVision?', a: 'Your administrators control all access. Role-based permissions let you define exactly what each team member can see and do — agents, compliance officers, and admins each get scoped access. There are no shared credentials and no privilege creep.' },
+]
+
+function FaqItem({ item, isOpen, onToggle }: { item: { q: string; a: string }; isOpen: boolean; onToggle: () => void }) {
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    if (isOpen) {
+      el.style.maxHeight = el.scrollHeight + 'px'
+      el.style.opacity = '1'
+    } else {
+      el.style.maxHeight = '0px'
+      el.style.opacity = '0'
+    }
+  }, [isOpen])
+
+  return (
+    <div>
+      <button
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-8 py-7 text-left"
+      >
+        <span className="text-lg font-semibold text-gray-900">{item.q}</span>
+        <span className={[
+          'flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white transition-transform duration-300',
+          isOpen ? 'rotate-45' : '',
+        ].join(' ')}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5 text-gray-500">
+            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+          </svg>
+        </span>
+      </button>
+      <div
+        ref={bodyRef}
+        style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
+      >
+        <p className="pb-7 text-base leading-relaxed text-gray-500">{item.a}</p>
+      </div>
+    </div>
+  )
+}
+
+function FaqList() {
+  const [open, setOpen] = useState<number | null>(null)
+  return (
+    <div className="divide-y divide-gray-200">
+      {faqs.map((faq, i) => (
+        <FaqItem
+          key={i}
+          item={faq}
+          isOpen={open === i}
+          onToggle={() => setOpen(open === i ? null : i)}
+        />
+      ))}
+    </div>
+  )
+}
 
 export default function Security() {
   return (
@@ -140,14 +209,47 @@ export default function Security() {
             </div>
           </div>
 
-          {/* Certificates - centered, no card */}
-          <div className="mt-16 flex flex-col items-center gap-6">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Certifications</p>
-            <div className="flex flex-wrap items-center justify-center gap-10">
-              <img src="/badge/image.png" alt="PCI DSS" className="h-28 w-auto" />
-              <img src="/badge/image 26 (3).png" alt="GDPR" className="h-24 w-auto" />
+          {/* Certificates */}
+          <div className="mt-20">
+            <div className="mb-10 text-center">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Certifications</p>
+              <h3 className="mt-2 text-2xl font-bold text-gray-900">Recognised standards. Real accountability.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-gray-500 mx-auto max-w-xl">
+                supVision is built to the highest compliance standards in financial services. These certifications are not badges — they are proof that your data is handled correctly.
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="rounded-2xl border border-gray-100 bg-white p-8 flex flex-col items-center text-center shadow-sm">
+                <img src="/badge/image.png" alt="PCI DSS" className="w-auto mb-6" style={{ height: '150px' }} />
+                <div className="mt-auto">
+                  <h4 className="text-base font-bold text-gray-900">PCI DSS Compliant</h4>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-500">
+                    Payment Card Industry Data Security Standard. supVision meets PCI DSS requirements — no raw card data ever enters our system. Payment-sensitive information is stripped and tokenised before any AI processing, keeping your card-data environment clean and audit-ready.
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-gray-100 bg-white p-8 flex flex-col items-center text-center shadow-sm">
+                <img src="/badge/image 26 (3).png" alt="GDPR" className="w-auto mb-6" style={{ height: '120px' }} />
+                <div className="mt-auto">
+                  <h4 className="text-base font-bold text-gray-900">GDPR Compliant</h4>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-500">
+                    General Data Protection Regulation. supVision fully supports GDPR obligations — including right-to-erasure, data minimisation, and purpose limitation. Deletion requests are executed automatically, and no personal data is shared outside your deployment boundary without your explicit instruction.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-3xl px-6">
+          <div className="mb-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">FAQ</p>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900">Security questions answered.</h2>
+          </div>
+          <FaqList />
         </div>
       </section>
 

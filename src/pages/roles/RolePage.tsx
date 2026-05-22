@@ -54,7 +54,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
         <div className="mx-auto max-w-7xl px-6">
           <div
             className="overflow-hidden rounded-3xl border"
-            style={{ backgroundColor: '#EEF4FF', borderColor: 'rgba(33,73,149,0.15)' }}
+            style={{ backgroundColor: '#ffffff', borderColor: 'rgba(33,73,149,0.15)' }}
           >
             <div className={`grid ${hasImage ? 'lg:grid-cols-2' : ''}`}>
 

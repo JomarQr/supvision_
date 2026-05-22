@@ -1,13 +1,21 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const [agreed, setAgreed] = useState(false)
+  const [attempted, setAttempted] = useState(false)
+  const [formIsValid, setFormIsValid] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSubmitted(true)
+    const valid = formRef.current?.checkValidity() ?? false
+    setFormIsValid(valid)
+    setAttempted(true)
+    if (valid && agreed) {
+      setSubmitted(true)
+    }
   }
 
   return (
@@ -26,7 +34,7 @@ export default function Contact() {
                 Book a Demo
               </h1>
               <p className="mt-4 text-base leading-relaxed text-gray-500">
-                30 minutes. We'll show you exactly what supVision can do for your fintech support team - live and tailored to your stack.
+                We'd be glad to show how AI agents handle queries, disputes, and transaction issues, so your team focuses on what needs them.
               </p>
               <ul className="mt-6 flex flex-col gap-3">
                 {['30-minute live walkthrough', 'Tailored to your support stack', 'No commitment required', 'Most teams are live within 3 days'].map(item => (
@@ -42,7 +50,7 @@ export default function Contact() {
               </ul>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div className="flex items-start gap-8">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Email</p>
                 <a href="mailto:info@supvision.ai" className="mt-1 block text-sm font-bold text-gray-900 hover:underline">
@@ -113,7 +121,7 @@ export default function Contact() {
                 </div>
               ) : (
                 <div className="rounded-2xl bg-white p-8 shadow-xl">
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
 
                     <div className="grid gap-5 sm:grid-cols-2">
                       <div>
@@ -206,8 +214,7 @@ export default function Contact() {
                     <div className="pt-1">
                       <button
                         type="submit"
-                        disabled={!agreed}
-                        className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white transition-opacity disabled:opacity-40 disabled:pointer-events-none"
+                        className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
                         style={{ backgroundColor: '#111827' }}
                       >
                         <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
@@ -218,6 +225,14 @@ export default function Contact() {
                           </svg>
                         </span>
                       </button>
+                      {attempted && (!formIsValid || !agreed) && (
+                        <p className="mt-3 flex items-center gap-2 text-xs text-red-500">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0">
+                            <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
+                          </svg>
+                          Please fill in all required fields and confirm the Privacy Policy.
+                        </p>
+                      )}
                     </div>
 
                   </form>
