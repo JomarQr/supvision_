@@ -1420,8 +1420,6 @@ function IntegrationSelect({ label, options, value, onChange, comingSoon }: {
 }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  const selected = value ? options.find(o => o.name === value) ?? null : null
-
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
