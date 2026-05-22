@@ -252,7 +252,7 @@ export default function Header() {
                       <div className="min-w-0 pr-6">
                         <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
                           <span className="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                            <img src="/icons/pie-chart.png" alt="" style={{ width: '10px', height: '10px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                            <img src="/icons/pie-chart.png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                           </span>
                           By industry
                         </p>
@@ -270,7 +270,7 @@ export default function Header() {
                       <div className="min-w-0 pl-6">
                         <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
                           <span className="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                            <img src="/icons/user (2).png" alt="" style={{ width: '10px', height: '10px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+                            <img src="/icons/user (2).png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
                           </span>
                           By role
                         </p>
