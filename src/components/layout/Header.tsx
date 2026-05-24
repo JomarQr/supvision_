@@ -103,14 +103,23 @@ export default function Header() {
   const forWhomTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mobileOverviewOpen, setMobileOverviewOpen] = useState(false)
-  const [mobileForWhomOpen, setMobileForWhomOpen] = useState(false)
+  const [mobileScreen, setMobileScreen] = useState<'main' | 'overview' | 'forwhom'>('main')
+  const [openOverviewCat, setOpenOverviewCat] = useState<string | null>(null)
+  const toggleOverviewCat = (key: string) =>
+    setOpenOverviewCat(prev => prev === key ? null : key)
+
+  const [openForWhomCat, setOpenForWhomCat] = useState<string | null>(null)
+  const toggleForWhomCat = (key: string) =>
+    setOpenForWhomCat(prev => prev === key ? null : key)
 
   useEffect(() => {
     setOverviewOpen(false)
     setForWhomOpen(false)
     setNavHovered(false)
     setMobileMenuOpen(false)
+    setMobileScreen('main')
+    setOpenOverviewCat(null)
+    setOpenForWhomCat(null)
   }, [pathname])
 
   useEffect(() => {
@@ -139,20 +148,29 @@ export default function Header() {
   const activeCat = overviewCategories.find(c => c.key === activeCategory) ?? overviewCategories[0]
 
   const [navHovered, setNavHovered] = useState(false)
+  const [scrollTop, setScrollTop] = useState(0)
+
+  useEffect(() => {
+    const onScroll = () => setScrollTop(window.scrollY)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const BANNER_H = 32
+  const headerTop = Math.max(0, BANNER_H - scrollTop)
 
   return (
     <>
       {/* Page dimmer */}
       <div
-        className="fixed inset-0 z-40 bg-black transition-opacity duration-300 pointer-events-none"
+        className="fixed inset-0 z-40 bg-black transition-opacity duration-300 pointer-events-none hidden lg:block"
         style={{ opacity: navHovered ? 0.45 : 0 }}
       />
 
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+    <header className="fixed left-0 right-0 z-50 lg:px-6 lg:pt-3" style={{ top: headerTop + 'px' }}>
       <div
-        className="mx-auto max-w-7xl rounded-2xl"
+        className="mx-auto bg-white lg:max-w-7xl lg:rounded-2xl lg:bg-white/[0.12]"
         style={{
-          background: 'rgba(255,255,255,0.12)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           border: '1px solid rgba(255,255,255,0.25)',
@@ -162,16 +180,14 @@ export default function Header() {
         onMouseLeave={() => setNavHovered(false)}
       >
         {/* ── Desktop row ── */}
-        <div className="flex h-16 items-center justify-between px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
+        <div className="flex h-12 items-center justify-between px-4 lg:h-16 lg:px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
 
           {/* Logo */}
           <a href="/" onClick={handleLogoClick} className="flex items-center">
-            <img
-              src="/Component 156 (3).png"
-              alt="Logo"
-              className="h-10 w-auto transition-all duration-300"
-              style={isDark ? { filter: 'brightness(0) invert(1)' } : undefined}
-            />
+            {/* Mobile: always dark logo */}
+            <img src="/Component 156 (3).png" alt="Logo" className="h-10 w-auto lg:hidden" />
+            {/* Desktop: responds to dark background */}
+            <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block transition-all duration-300" style={isDark ? { filter: 'brightness(0) invert(1)' } : undefined} />
           </a>
 
           {/* Desktop Nav */}
@@ -314,7 +330,7 @@ export default function Header() {
               style={{ backgroundColor: '#214995' }}
             >
               <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-              <span className="relative z-10">Book a Demo</span>
+              <span className="relative z-10">Book a Demo!</span>
               <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
@@ -330,11 +346,11 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-5 w-5 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 text-gray-900 ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-5 w-5 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 text-gray-900 ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path fillRule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 8a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 8Zm0 3.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
               </svg>
             )}
@@ -342,99 +358,166 @@ export default function Header() {
 
         </div>
 
-        {/* ── Mobile menu ── */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-white/20 bg-white rounded-b-2xl overflow-y-auto max-h-[80vh]">
-            <nav className="flex flex-col px-4 py-4 gap-1">
-
-              <Link to="/about" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">About us</Link>
-
-              {/* Overview accordion */}
-              <div>
-                <button
-                  onClick={() => setMobileOverviewOpen(v => !v)}
-                  className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Overview
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-4 w-4 text-gray-400 transition-transform ${mobileOverviewOpen ? 'rotate-180' : ''}`}>
-                    <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                {mobileOverviewOpen && (
-                  <div className="ml-4 mt-1 flex flex-col gap-1">
-                    {overviewCategories.map(cat => (
-                      <div key={cat.key}>
-                        <p className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-gray-400">{cat.label}</p>
-                        {cat.items.map(item => (
-                          'locked' in item && item.locked ? (
-                            <div key={item.label} className="flex items-center justify-between rounded-xl px-4 py-2.5 opacity-50">
-                              <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                              <span className="text-[10px] font-semibold text-gray-400">Soon</span>
-                            </div>
-                          ) : (
-                            <Link key={item.label} to={item.to!} className="block rounded-xl px-4 py-2.5 hover:bg-gray-50">
-                              <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                              <p className="text-xs text-gray-400">{item.desc}</p>
-                            </Link>
-                          )
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* For whom accordion */}
-              <div>
-                <button
-                  onClick={() => setMobileForWhomOpen(v => !v)}
-                  className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  For whom?
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-4 w-4 text-gray-400 transition-transform ${mobileForWhomOpen ? 'rotate-180' : ''}`}>
-                    <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                {mobileForWhomOpen && (
-                  <div className="ml-4 mt-1 flex flex-col gap-1">
-                    <p className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-gray-400">By industry</p>
-                    {forWhomDropdown.industries.map(item => (
-                      <Link key={item.label} to={item.to} className="block rounded-xl px-4 py-2.5 hover:bg-gray-50">
-                        <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                        <p className="text-xs text-gray-400">{item.desc}</p>
-                      </Link>
-                    ))}
-                    <p className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-gray-400">By role</p>
-                    {forWhomDropdown.roles.map(item => (
-                      <Link key={item.label} to={item.to} className="block rounded-xl px-4 py-2.5 hover:bg-gray-50">
-                        <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                        <p className="text-xs text-gray-400">{item.desc}</p>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <Link to="/pricing" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Pricing</Link>
-              <Link to="/security" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Security</Link>
-
-              <div className="mt-3 flex flex-col gap-3 border-t border-gray-100 pt-4">
-                <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-                <Link
-                  to="/contact"
-                  className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full py-3 text-sm font-semibold text-white"
-                  style={{ backgroundColor: '#214995' }}
-                >
-                  Book a Demo
-                </Link>
-              </div>
-
-            </nav>
-          </div>
-        )}
-
       </div>
     </header>
+
+    {/* ── Full-screen mobile nav overlay ── */}
+    <div className={`fixed inset-0 z-[90] flex flex-col lg:hidden transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ backgroundColor: '#faf8f5' }}>
+
+      {/* Static top bar — never slides */}
+      <div className="relative flex h-16 flex-shrink-0 items-center px-3" style={{ backgroundColor: '#faf8f5' }}>
+        {mobileScreen === 'main' ? (
+          <a href="/" onClick={(e) => { handleLogoClick(e); setMobileMenuOpen(false) }}>
+            <img src="/logo/logo_website.png" alt="SupVision" className="h-9 w-auto" />
+          </a>
+        ) : (
+          <button onClick={() => setMobileScreen('main')} className="flex items-center gap-1 rounded-xl px-2 py-2 text-sm font-medium" style={{ color: '#008BFF' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+              <path fillRule="evenodd" d="M9.78 11.78a.75.75 0 0 1-1.06 0L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 1.06L7.06 8l2.72 2.72a.75.75 0 0 1 0 1.06Z" clipRule="evenodd" />
+            </svg>
+            Back
+          </button>
+        )}
+        {mobileScreen !== 'main' && (
+          <span className="absolute left-1/2 -translate-x-1/2 text-base text-gray-900">
+            {mobileScreen === 'overview' ? 'Overview' : 'For whom?'}
+          </span>
+        )}
+        <button onClick={() => setMobileMenuOpen(false)} className="ml-auto flex h-10 w-10 items-center justify-center rounded-xl text-gray-900">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5">
+            <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Sliding content area */}
+      <div className="relative flex-1 overflow-hidden">
+
+        {/* Main nav */}
+        <div className={`absolute inset-0 overflow-y-auto transition-transform duration-300 ease-in-out ${mobileScreen === 'main' ? 'translate-x-0' : '-translate-x-full'}`}>
+          <nav className="flex flex-col gap-2 px-2 pt-1 pb-2">
+            <Link to="/about" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">About us</Link>
+            <button onClick={() => setMobileScreen('overview')} className="flex w-full items-center justify-between rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">
+              Overview
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-gray-900">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </button>
+            <button onClick={() => setMobileScreen('forwhom')} className="flex w-full items-center justify-between rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">
+              For whom?
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-gray-900">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </button>
+            <Link to="/pricing" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">Pricing</Link>
+            <Link to="/security" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">Security</Link>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
+              <span>Book a Demo!</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
+            </Link>
+            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="text-center text-sm text-gray-900">
+              Log in
+            </a>
+          </nav>
+        </div>
+
+        {/* Overview content */}
+        <div className={`absolute inset-0 overflow-y-auto transition-transform duration-300 ease-in-out ${mobileScreen === 'overview' ? 'translate-x-0' : 'translate-x-full'}`}>
+          <nav className="flex flex-col gap-2 px-2 pt-1 pb-2">
+            {overviewCategories.map(cat => {
+              const isOpen = openOverviewCat === cat.key
+              return (
+                <div key={cat.key} className="overflow-hidden rounded-2xl bg-white">
+                  <button onClick={() => toggleOverviewCat(cat.key)} className="flex w-full items-center justify-between px-7 py-5 text-lg font-medium" style={{ color: '#008BFF' }}>
+                    {cat.label}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-5 w-5 text-gray-900 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                      <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  {isOpen && (
+                    <div className="mt-1 flex flex-col gap-0.5 px-2 pb-2">
+                      {cat.items.map(item => (
+                        'locked' in item && item.locked ? (
+                          <div key={item.label} className="flex items-center justify-between rounded-xl px-5 py-2.5 opacity-50">
+                            <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                            <span className="text-[10px] font-semibold text-gray-400">Soon</span>
+                          </div>
+                        ) : (
+                          <Link key={item.label} to={item.to!} className="block rounded-xl px-5 py-2.5 hover:bg-gray-50">
+                            <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                            <p className="text-xs text-gray-400">{item.desc}</p>
+                          </Link>
+                        )
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
+              <span>Book a Demo!</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
+            </Link>
+            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="text-center text-sm text-gray-900">
+              Log in
+            </a>
+          </nav>
+        </div>
+
+        {/* For whom content */}
+        <div className={`absolute inset-0 overflow-y-auto transition-transform duration-300 ease-in-out ${mobileScreen === 'forwhom' ? 'translate-x-0' : 'translate-x-full'}`}>
+          <nav className="flex flex-col gap-2 px-2 pt-1 pb-2">
+            {[
+              { key: 'industries', label: 'By industry', items: forWhomDropdown.industries },
+              { key: 'roles', label: 'By role', items: forWhomDropdown.roles },
+            ].map(cat => {
+              const isOpen = openForWhomCat === cat.key
+              return (
+                <div key={cat.key} className="overflow-hidden rounded-2xl bg-white">
+                  <button onClick={() => toggleForWhomCat(cat.key)} className="flex w-full items-center justify-between px-7 py-5 text-lg font-medium" style={{ color: '#008BFF' }}>
+                    {cat.label}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-5 w-5 text-gray-900 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                      <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  {isOpen && (
+                    <div className="mt-1 flex flex-col gap-0.5 px-2 pb-2">
+                      {cat.items.map(item => (
+                        <Link key={item.label} to={item.to} onClick={() => setMobileMenuOpen(false)} className="block rounded-xl px-5 py-2.5 hover:bg-gray-50">
+                          <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                          <p className="text-xs text-gray-400">{item.desc}</p>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
+              <span>Book a Demo!</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
+            </Link>
+            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="text-center text-sm text-gray-900">
+              Log in
+            </a>
+          </nav>
+        </div>
+
+      </div>
+
+    </div>
     </>
   )
 }

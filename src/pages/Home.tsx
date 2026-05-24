@@ -94,42 +94,56 @@ export default function Home() {
 
         {/* Left content column */}
         <div
-          className="relative z-10 flex w-full flex-col self-stretch lg:w-[53vw]"
+          className="relative z-10 flex w-full flex-col self-stretch pt-14 lg:w-[53vw] lg:pt-24"
           style={{
-            paddingTop: '6rem',
             paddingBottom: '2rem',
             paddingLeft: 'max(1rem, calc((100vw - 80rem) / 2 + 1.5rem))',
             paddingRight: '1rem',
           }}
         >
           {/* Text block */}
-          <div className="pr-8 mt-12">
+          <div className="pr-8 mt-4 lg:mt-12">
+            {/* Mobile badge */}
+            <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-white lg:hidden">
+              AI support layer for Fintech
+            </p>
+            {/* Desktop badge */}
             <div className="mb-6 hidden lg:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
               An AI support layer tailored for fintech industries
             </div>
 
-            <h1 className="mt-3 flex flex-col text-4xl font-light leading-tight tracking-tight text-white lg:text-6xl">
+            {/* Mobile headline */}
+            <h1 className="mt-3 flex flex-col text-4xl font-medium leading-tight tracking-tight text-center lg:hidden">
+              <span className="text-white/50">Instant support.</span>
+              <span className="text-white">Zero effort.</span>
+            </h1>
+            {/* Desktop headline */}
+            <h1 className="mt-3 hidden flex-col text-6xl font-light leading-tight tracking-tight text-white lg:flex lg:text-left">
               <span><span className="font-semibold">Autonomous</span> Support</span>
               <span><span className="font-semibold">Agent</span> for Fintech</span>
             </h1>
 
-            <p className="mt-8 text-base leading-relaxed text-white max-w-xl">
-              AI support that saves 93% of tickets without human intervention — handling 72% of all message flow and fully closing 49% of cases on its own.
+            <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl">
+              The dispute resolved before the customer hit refresh. The onboarding done before compliance got involved. The answer ready before the ticket was even opened.
             </p>
 
           </div>
 
-          <div className="mt-8 pr-8">
-            {/* Mobile button: simple centered text + arrow, no fill animation, no circle */}
+          <div className="mt-8 pr-8 flex flex-col items-center gap-3 lg:block">
+            {/* Mobile button: pill with circle, not full width */}
             <Link
               to="/contact"
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-white/40 py-3 text-base font-semibold text-white lg:hidden"
+              className="inline-flex items-center gap-5 rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white lg:hidden"
+              style={{ backgroundColor: '#4E6EAB' }}
             >
-              <span>Let's chat</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
+              <span>Book a Demo!</span>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </span>
             </Link>
+            <p className="text-xs text-white/60 lg:hidden">Integrate in as little as 3 days</p>
             {/* Desktop button: full animation */}
             <Link
               to="/contact"
@@ -168,40 +182,32 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile feature blocks - below dashboard image */}
-          <div className="mt-6 pr-4 pb-8 lg:hidden grid grid-cols-1 gap-3">
-            {heroFeatures.slice(0, 2).map((item) => (
-              <div
-                key={item.label}
-                className="flex items-start gap-3 rounded-2xl px-5 py-5"
-                style={{
-                  background: 'rgba(255,255,255,0.12)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255,255,255,0.25)',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-                }}
-              >
-                <div
-                  className="flex-shrink-0 flex items-center justify-center rounded-full"
-                  style={{
-                    width: '40px', height: '40px',
-                    background: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.25)',
-                    color: '#fff',
-                  }}
-                >
-                  {item.icon}
+          {/* Industries ticker — mobile: below dashboard */}
+          <p className="mt-6 text-center text-xs font-semibold tracking-wide text-white/50 lg:hidden">
+            Built exclusively for:
+          </p>
+          <div
+            className="mt-3 overflow-hidden lg:hidden"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
+            }}
+          >
+            <div
+              className="flex items-center gap-10"
+              style={{ width: 'max-content', animation: 'ticker 28s linear infinite' }}
+            >
+              {[...heroIndustries, ...heroIndustries].map((item, i) => (
+                <div key={i} className="flex-shrink-0 flex items-center gap-2">
+                  <div className="[&_svg]:h-5 [&_svg]:w-5" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.icon}</div>
+                  <span className="text-sm font-semibold whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.55)' }}>{item.label}</span>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-white leading-snug">{item.label}</p>
-                  {item.desc && <p className="mt-1 text-xs leading-snug text-white/60">{item.desc}</p>}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          {/* Industries ticker - plain icon + text, fades at edges */}
+
+          {/* Industries ticker — desktop only (mobile version is above dashboard) */}
           <div
             className="mt-24 hidden overflow-hidden lg:block"
             style={{
@@ -398,7 +404,7 @@ export default function Home() {
 
             {/* Text + accordion - first on mobile */}
             <div className="lg:w-[40%] lg:flex-shrink-0">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
+              <p className="text-center lg:text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
               <h2 className="mt-3 text-2xl font-bold leading-snug text-gray-900 lg:mt-5 lg:text-3xl">{featureSections[controlTab].title}</h2>
               <p className="mt-3 text-sm leading-relaxed text-gray-500 lg:mt-5">{featureSections[controlTab].description}</p>
 
@@ -494,10 +500,11 @@ export default function Home() {
               const mobileVisible = filtered.slice(0, MOBILE_LIMIT)
               return (
                 <div className="mt-10">
-                  <div className="mb-4 flex items-center justify-between">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  <div className="mb-4 flex flex-col items-center gap-1 lg:flex-row lg:justify-between">
+                    <p className="text-center lg:text-left text-xs font-semibold uppercase tracking-widest text-gray-400">
                       {active.length > 0 ? `${filtered.length} matching stack${filtered.length !== 1 ? 's' : ''}` : 'Popular automation stacks'}
                     </p>
+
                     {active.length > 0 && (
                       <button onClick={() => setStackFilters({})} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
                         Clear filters ×
@@ -631,7 +638,7 @@ export default function Home() {
                   {/* Before */}
                   <div className="flex items-start bg-gray-900 p-6" style={{ minHeight: '160px' }}>
                     <div className="flex flex-col">
-                      <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 sm:hidden">Before</p>
+                      <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 sm:hidden">Before</p>
                       <div className="mb-3 flex items-center gap-3">
                         <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
                           {b.beforeIcon}
@@ -652,7 +659,7 @@ export default function Home() {
                   {/* After */}
                   <div className="flex items-start bg-white p-6 pt-8 sm:pt-6" style={{ minHeight: '160px' }}>
                     <div className="flex flex-col">
-                      <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] sm:hidden" style={{ color: '#214995' }}>After</p>
+                      <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-[0.2em] sm:hidden" style={{ color: '#214995' }}>After</p>
                       <div className="mb-3 flex items-center gap-3">
                         <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                           {b.afterIcon}
@@ -800,7 +807,7 @@ export default function Home() {
 
             {/* Left - text */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Our story</p>
+              <p className="text-center lg:text-left text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Our story</p>
               <h2 className="mt-4 text-3xl font-bold leading-snug text-white lg:mt-5 lg:text-5xl">
                 Built by people with 10+ years in fintech.
               </h2>

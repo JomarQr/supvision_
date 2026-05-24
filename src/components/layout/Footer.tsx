@@ -5,10 +5,10 @@ const columns = [
     heading: 'Overview',
     links: [
       { label: 'How it works', to: '/' },
-      { label: 'Features', to: '/support-agent' },
+      { label: 'Support Agent', to: '/support-agent' },
       { label: 'Pricing', to: '/pricing' },
       { label: 'Integrations', to: '/integrations' },
-      { label: 'Security', to: '/roles/compliance-risk' },
+      { label: 'Security', to: '/security' },
     ],
   },
   {
@@ -24,32 +24,23 @@ const columns = [
   {
     heading: 'Resources',
     links: [
-      { label: 'Blog', to: '/resources' },
-      { label: 'Documentation', to: '/resources' },
-      { label: 'Webinars', to: '/resources' },
-      { label: 'Case studies', to: '/resources' },
-      { label: 'Security', to: '/roles/compliance-risk' },
-      { label: 'Status', to: '/resources' },
+      { label: 'Security', to: '/security' },
+      { label: 'Analytics', to: '/analytics' },
+      { label: 'Integrations', to: '/integrations' },
+      { label: 'Contact us', to: '/contact' },
     ],
   },
   {
     heading: 'Company',
     links: [
       { label: 'About us', to: '/about' },
-      { label: 'Careers', to: '/about' },
-      { label: 'For partners', to: '/contact' },
-      { label: 'Press room', to: '/about' },
       { label: 'Contact us', to: '/contact' },
     ],
   },
   {
     heading: 'Legal',
     links: [
-      { label: 'Compliance', to: '/roles/compliance-risk' },
       { label: 'Privacy policy', to: '/privacy-policy' },
-      { label: 'Cookie policy', to: '/privacy-policy' },
-      { label: 'Terms of use', to: '/privacy-policy' },
-      { label: 'GDPR', to: '/privacy-policy' },
     ],
   },
 ]
