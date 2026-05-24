@@ -1,38 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const capabilities = [
-  {
-    title: 'Workload Overview',
-    desc: 'Total tickets, open, in-progress, closed, and unresolved — all in one view. See the current state of your support queue at a glance without pulling exports.',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path d="M3 3.5A1.5 1.5 0 0 1 4.5 2h7A1.5 1.5 0 0 1 13 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 12.5v-9ZM4.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-7ZM6 7h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1Zm0 2.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1ZM6 4.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1Z" /></svg>,
-  },
-  {
-    title: 'Bot vs Support Split',
-    desc: 'See exactly what percentage of tickets and message flow the AI handled vs what reached a human agent — broken down by channel, query type, and time period.',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path d="M7.25 10.25a.75.75 0 0 0 1.5 0V4.56l2.22 2.22a.75.75 0 1 0 1.06-1.06l-3.5-3.5a.75.75 0 0 0-1.06 0l-3.5 3.5a.75.75 0 0 0 1.06 1.06l2.22-2.22v5.69Z" /><path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" /></svg>,
-  },
-  {
-    title: 'Team Leaderboard',
-    desc: 'Per-agent metrics: response time, resolution rate, cases handled, and CSAT score. Identify top performers and spot where coaching is needed — without manual reporting.',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path d="M1.75 9.5a.75.75 0 0 0 0 1.5h.59l-.352 2.11A.75.75 0 0 0 2.728 14h10.544a.75.75 0 0 0 .74-.89L13.66 11h.59a.75.75 0 0 0 0-1.5H1.75Zm5.5-5.5a.75.75 0 0 0-1.5 0v2.376L4.604 5.23a.75.75 0 1 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l2.5-2.5a.75.75 0 1 0-1.06-1.06L7.25 6.376V4Z" /></svg>,
-  },
-  {
-    title: 'Activity Heatmap',
-    desc: 'Visualise when tickets arrive by hour and day of week. Know your peak times, optimise your human staffing, and ensure AI coverage never gaps during surges.',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clipRule="evenodd" /></svg>,
-  },
-  {
-    title: 'Conversation Flow Analytics',
-    desc: 'Track every ticket from open to resolved to reopened. See where conversations stall, where escalations happen most, and how long each stage takes.',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z" clipRule="evenodd" /></svg>,
-  },
-  {
-    title: 'Reopen & Escalation Tracking',
-    desc: 'Monitor how often resolved cases come back, which query types escalate most, and where your confidence thresholds need tuning. Close the loop on quality.',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>,
-  },
-]
 
 const howItWorks = [
   {
