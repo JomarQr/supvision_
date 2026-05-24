@@ -90,6 +90,10 @@
     from { transform: translateX(-50%); }
     to   { transform: translateX(0); }
   }
+  @keyframes arc-carousel {
+    from { offset-distance: 0%; }
+    to   { offset-distance: 100%; }
+  }
   @keyframes feature-img-in {
     from {
       opacity: 0;

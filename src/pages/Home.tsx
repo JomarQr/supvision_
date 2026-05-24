@@ -54,7 +54,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section data-nav-dark className="relative flex lg:min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
+      <section data-nav-dark className="relative flex overflow-hidden lg:overflow-visible lg:min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
         {/* Clipping wrapper - shrinks on scroll, clips only bg */}
         <div ref={clipRef} className="absolute inset-0 overflow-hidden">
           <div
@@ -143,7 +143,6 @@ export default function Home() {
                 </svg>
               </span>
             </Link>
-            <p className="text-xs text-white/60 lg:hidden">Integrate in as little as 3 days</p>
             {/* Desktop button: full animation */}
             <Link
               to="/contact"
@@ -162,32 +161,12 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Mobile dashboard preview */}
-          <div className="mt-8 pr-4 lg:hidden">
-            <div
-              className="rounded-2xl p-3"
-              style={{
-                background: 'rgba(255,255,255,0.12)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255,255,255,0.25)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-              }}
-            >
-              <img
-                src="/image 178 (1)-Photoroom 2.png"
-                alt="Dashboard preview"
-                className="w-full rounded-xl"
-              />
-            </div>
-          </div>
-
-          {/* Industries ticker — mobile: below dashboard */}
+          {/* Industries ticker — mobile: above dashboard */}
           <p className="mt-6 text-center text-xs font-semibold tracking-wide text-white/50 lg:hidden">
             Built exclusively for:
           </p>
           <div
-            className="mt-3 overflow-hidden lg:hidden"
+            className="mt-3 -mx-4 overflow-hidden lg:hidden"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
@@ -206,6 +185,25 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Mobile dashboard preview */}
+          <div className="mt-10 mb-[-6rem] relative z-10 lg:hidden">
+            <div
+              className="rounded-2xl p-3"
+              style={{
+                background: 'rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.25)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+              }}
+            >
+              <img
+                src="/image 178 (1)-Photoroom 2.png"
+                alt="Dashboard preview"
+                className="w-full rounded-xl"
+              />
+            </div>
+          </div>
 
           {/* Industries ticker — desktop only (mobile version is above dashboard) */}
           <div
@@ -267,18 +265,70 @@ export default function Home() {
       </section>
 
       {/* Questions + Stat cards */}
-      <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Question */}
-          <h2 className="text-center text-3xl leading-snug text-gray-900 sm:text-4xl font-normal">
-            Is your support team <span className="font-bold">drowning in queries</span> while <span className="font-bold">costs keep climbing?</span>
-          </h2>
+          {/* Question — mobile */}
+          <div className="lg:hidden text-center">
+            <h2 className="text-3xl font-medium leading-tight text-gray-900">
+              One support agent. Every system you already use.
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-gray-500">
+              supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
+            </p>
 
-          {/* Sub-description */}
-          <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
-            Your agents handle hundreds of repetitive queries daily - identity verification checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
-          </p>
+            {/* Integration logos arc carousel — mobile only */}
+            <div className="relative mt-6 -mx-10 overflow-hidden lg:hidden" style={{ height: '280px' }}>
+              {(() => {
+                const logos = [
+                  'zendesk.png', 'slack.png', 'salesforce.png', 'freshdesk.png',
+                  'hubspot.png', 'intecom (1).png', 'whatsapp.png', 'telegram.png',
+                  'notion.png', 'confluence.png', 'jira.png', 'gmail.png',
+                  'outlook.png', 'teams.png', 'twillio.png', 'mambu.png',
+                ]
+                const tilts = [-6, -3, 0, 3, 6, 8, 5, 2, -2, -5, -7, -4, -1, 2, 5, 7]
+                const duration = 28
+                /* smooth cubic bezier: bottom-left → top-right */
+                const motionPath = "path('M -70 268 C 60 255, 160 190, 250 135 C 340 80, 420 35, 510 10')"
+                return logos.map((logo, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      position: 'absolute',
+                      width: '54px',
+                      height: '54px',
+                      borderRadius: '14px',
+                      background: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      offsetPath: motionPath,
+                      offsetRotate: '0deg',
+                      animation: `arc-carousel ${duration}s linear infinite`,
+                      animationDelay: `-${(i / logos.length) * duration}s`,
+                      transform: `rotate(${tilts[i]}deg)`,
+                    } as React.CSSProperties}
+                  >
+                    <img
+                      src={`/logos/${logo}`}
+                      alt={logo.replace('.png', '')}
+                      style={{ width: '68%', height: '68%', objectFit: 'contain' }}
+                    />
+                  </div>
+                ))
+              })()}
+            </div>
+          </div>
+
+          {/* Question — desktop */}
+          <div className="hidden lg:block">
+            <h2 className="text-center text-3xl leading-snug text-gray-900 sm:text-4xl font-normal">
+              Is your support team <span className="font-bold">drowning in queries</span> while <span className="font-bold">costs keep climbing?</span>
+            </h2>
+            <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
+              Your agents handle hundreds of repetitive queries daily - identity verification checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
+            </p>
+          </div>
 
           {/* Cards - 2 per row */}
           <div className="mt-16 grid gap-6 sm:grid-cols-2">
