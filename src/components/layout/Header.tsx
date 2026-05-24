@@ -158,6 +158,7 @@ export default function Header() {
 
   const BANNER_H = 32
   const headerTop = Math.max(0, BANNER_H - scrollTop)
+  const mobileAtTop = scrollTop < 10
 
   return (
     <>
@@ -169,13 +170,7 @@ export default function Header() {
 
     <header className="fixed left-0 right-0 z-50 lg:px-6 lg:pt-3" style={{ top: headerTop + 'px' }}>
       <div
-        className="mx-auto bg-white lg:max-w-7xl lg:rounded-2xl lg:bg-white/[0.12]"
-        style={{
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255,255,255,0.25)',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-        }}
+        className={`mx-auto lg:max-w-7xl lg:rounded-2xl lg:bg-white/[0.12] lg:border lg:border-white/25 lg:shadow-[0_4px_24px_rgba(0,0,0,0.12)] lg:backdrop-blur-md transition-colors duration-300 ${mobileAtTop ? 'bg-transparent' : 'bg-white'}`}
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
@@ -184,8 +179,8 @@ export default function Header() {
 
           {/* Logo */}
           <a href="/" onClick={handleLogoClick} className="flex items-center">
-            {/* Mobile: always dark logo */}
-            <img src="/Component 156 (3).png" alt="Logo" className="h-10 w-auto lg:hidden" />
+            {/* Mobile: white at top, dark when scrolled */}
+            <img src="/Component 156 (3).png" alt="Logo" className="h-10 w-auto lg:hidden transition-all duration-300" style={mobileAtTop ? { filter: 'brightness(0) invert(1)' } : undefined} />
             {/* Desktop: responds to dark background */}
             <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block transition-all duration-300" style={isDark ? { filter: 'brightness(0) invert(1)' } : undefined} />
           </a>
@@ -346,11 +341,11 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 text-gray-900 ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 transition-colors duration-300 ${mobileAtTop ? 'text-white' : 'text-gray-900'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 text-gray-900 ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 transition-colors duration-300 ${mobileAtTop ? 'text-white' : 'text-gray-900'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path fillRule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 8a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 8Zm0 3.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
               </svg>
             )}

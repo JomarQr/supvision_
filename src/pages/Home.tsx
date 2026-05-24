@@ -102,7 +102,7 @@ export default function Home() {
           }}
         >
           {/* Text block */}
-          <div className="pr-8 mt-4 lg:mt-12">
+          <div className="mt-4 lg:pr-8 lg:mt-12">
             {/* Mobile badge */}
             <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-white lg:hidden">
               AI support layer for Fintech
@@ -129,7 +129,7 @@ export default function Home() {
 
           </div>
 
-          <div className="mt-8 pr-8 flex flex-col items-center gap-3 lg:block">
+          <div className="mt-8 lg:pr-8 flex flex-col items-center gap-3 lg:block">
             {/* Mobile button: pill with circle, not full width */}
             <Link
               to="/contact"
