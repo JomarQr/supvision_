@@ -123,7 +123,7 @@ export default function Home() {
               <span><span className="font-semibold">Agent</span> for Fintech</span>
             </h1>
 
-            <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl">
+            <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl mx-auto lg:mx-0">
               The dispute resolved before the customer hit refresh. The onboarding done before compliance got involved. The answer ready before the ticket was even opened.
             </p>
 
