@@ -15,6 +15,28 @@ export default function Home() {
   const [demoAttempted, setDemoAttempted] = useState(false)
   const [demoFormIsValid, setDemoFormIsValid] = useState(false)
   const demoFormRef = useRef<HTMLFormElement>(null)
+  const [chatStep, setChatStep] = useState(0)
+
+  useEffect(() => {
+    // Steps: 1=human msg, 2=reaction appears, 3=bot composes reply1 in input,
+    //        4=bot sends reply1, 5=pause, 6=bot composes reply2 in input,
+    //        7=bot sends reply2, 0=reset
+    const steps: [number, number][] = [
+      [1, 600], [2, 900], [3, 1400],
+      [4, 500], [5, 1800], [6, 1200],
+      [7, 500], [0, 2400],
+    ]
+    let idx = 0
+    let timer: ReturnType<typeof setTimeout>
+    const tick = () => {
+      const [step, delay] = steps[idx]
+      setChatStep(step)
+      idx = (idx + 1) % steps.length
+      timer = setTimeout(tick, delay)
+    }
+    timer = setTimeout(tick, 700)
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -185,25 +207,86 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile dashboard preview */}
-          <div className="mt-10 mb-[-6rem] relative z-10 lg:hidden">
+          {/* Mobile chat preview */}
+          <div className="mt-10 relative z-10 lg:hidden">
             <div
-              className="rounded-2xl p-3"
+              className="rounded-2xl overflow-hidden"
               style={{
-                background: 'rgba(255,255,255,0.12)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255,255,255,0.25)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+                background: 'rgba(255,255,255,0.10)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255,255,255,0.20)',
               }}
             >
-              <img
-                src="/image 178 (1)-Photoroom 2.png"
-                alt="Dashboard preview"
-                className="w-full rounded-xl"
-              />
+              {/* Messages — fixed height, human left / bot right */}
+              <div className="px-4 pt-4 pb-2 space-y-3 overflow-hidden" style={{ height: '196px', fontFamily: "'Roboto', sans-serif" }}>
+
+                {/* Human message — left */}
+                {chatStep >= 1 && (
+                  <div className="flex items-end gap-2" style={{ animation: 'feature-text-in 0.3s ease both' }}>
+                    <img src="/avatar.png" className="w-7 h-7 rounded-full flex-shrink-0 mb-0.5 object-cover" />
+                    <div className="relative">
+                      <div className="rounded-2xl rounded-bl-sm px-3 py-2 text-sm text-white" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '78%' }}>
+                        Check transaction #TXN-8821
+                      </div>
+                      {/* Telegram-style reaction: thumbs up + bot avatar */}
+                      {chatStep >= 2 && (
+                        <div className="absolute -bottom-3.5 left-1 flex items-center rounded-full border border-white/20 overflow-hidden" style={{ background: 'rgba(33,73,149,0.75)', animation: 'feature-text-in 0.25s ease both' }}>
+                          <span className="pl-1.5 pr-1 py-0.5 text-xs leading-none">👍</span>
+                          <img src="/Component 187 (1).png" className="w-5 h-5 rounded-full object-cover" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Bot reply 1 — right */}
+                {chatStep >= 4 && (
+                  <div className="flex items-end justify-end gap-2 mt-4" style={{ animation: 'feature-text-in 0.3s ease both' }}>
+                    <div className="rounded-2xl rounded-br-sm px-3 py-2 text-sm text-white" style={{ background: '#214995', maxWidth: '78%' }}>
+                      Transaction is being processed
+                    </div>
+                    <img src="/Component 187 (1).png" className="w-7 h-7 rounded-full flex-shrink-0 mb-0.5 object-cover" />
+                  </div>
+                )}
+
+                {/* Bot reply 2 — right */}
+                {chatStep >= 7 && (
+                  <div className="flex items-end justify-end gap-2" style={{ animation: 'feature-text-in 0.3s ease both' }}>
+                    <div className="rounded-2xl rounded-br-sm px-3 py-2 text-sm text-white" style={{ background: '#214995', maxWidth: '78%' }}>
+                      Transaction completed successfully <span style={{ color: '#4ade80' }}>✓</span>
+                    </div>
+                    <img src="/Component 187 (1).png" className="w-7 h-7 rounded-full flex-shrink-0 mb-0.5 object-cover" />
+                  </div>
+                )}
+
+              </div>
+
+              {/* Input bar — shows bot composing (typewriter), empty otherwise */}
+              <div className="flex items-center gap-2 px-3 py-3 border-t border-white/10">
+                <img src="/Component 187 (1).png" className="w-7 h-7 rounded-full flex-shrink-0 object-cover" />
+                <div className="flex-1 rounded-xl px-3 py-2 text-sm flex items-center overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)', minHeight: '38px', fontFamily: "'Roboto', sans-serif" }}>
+                  {chatStep === 3 && (
+                    <span key="c1" className="text-white whitespace-nowrap overflow-hidden inline-block" style={{ animation: 'chat-type 1.1s steps(32, end) both', width: '0', maxWidth: '100%' }}>
+                      Transaction is being processed
+                    </span>
+                  )}
+                  {chatStep === 6 && (
+                    <span key="c2" className="text-white whitespace-nowrap overflow-hidden inline-block" style={{ animation: 'chat-type 1.0s steps(35, end) both', width: '0', maxWidth: '100%' }}>
+                      Transaction completed successfully ✓
+                    </span>
+                  )}
+                </div>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#214995' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-white">
+                    <path d="M2.87 2.298a.75.75 0 0 0-.812 1.021L3.39 6.624a1 1 0 0 0 .928.626H8.25a.75.75 0 0 1 0 1.5H4.318a1 1 0 0 0-.927.626l-1.333 3.305a.75.75 0 0 0 .811 1.022l11-4.25a.75.75 0 0 0 0-1.398l-11-4.253Z" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
+          {/* Spacer so lower section doesn't overlap chat card */}
+          <div className="pb-8 lg:hidden" />
 
           {/* Industries ticker — desktop only (mobile version is above dashboard) */}
           <div
