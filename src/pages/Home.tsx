@@ -2,15 +2,16 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import HeroChatPreview from '../components/home/HeroChatPreview'
+import HeroDashboard from '../components/home/HeroDashboard'
 import { LANGUAGES, LANG_SLOT, LOG_SCENARIOS } from '../components/home/solutionShowcaseData'
 
 type EscStatus = 'below' | 'routing' | 'resolved'
-const ESC_SCENARIOS: Array<{ user: string; bot: string; confidence: number; status: EscStatus }> = [
-  { user: 'Card charged twice — need a dispute', bot: 'Reviewing transaction history…',  confidence: 31, status: 'below'    },
-  { user: "What's my account balance?",          bot: 'Fetching your balance instantly…', confidence: 87, status: 'resolved' },
-  { user: 'Suspicious transaction — £2,400',     bot: 'Analysing transaction patterns…', confidence: 22, status: 'routing'  },
-  { user: 'When does my card expire?',            bot: 'Your card expires 09/2027',       confidence: 94, status: 'resolved' },
-  { user: 'Limit reduced without notice',         bot: 'Checking account review logs…',   confidence: 35, status: 'below'    },
+const ESC_SCENARIOS: Array<{ user: string; bot: string; user2: string; bot2: string; confidence: number; status: EscStatus }> = [
+  { user: 'Card charged twice — need a dispute', bot: 'I see a duplicate. Can you confirm the amount?', user2: '£89.99 — charged yesterday',               bot2: '@support_team chargeback needed — duplicate £89.99',          confidence: 31, status: 'below'    },
+  { user: "What's my account balance?",          bot: 'Let me pull that up for you.',                   user2: 'My main EUR account please',               bot2: 'Your balance is €2,847.50 ✓',                                 confidence: 87, status: 'resolved' },
+  { user: 'Suspicious transaction — £2,400',     bot: 'Did you authorise this payment?',                user2: "No, I didn't make this",                   bot2: '@support_team suspicious £2,400 txn — customer disputes it',  confidence: 22, status: 'routing'  },
+  { user: 'When does my card expire?',            bot: 'Which card — Visa or Mastercard?',              user2: 'Visa ending in 4821',                      bot2: 'Your card expires 09/2027 ✓',                                 confidence: 94, status: 'resolved' },
+  { user: 'My limit dropped without notice',      bot: 'Let me check your account settings.',           user2: 'From £5,000 to £1,000 overnight',          bot2: '@support_team limit reduced without notice — review needed',  confidence: 35, status: 'below'    },
 ]
 
 const PERSONAS = [
@@ -67,6 +68,7 @@ export default function Home() {
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const featuresPanelRef = useRef<HTMLDivElement>(null)
+  const personaSectionRef = useRef<HTMLElement>(null)
   const [featuresOpen, setFeaturesOpen] = useState(false)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
   const [demoAgreed, setDemoAgreed] = useState(false)
@@ -91,9 +93,9 @@ export default function Home() {
   const [escPhase, setEscPhase] = useState(0)
 
   useEffect(() => {
-    const delays = [400, 1000, 900, 2800]
+    const delays = [500, 1000, 900, 1100, 950, 3400]
     const t = setTimeout(() => {
-      if (escPhase < 3) {
+      if (escPhase < 5) {
         setEscPhase(p => p + 1)
       } else {
         setEscPhase(0)
@@ -233,18 +235,8 @@ export default function Home() {
             transform: 'translateY(-50%)',
           }}
         >
-          <div
-            ref={dashboardGlassRef}
-            className="rounded-2xl p-3"
-            style={{
-              background: 'rgba(255,255,255,0.12)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.25)',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-            }}
-          >
-            <HeroChatPreview chatStep={chatStepDesktop} variant="desktop" className="w-full" />
+          <div ref={dashboardGlassRef}>
+            <HeroDashboard />
           </div>
         </div>
 
@@ -527,81 +519,98 @@ export default function Home() {
                   <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
                     <p className="text-base font-semibold text-gray-900">Smart escalation &amp; fallback</p>
                     <p className="mt-1 text-xs leading-relaxed text-gray-500">The bot detects uncertainty and routes to a human agent — before the customer even notices.</p>
-                    {(() => {
-                      const sc = ESC_SCENARIOS[escIdx]
-                      const barColor = sc.confidence >= 40 ? '#22c55e' : '#ef4444'
-                      return (
-                        <div className="mt-3 flex flex-col gap-2 flex-1 overflow-hidden">
-                          {/* User bubble */}
-                          {escPhase >= 1 && (
-                            <div className="flex justify-end" style={{ animation: 'log-in 0.3s ease both' }}>
-                              <div className="rounded-2xl rounded-tr-sm bg-[#214995] px-3 py-1.5 max-w-[85%]">
-                                <span className="text-[10px] leading-relaxed text-white">{sc.user}</span>
-                              </div>
-                            </div>
-                          )}
-                          {/* Bot row */}
-                          {escPhase >= 2 && (
-                            <div className="flex items-start gap-1.5" style={{ animation: 'log-in 0.3s ease both' }}>
-                              <div className="mt-0.5 h-4 w-4 flex-shrink-0 rounded-full bg-gray-100 flex items-center justify-center">
-                                <div className="h-1.5 w-1.5 rounded-full bg-[#214995]" />
-                              </div>
-                              <div className="rounded-2xl rounded-tl-sm border border-gray-100 bg-white px-3 py-1.5 shadow-sm">
-                                {escPhase === 2
-                                  ? <span className="flex gap-0.5 items-center" style={{ minWidth: 28 }}>
-                                      <span className="h-1 w-1 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0s' }} />
-                                      <span className="h-1 w-1 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.3s' }} />
-                                      <span className="h-1 w-1 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.6s' }} />
+                    <div className="mt-4 flex-1 rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)' }}>
+                      {(() => {
+                        const sc = ESC_SCENARIOS[escIdx]
+                        const isBelow = sc.confidence < 40
+                        const barColor = isBelow ? '#ef4444' : '#22c55e'
+                        const bot2Parts = sc.bot2.split(/(@support_team)/)
+                        return (
+                          <div className="flex flex-col h-full px-4 pt-4 pb-4 gap-3">
+                            {/* Messages — top-aligned */}
+                            <div className="flex flex-col gap-3 flex-1 overflow-hidden">
+                              {/* User msg 1 */}
+                              {escPhase >= 1 && (
+                                <div className="flex items-start gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
+                                  <img src="/avatar.png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                                  <div className="rounded-2xl rounded-tl-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>
+                                    {sc.user}
+                                  </div>
+                                </div>
+                              )}
+                              {/* Bot msg 1 */}
+                              {escPhase >= 2 && (
+                                <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
+                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '82%' }}>
+                                    {sc.bot}
+                                  </div>
+                                  <img src="/Component 187 (1).png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                                </div>
+                              )}
+                              {/* User msg 2 */}
+                              {escPhase >= 3 && (
+                                <div className="flex items-start gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
+                                  <img src="/avatar.png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                                  <div className="rounded-2xl rounded-tl-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>
+                                    {sc.user2}
+                                  </div>
+                                </div>
+                              )}
+                              {/* Bot msg 2 */}
+                              {escPhase >= 4 && (
+                                <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
+                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '88%' }}>
+                                    {bot2Parts.map((part, i) =>
+                                      part === '@support_team'
+                                        ? <span key={i} className="font-bold" style={{ color: '#FB9A05' }}>@support_team</span>
+                                        : <span key={i}>{part}</span>
+                                    )}
+                                  </div>
+                                  <img src="/Component 187 (1).png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                                </div>
+                              )}
+                              {/* Outcome badge */}
+                              {escPhase >= 5 && (
+                                <div className="flex justify-center mt-1" style={{ animation: 'feature-text-in 0.25s ease both' }}>
+                                  {isBelow ? (
+                                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" style={{ background: 'rgba(251,154,5,0.18)', color: '#FB9A05', border: '1px solid rgba(251,154,5,0.35)' }}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" /><path fillRule="evenodd" d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.239.005.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clipRule="evenodd" /></svg>
+                                      Routed to human agent
                                     </span>
-                                  : <span className="text-[10px] leading-relaxed text-gray-600">{sc.bot}</span>
-                                }
-                              </div>
-                            </div>
-                          )}
-                          {/* Confidence meter */}
-                          {escPhase >= 3 && (
-                            <div className="rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
-                              <div className="flex items-center justify-between">
-                                <span className="text-[9px] font-semibold uppercase tracking-widest text-gray-400">Confidence score</span>
-                                <span className="text-[11px] font-bold tabular-nums" style={{ color: barColor }}>{sc.confidence}%</span>
-                              </div>
-                              <div className="relative mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
-                                <div className="h-full rounded-full transition-all duration-700" style={{ width: `${sc.confidence}%`, backgroundColor: barColor }} />
-                                <div className="absolute inset-y-0 w-px bg-gray-500 opacity-50" style={{ left: '40%' }} />
-                              </div>
-                              <div className="mt-1 flex justify-between">
-                                <span className="text-[8px] text-gray-400">0%</span>
-                                <span className="text-[8px] font-medium text-gray-500">Threshold 40%</span>
-                                <span className="text-[8px] text-gray-400">100%</span>
-                              </div>
-                            </div>
-                          )}
-                          {/* Status badge */}
-                          {escPhase >= 3 && (
-                            <div className="mt-auto">
-                              {sc.status === 'below' && (
-                                <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2" style={{ animation: 'log-in 0.3s ease both' }}>
-                                  <svg className="h-3 w-3 flex-shrink-0" viewBox="0 0 12 12" fill="#f87171"><path d="M6 1.5l4.5 8H1.5L6 1.5Z" /></svg>
-                                  <span className="text-[10px] font-semibold text-red-500">Below confidence threshold</span>
-                                </div>
-                              )}
-                              {sc.status === 'routing' && (
-                                <div className="flex items-center gap-2 rounded-xl border border-orange-100 bg-orange-50 px-3 py-2" style={{ animation: 'log-in 0.3s ease both' }}>
-                                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-orange-400" style={{ animation: 'pulse 0.9s ease-in-out infinite' }} />
-                                  <span className="text-[10px] font-semibold text-orange-600">Routing to specialist…</span>
-                                </div>
-                              )}
-                              {sc.status === 'resolved' && (
-                                <div className="flex items-center gap-2 rounded-xl border border-green-100 bg-green-50 px-3 py-2" style={{ animation: 'log-in 0.3s ease both' }}>
-                                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
-                                  <span className="text-[10px] font-semibold text-green-700">Resolved automatically</span>
+                                  ) : (
+                                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" style={{ background: 'rgba(34,197,94,0.18)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.35)' }}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                                      Resolved automatically
+                                    </span>
+                                  )}
                                 </div>
                               )}
                             </div>
-                          )}
-                        </div>
-                      )
-                    })()}
+                            {/* Input row */}
+                            <div className="flex items-center gap-2.5 rounded-xl px-3.5 py-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.08)', minHeight: 42 }}>
+                              <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                              <span className="flex-1 text-sm text-white/35">Ask anything…</span>
+                              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white"><path d="M2.87 2.298a.75.75 0 0 0-.812 1.021L3.39 6.624a1 1 0 0 0 .928.626H8.25a.75.75 0 0 1 0 1.5H4.318a1 1 0 0 0-.927.626l-1.333 3.305a.75.75 0 0 0 .811 1.022l11-4.25a.75.75 0 0 0 0-1.398l-11-4.253Z" /></svg>
+                              </div>
+                            </div>
+                            {/* Certainty bar */}
+                            <div className="flex-shrink-0">
+                              <div className="flex items-center justify-between mb-1.5">
+                                <span className="text-xs font-medium text-white/50">Certainty</span>
+                                <span className="text-xs font-semibold" style={{ color: barColor }}>{escPhase >= 2 ? `${sc.confidence}%` : '—'}</span>
+                              </div>
+                              <div className="h-2 w-full rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.12)' }}>
+                                <div
+                                  className="h-full rounded-full transition-all duration-700"
+                                  style={{ width: escPhase >= 2 ? `${sc.confidence}%` : '0%', backgroundColor: barColor }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })()}
+                    </div>
                   </div>
 
                   {/* One layer — single-ring orbital, square */}
@@ -1035,13 +1044,70 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Industries — Built for your industry */}
+      <section className="py-12 px-4 lg:py-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 text-center lg:mb-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Industries</p>
+            <h2 className="mt-3 text-4xl lg:text-5xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              Built for <span style={{ fontWeight: 700 }}>your industry</span>
+            </h2>
+            <p className="mt-2 text-sm text-gray-500">Click to explore integrations for your sector.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-4">
+            {([
+              { label: 'Payments & Processing',      img: '/for_whom/Payments & Processing.png' },
+              { label: 'Neobanks & Digital Banking', img: '/for_whom/Neobanks & Digital Banking.png' },
+              { label: 'InsurTech',                   img: '/for_whom/InsurTech.png' },
+              { label: 'Lending & Credit',            img: '/for_whom/Lending & Credit.png' },
+              { label: 'Web3',                         img: '/for_whom/Web3.png' },
+            ] as const).map((ind) => {
+              const pIdx = PERSONAS.findIndex(p => p.label === ind.label)
+              const isActive = activePersona === pIdx
+              return (
+                <button
+                  key={ind.label}
+                  type="button"
+                  className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none"
+                  style={{ boxShadow: isActive ? '0 0 0 3px #214995' : 'none' }}
+                  onClick={() => {
+                    setActivePersona(pIdx === -1 ? null : pIdx)
+                    personaSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }}
+                >
+                  <img
+                    src={ind.img}
+                    alt={ind.label}
+                    className="absolute inset-0 h-full w-full object-cover object-center"
+                    onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 right-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)', height: '50%' }}
+                  />
+                  {isActive && (
+                    <div className="absolute top-3 right-3 flex h-6 w-6 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-white">
+                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-sm font-bold leading-snug text-white lg:text-base">{ind.label}</p>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Built for fintech — persona selector */}
-      <section className="px-4 py-4 lg:px-6 lg:py-10">
-        <div
-          className="mx-auto flex w-full max-w-2xl flex-col items-start gap-6 rounded-[1.5rem] px-6 py-8 lg:max-w-none lg:items-center lg:gap-8 lg:rounded-[2rem] lg:px-12 lg:py-12"
-          style={{ backgroundColor: '#F3EFE9' }}
-        >
-          <div className="w-full lg:text-center">
+      <section ref={personaSectionRef} className="py-6 lg:py-10" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="rounded-[2rem] px-6 py-10 lg:px-12 lg:py-14" style={{ backgroundColor: '#F3EFE9' }}>
+          {/* Header */}
+          <div className="mb-8 lg:mb-10 lg:text-center">
             <h2
               className="text-3xl leading-snug text-gray-900 lg:text-4xl"
               style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
@@ -1051,7 +1117,8 @@ export default function Home() {
             <p className="mt-2 text-sm text-gray-500 lg:text-base">Select one to see supVision in action.</p>
           </div>
 
-          <div className="flex w-full flex-wrap justify-center gap-2">
+          {/* Filter tabs */}
+          <div className="mb-8 flex w-full flex-wrap gap-2 lg:justify-center">
             <button
               type="button"
               onClick={() => setActivePersona(null)}
@@ -1089,8 +1156,8 @@ export default function Home() {
             const renderStackCard = (stack: (typeof automationStacks)[number]) => (
               <div
                 key={stack.label}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 lg:gap-3 lg:px-4 lg:py-4"
-                style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)' }}
+                className="flex items-center gap-3 rounded-2xl px-4 py-4"
+                style={{ background: '#fff', border: '1px solid #e6ddd2' }}
               >
                 <div className="flex flex-shrink-0 items-center -space-x-2">
                   {stack.logos.map((logo, idx) => (
@@ -1098,7 +1165,7 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold leading-snug text-gray-900 lg:text-sm">{stack.label}</p>
+                  <p className="text-sm font-bold leading-snug text-gray-900">{stack.label}</p>
                   <p className="text-xs leading-snug text-gray-400">{stack.desc}</p>
                 </div>
               </div>
@@ -1111,7 +1178,8 @@ export default function Home() {
 
             return (
               <>
-                <div className="flex w-full flex-col gap-2.5 lg:hidden">
+                {/* Mobile: single column */}
+                <div className="flex flex-col gap-2.5 lg:hidden">
                   <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Suggested integrations</p>
                   <div className="flex flex-col gap-2.5">
                     {mobileVisible.map(stack => renderStackCard(stack))}
@@ -1125,9 +1193,10 @@ export default function Home() {
                   )}
                 </div>
 
-                <div className="hidden w-full flex-col gap-4 lg:flex">
-                  <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400">Suggested integrations</p>
-                  <div className="grid w-full grid-cols-4 gap-4">
+                {/* Desktop: 3 columns */}
+                <div className="hidden flex-col gap-4 lg:flex">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 lg:text-center">Suggested integrations</p>
+                  <div className="grid w-full grid-cols-3 gap-4">
                     {desktopVisible.map(stack => renderStackCard(stack))}
                   </div>
                   {desktopExtra > 0 && (
@@ -1142,7 +1211,8 @@ export default function Home() {
             )
           })()}
 
-          <div className="flex w-full flex-col items-center gap-2 pt-2 lg:pt-4">
+          {/* Footer actions */}
+          <div className="mt-8 flex w-full flex-col items-center gap-2 lg:mt-10">
             <Link
               to="/integrations"
               className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
@@ -1158,57 +1228,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
-
-
-      {/* Industries — Built for your industry */}
-      <section className="py-16 px-4 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-        <div className="mx-auto max-w-7xl">
-          {/* Header */}
-          <div className="mb-10 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Industries</p>
-            <h2 className="mt-3 text-4xl lg:text-5xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-              Built for <span style={{ fontWeight: 700 }}>your industry</span>
-            </h2>
-          </div>
-
-          {/* Cards — 2 cols mobile, 5 cols desktop */}
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-4">
-            {([
-              { label: 'Payments & Processing',      img: '/for_whom/Payments & Processing.png' },
-              { label: 'Neobanks & Digital Banking', img: '/for_whom/Neobanks & Digital Banking.png' },
-              { label: 'InsurTech',                   img: '/for_whom/InsurTech.png' },
-              { label: 'Lending & Credit',            img: '/for_whom/Lending & Credit.png' },
-              { label: 'Web3',                         img: '/for_whom/Web3.png' },
-            ] as const).map((ind) => (
-              <div
-                key={ind.label}
-                className="relative overflow-hidden rounded-[1.25rem] aspect-square"
-              >
-                {/* Photo — fills the square */}
-                <img
-                  src={ind.img}
-                  alt={ind.label}
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                  onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
-                />
-                {/* Gradient vignette at bottom for label readability */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)',
-                    height: '45%',
-                  }}
-                />
-                {/* Label */}
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-sm font-bold leading-snug text-white lg:text-base">{ind.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
+
+
 
       {/* Proof */}
       <section className="py-16" style={{ backgroundColor: '#111' }}>
