@@ -933,7 +933,7 @@ export default function Home() {
           </div>
 
           {/* Mobile — same heading + 4 metric cards as desktop */}
-          <div className="mt-6 lg:hidden pt-8 pb-8">
+          <div className="-mx-6 mt-6 lg:hidden pt-8 pb-8 px-4">
             <div className="mb-8 text-center">
               <h2 className="text-3xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                 Still paying agents to answer the same <span style={{ fontWeight: 700 }}>questions every day?</span>
