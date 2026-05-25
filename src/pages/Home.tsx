@@ -313,7 +313,7 @@ export default function Home() {
   const [, setChatStepMobile] = useState(0)
   const [, setChatStepDesktop] = useState(0)
   const [langItems] = useState<Array<{ id: number; langIdx: number; slot: number }>>(
-    () => Array.from({ length: 11 }, (_, i) => ({ id: i, langIdx: i % LANGUAGES.length, slot: i }))
+    () => Array.from({ length: 9 }, (_, i) => ({ id: i, langIdx: i % LANGUAGES.length, slot: i }))
   )
   const [liftedSlot, setLiftedSlot] = useState(1)
   const [activePersona, setActivePersona] = useState<number | null>(null)
@@ -402,7 +402,7 @@ export default function Home() {
 
   useEffect(() => {
     const t = setInterval(() => {
-      setLiftedSlot(s => (s >= 10 ? 1 : s + 1))
+      setLiftedSlot(s => (s >= 8 ? 1 : s + 1))
     }, 600)
     return () => clearInterval(t)
   }, [])
@@ -961,8 +961,8 @@ export default function Home() {
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
                 <p className="text-base font-semibold text-gray-900">100+ Languages</p>
                 <p className="mt-1 text-sm leading-relaxed text-gray-500">supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost.</p>
-                <div className="mt-4 rounded-xl relative overflow-hidden bg-gray-50 border border-gray-100" style={{ height: '260px' }}>
-                  {langItems.map(({ id, langIdx, slot }) => {
+                <div className="mt-4 rounded-xl relative overflow-hidden bg-gray-50 border border-gray-100" style={{ height: '220px', maskImage: 'linear-gradient(to top, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 70%, transparent 100%)' }}>
+                  {langItems.slice(0, 7).map(({ id, langIdx, slot }) => {
                     const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
                     const flagSize = Math.round(s.h * 0.64)
                     const fontSize = `${(s.h * 0.54) / 16}rem`
