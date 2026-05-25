@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import IndustryRoleMobileHero from '../../components/forWhom/IndustryRoleMobileHero'
 
 function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
   const [err, setErr] = useState(false)
@@ -45,12 +46,26 @@ export interface RolePageData {
 
 export default function RolePage({ data }: { data: RolePageData }) {
   const hasImage = !!data.heroImage
+  const heroPills = data.metrics.slice(0, 3).map((m) => m.value)
+  const accordionItems = data.metrics.map((m) => ({ q: m.value, a: m.label }))
 
   return (
-    <div className="pt-24">
+    <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
 
-      {/* Hero */}
-      <section className="px-4 pt-8 pb-4 sm:px-6 lg:px-8">
+      <section className="px-4 pb-2 pt-4 sm:px-6 lg:hidden">
+        <IndustryRoleMobileHero
+          title={data.title}
+          subtitle={data.subtitle}
+          pills={heroPills}
+          heroImage={data.heroImage}
+          challenges={data.challenges}
+          accordionItems={accordionItems}
+          darkBadge="By role"
+        />
+      </section>
+
+      {/* Hero — desktop */}
+      <section className="hidden px-4 pt-8 pb-4 sm:px-6 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           <div
             className="overflow-hidden rounded-3xl border"
@@ -60,16 +75,6 @@ export default function RolePage({ data }: { data: RolePageData }) {
 
               {/* Left - text */}
               <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
-                <p
-                  className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest"
-                  style={{ color: '#214995' }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-                  </svg>
-                  {data.badge}
-                </p>
-
                 <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
                   {data.title}
                 </h1>
@@ -124,8 +129,8 @@ export default function RolePage({ data }: { data: RolePageData }) {
         </div>
       </section>
 
-      {/* Challenges */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      {/* Challenges — desktop */}
+      <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Challenges</p>
@@ -148,7 +153,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
       </section>
 
       {/* Integrations / stacks */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-lg:pt-8">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-8 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Integrations</p>
@@ -274,15 +279,15 @@ export default function RolePage({ data }: { data: RolePageData }) {
             <h2 className="mt-3 text-3xl font-bold text-gray-900">Measurable business impact</h2>
             <p className="mt-3 text-base text-gray-500">supVision delivers consistent, quantifiable improvements across support costs, response times, and team efficiency.</p>
           </div>
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4">
             {data.metrics.slice(0, 3).map((m) => (
-              <div key={m.label} className="col-span-2 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
-                <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
+              <div key={m.label} className="col-span-1 rounded-2xl border border-gray-100 bg-white px-4 py-4 shadow-sm lg:col-span-2 lg:px-5">
+                <p className="text-2xl font-black sm:text-3xl" style={{ color: '#214995' }}>{m.value}</p>
                 <p className="mt-2 text-xs leading-relaxed text-gray-500">{m.label}</p>
               </div>
             ))}
             {data.metrics.slice(3, 5).map((m) => (
-              <div key={m.label} className="col-span-3 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm">
+              <div key={m.label} className="col-span-1 rounded-2xl border border-gray-100 bg-white px-4 py-4 shadow-sm lg:col-span-3 lg:px-5">
                 <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
                 <p className="mt-2 text-xs leading-relaxed text-gray-500">{m.label}</p>
               </div>

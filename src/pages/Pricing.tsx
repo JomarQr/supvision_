@@ -126,21 +126,24 @@ const comparisonRows = [
   { label: 'Support response time', starter: '48h email', growth: '8h chat', enterprise: 'Dedicated' },
 ]
 
+const canelaStyle = { fontFamily: "'Canela', serif", fontWeight: 300 } as const
+
 export default function Pricing() {
   return (
-    <div className="pt-28">
+    <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
 
       {/* Header */}
-      <section className="px-4 pb-16 text-center sm:px-6 lg:px-8">
+      <section className="px-4 pb-10 text-center sm:px-6 lg:pb-16 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <p className="text-2xl font-bold uppercase text-gray-900">Pricing</p>
-          <h1 className="mt-4 text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
-            Simple, predictable pricing.<br />No per-ticket surprises.
+          <h1
+            className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:text-5xl"
+            style={canelaStyle}
+          >
+            Pricing
           </h1>
-          <p className="mt-6 text-base leading-relaxed text-gray-500">
+          <p className="mt-4 text-sm leading-relaxed text-gray-500 lg:mt-6 lg:text-base">
             Flat monthly plans based on your support volume. Your costs stay stable as you scale, no hidden fees, no per-resolution charges.
           </p>
-          <p className="mt-3 text-sm text-gray-400">All prices in EUR, billed monthly. Annual plans available on request.</p>
         </div>
       </section>
 
@@ -152,7 +155,7 @@ export default function Pricing() {
               <div
                 key={plan.name}
                 className={[
-                  'relative flex flex-col h-full rounded-2xl',
+                  'relative flex h-full flex-col rounded-2xl',
                   plan.highlight
                     ? 'border-2 border-[#214995] bg-white shadow-xl'
                     : 'border border-gray-200 bg-white shadow-sm',
@@ -236,8 +239,13 @@ export default function Pricing() {
       {/* Comparison table */}
       <section className="px-4 pb-24 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-5xl pt-16">
-          <div className="text-center mb-12">
-            <p className="text-2xl font-bold uppercase text-gray-900">Compare</p>
+          <div className="mb-12 text-center">
+            <h2
+              className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
+              style={canelaStyle}
+            >
+              Plans &amp; features
+            </h2>
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
@@ -274,21 +282,23 @@ export default function Pricing() {
             backgroundPosition: 'center',
           }}
         >
-          <h2 className="text-3xl font-bold text-white">Not sure which plan fits?</h2>
+          <h2
+            className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"
+            style={canelaStyle}
+          >
+            Not sure which plan fits?
+          </h2>
           <p className="mt-4 text-base text-blue-200">
-            Talk to us. We'll recommend the right plan based on your ticket volume, geography, and compliance requirements.
+            Talk to us. We&apos;ll recommend the right plan based on your ticket volume, geography, and compliance requirements.
           </p>
           <Link
             to="/contact"
-            className="group relative mt-8 inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20"
           >
-            <span className="absolute right-[6px] top-1/2 h-9 w-9 -translate-y-1/2 rounded-full bg-white transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-            <span className="relative z-10 transition-colors duration-300 group-hover:text-gray-900">Talk to sales</span>
-            <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </span>
+            <span>Talk to sales</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+            </svg>
           </Link>
         </div>
       </section>

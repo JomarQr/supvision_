@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import FeatureMobileShowcase from '../../components/features/FeatureMobileShowcase'
 
 export interface FeaturePoint {
   icon: React.ReactNode
@@ -26,40 +27,142 @@ export interface FeaturePageData {
   ctaDesc: string
 }
 
-function FAQItem({ item }: { item: { q: string; a: string } }) {
-  const [open, setOpen] = useState(false)
+const sharedFaqItems = [
+  {
+    q: 'What types of support queries can supVision handle?',
+    a: 'supVision is built for the full spectrum of fintech support: identity verification questions, transaction disputes, payment failures, account onboarding, card and limit queries, and regulatory information requests. If it\'s a repeatable support case in a financial services context, supVision can resolve it autonomously.',
+  },
+  {
+    q: 'How long does it take to go live?',
+    a: 'Most teams are live within 3–5 business days. supVision connects to your existing helpdesk, CRM, and identity verification providers - no platform migration required. You configure escalation rules, set confidence thresholds, and go. There is no 6-month implementation project.',
+  },
+  {
+    q: 'What happens when supVision cannot resolve an issue?',
+    a: 'supVision escalates to a human agent with full context, the conversation history, the decision trace, and the reason for escalation. Your team never starts from zero. You control the confidence thresholds that trigger escalation, and every handoff is logged for audit.',
+  },
+  {
+    q: 'Is supVision compliant with GDPR and PCI DSS?',
+    a: 'Yes. GDPR and PCI DSS compliance is built into the product, not added on top. supVision never stores raw card data, supports right-to-erasure requests, and produces a full audit trail for every automated decision. All infrastructure is SOC 2-aligned with end-to-end encryption in transit and at rest.',
+  },
+  {
+    q: 'Can supVision work with our existing tools?',
+    a: 'supVision integrates with the tools your team already uses - Zendesk, Intercom, Salesforce, Freshdesk, and custom CRMs. It also connects to your identity provider and knowledge base to resolve queries with real data and your own internal policies, not generic responses.',
+  },
+]
+
+function FeatureFAQItem({
+  item,
+  isOpen,
+  onToggle,
+}: {
+  item: { q: string; a: string }
+  isOpen: boolean
+  onToggle: () => void
+}) {
   const bodyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const el = bodyRef.current
     if (!el) return
-    el.style.maxHeight = open ? el.scrollHeight + 'px' : '0px'
-    el.style.opacity = open ? '1' : '0'
-  }, [open])
+    if (isOpen) {
+      el.style.maxHeight = el.scrollHeight + 'px'
+      el.style.opacity = '1'
+    } else {
+      el.style.maxHeight = '0px'
+      el.style.opacity = '0'
+    }
+  }, [isOpen])
 
   return (
-    <div>
-      <button onClick={() => setOpen(o => !o)} className="flex w-full items-center justify-between gap-8 py-7 text-left">
-        <span className="text-lg font-semibold text-gray-900">{item.q}</span>
-        <span className={['flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white transition-transform duration-300', open ? 'rotate-45' : ''].join(' ')}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5 text-gray-500">
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white lg:rounded-none lg:border-0 lg:bg-transparent">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left lg:px-0 lg:py-7"
+      >
+        <span className="text-base font-semibold text-gray-900 lg:text-lg">{item.q}</span>
+        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white lg:border-gray-200">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`h-4 w-4 text-gray-900 transition-transform duration-300 lg:hidden ${isOpen ? 'rotate-180' : ''}`}
+          >
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            className={`hidden h-5 w-5 text-gray-500 transition-transform duration-300 lg:block ${isOpen ? 'rotate-45' : ''}`}
+          >
             <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
           </svg>
         </span>
       </button>
-      <div ref={bodyRef} style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}>
-        <p className="pb-7 text-base leading-relaxed text-gray-500 max-w-3xl">{item.a}</p>
+      <div
+        ref={bodyRef}
+        className="px-5 lg:px-0"
+        style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
+      >
+        <p className="pb-5 text-sm leading-relaxed text-gray-500 lg:pb-7 lg:text-base lg:max-w-3xl">{item.a}</p>
       </div>
     </div>
   )
 }
 
+function FeatureFAQ({ mobileItems, desktopItems }: { mobileItems: typeof sharedFaqItems; desktopItems: { q: string; a: string }[] }) {
+  const [open, setOpen] = useState<number | null>(null)
+  const items = desktopItems.length > 0 ? desktopItems : mobileItems
+
+  return (
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:bg-white lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-7xl px-2 lg:px-6">
+        <div className="mb-8 text-center">
+          <h2
+            className="leading-tight lg:hidden"
+            style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+          >
+            <span className="text-gray-900">Frequently asked questions</span>
+          </h2>
+          <p className="hidden text-2xl font-bold uppercase text-gray-900 lg:block">FAQ</p>
+        </div>
+        <div className="mt-6 flex flex-col gap-3 lg:hidden">
+          {mobileItems.map((item, i) => (
+            <FeatureFAQItem
+              key={item.q}
+              item={item}
+              isOpen={open === i}
+              onToggle={() => setOpen(open === i ? null : i)}
+            />
+          ))}
+        </div>
+        <div className="mt-12 hidden divide-y divide-gray-200 lg:block">
+          {items.map((item, i) => (
+            <FeatureFAQItem
+              key={item.q}
+              item={item}
+              isOpen={open === i}
+              onToggle={() => setOpen(open === i ? null : i)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq: { q: string; a: string }[] }) {
   return (
-    <div className="pt-24">
+    <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
+      <FeatureMobileShowcase data={data} />
 
-      {/* Feature points */}
-      <section className="pt-8 pb-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      {/* Desktop hero + capabilities */}
+      <section className="hidden pb-24 pt-8 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           {data.coreImage ? (
             <div className="mb-12 overflow-hidden rounded-3xl border bg-white" style={{ borderColor: 'rgba(33,73,149,0.15)' }}>
@@ -103,7 +206,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
                     </Link>
                   </div>
                 </div>
-                <div className="relative hidden lg:block" style={{ aspectRatio: '1/1' }}>
+                <div className="relative" style={{ aspectRatio: '1/1' }}>
                   <img
                     src={data.coreImage}
                     alt={data.title}
@@ -156,8 +259,8 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      {/* How it works — desktop */}
+      <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">How it works</p>
@@ -177,32 +280,32 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
         </div>
       </section>
 
-      {/* FAQ */}
-      {faq.length > 0 && (
-        <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="mb-8 text-center">
-              <p className="text-2xl font-bold uppercase text-gray-900">FAQ</p>
-            </div>
-            <div className="mt-12 divide-y divide-gray-200">
-              {faq.map((item, i) => <FAQItem key={i} item={item} />)}
-            </div>
-          </div>
-        </section>
-      )}
+      <FeatureFAQ mobileItems={sharedFaqItems} desktopItems={faq.length > 0 ? faq : sharedFaqItems} />
 
       {/* CTA */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
         <div
-          className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
-          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          className="mx-auto max-w-4xl rounded-2xl px-6 py-12 text-center sm:px-8 sm:py-16"
+          style={{
+            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
         >
-          <h2 className="text-3xl font-bold text-white">{data.ctaTitle}</h2>
-          <p className="mt-4 text-base text-blue-200">{data.ctaDesc}</p>
+          <h2
+            className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"
+            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          >
+            {data.ctaTitle}
+          </h2>
+          <p className="mt-4 text-sm text-blue-200 sm:text-base">{data.ctaDesc}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100">
-              Book a demo
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900"
+            >
+              <span>Book a demo</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0" style={{ color: '#214995' }}>
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
@@ -212,7 +315,6 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
           </div>
         </div>
       </section>
-
     </div>
   )
 }

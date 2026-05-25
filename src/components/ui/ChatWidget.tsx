@@ -49,11 +49,11 @@ export default function ChatWidget() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
+      className="fixed bottom-6 left-6 z-50 flex flex-col items-start gap-3"
       onMouseLeave={() => setOpen(false)}
     >
       {/* Contact buttons - раскрываются вверх */}
-      <div className="flex flex-col items-end gap-2">
+      <div className="flex flex-col items-start gap-2">
         {contacts.map((c, i) => (
           <a
             key={c.label}

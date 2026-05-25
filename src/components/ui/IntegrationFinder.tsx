@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 export interface Integration {
   name: string
@@ -214,35 +214,69 @@ export const allIntegrations: Integration[] = [
 
 export const integrationCategories = ['All', 'Helpdesks', 'Messaging', 'KYC providers', 'Knowledge base', 'CRM', 'Collaboration', 'Reporting']
 
-const VISIBLE_LIMIT = 11
+const HASH_TO_CATEGORY: Record<string, string> = {
+  helpdesks: 'Helpdesks',
+  messaging: 'Messaging',
+  knowledge: 'Knowledge base',
+  kyc: 'KYC providers',
+  collaboration: 'Collaboration',
+  crm: 'CRM',
+  reporting: 'Reporting',
+}
+
+const MOBILE_VISIBLE_LIMIT = 5
+const DESKTOP_VISIBLE_LIMIT = 11
+
+const MOBILE_DEFAULT_INTEGRATIONS = ['Telegram', 'Gmail', 'Mail / SMTP', 'Outlook', 'Excel / Sheets']
 
 export default function IntegrationFinder() {
+  const { hash } = useLocation()
   const [active, setActive] = useState('All')
   const [selected, setSelected] = useState<Integration | null>(null)
   const [showAll, setShowAll] = useState(false)
   const [kycHovered, setKycHovered] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    const key = hash.replace('#', '').toLowerCase()
+    if (key && HASH_TO_CATEGORY[key]) {
+      setActive(HASH_TO_CATEGORY[key])
+      setShowAll(false)
+    }
+  }, [hash])
 
   const filtered = active === 'All' ? allIntegrations : allIntegrations.filter(i => i.category === active)
+  const visibleLimit = isMobile ? MOBILE_VISIBLE_LIMIT : DESKTOP_VISIBLE_LIMIT
   const showLimit = active === 'All' && !showAll
-  const visible = showLimit ? filtered.slice(0, VISIBLE_LIMIT) : filtered
-  const hidden = showLimit ? filtered.length - VISIBLE_LIMIT : 0
+  const mobileDefaultList = allIntegrations.filter(i => MOBILE_DEFAULT_INTEGRATIONS.includes(i.name))
+  const baseList = showLimit && isMobile ? mobileDefaultList : filtered
+  const visible = showLimit ? baseList.slice(0, visibleLimit) : filtered
+  const hidden = showLimit ? filtered.length - visible.length : 0
+  const mobileTwoColumn = isMobile
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="px-4 pb-16 pt-4 sm:px-6 lg:px-8 lg:py-24 lg:pt-8" style={{ backgroundColor: '#faf8f5' }}>
+      <div className="mx-auto w-full max-w-4xl lg:max-w-7xl">
 
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
-            Find your{' '}
-            <span className="rounded-xl px-3 py-1" style={{ backgroundColor: 'rgba(33,73,149,0.12)', color: '#214995' }}>
-              integration
-            </span>{' '}
-            in seconds
+        <div className="mb-8 text-center lg:mb-12">
+          <h2
+            className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:text-5xl"
+            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          >
+            Find your integration in seconds
           </h2>
-          <p className="mt-4 text-base text-gray-500">supVision connects to your existing stack. No migration required.</p>
+          <p className="mt-4 text-sm text-gray-500 lg:text-base">supVision connects to your existing stack. No migration required.</p>
         </div>
 
-        <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
+        <div className="mb-8 flex flex-wrap items-center justify-start gap-2 lg:mb-10 lg:justify-center">
           {integrationCategories.map(cat => {
             if (cat === 'KYC providers') {
               return (
@@ -283,65 +317,123 @@ export default function IntegrationFinder() {
           })}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div
+          className={[
+            'grid gap-3 sm:gap-4 lg:grid-cols-4',
+            mobileTwoColumn ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2',
+          ].join(' ')}
+        >
           {visible.map(item => (
-            <button
+            <div
               key={item.name}
-              onClick={() => !item.comingSoon && setSelected(item)}
-              className={['group relative flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm text-left transition-shadow overflow-hidden', item.comingSoon ? 'cursor-default' : 'hover:shadow-md hover:border-gray-300'].join(' ')}
+              role={!item.comingSoon ? 'button' : undefined}
+              tabIndex={!item.comingSoon ? 0 : undefined}
+              onClick={() => {
+                if (!item.comingSoon && !isMobile) setSelected(item)
+              }}
+              onKeyDown={(e) => {
+                if (!item.comingSoon && !isMobile && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault()
+                  setSelected(item)
+                }
+              }}
+              className={[
+                'group relative flex h-full flex-col rounded-2xl border border-gray-200 bg-white shadow-sm text-left',
+                mobileTwoColumn ? 'gap-2.5 p-3' : 'gap-4 p-5 sm:p-6',
+                item.comingSoon ? '' : 'lg:cursor-pointer lg:hover:shadow-md lg:hover:border-gray-300',
+              ].join(' ')}
             >
-              <div className="flex items-center gap-3">
+              <div className={mobileTwoColumn ? 'flex flex-col gap-2' : 'flex items-center gap-3'}>
                 <img
                   src={item.logo}
                   alt={item.name}
-                  className="h-10 w-10 flex-shrink-0 rounded-xl object-contain"
+                  className={[
+                    'flex-shrink-0 rounded-xl object-contain',
+                    mobileTwoColumn ? 'h-9 w-9' : 'h-11 w-11 lg:h-10 lg:w-10',
+                  ].join(' ')}
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                 />
-                <div>
-                  <p className="text-sm font-bold text-gray-900">{item.name}</p>
-                  <p className="text-xs text-gray-400">{item.tagline}</p>
+                <div className="min-w-0">
+                  <p className={mobileTwoColumn ? 'text-sm font-bold leading-tight text-gray-900' : 'text-base font-bold text-gray-900 lg:text-sm'}>
+                    {item.name}
+                  </p>
+                  <p
+                    className={[
+                      'leading-snug text-gray-500',
+                      mobileTwoColumn ? 'mt-0.5 text-[11px] line-clamp-2' : 'text-sm lg:text-xs lg:text-gray-400',
+                    ].join(' ')}
+                  >
+                    {item.tagline}
+                  </p>
                 </div>
               </div>
               {item.comingSoon ? (
-                <p className="text-xs text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 font-semibold">Coming soon</p>
+                <p className="text-sm font-semibold text-gray-400">Coming soon</p>
               ) : (
-                <ul className="w-full space-y-1.5">
+                <ul className={['w-full flex-1', mobileTwoColumn ? 'space-y-1' : 'space-y-2 lg:space-y-1.5'].join(' ')}>
                   {item.functions.slice(0, 3).map(fn => (
-                    <li key={fn} className="flex items-start gap-1.5 text-xs text-gray-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="mt-0.5 h-3 w-3 flex-shrink-0" style={{ color: '#214995' }}>
+                    <li
+                      key={fn}
+                      className={[
+                        'flex items-start gap-1.5 text-gray-600',
+                        mobileTwoColumn ? 'text-[10px] leading-snug' : 'gap-2 text-sm lg:text-xs lg:text-gray-500',
+                      ].join(' ')}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={['mt-0.5 flex-shrink-0', mobileTwoColumn ? 'h-2.5 w-2.5' : 'h-3.5 w-3.5 lg:h-3 lg:w-3'].join(' ')} style={{ color: '#214995' }}>
                         <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
-                      {fn}
+                      <span className={mobileTwoColumn ? 'line-clamp-2' : ''}>{fn}</span>
                     </li>
                   ))}
                 </ul>
               )}
-            </button>
+              {!item.comingSoon && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setSelected(item)
+                  }}
+                  className={[
+                    'inline-flex w-full items-center justify-center gap-1.5 rounded-full font-semibold text-white lg:hidden',
+                    mobileTwoColumn ? 'mt-auto px-2 py-2 text-[11px]' : 'mt-1 gap-2 px-4 py-2.5 text-sm',
+                  ].join(' ')}
+                  style={{ backgroundColor: '#214995' }}
+                >
+                  Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={mobileTwoColumn ? 'h-3 w-3 flex-shrink-0 text-white' : 'h-4 w-4 flex-shrink-0 text-white'}>
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              )}
+            </div>
           ))}
 
           {hidden > 0 && (
             <button
+              type="button"
               onClick={() => setShowAll(true)}
-              className="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-300 bg-white p-5 text-center transition-colors hover:border-gray-400"
+              className={[
+                'flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-300 bg-white p-5 text-center transition-colors hover:border-gray-400',
+                mobileTwoColumn ? 'min-h-[140px]' : '',
+              ].join(' ')}
             >
               <span className="text-2xl font-black text-gray-900">+{hidden}</span>
-              <span className="text-xs font-semibold text-gray-400">more integrations</span>
+              <span className="text-sm font-semibold text-gray-400 lg:text-xs">more integrations</span>
             </button>
           )}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-8 flex justify-center lg:mt-10">
           <Link
             to="/contact"
-            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900"
           >
-            <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[40]" style={{ backgroundColor: '#214995' }} />
-            <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Can't find your tool? Let's chat about a custom integration</span>
-            <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </span>
+            <span className="lg:hidden">Can&apos;t find your tool? Let&apos;s chat</span>
+            <span className="hidden lg:inline">Can&apos;t find your tool? Let&apos;s chat about a custom integration</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0" style={{ color: '#214995' }}>
+              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+            </svg>
           </Link>
         </div>
       </div>

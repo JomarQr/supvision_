@@ -1,6 +1,54 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+const canelaStyle = { fontFamily: "'Canela', serif", fontWeight: 300 } as const
+
+const heroPills = ['Real-time', 'Bot vs human', 'Heatmap', 'Exports']
+
+const heroHighlights = [
+  'Full workload overview: total tickets, open, closed, unresolved — updated in real time',
+  'Bot vs human split: see exactly what AI resolved vs what reached a human',
+  'Team leaderboard, activity heatmap, and per-agent performance drill-down',
+]
+
+const metricShowcase = [
+  {
+    title: 'Ticket saves',
+    desc: '93% of incoming tickets handled by AI — no human agent required.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Message flow',
+    desc: '72% of all message volume processed and responded to by supVision.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Final closures',
+    desc: '49% of cases fully closed by the AI with no human involvement at any step.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Team leaderboard',
+    desc: 'Drill into any agent: response time, resolution rate, CSAT, and cases per day.',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+      </svg>
+    ),
+  },
+]
 
 const howItWorks = [
   {
@@ -25,21 +73,32 @@ const howItWorks = [
   },
 ]
 
+const howItWorksAccordion = howItWorks.map((s) => ({ q: s.title, a: s.desc }))
+
 const metricCards = [
+  { stat: '93%', label: 'Ticket saves', desc: '93% of incoming tickets handled by AI — no human agent required.' },
+  { stat: '72%', label: 'Message flow', desc: '72% of all message volume processed and responded to by supVision.' },
+  { stat: '49%', label: 'Final closures', desc: '49% of cases fully closed by the AI with no human involvement at any step.' },
+]
+
+const dashboardMobileCards = [
   {
-    stat: '93%',
-    label: 'Ticket saves',
-    desc: '93% of incoming tickets handled by AI — no human agent required.',
+    tag: 'Daily Trend',
+    title: 'Ticket saves over time',
+    desc: 'Blue tracks bot activity, green tracks support — spot handoff quality and staffing pressure before they compound.',
+    img: '/analytics%20screenz/ticket%20saves%20daily%20trend%201.png',
   },
   {
-    stat: '72%',
-    label: 'Message flow',
-    desc: '72% of all message volume processed and responded to by supVision.',
+    tag: 'Ownership Mix',
+    title: 'Bot vs human — ticket saves',
+    desc: 'See exactly what the AI resolved versus what reached a human agent.',
+    img: '/analytics%20screenz/ticket%20saves%20daily%20trend%202.png',
   },
   {
-    stat: '49%',
-    label: 'Final closures',
-    desc: '49% of cases fully closed by the AI with no human involvement at any step.',
+    tag: 'Weekly Rhythm',
+    title: 'When your queue is busiest',
+    desc: 'Darker cells mean more activity. Plan human shifts around real demand, not assumptions.',
+    img: '/analytics%20screenz/weekday%20and%20hour%20heatmap.png',
   },
 ]
 
@@ -64,13 +123,9 @@ const faqItems = [
     q: 'How do I use the heatmap to improve staffing?',
     a: 'The Activity Heatmap shows ticket arrival volume by hour and day of week, with a 30-day average. You can identify your true peak windows and cross-reference with your human agent rotas to find gaps or overstaffed periods. Most teams adjust shift patterns within the first week of seeing it.',
   },
-  {
-    q: 'Can managers see their own team only?',
-    a: 'Yes. Role-based access controls let you configure what each manager sees. A support team lead can be scoped to their own agents and queues. An operations director can see the full picture. Access is configured by your admin during onboarding.',
-  },
 ]
 
-function FAQItem({ item }: { item: { q: string; a: string } }) {
+function FeatureAccordionItem({ item }: { item: { q: string; a: string } }) {
   const [open, setOpen] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
 
@@ -87,36 +142,252 @@ function FAQItem({ item }: { item: { q: string; a: string } }) {
   }, [open])
 
   return (
-    <div>
+    <div className="border-t border-gray-900">
       <button
-        onClick={() => setOpen(o => !o)}
-        className="flex w-full items-center justify-between gap-8 py-7 text-left"
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-4 py-5 text-left"
       >
-        <span className="text-lg font-semibold text-gray-900">{item.q}</span>
-        <span className={['flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white transition-transform duration-300', open ? 'rotate-45' : ''].join(' ')}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5 text-gray-500">
-            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-          </svg>
+        <span className="text-lg text-gray-900" style={canelaStyle}>
+          {item.q}
         </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          className={`h-5 w-5 flex-shrink-0 text-gray-900 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+        >
+          <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z" clipRule="evenodd" />
+        </svg>
       </button>
-      <div ref={bodyRef} style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}>
-        <p className="pb-7 text-base leading-relaxed text-gray-500 max-w-3xl">{item.a}</p>
+      <div
+        ref={bodyRef}
+        style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
+      >
+        <p className="pb-5 text-sm leading-relaxed text-gray-600">{item.a}</p>
       </div>
     </div>
   )
 }
 
+function AnalyticsFAQItem({
+  item,
+  isOpen,
+  onToggle,
+}: {
+  item: { q: string; a: string }
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    if (isOpen) {
+      el.style.maxHeight = el.scrollHeight + 'px'
+      el.style.opacity = '1'
+    } else {
+      el.style.maxHeight = '0px'
+      el.style.opacity = '0'
+    }
+  }, [isOpen])
+
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white lg:rounded-none lg:border-0 lg:bg-transparent">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left lg:px-0 lg:py-7"
+      >
+        <span className="text-[15px] font-medium leading-snug text-gray-900 lg:text-lg lg:font-semibold">{item.q}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`h-4 w-4 flex-shrink-0 text-gray-900 transition-transform duration-300 lg:hidden ${isOpen ? 'rotate-180' : ''}`}
+        >
+          <path d="M4 6l4 4 4-4" />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          className={`hidden h-5 w-5 text-gray-500 transition-transform duration-300 lg:block ${isOpen ? 'rotate-45' : ''}`}
+        >
+          <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+        </svg>
+      </button>
+      <div
+        ref={bodyRef}
+        className="px-5 lg:px-0"
+        style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
+      >
+        <p className="pb-5 text-sm leading-relaxed text-gray-500 lg:pb-7 lg:text-base lg:max-w-3xl">{item.a}</p>
+      </div>
+    </div>
+  )
+}
+
+function AnalyticsFAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+
+  return (
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:bg-white lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-4xl px-2 lg:max-w-7xl lg:px-6">
+        <div className="mb-8 text-center lg:mb-12">
+          <h2 className="leading-tight lg:hidden" style={{ ...canelaStyle, fontSize: '2.25rem' }}>
+            <span className="text-gray-900">Frequently asked questions</span>
+          </h2>
+          <p className="hidden text-2xl font-bold uppercase text-gray-900 lg:block">FAQ</p>
+        </div>
+        <div className="mt-6 flex flex-col gap-3 lg:mt-12 lg:gap-0 lg:divide-y lg:divide-gray-200">
+          {faqItems.map((item, i) => (
+            <AnalyticsFAQItem
+              key={item.q}
+              item={item}
+              isOpen={open === i}
+              onToggle={() => setOpen(open === i ? null : i)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function Analytics() {
   return (
-    <div className="pt-24">
+    <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
 
       {/* Hero */}
-      <section className="px-4 pt-8 pb-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white">
-            <div className="grid lg:grid-cols-2">
+      <section className="px-4 pb-12 pt-4 sm:px-6 lg:pb-16 lg:px-8 lg:pt-8">
+        <div className="mx-auto max-w-7xl lg:px-6">
 
-              {/* Left - text */}
+          {/* Mobile */}
+          <div className="mx-auto w-full max-w-4xl text-center lg:hidden">
+            <h1
+              className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
+              style={canelaStyle}
+            >
+              Real-time visibility into every ticket and agent
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gray-500">
+              The Analytics Dashboard shows what AI resolved, what escalated, and how your team performs — updated live, export-ready for regulators.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              {heroPills.map((label) => (
+                <span
+                  key={label}
+                  className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800 shadow-sm sm:text-sm"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+            <div className="mt-8 flex justify-center">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#101827' }}
+              >
+                <span>Let&apos;s chat</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+
+            <div
+              className="mt-10 overflow-hidden rounded-3xl px-5 py-8 text-left sm:px-6"
+              style={{ backgroundColor: '#1A1A1A' }}
+            >
+              <span
+                className="inline-block rounded-full px-4 py-1 text-sm font-medium"
+                style={{ backgroundColor: '#F5F0E8', color: '#1A1A1A' }}
+              >
+                Metrics
+              </span>
+              <h2
+                className="mt-5 text-[1.65rem] leading-snug text-white sm:text-[1.85rem]"
+                style={canelaStyle}
+              >
+                Know what your operation is doing <em className="italic">right now</em>.
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-gray-400">
+                Ticket saves, message flow, closures, and team performance — all in one live dashboard.
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                {metricShowcase.map((card) => (
+                  <div
+                    key={card.title}
+                    className="flex flex-col gap-3 rounded-2xl p-4"
+                    style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  >
+                    <div style={{ color: '#9BB0E8' }}>{card.icon}</div>
+                    <h3 className="text-sm leading-snug text-white sm:text-base" style={canelaStyle}>
+                      {card.title}
+                    </h3>
+                    <p className="text-[11px] leading-snug text-gray-400 sm:text-xs">{card.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-3xl px-5 py-8 text-left sm:px-6" style={{ backgroundColor: '#faf8f5' }}>
+              <span className="inline-block rounded-full border border-gray-900 px-4 py-1 text-sm font-medium text-gray-900">
+                How it works
+              </span>
+              <h2
+                className="mt-5 text-[1.65rem] leading-snug text-gray-900 sm:text-[1.85rem]"
+                style={canelaStyle}
+              >
+                From raw events to <em className="italic">actionable insight</em>.
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-gray-600">
+                Every resolution and escalation feeds the dashboard automatically — no spreadsheets, no manual exports.
+              </p>
+              <div className="mt-6 border-b border-gray-900">
+                {howItWorksAccordion.map((item) => (
+                  <FeatureAccordionItem key={item.q} item={item} />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 text-left">
+              <h2
+                className="text-center text-[1.65rem] leading-snug text-gray-900 sm:text-[1.85rem]"
+                style={canelaStyle}
+              >
+                Inside the dashboard
+              </h2>
+              <p className="mt-3 text-center text-sm leading-relaxed text-gray-500">
+                Every chart is live — built from your actual ticket and conversation data.
+              </p>
+              <div className="mt-6 flex flex-col gap-4">
+                {dashboardMobileCards.map((card) => (
+                  <div key={card.title} className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                    <div className="px-5 pt-5 pb-3">
+                      <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{card.tag}</p>
+                      <h3 className="mt-1 text-base font-bold text-gray-900">{card.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-500">{card.desc}</p>
+                    </div>
+                    <div className="px-4 pb-4">
+                      <img src={card.img} alt={card.title} className="w-full rounded-xl border border-gray-100" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop hero */}
+          <div className="hidden overflow-hidden rounded-3xl border border-gray-100 bg-white lg:block">
+            <div className="grid lg:grid-cols-2">
               <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
                 <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
@@ -124,17 +395,9 @@ export default function Analytics() {
                   </svg>
                   Solutions · Analytics Dashboard
                 </p>
-
-                <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
-                  Analytics Dashboard
-                </h1>
-
+                <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">Analytics Dashboard</h1>
                 <ul className="mt-8 space-y-4">
-                  {[
-                    'Full workload overview: total tickets, open, closed, unresolved — updated in real time',
-                    'Bot vs human split: see exactly what AI resolved vs what reached a human',
-                    'Team leaderboard, activity heatmap, and per-agent performance drill-down',
-                  ].map((h) => (
+                  {heroHighlights.map((h) => (
                     <li key={h} className="flex items-start gap-3">
                       <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(33,73,149,0.12)' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3" style={{ color: '#214995' }}>
@@ -145,7 +408,6 @@ export default function Analytics() {
                     </li>
                   ))}
                 </ul>
-
                 <div className="mt-10">
                   <Link
                     to="/contact"
@@ -161,9 +423,7 @@ export default function Analytics() {
                   </Link>
                 </div>
               </div>
-
-              {/* Right - image */}
-              <div className="relative hidden lg:block" style={{ aspectRatio: '1/1' }}>
+              <div className="relative" style={{ aspectRatio: '1/1' }}>
                 <img
                   src="/analytics.png"
                   alt="Analytics Dashboard"
@@ -171,18 +431,17 @@ export default function Analytics() {
                   style={{ top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 2rem)' }}
                 />
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* Key metrics strip */}
-      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+      {/* Key metrics — desktop */}
+      <section className="hidden px-4 pb-16 sm:px-6 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-4 sm:grid-cols-3">
             {metricCards.map((m) => (
-              <div key={m.stat} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-8 shadow-sm text-center">
+              <div key={m.stat} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm">
                 <span className="text-5xl font-black" style={{ color: '#214995' }}>{m.stat}</span>
                 <span className="mt-2 text-sm font-bold text-gray-900">{m.label}</span>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">{m.desc}</p>
@@ -192,20 +451,26 @@ export default function Analytics() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      {/* How it works — desktop */}
+      <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+          <div className="mb-16 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">How it works</p>
-              <h2 className="mt-3 text-3xl font-bold text-gray-900">From raw event data to<br /><span className="font-black">actionable insight</span> — automatically.</h2>
+              <h2 className="mt-3 text-3xl font-bold text-gray-900">
+                From raw event data to
+                <br />
+                <span className="font-black">actionable insight</span> — automatically.
+              </h2>
             </div>
           </div>
           <div className="divide-y divide-gray-100">
             {howItWorks.map((step) => (
-              <div key={step.step} className="grid lg:grid-cols-[80px_1fr_2fr] items-start gap-6 py-8">
-                <span className="text-5xl font-black leading-none" style={{ color: 'rgba(33,73,149,0.15)' }}>{step.step}</span>
-                <h3 className="text-base font-bold text-gray-900 pt-1">{step.title}</h3>
+              <div key={step.step} className="grid items-start gap-6 py-8 lg:grid-cols-[80px_1fr_2fr]">
+                <span className="text-5xl font-black leading-none" style={{ color: 'rgba(33,73,149,0.15)' }}>
+                  {step.step}
+                </span>
+                <h3 className="pt-1 text-base font-bold text-gray-900">{step.title}</h3>
                 <p className="text-sm leading-relaxed text-gray-500">{step.desc}</p>
               </div>
             ))}
@@ -213,108 +478,106 @@ export default function Analytics() {
         </div>
       </section>
 
-      {/* Dashboard screenshots */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      {/* Dashboard screenshots — desktop */}
+      <section className="hidden px-4 pb-24 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
             <p className="text-2xl font-bold uppercase text-gray-900">Inside the dashboard</p>
             <p className="mt-3 text-base text-gray-500">Every chart you see below is live — built from your actual ticket and conversation data.</p>
           </div>
-
           <div className="flex flex-col gap-6">
-
-            {/* Row 1: Ticket saves trend + donut */}
             <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
-              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
                 <div className="px-8 pt-8 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
                   <h3 className="mt-1 text-xl font-black text-gray-900">Ticket saves over time</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Blue tracks bot activity, green tracks support. The bot handles the vast majority of ticket saves every day. Spikes in the green line reveal where human agents stepped in — spot handoff quality issues and staffing pressure before they compound.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                    Blue tracks bot activity, green tracks support. The bot handles the vast majority of ticket saves every day.
+                  </p>
                 </div>
-                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="mt-auto px-6 pb-6">
+                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full rounded-2xl border border-gray-100" />
+                </div>
               </div>
-              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
                 <div className="px-8 pt-8 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Ownership Mix</p>
                   <h3 className="mt-1 text-xl font-black text-gray-900">Bot vs human — ticket saves</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Bot handles <strong>90%</strong> of all ticket saves (35,526). Support steps in for the remaining 10%. Out of 7,085 unique tickets, 3,704 were fully resolved by human agents.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                    Bot handles <strong>90%</strong> of all ticket saves. Support steps in for the remaining 10%.
+                  </p>
                 </div>
-                <div className="px-6 pb-6 mt-auto"><img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="mt-auto px-6 pb-6">
+                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full rounded-2xl border border-gray-100" />
+                </div>
               </div>
             </div>
-
-            {/* Row 2: 3 cards */}
             <div className="grid gap-6 lg:grid-cols-3">
-              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
                 <div className="px-6 pt-7 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
                   <h3 className="mt-1 text-base font-black text-gray-900">Daily workload split</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Ticket saves (blue), final transitions (red), and messages (amber) on one chart — spot days where volume or escalations spiked without switching views.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Ticket saves, final transitions, and messages on one chart.</p>
                 </div>
-                <div className="px-5 pb-5 mt-auto"><img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="mt-auto px-5 pb-5">
+                  <img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" />
+                </div>
               </div>
-              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
                 <div className="px-6 pt-7 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Weekly Rhythm</p>
                   <h3 className="mt-1 text-base font-black text-gray-900">When your queue is busiest</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Clear Mon–Fri 08–16 peak. Plan human shifts around real demand, not assumptions.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Plan shifts around real demand.</p>
                 </div>
-                <div className="px-5 pb-5 mt-auto"><img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="mt-auto px-5 pb-5">
+                  <img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" />
+                </div>
               </div>
-              <div className="flex flex-col rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
                 <div className="px-6 pt-7 pb-4">
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Hourly Concentration</p>
                   <h3 className="mt-1 text-base font-black text-gray-900">Per-agent activity by hour</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Messages by hour in local timezone. Two peaks: morning 07–08h and evening 19–20h. Isolate shift starts and queue bursts per agent.</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Messages by hour in local timezone — isolate queue bursts per agent.</p>
                 </div>
-                <div className="px-5 pb-5 mt-auto"><img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" /></div>
+                <div className="mt-auto px-5 pb-5">
+                  <img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" />
+                </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-8 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">FAQ</p>
-          </div>
-          <div className="mt-12 divide-y divide-gray-200">
-            {faqItems.map((item, i) => (
-              <FAQItem key={i} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <AnalyticsFAQ />
 
       {/* CTA */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="px-4 pb-16 sm:px-6 lg:pb-24 lg:px-8">
         <div
-          className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
+          className="mx-auto max-w-4xl rounded-2xl px-6 py-12 text-center sm:px-8 sm:py-16"
           style={{
             backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         >
-          <h2 className="text-3xl font-bold text-white">See your support operation clearly.</h2>
-          <p className="mt-4 text-base text-blue-200">
+          <h2
+            className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"
+            style={canelaStyle}
+          >
+            See your support operation clearly.
+          </h2>
+          <p className="mt-4 text-sm text-blue-200 sm:text-base">
             Real-time visibility into every ticket, every agent, and every AI decision. Live in 3 days.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900"
             >
-              <span className="absolute right-[6px] top-1/2 h-9 w-9 -translate-y-1/2 rounded-full bg-white transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-              <span className="relative z-10 transition-colors duration-300 group-hover:text-gray-900">Book a demo</span>
-              <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <span>Book a demo</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0" style={{ color: '#214995' }}>
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
             <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
@@ -322,7 +585,6 @@ export default function Analytics() {
           </div>
         </div>
       </section>
-
     </div>
   )
 }

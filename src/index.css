@@ -1,3 +1,63 @@
+/* ── Figtree variable font ── */
+@font-face {
+  font-family: 'Figtree';
+  src: url('/Figtree,Outfit/Figtree/Figtree-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/Figtree,Outfit/Figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Canela font family ── */
+@font-face {
+  font-family: 'Canela';
+  src: url('/Canela_Collection/Canela Family/Canela-Thin-Trial.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('/Canela_Collection/Canela Family/Canela-Light-Trial.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('/Canela_Collection/Canela Family/Canela-Regular-Trial.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('/Canela_Collection/Canela Family/Canela-Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('/Canela_Collection/Canela Family/Canela-Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('/Canela_Collection/Canela Family/Canela-Black-Trial.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Nohemi font family ── */
 @font-face {
   font-family: 'Nohemi';
@@ -114,11 +174,20 @@
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes log-in {
+    from { opacity: 0; transform: translateY(7px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
   body {
-    @apply text-gray-900 font-sans antialiased;
+    @apply text-gray-900 antialiased;
+    font-family: 'Figtree', sans-serif;
     background-color: #faf8f5;
     overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nohemi', system-ui, sans-serif;
   }
 }
 

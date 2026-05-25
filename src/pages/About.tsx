@@ -34,6 +34,13 @@ const timeline = [
   },
 ]
 
+const problemMetrics = [
+  { value: '10+', label: 'Years inside fintech operations' },
+  { value: '24/7', label: 'The reality of fintech customer support' },
+  { value: '8 weeks', label: 'Average agent onboarding time we kept repeating' },
+  { value: '3 days', label: 'Time to go live with supVision' },
+]
+
 const values = [
   {
     title: 'Transparency',
@@ -112,9 +119,12 @@ export default function About() {
     <div className="pt-24">
 
       {/* Hero */}
-      <section className="px-4 pt-8 pb-4 sm:px-6 lg:px-8">
+      <section className="px-4 pt-10 pb-8 sm:px-6 lg:px-8 lg:pt-12">
         <div className="mx-auto max-w-3xl px-6 text-center">
-          <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
+          <h1
+            className="whitespace-nowrap text-center text-[2rem] leading-tight sm:text-[3.25rem] lg:text-6xl"
+            style={{ fontFamily: "'Canela', serif", fontWeight: 300, color: '#111827' }}
+          >
             What is supVision?
           </h1>
           <p className="mt-6 text-base leading-relaxed text-gray-600 mx-auto max-w-2xl">
@@ -123,23 +133,25 @@ export default function About() {
           <div className="mt-8 flex justify-center">
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
               style={{ backgroundColor: '#101827' }}
             >
-              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-              <span className="relative z-10">Get a consultation</span>
-              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <span>Get a consultation</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
           </div>
         </div>
 
-        <div className="mx-auto mt-6 max-w-5xl px-6">
-          <div className="overflow-hidden rounded-3xl" style={{ maxHeight: '520px' }}>
-            <img src="/team.png" alt="supVision team" className="w-full object-cover" style={{ height: '520px', objectPosition: 'center 60%' }} />
+        <div className="mx-auto mt-6 w-full max-w-3xl lg:max-w-5xl lg:px-6">
+          <div className="overflow-hidden rounded-3xl max-h-64 sm:max-h-96 lg:max-h-[560px]">
+            <img
+              src="/team.png"
+              alt="supVision team"
+              className="h-64 w-full object-cover sm:h-96 lg:h-[560px]"
+              style={{ objectPosition: 'center 60%' }}
+            />
           </div>
         </div>
       </section>
@@ -149,7 +161,12 @@ export default function About() {
         <div className="sticky top-20 overflow-hidden" style={{ backgroundColor: '#faf8f5', height: 'calc(100vh - 5rem)' }}>
           {/* Header - centered */}
           <div className="pt-16 pb-10 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Our story</p>
+            <p
+              className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
+              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            >
+              Our story
+            </p>
             <p className="mt-1 text-base text-gray-500">Ten years in fintech before we wrote a line of supVision code.</p>
           </div>
 
@@ -157,30 +174,41 @@ export default function About() {
           <div
             ref={trackRef}
             className="flex gap-6 will-change-transform"
-            style={{ width: 'max-content', paddingLeft: 'calc(50vw - 200px)', paddingRight: 'calc(50vw - 200px)', paddingBottom: '40px' }}
+            style={{
+              width: 'max-content',
+              paddingLeft: 'calc(50vw - min(calc((100vw - 3rem) / 2), 200px))',
+              paddingRight: 'calc(50vw - min(calc((100vw - 3rem) / 2), 200px))',
+              paddingBottom: '40px',
+            }}
           >
             {timeline.map((item, i) => (
-              <div key={item.year} className="flex-shrink-0 w-[400px] flex flex-col">
+              <div key={item.year} className="flex w-[min(100vw-3rem,400px)] flex-shrink-0 flex-col items-center sm:w-[400px]">
                 {/* Card — fixed height so all dots stay at the same Y */}
                 <div
-                  className="rounded-3xl bg-white shadow-md border border-gray-100 p-8 flex flex-col overflow-hidden"
-                  style={{ height: '260px' }}
+                  className="flex h-[280px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-md"
                 >
-                  <span
-                    className="text-xs font-bold uppercase tracking-widest"
-                    style={{ color: '#214995' }}
-                  >{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="mt-4 text-base font-bold text-gray-900">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-500 overflow-hidden">{item.desc}</p>
+                  <h3
+                    className="text-xl leading-tight text-gray-900 sm:text-2xl"
+                    style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p className="mt-4 text-base leading-relaxed text-gray-500">{item.desc}</p>
                 </div>
 
-                {/* Dot row — relative to full 400px column so line spans correctly */}
-                <div className="relative mt-8" style={{ height: '40px' }}>
-                  {/* Line sits behind the dot (z-0), spans from this dot's center to next dot's center */}
+                {/* Dot row — centered in column */}
+                <div className="relative mt-8 flex w-full justify-center" style={{ height: '40px' }}>
                   {i < timeline.length - 1 && (
                     <div
                       className="absolute rounded-full bg-gray-200"
-                      style={{ left: '20px', top: '50%', transform: 'translateY(-50%)', right: '-44px', height: '4px', zIndex: 0 }}
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        width: 'calc(100% + 1.5rem)',
+                        height: '4px',
+                        zIndex: 0,
+                      }}
                     >
                       <div
                         ref={el => { lineFillRefs.current[i] = el }}
@@ -190,10 +218,9 @@ export default function About() {
                     </div>
                   )}
 
-                  {/* Dot on top of line */}
                   <div
-                    className="relative h-10 w-10 rounded-full border-2 flex items-center justify-center overflow-hidden bg-white"
-                    style={{ borderColor: '#214995', zIndex: 1 }}
+                    className="relative z-[1] flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 bg-white"
+                    style={{ borderColor: '#214995' }}
                   >
                     <div
                       ref={el => { dotFillRefs.current[i] = el }}
@@ -203,8 +230,7 @@ export default function About() {
                   </div>
                 </div>
 
-                {/* Year below the dot */}
-                <span className="mt-3 block text-base font-bold text-gray-700">{item.year}</span>
+                <span className="mt-3 block text-center text-base font-bold text-gray-700">{item.year}</span>
               </div>
             ))}
           </div>
@@ -214,10 +240,14 @@ export default function About() {
       {/* The problem we lived */}
       <section className="pt-10 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
-          {/* Text + photo */}
           <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
             <div>
-              <p className="text-2xl font-bold uppercase text-gray-900">The problem we lived</p>
+              <p
+                className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              >
+                The problem we lived
+              </p>
               <p className="mt-6 text-lg leading-relaxed text-gray-500">
                 Fintech support is not like any other support. Your agents need to understand fintech verification, PSD2, chargeback workflows, AML holds, and the difference between a payment pending and a payment failed - before they can answer a single customer message.
               </p>
@@ -230,41 +260,93 @@ export default function About() {
               <p className="mt-4 text-lg leading-relaxed text-gray-500">
                 We managed these queues. We lived the rotation. We tried every generic AI tool on the market. None of them understood what we actually needed.
               </p>
-              <p className="mt-4 text-base font-semibold text-gray-900">
+              <p className="mt-4 mb-10 text-center text-base font-semibold text-gray-900 lg:mb-0">
                 So we built it ourselves.
               </p>
             </div>
-            <div className="flex items-center justify-center">
-              <img src="/robot_with_mac.png" alt="The problem" className="w-1/2 h-auto" />
+
+            <div className="hidden items-center justify-center lg:flex">
+              <img src="/robot_with_mac.png" alt="The problem" className="h-auto w-1/2" />
             </div>
           </div>
 
-          {/* Metrics below */}
-          <div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {[
-              { value: '10+', label: 'Years inside fintech operations' },
-              { value: '24/7', label: 'The reality of fintech customer support' },
-              { value: '8 weeks', label: 'Average agent onboarding time we kept repeating' },
-              { value: '3 days', label: 'Time to go live with supVision' },
-            ].map((m) => (
+          {/* Mobile: metrics left, robot right */}
+          <div className="mt-4 flex items-center gap-2 lg:hidden">
+            <div className="flex w-[46%] flex-shrink-0 flex-col gap-2">
+              {problemMetrics.map((m) => (
+                <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-3.5 text-center shadow-sm">
+                  <p
+                    className="text-2xl leading-tight"
+                    style={{ fontFamily: "'Canela', serif", fontWeight: 300, color: '#214995' }}
+                  >
+                    {m.value}
+                  </p>
+                  <p className="mt-2 text-xs leading-snug text-gray-500">{m.label}</p>
+                </div>
+              ))}
+            </div>
+            <div className="flex min-w-0 flex-1 items-center justify-center">
+              <img src="/robot_with_mac.png" alt="The problem" className="h-auto w-full max-w-[170px] object-contain sm:max-w-[190px]" />
+            </div>
+          </div>
+
+          <div className="mt-6 flex justify-center lg:hidden">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+              style={{ backgroundColor: '#101827' }}
+            >
+              <span>Ready to change your support</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          </div>
+
+          {/* Desktop metrics */}
+          <div className="mt-12 hidden gap-4 lg:grid lg:grid-cols-4">
+            {problemMetrics.map((m) => (
               <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
+                <p
+                  className="text-[2rem] leading-tight sm:text-[3.25rem]"
+                  style={{ fontFamily: "'Canela', serif", fontWeight: 300, color: '#214995' }}
+                >
+                  {m.value}
+                </p>
                 <p className="mt-3 text-xs leading-relaxed text-gray-500">{m.label}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-8 hidden justify-center lg:flex">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+              style={{ backgroundColor: '#101827' }}
+            >
+              <span>Ready to change your support</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Values */}
       <section className="pt-8 pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl lg:px-6">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">The values that drive everything we do</h2>
+            <h2
+              className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
+              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            >
+              The values that drive us
+            </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="mx-auto grid w-full max-w-3xl gap-4 lg:max-w-none lg:grid-cols-2">
             {values.map((v) => (
-              <div key={v.title} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-10 shadow-sm">
+              <div key={v.title} className="flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm sm:p-10">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                   {v.icon}
                 </div>
@@ -276,16 +358,13 @@ export default function About() {
           <div className="mt-12 flex justify-center">
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
               style={{ backgroundColor: '#101827' }}
             >
-              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-              <span className="relative z-10">Let's chat</span>
-              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <span>Let's chat</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
           </div>
         </div>
@@ -293,42 +372,48 @@ export default function About() {
 
       {/* Our offices */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Our office</p>
-            <h2 className="mt-3 text-2xl font-bold text-gray-900">We are headquartered in Tallinn, Estonia - serving fintech teams globally.</h2>
+        <div className="mx-auto max-w-7xl lg:px-6">
+          <div className="mb-10 text-center">
+            <h2
+              className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
+              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            >
+              Our office
+            </h2>
           </div>
-          <div className="grid gap-8 lg:grid-cols-2" style={{ height: '360px' }}>
-            {/* Map image */}
-            <div className="overflow-hidden rounded-3xl h-full">
+          <div className="mx-auto grid w-full max-w-3xl gap-6 lg:max-w-none lg:grid-cols-2 lg:gap-8 lg:items-stretch">
+            <div className="h-56 overflow-hidden rounded-3xl sm:h-64 lg:h-[360px]">
               <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" />
             </div>
 
-            {/* Info */}
-            <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-10 shadow-sm h-full overflow-hidden">
-              <div>
+            <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-8 text-left shadow-sm sm:p-10 lg:min-h-[360px] lg:text-center">
+              <div className="hidden lg:block">
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Headquarter</p>
                 <h3 className="mt-2 text-2xl font-bold text-gray-900">Tallinn, Estonia</h3>
-                <p className="mt-1 text-sm text-gray-500">Our European base where the supVision team builds, ships, and supports fintech teams operating across global markets.</p>
+                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                  Our European base where the supVision team builds, ships, and supports fintech teams operating across global markets.
+                </p>
               </div>
 
-              <div className="h-px bg-gray-100" />
+              <div className="hidden h-px bg-gray-100 lg:block" />
 
-              <div className="flex flex-col gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
+              <div className="flex flex-col items-start gap-4 lg:items-center">
+                <div className="flex w-full items-start gap-3 lg:max-w-sm lg:justify-center">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-4 w-4">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                     </svg>
                   </div>
-                  <div>
+                  <div className="min-w-0 text-left lg:text-center">
                     <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">WILARIUM OÜ</p>
-                    <p className="mt-1 text-sm text-gray-700">Harju maakond, Tallinn, Kesklinna linnaosa, Vesivärava tn 50, 10152</p>
+                    <p className="mt-1 break-words text-sm leading-relaxed text-gray-700">
+                      Harju maakond, Tallinn, Kesklinna linnaosa, Vesivärava tn 50, 10152
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center justify-start gap-3 lg:justify-center">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-4 w-4">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
@@ -337,7 +422,7 @@ export default function About() {
                   <a href="mailto:info@supvision.ai" className="text-sm text-gray-700 hover:underline">info@supvision.ai</a>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center justify-start gap-3 lg:justify-center">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-4 w-4">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
@@ -357,20 +442,22 @@ export default function About() {
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
           style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
-          <h2 className="text-3xl font-bold text-white">Ready to stop living the problem?</h2>
+          <h2
+            className="text-[2rem] leading-tight text-white sm:text-[3.25rem]"
+            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          >
+            Ready to stop living the problem?
+          </h2>
           <p className="mt-4 text-base text-blue-200">Talk to someone who has been in your position. We'll show you exactly what supVision does for teams like yours.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900"
             >
-              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-              <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Book a demo</span>
-              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <span>Book a demo</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0" style={{ color: '#214995' }}>
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
             <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
