@@ -248,7 +248,7 @@ export default function Header() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center justify-center gap-8 whitespace-nowrap">
 
-            <NavLink to="/about" end className={linkClass}>About us</NavLink>
+            <NavLink to="/" end className={linkClass}>Home</NavLink>
 
             {/* Overview mega-menu */}
             <div className="relative" onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
@@ -368,6 +368,7 @@ export default function Header() {
 
             <NavLink to="/pricing" end className={linkClass}>Pricing</NavLink>
             <NavLink to="/security" end className={linkClass}>Security</NavLink>
+            <NavLink to="/about" end className={linkClass}>About us</NavLink>
 
           </nav>
 
@@ -446,7 +447,7 @@ export default function Header() {
         {/* Main nav */}
         <div className={`absolute inset-0 overflow-y-auto transition-transform duration-300 ease-in-out ${mobileScreen === 'main' ? 'translate-x-0' : '-translate-x-full'}`}>
           <nav className="flex flex-col gap-2 px-2 pt-1 pb-2">
-            <Link to="/about" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">About us</Link>
+            <Link to="/" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">Home</Link>
             <button onClick={() => setMobileScreen('overview')} className="flex w-full items-center justify-between rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">
               Overview
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-gray-900">
@@ -461,6 +462,7 @@ export default function Header() {
             </button>
             <Link to="/pricing" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">Pricing</Link>
             <Link to="/security" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">Security</Link>
+            <Link to="/about" className="rounded-lg bg-white px-7 py-5 text-lg font-medium text-gray-900">About us</Link>
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
               <span>Book a Demo!</span>
               <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>

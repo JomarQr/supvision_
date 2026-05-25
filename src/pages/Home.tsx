@@ -2,8 +2,16 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import HeroChatPreview from '../components/home/HeroChatPreview'
-import SolutionShowcase from '../components/home/SolutionShowcase'
-import { LANGUAGES, LOG_SCENARIOS, MODEL_ANIM_STEPS } from '../components/home/solutionShowcaseData'
+import { LANGUAGES, LANG_SLOT, LOG_SCENARIOS } from '../components/home/solutionShowcaseData'
+
+type EscStatus = 'below' | 'routing' | 'resolved'
+const ESC_SCENARIOS: Array<{ user: string; bot: string; confidence: number; status: EscStatus }> = [
+  { user: 'Card charged twice — need a dispute', bot: 'Reviewing transaction history…',  confidence: 31, status: 'below'    },
+  { user: "What's my account balance?",          bot: 'Fetching your balance instantly…', confidence: 87, status: 'resolved' },
+  { user: 'Suspicious transaction — £2,400',     bot: 'Analysing transaction patterns…', confidence: 22, status: 'routing'  },
+  { user: 'When does my card expire?',            bot: 'Your card expires 09/2027',       confidence: 94, status: 'resolved' },
+  { user: 'Limit reduced without notice',         bot: 'Checking account review logs…',   confidence: 35, status: 'below'    },
+]
 
 const PERSONAS = [
   { label: 'Payments & Processing',      stacks: ['Dispute escalation flow', 'WhatsApp support flow', 'Zendesk + Mambu stack', 'Telegram CRM bot', 'Email triage & routing'] },
@@ -60,7 +68,6 @@ export default function Home() {
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const featuresPanelRef = useRef<HTMLDivElement>(null)
   const [featuresOpen, setFeaturesOpen] = useState(false)
-  const carouselRef = useRef<HTMLDivElement>(null)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
   const [demoAgreed, setDemoAgreed] = useState(false)
   const [demoAttempted, setDemoAttempted] = useState(false)
@@ -76,11 +83,25 @@ export default function Home() {
   )
   const [liftedSlot, setLiftedSlot] = useState(1)
   const [activePersona, setActivePersona] = useState<number | null>(null)
-  const [modelAnimIdx, setModelAnimIdx] = useState(0)
   const [logScene, setLogScene] = useState(0)
   const [logRevealedSteps, setLogRevealedSteps] = useState(0)
   const [logDecisionShown, setLogDecisionShown] = useState(false)
   const [logFading, setLogFading] = useState(false)
+  const [escIdx, setEscIdx] = useState(0)
+  const [escPhase, setEscPhase] = useState(0)
+
+  useEffect(() => {
+    const delays = [400, 1000, 900, 2800]
+    const t = setTimeout(() => {
+      if (escPhase < 3) {
+        setEscPhase(p => p + 1)
+      } else {
+        setEscPhase(0)
+        setEscIdx(i => (i + 1) % ESC_SCENARIOS.length)
+      }
+    }, delays[escPhase])
+    return () => clearTimeout(t)
+  }, [escPhase, escIdx])
 
   useEffect(() => {
     const steps: [number, number][] = [
@@ -132,14 +153,6 @@ export default function Home() {
       document.removeEventListener('touchstart', handler)
     }
   }, [featuresOpen])
-
-  useEffect(() => {
-    const t = setTimeout(
-      () => setModelAnimIdx(i => (i + 1) % MODEL_ANIM_STEPS.length),
-      MODEL_ANIM_STEPS[modelAnimIdx].delay
-    )
-    return () => clearTimeout(t)
-  }, [modelAnimIdx])
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -259,16 +272,16 @@ export default function Home() {
 
             {/* Mobile headline */}
             <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-              <span style={{ color: '#E5D9CC' }}>Instant support.</span>
-              <span className="text-white">Zero effort.</span>
+              <span className="text-white">Agentic Support Team</span>
+              <span style={{ color: '#E5D9CC' }}>for Fintech Industry</span>
             </h1>
             {/* Desktop headline */}
             <h1
               className="mt-3 hidden flex-col text-6xl leading-tight lg:flex lg:text-left"
               style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
-              <span style={{ color: '#E5D9CC' }}>Instant support.</span>
-              <span className="text-white">Zero effort.</span>
+              <span className="text-white">Agentic Support Team</span>
+              <span style={{ color: '#E5D9CC' }}>for Fintech Industry</span>
             </h1>
 
             <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl mx-auto lg:mx-0">
@@ -281,7 +294,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-gray-900"
                 style={{ backgroundColor: '#E5D9CC' }}
               >
-                <span className="lg:hidden">Book a Demo!</span>
+                <span className="lg:hidden">Book a Demo</span>
                 <span className="hidden lg:inline">Let&apos;s chat</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-gray-900">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
@@ -385,8 +398,8 @@ export default function Home() {
       <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16 bg-[#F1EDE9] lg:bg-[#faf8f5]">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* 10x faster + metrics — desktop */}
-          <div className="mb-20 hidden lg:block">
+          {/* ── ZONE 1: Headline + 3 metrics ── desktop */}
+          <div className="hidden lg:block">
             <div className="text-center">
               <FasterSupportHeadline size="desktop" />
               <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-gray-500">
@@ -394,76 +407,38 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-12 grid grid-cols-2 gap-6">
-              {mobileInsightCards.map((card) => {
-                if (card.variant === 'wide') {
-                  return (
-                    <div
-                      key={card.label}
-                      className="col-span-2 relative overflow-hidden rounded-[2rem] px-10 py-10"
-                      style={{ backgroundColor: '#F3EFE9' }}
-                    >
-                      <div className="flex items-center gap-12">
-                        <div className="flex-shrink-0 text-center" style={{ minWidth: '160px' }}>
-                          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">
-                            {card.label}
-                          </p>
-                          <p
-                            className="mt-3 leading-none tracking-tight"
-                            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '4rem', color: '#111827' }}
-                          >
-                            {card.stat}
-                          </p>
-                        </div>
-                        <div className="h-16 w-px bg-gray-300/60 flex-shrink-0" />
-                        <div>
-                          <p className="text-2xl font-semibold leading-snug text-gray-900">{card.headline}</p>
-                          <p className="mt-3 text-sm leading-relaxed text-gray-500">{card.body}</p>
-                        </div>
-                      </div>
+            {/* 3 metric cards in a row */}
+            <div className="mt-10 grid grid-cols-3 gap-6">
+              {/* 68% */}
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-10" style={{ backgroundColor: '#F3EFE9' }}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Support costs</p>
+                <p className="mt-3 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>68%</p>
+                <p className="mt-4 text-sm leading-relaxed text-gray-500">Cut cost by 68% on repetitive tier-1 volume — without adding headcount.</p>
+              </div>
+              {/* 93% */}
+              <div className="rounded-[2rem] px-8 py-10" style={{ backgroundColor: '#F3EFE9' }}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Tickets handled</p>
+                <p className="mt-3 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>93%</p>
+                <p className="mt-4 text-sm leading-relaxed text-gray-500">93% of tickets are handled by the AI support agent — fully resolved without a human ever getting involved.</p>
+              </div>
+              {/* 3 days */}
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-10" style={{ backgroundColor: '#214995' }}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">Integration time</p>
+                <p className="mt-3 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#fff' }}>3 days</p>
+                <p className="mt-3 text-lg font-semibold leading-snug text-white">No rip-and-replace.</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/70">Plug into your existing Zendesk, Freshdesk, or CRM — fully operational over a weekend, without touching your core stack.</p>
+                <div className="mt-5 flex flex-col gap-2">
+                  {['Day 1 — connect your stack', 'Day 2 — configure scenarios', 'Day 3 — go live'].map((step, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-white/20 text-[9px] font-bold text-white">{i + 1}</span>
+                      <span className="text-xs text-white/80">{step}</span>
                     </div>
-                  )
-                }
-                return (
-                  <div
-                    key={card.label}
-                    className="relative overflow-hidden rounded-[2rem] px-8 py-10 text-center"
-                    style={
-                      card.variant === 'image'
-                        ? {
-                            backgroundImage: `url(${(card as { image: string }).image})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                          }
-                        : { backgroundColor: '#F3EFE9' }
-                    }
-                  >
-                    {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
-                    <div className="relative z-10">
-                      <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}>
-                        {card.label}
-                      </p>
-                      <p
-                        className="mt-3 leading-none tracking-tight"
-                        style={{
-                          fontFamily: "'Nohemi', sans-serif",
-                          fontWeight: 300,
-                          fontSize: '3.5rem',
-                          color: card.variant === 'image' ? '#fff' : '#111827',
-                        }}
-                      >
-                        {card.stat}
-                      </p>
-                      <p className={`mx-auto mt-4 max-w-sm text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}>
-                        {card.body}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div className="mt-10 flex items-center justify-center gap-4">
+            <div className="mt-8 flex items-center justify-center gap-4">
               <Link
                 to="/support-agent"
                 className="inline-flex min-w-[10rem] items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
@@ -481,6 +456,233 @@ export default function Home() {
                 </svg>
               </Link>
             </div>
+          </div>
+
+          {/* ── ZONE 2: Core Functionalities ── desktop */}
+          <div className="mt-20 mb-20 hidden lg:block">
+
+            {/* Animated feature cards */}
+            {(() => {
+              const orbitAll = [
+                { name: 'WhatsApp',   src: '/logos/whatsapp.png' },
+                { name: 'Zendesk',    src: '/logos/zendesk.png' },
+                { name: 'Telegram',   src: '/logos/telegram.png' },
+                { name: 'HubSpot',    src: '/logos/hubspot.png' },
+                { name: 'Slack',      src: '/logos/slack.png' },
+                { name: 'Salesforce', src: '/logos/salesforce.png' },
+                { name: 'Messenger',  src: '/logos/facebook messenger.png' },
+                { name: 'Jira',       src: '/logos/jira.png' },
+                { name: 'Teams',      src: '/logos/teams.png' },
+                { name: 'Freshdesk',  src: '/logos/freshdesk.png' },
+                { name: 'WeChat',     src: '/logos/wechat.png' },
+                { name: 'Intercom',   src: '/logos/intecom (1).png' },
+                { name: 'Viber',      src: '/logos/viber.png' },
+                { name: 'Notion',     src: '/logos/notion.png' },
+                { name: 'Line',       src: '/logos/line.png' },
+                { name: 'Confluence', src: '/logos/confluence.png' },
+              ]
+              const orbitDur = 20
+              return (
+                <div className="mt-10 grid grid-cols-2 gap-6">
+                  {/* 100+ Languages — square */}
+                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                    <p className="text-base font-semibold text-gray-900">100+ Languages</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost.</p>
+                    <div className="mt-4 rounded-xl flex-1 relative overflow-hidden bg-gray-50 border border-gray-100">
+                      {langItems.map(({ id, langIdx, slot }) => {
+                        const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
+                        const flagSize = Math.round(s.h * 0.64)
+                        const fontSize = `${(s.h * 0.54) / 16}rem`
+                        const lifted = slot === liftedSlot
+                        return (
+                          <div
+                            key={id}
+                            style={{
+                              position: 'absolute',
+                              bottom: s.bottom + (lifted ? 28 : 0),
+                              left: '50%',
+                              transform: 'translateX(-50%)',
+                              width: s.w,
+                              height: s.h,
+                              opacity: s.op,
+                              zIndex: s.zi,
+                              transition: 'bottom 0.4s cubic-bezier(0.4,0,0.2,1), width 0.55s cubic-bezier(0.4,0,0.2,1), height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.55s cubic-bezier(0.4,0,0.2,1)',
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 8px', height: '100%', background: '#ffffff', borderRadius: 9999, border: '3.5px solid #e5e7eb', overflow: 'hidden' }}>
+                              <div style={{ width: flagSize, height: flagSize, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: '#333' }}>
+                                <img src={`https://flagcdn.com/w80/${LANGUAGES[langIdx].code}.png`} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              </div>
+                              <span style={{ flex: 1, textAlign: 'center', fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#111827', fontSize, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+                                {LANGUAGES[langIdx].name}
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Smart escalation — square */}
+                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                    <p className="text-base font-semibold text-gray-900">Smart escalation &amp; fallback</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">The bot detects uncertainty and routes to a human agent — before the customer even notices.</p>
+                    {(() => {
+                      const sc = ESC_SCENARIOS[escIdx]
+                      const barColor = sc.confidence >= 40 ? '#22c55e' : '#ef4444'
+                      return (
+                        <div className="mt-3 flex flex-col gap-2 flex-1 overflow-hidden">
+                          {/* User bubble */}
+                          {escPhase >= 1 && (
+                            <div className="flex justify-end" style={{ animation: 'log-in 0.3s ease both' }}>
+                              <div className="rounded-2xl rounded-tr-sm bg-[#214995] px-3 py-1.5 max-w-[85%]">
+                                <span className="text-[10px] leading-relaxed text-white">{sc.user}</span>
+                              </div>
+                            </div>
+                          )}
+                          {/* Bot row */}
+                          {escPhase >= 2 && (
+                            <div className="flex items-start gap-1.5" style={{ animation: 'log-in 0.3s ease both' }}>
+                              <div className="mt-0.5 h-4 w-4 flex-shrink-0 rounded-full bg-gray-100 flex items-center justify-center">
+                                <div className="h-1.5 w-1.5 rounded-full bg-[#214995]" />
+                              </div>
+                              <div className="rounded-2xl rounded-tl-sm border border-gray-100 bg-white px-3 py-1.5 shadow-sm">
+                                {escPhase === 2
+                                  ? <span className="flex gap-0.5 items-center" style={{ minWidth: 28 }}>
+                                      <span className="h-1 w-1 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0s' }} />
+                                      <span className="h-1 w-1 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.3s' }} />
+                                      <span className="h-1 w-1 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.6s' }} />
+                                    </span>
+                                  : <span className="text-[10px] leading-relaxed text-gray-600">{sc.bot}</span>
+                                }
+                              </div>
+                            </div>
+                          )}
+                          {/* Confidence meter */}
+                          {escPhase >= 3 && (
+                            <div className="rounded-xl border border-gray-100 bg-gray-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
+                              <div className="flex items-center justify-between">
+                                <span className="text-[9px] font-semibold uppercase tracking-widest text-gray-400">Confidence score</span>
+                                <span className="text-[11px] font-bold tabular-nums" style={{ color: barColor }}>{sc.confidence}%</span>
+                              </div>
+                              <div className="relative mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
+                                <div className="h-full rounded-full transition-all duration-700" style={{ width: `${sc.confidence}%`, backgroundColor: barColor }} />
+                                <div className="absolute inset-y-0 w-px bg-gray-500 opacity-50" style={{ left: '40%' }} />
+                              </div>
+                              <div className="mt-1 flex justify-between">
+                                <span className="text-[8px] text-gray-400">0%</span>
+                                <span className="text-[8px] font-medium text-gray-500">Threshold 40%</span>
+                                <span className="text-[8px] text-gray-400">100%</span>
+                              </div>
+                            </div>
+                          )}
+                          {/* Status badge */}
+                          {escPhase >= 3 && (
+                            <div className="mt-auto">
+                              {sc.status === 'below' && (
+                                <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2" style={{ animation: 'log-in 0.3s ease both' }}>
+                                  <svg className="h-3 w-3 flex-shrink-0" viewBox="0 0 12 12" fill="#f87171"><path d="M6 1.5l4.5 8H1.5L6 1.5Z" /></svg>
+                                  <span className="text-[10px] font-semibold text-red-500">Below confidence threshold</span>
+                                </div>
+                              )}
+                              {sc.status === 'routing' && (
+                                <div className="flex items-center gap-2 rounded-xl border border-orange-100 bg-orange-50 px-3 py-2" style={{ animation: 'log-in 0.3s ease both' }}>
+                                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-orange-400" style={{ animation: 'pulse 0.9s ease-in-out infinite' }} />
+                                  <span className="text-[10px] font-semibold text-orange-600">Routing to specialist…</span>
+                                </div>
+                              )}
+                              {sc.status === 'resolved' && (
+                                <div className="flex items-center gap-2 rounded-xl border border-green-100 bg-green-50 px-3 py-2" style={{ animation: 'log-in 0.3s ease both' }}>
+                                  <div className="h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
+                                  <span className="text-[10px] font-semibold text-green-700">Resolved automatically</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })()}
+                  </div>
+
+                  {/* One layer — single-ring orbital, square */}
+                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                    <p className="text-base font-semibold text-gray-900">One layer, every system</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — nothing falls through the cracks.</p>
+                    <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 flex-1 relative overflow-hidden">
+                      {/* Single orbit ring */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="rounded-full border border-dashed border-gray-200" style={{ width: '286px', height: '286px' }} />
+                      </div>
+                      {/* Pulse rings at center */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        {[0, 0.9, 1.8].map((d, i) => (
+                          <div key={i} className="absolute rounded-full border border-[#214995]/25" style={{ width: '40px', height: '40px', animation: 'pulse-ring 2.6s ease-out infinite', animationDelay: `${d}s` }} />
+                        ))}
+                      </div>
+                      {/* Data-pull particles */}
+                      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+                        <div key={`p-${angle}`} className="absolute pointer-events-none" style={{ top: '50%', left: '50%', marginTop: '-3px', marginLeft: '-3px', animation: `data-pull 2.2s ease-in infinite`, animationDelay: `${i * 0.275}s`, ['--da' as string]: `${angle}deg` }}>
+                          <div className="h-1.5 w-1.5 rounded-full bg-[#214995]/50" />
+                        </div>
+                      ))}
+                      {/* All logos — single ring */}
+                      {orbitAll.map((logo, i) => (
+                        <div key={logo.name} className="absolute" style={{ top: '50%', left: '50%', marginTop: '-28px', marginLeft: '-28px', animation: `logo-orbit ${orbitDur}s linear infinite`, animationDelay: `${-(i / orbitAll.length) * orbitDur}s`, ['--orbit-r' as string]: '143px' }}>
+                          <div style={{ animation: `logo-counter ${orbitDur}s linear infinite`, animationDelay: `${-(i / orbitAll.length) * orbitDur}s` }}>
+                            <div className="h-[56px] w-[56px] rounded-full bg-white shadow border border-gray-100 overflow-hidden flex items-center justify-center">
+                              <img src={logo.src} alt={logo.name} className="h-8 w-8 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      {/* supVision center */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="relative z-10 rounded-xl px-3 py-2 text-[11px] font-bold text-white leading-tight text-center" style={{ backgroundColor: '#214995', boxShadow: '0 0 16px rgba(33,73,149,0.4)' }}>
+                          supVision
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AI Decision Logs — 4th card, square */}
+                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                    <p className="text-base font-semibold text-gray-900">AI Decision Logs</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">See exactly why supVision resolved or escalated each query — full reasoning chain, auditor-ready.</p>
+                    {/* Animation panel — dark beige */}
+                    <div className="mt-4 rounded-2xl flex-1 flex flex-col overflow-hidden px-5 py-4" style={{ background: '#f9fafb', opacity: logFading ? 0 : 1, transition: 'opacity 0.5s ease' }}>
+                      {/* Query pill */}
+                      <div className="mb-3 flex items-center gap-2 flex-shrink-0">
+                        <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#9ca3af', flexShrink: 0, display: 'inline-block' }} />
+                        <span style={{ color: '#111827', fontWeight: 600, fontSize: '1.05rem', fontFamily: "'Nohemi', sans-serif", border: '1.5px solid rgba(0,0,0,0.10)', borderRadius: 9999, padding: '4px 15px', background: 'rgba(255,255,255,0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {LOG_SCENARIOS[logScene].query}
+                        </span>
+                      </div>
+                      {/* Steps */}
+                      <div className="flex flex-col gap-2 pl-3 flex-1 overflow-hidden">
+                        {LOG_SCENARIOS[logScene].steps.slice(0, logRevealedSteps).map((step, i) => (
+                          <div key={i} className="flex items-start gap-2" style={{ animation: 'log-in 0.35s ease both' }}>
+                            <span style={{ color: step.type === 'success' ? '#16a34a' : step.type === 'warning' ? '#d97706' : '#9ca3af', fontSize: '1rem', lineHeight: '1.6rem', flexShrink: 0, fontWeight: 700 }}>
+                              {step.type === 'success' ? '✓' : step.type === 'warning' ? '!' : '→'}
+                            </span>
+                            <span style={{ color: step.type === 'info' ? '#6b7280' : '#111827', fontSize: '1.05rem', fontFamily: "'Nohemi', sans-serif", lineHeight: 1.45 }}>
+                              {step.text}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      {/* Decision badge */}
+                      {logDecisionShown && (
+                        <div className="flex justify-center pt-3 flex-shrink-0" style={{ animation: 'log-in 0.4s ease both' }}>
+                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 22px', borderRadius: 9999, background: `${LOG_SCENARIOS[logScene].color}18`, border: `1.5px solid ${LOG_SCENARIOS[logScene].color}`, color: LOG_SCENARIOS[logScene].color, fontWeight: 700, fontSize: '1.05rem', fontFamily: "'Nohemi', sans-serif", letterSpacing: '0.08em' }}>
+                            {LOG_SCENARIOS[logScene].decision === 'ESCALATED' ? '⚠' : '✓'}&nbsp;{LOG_SCENARIOS[logScene].decision}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
           </div>
 
           {/* Single static hero metric + CTAs — mobile only, branded bg */}
@@ -516,7 +718,7 @@ export default function Home() {
                 return (
                   <div
                     key={card.label}
-                    className="relative overflow-hidden rounded-[2rem] px-6 py-9 text-center"
+                    className="relative overflow-hidden rounded-[2rem] px-6 py-9"
                     style={
                       card.variant === 'image'
                         ? {
@@ -546,7 +748,7 @@ export default function Home() {
                         {card.stat}
                       </p>
                       <p
-                        className={`mx-auto mt-4 max-w-[16rem] text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}
+                        className={`mt-4 text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}
                       >
                         {card.body}
                       </p>
@@ -554,6 +756,214 @@ export default function Home() {
                   </div>
                 )
               })}
+            </div>
+
+            {/* 3 key differentiators — mobile */}
+            <div className="mt-6 flex flex-col gap-4">
+              {/* 100+ Languages — mobile */}
+              <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
+                <p className="text-base font-semibold text-gray-900">100+ Languages</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost.</p>
+                <div className="mt-4 rounded-xl relative overflow-hidden bg-gray-50 border border-gray-100" style={{ height: '260px' }}>
+                  {langItems.map(({ id, langIdx, slot }) => {
+                    const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
+                    const flagSize = Math.round(s.h * 0.64)
+                    const fontSize = `${(s.h * 0.54) / 16}rem`
+                    const lifted = slot === liftedSlot
+                    return (
+                      <div
+                        key={id}
+                        style={{
+                          position: 'absolute',
+                          bottom: s.bottom + (lifted ? 28 : 0),
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: s.w,
+                          height: s.h,
+                          opacity: s.op,
+                          zIndex: s.zi,
+                          transition: 'bottom 0.4s cubic-bezier(0.4,0,0.2,1), width 0.55s cubic-bezier(0.4,0,0.2,1), height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.55s cubic-bezier(0.4,0,0.2,1)',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 8px', height: '100%', background: '#ffffff', borderRadius: 9999, border: '3.5px solid #e5e7eb', overflow: 'hidden' }}>
+                          <div style={{ width: flagSize, height: flagSize, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: '#333' }}>
+                            <img src={`https://flagcdn.com/w80/${LANGUAGES[langIdx].code}.png`} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                          <span style={{ flex: 1, textAlign: 'center', fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#111827', fontSize, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+                            {LANGUAGES[langIdx].name}
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+              {/* Smart escalation — mobile */}
+              <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
+                <p className="text-base font-semibold text-gray-900">Smart escalation &amp; fallback</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">The bot detects uncertainty in real time and routes to a human agent automatically — before the customer even notices.</p>
+                {(() => {
+                  const sc = ESC_SCENARIOS[escIdx]
+                  const barColor = sc.confidence >= 40 ? '#22c55e' : '#ef4444'
+                  return (
+                    <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 p-3 flex flex-col gap-2.5">
+                      {/* User bubble */}
+                      {escPhase >= 1 && (
+                        <div className="flex justify-end" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="rounded-2xl rounded-tr-sm bg-[#214995] px-3 py-2 max-w-[80%]">
+                            <span className="text-[11px] leading-relaxed text-white">{sc.user}</span>
+                          </div>
+                        </div>
+                      )}
+                      {/* Bot row */}
+                      {escPhase >= 2 && (
+                        <div className="flex items-start gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="mt-0.5 h-5 w-5 flex-shrink-0 rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                            <div className="h-2 w-2 rounded-full bg-[#214995]" />
+                          </div>
+                          <div className="rounded-2xl rounded-tl-sm border border-gray-100 bg-white px-3 py-2 shadow-sm">
+                            {escPhase === 2
+                              ? <span className="flex gap-1 items-center" style={{ minWidth: 32 }}>
+                                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0s' }} />
+                                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.3s' }} />
+                                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.6s' }} />
+                                </span>
+                              : <span className="text-[11px] leading-relaxed text-gray-600">{sc.bot}</span>
+                            }
+                          </div>
+                        </div>
+                      )}
+                      {/* Confidence meter */}
+                      {escPhase >= 3 && (
+                        <div className="rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Confidence score</span>
+                            <span className="text-xs font-bold tabular-nums" style={{ color: barColor }}>{sc.confidence}%</span>
+                          </div>
+                          <div className="relative mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-100">
+                            <div className="h-full rounded-full transition-all duration-700" style={{ width: `${sc.confidence}%`, backgroundColor: barColor }} />
+                            <div className="absolute inset-y-0 w-px bg-gray-600 opacity-40" style={{ left: '40%' }} />
+                          </div>
+                          <div className="mt-1.5 flex justify-between">
+                            <span className="text-[9px] text-gray-400">0%</span>
+                            <span className="text-[9px] font-medium text-gray-500">Threshold 40%</span>
+                            <span className="text-[9px] text-gray-400">100%</span>
+                          </div>
+                        </div>
+                      )}
+                      {/* Status badge */}
+                      {escPhase >= 3 && sc.status === 'below' && (
+                        <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <svg className="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 12 12" fill="#f87171"><path d="M6 1.5l4.5 8H1.5L6 1.5Z" /></svg>
+                          <span className="text-xs font-semibold text-red-500">Below confidence threshold</span>
+                        </div>
+                      )}
+                      {escPhase >= 3 && sc.status === 'routing' && (
+                        <div className="flex items-center gap-2 rounded-xl border border-orange-100 bg-orange-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-orange-400" style={{ animation: 'pulse 0.9s ease-in-out infinite' }} />
+                          <span className="text-xs font-semibold text-orange-600">Routing to specialist…</span>
+                        </div>
+                      )}
+                      {escPhase >= 3 && sc.status === 'resolved' && (
+                        <div className="flex items-center gap-2 rounded-xl border border-green-100 bg-green-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-green-500" />
+                          <span className="text-xs font-semibold text-green-700">Resolved automatically</span>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })()}
+              </div>
+              {/* One layer — single-ring orbital mobile */}
+              {(() => {
+                const orbitAllMob = [
+                  { name: 'WhatsApp',   src: '/logos/whatsapp.png' },
+                  { name: 'Zendesk',    src: '/logos/zendesk.png' },
+                  { name: 'Telegram',   src: '/logos/telegram.png' },
+                  { name: 'HubSpot',    src: '/logos/hubspot.png' },
+                  { name: 'Slack',      src: '/logos/slack.png' },
+                  { name: 'Jira',       src: '/logos/jira.png' },
+                  { name: 'Messenger',  src: '/logos/facebook messenger.png' },
+                  { name: 'Freshdesk',  src: '/logos/freshdesk.png' },
+                  { name: 'Teams',      src: '/logos/teams.png' },
+                  { name: 'Notion',     src: '/logos/notion.png' },
+                  { name: 'WeChat',     src: '/logos/wechat.png' },
+                  { name: 'Salesforce', src: '/logos/salesforce.png' },
+                ]
+                const dur = 20
+                return (
+                  <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
+                    <p className="text-base font-semibold text-gray-900">One layer, every system</p>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — nothing falls through the cracks.</p>
+                    <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 relative overflow-hidden" style={{ height: '300px' }}>
+                      {/* Single orbit ring */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="rounded-full border border-dashed border-gray-200" style={{ width: '198px', height: '198px' }} />
+                      </div>
+                      {[0, 0.9, 1.8].map((d, i) => (
+                        <div key={i} className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="absolute rounded-full border border-[#214995]/25" style={{ width: '38px', height: '38px', animation: 'pulse-ring 2.6s ease-out infinite', animationDelay: `${d}s` }} />
+                        </div>
+                      ))}
+                      {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+                        <div key={angle} className="absolute pointer-events-none" style={{ top: '50%', left: '50%', marginTop: '-3px', marginLeft: '-3px', animation: `data-pull 2.2s ease-in infinite`, animationDelay: `${i * 0.37}s`, ['--da' as string]: `${angle}deg` }}>
+                          <div className="h-1.5 w-1.5 rounded-full bg-[#214995]/50" />
+                        </div>
+                      ))}
+                      {/* All logos — single ring */}
+                      {orbitAllMob.map((logo, i) => (
+                        <div key={logo.name} className="absolute" style={{ top: '50%', left: '50%', marginTop: '-26px', marginLeft: '-26px', animation: `logo-orbit ${dur}s linear infinite`, animationDelay: `${-(i / orbitAllMob.length) * dur}s`, ['--orbit-r' as string]: '99px' }}>
+                          <div style={{ animation: `logo-counter ${dur}s linear infinite`, animationDelay: `${-(i / orbitAllMob.length) * dur}s` }}>
+                            <div className="h-[52px] w-[52px] rounded-full bg-white shadow border border-gray-100 overflow-hidden flex items-center justify-center">
+                              <img src={logo.src} alt={logo.name} className="h-7 w-7 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="relative z-10 rounded-xl px-3 py-2 text-[10px] font-bold text-white leading-tight text-center" style={{ backgroundColor: '#214995', boxShadow: '0 0 14px rgba(33,73,149,0.4)' }}>supVision</div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })()}
+
+              {/* AI Decision Logs — mobile */}
+              <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
+                <p className="text-base font-semibold text-gray-900">AI Decision Logs</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">See exactly why supVision resolved or escalated each query — full reasoning chain exposed for compliance review or agent training.</p>
+                {/* Animation panel — dark beige */}
+                <div className="mt-4 rounded-2xl px-5 py-4 flex flex-col" style={{ background: '#f9fafb', opacity: logFading ? 0 : 1, transition: 'opacity 0.5s ease' }}>
+                  {/* Query pill */}
+                  <div className="mb-4 flex items-center gap-2">
+                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#9ca3af', flexShrink: 0, display: 'inline-block' }} />
+                    <span style={{ color: '#111827', fontWeight: 600, fontSize: '1.1rem', fontFamily: "'Nohemi', sans-serif", border: '1.5px solid rgba(0,0,0,0.10)', borderRadius: 9999, padding: '5px 16px', background: 'rgba(255,255,255,0.6)' }}>
+                      {LOG_SCENARIOS[logScene].query}
+                    </span>
+                  </div>
+                  {/* Steps */}
+                  <div className="flex flex-col gap-2.5 pl-4">
+                    {LOG_SCENARIOS[logScene].steps.slice(0, logRevealedSteps).map((step, i) => (
+                      <div key={i} className="flex items-start gap-2.5" style={{ animation: 'log-in 0.35s ease both' }}>
+                        <span style={{ color: step.type === 'success' ? '#16a34a' : step.type === 'warning' ? '#d97706' : '#9ca3af', fontSize: '1.05rem', lineHeight: '1.7rem', flexShrink: 0, fontWeight: 700 }}>
+                          {step.type === 'success' ? '✓' : step.type === 'warning' ? '!' : '→'}
+                        </span>
+                        <span style={{ color: step.type === 'info' ? '#6b7280' : '#111827', fontSize: '1.1rem', fontFamily: "'Nohemi', sans-serif", lineHeight: 1.5 }}>
+                          {step.text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Decision badge */}
+                  {logDecisionShown && (
+                    <div className="mt-5 flex justify-center" style={{ animation: 'log-in 0.4s ease both' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 26px', borderRadius: 9999, background: `${LOG_SCENARIOS[logScene].color}18`, border: `1.5px solid ${LOG_SCENARIOS[logScene].color}`, color: LOG_SCENARIOS[logScene].color, fontWeight: 700, fontSize: '1.1rem', fontFamily: "'Nohemi', sans-serif", letterSpacing: '0.08em' }}>
+                        {LOG_SCENARIOS[logScene].decision === 'ESCALATED' ? '⚠' : '✓'}&nbsp;{LOG_SCENARIOS[logScene].decision}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
           {/* Cards - 2 per row — desktop */}
@@ -620,101 +1030,7 @@ export default function Home() {
                 </svg>
               </Link>
             </div>
-          </div>          {/* Question — mobile: card with brand bg + rounded bottom */}
-          <div className="lg:hidden -mx-10 overflow-hidden rounded-[2.5rem] px-10 pb-8 pt-2" style={{ backgroundColor: '#F1EDE9' }}>
-            <div className="text-center">
-              <h2 className="text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-                One agent that works across every system you already use.
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-gray-500">
-                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
-              </p>
-
-              <Link
-                to="/integrations"
-                className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#214995' }}
-              >
-                Explore all integrations
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </Link>
-            </div>
-
-            {/* Integration logos ticker — edge-to-edge inside card */}
-            <div
-              className="mt-6 -mx-10 overflow-hidden"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-              }}
-            >
-              <div
-                className="flex items-center gap-3"
-                style={{ width: 'max-content', animation: 'ticker 24s linear infinite' }}
-              >
-                {[...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra, ...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra].map((logo, i) => (
-                  <div
-                    key={i}
-                    className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-white"
-                  >
-                    <img
-                      src={`/logos/${logo}`}
-                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
-                      className="h-[65%] w-[65%] object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
-
-          {/* Integrations — desktop (same as mobile block) */}
-          <div className="mb-16 hidden lg:block">
-            <div className="text-center">
-              <h2
-                className="mx-auto max-w-3xl text-4xl leading-snug text-gray-900"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
-              >
-                One agent that works across every system you already use.
-              </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500">
-                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
-              </p>
-              <Link
-                to="/integrations"
-                className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#214995' }}
-              >
-                Explore all integrations
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </Link>
-            </div>
-            <div className="relative left-1/2 mt-12 w-screen max-w-none -translate-x-1/2 overflow-hidden">
-              <div
-                className="flex items-center gap-5 px-2"
-                style={{ width: 'max-content', animation: 'ticker 32s linear infinite' }}
-              >
-                {[...heroIntegrationLogos, ...heroIntegrationLogos, ...heroIntegrationLogos].map((logo, i) => (
-                  <div
-                    key={i}
-                    className="flex h-[5.5rem] w-[5.5rem] flex-shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm sm:h-24 sm:w-24"
-                  >
-                    <img
-                      src={`/logos/${logo}`}
-                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
-                      className="h-[68%] w-[68%] object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-
 
         </div>
       </section>
@@ -723,16 +1039,16 @@ export default function Home() {
       <section className="px-4 py-4 lg:px-6 lg:py-10">
         <div
           className="mx-auto flex w-full max-w-2xl flex-col items-start gap-6 rounded-[1.5rem] px-6 py-8 lg:max-w-none lg:items-center lg:gap-8 lg:rounded-[2rem] lg:px-12 lg:py-12"
-          style={{ background: '#1A1A1A' }}
+          style={{ backgroundColor: '#F3EFE9' }}
         >
           <div className="w-full lg:text-center">
             <h2
-              className="text-3xl leading-snug text-white lg:text-4xl"
+              className="text-3xl leading-snug text-gray-900 lg:text-4xl"
               style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               Built for the way <span style={{ color: '#FB9A05' }}>fintech works</span>
             </h2>
-            <p className="mt-2 text-sm text-gray-400 lg:text-base">Select one to see supVision in action.</p>
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">Select one to see supVision in action.</p>
           </div>
 
           <div className="flex w-full flex-wrap justify-center gap-2">
@@ -741,9 +1057,9 @@ export default function Home() {
               onClick={() => setActivePersona(null)}
               className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
               style={{
-                background: activePersona === null ? '#214995' : 'rgba(255,255,255,0.08)',
-                color: activePersona === null ? '#fff' : '#9ca3af',
-                border: activePersona === null ? '1px solid #214995' : '1px solid rgba(255,255,255,0.1)',
+                background: activePersona === null ? '#214995' : 'rgba(0,0,0,0.06)',
+                color: activePersona === null ? '#fff' : '#6b7280',
+                border: activePersona === null ? '1px solid #214995' : '1px solid rgba(0,0,0,0.1)',
               }}
             >
               All
@@ -755,9 +1071,9 @@ export default function Home() {
                 onClick={() => setActivePersona(prev => (prev === i ? null : i))}
                 className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
                 style={{
-                  background: activePersona === i ? '#214995' : 'rgba(255,255,255,0.08)',
-                  color: activePersona === i ? '#fff' : '#9ca3af',
-                  border: activePersona === i ? '1px solid #214995' : '1px solid rgba(255,255,255,0.1)',
+                  background: activePersona === i ? '#214995' : 'rgba(0,0,0,0.06)',
+                  color: activePersona === i ? '#fff' : '#6b7280',
+                  border: activePersona === i ? '1px solid #214995' : '1px solid rgba(0,0,0,0.1)',
                 }}
               >
                 {persona.label}
@@ -774,7 +1090,7 @@ export default function Home() {
               <div
                 key={stack.label}
                 className="flex items-center gap-3 rounded-2xl px-4 py-3 lg:gap-3 lg:px-4 lg:py-4"
-                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+                style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)' }}
               >
                 <div className="flex flex-shrink-0 items-center -space-x-2">
                   {stack.logos.map((logo, idx) => (
@@ -782,7 +1098,7 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold leading-snug text-white lg:text-sm">{stack.label}</p>
+                  <p className="text-xs font-bold leading-snug text-gray-900 lg:text-sm">{stack.label}</p>
                   <p className="text-xs leading-snug text-gray-400">{stack.desc}</p>
                 </div>
               </div>
@@ -796,13 +1112,13 @@ export default function Home() {
             return (
               <>
                 <div className="flex w-full flex-col gap-2.5 lg:hidden">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Suggested integrations</p>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Suggested integrations</p>
                   <div className="flex flex-col gap-2.5">
                     {mobileVisible.map(stack => renderStackCard(stack))}
                   </div>
                   {mobileExtra > 0 && (
                     <div className="flex justify-center">
-                      <Link to="/integrations" className="text-xs font-semibold text-gray-400 transition-colors hover:text-gray-200">
+                      <Link to="/integrations" className="text-xs font-semibold text-gray-500 transition-colors hover:text-gray-700">
                         +{mobileExtra} more ↓
                       </Link>
                     </div>
@@ -810,13 +1126,13 @@ export default function Home() {
                 </div>
 
                 <div className="hidden w-full flex-col gap-4 lg:flex">
-                  <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-500">Suggested integrations</p>
+                  <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-400">Suggested integrations</p>
                   <div className="grid w-full grid-cols-4 gap-4">
                     {desktopVisible.map(stack => renderStackCard(stack))}
                   </div>
                   {desktopExtra > 0 && (
                     <div className="flex justify-center">
-                      <Link to="/integrations" className="text-xs font-semibold text-gray-400 transition-colors hover:text-gray-200">
+                      <Link to="/integrations" className="text-xs font-semibold text-gray-500 transition-colors hover:text-gray-700">
                         +{desktopExtra} more ↓
                       </Link>
                     </div>
@@ -837,34 +1153,62 @@ export default function Home() {
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
-            <Link to="/contact" className="text-center text-xs text-gray-400 transition-colors hover:text-gray-200">
-              Can&apos;t find your tool? <span className="font-bold text-white">Let&apos;s talk about your stack →</span>
+            <Link to="/contact" className="text-center text-xs text-gray-500 transition-colors hover:text-gray-700">
+              Can&apos;t find your tool? <span className="font-bold text-gray-900">Let&apos;s talk about your stack →</span>
             </Link>
           </div>
         </div>
       </section>
 
-      <SolutionShowcase
-        variant="desktop"
-        modelAnimIdx={modelAnimIdx}
-        logScene={logScene}
-        logRevealedSteps={logRevealedSteps}
-        logDecisionShown={logDecisionShown}
-        logFading={logFading}
-        langItems={langItems}
-        liftedSlot={liftedSlot}
-      />
 
-      <SolutionShowcase
-        variant="mobile"
-        modelAnimIdx={modelAnimIdx}
-        logScene={logScene}
-        logRevealedSteps={logRevealedSteps}
-        logDecisionShown={logDecisionShown}
-        logFading={logFading}
-        langItems={langItems}
-        liftedSlot={liftedSlot}
-      />
+      {/* Industries — Built for your industry */}
+      <section className="py-16 px-4 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <div className="mb-10 text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Industries</p>
+            <h2 className="mt-3 text-4xl lg:text-5xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              Built for <span style={{ fontWeight: 700 }}>your industry</span>
+            </h2>
+          </div>
+
+          {/* Cards — 2 cols mobile, 5 cols desktop */}
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-4">
+            {([
+              { label: 'Payments & Processing',      img: '/for_whom/Payments & Processing.png' },
+              { label: 'Neobanks & Digital Banking', img: '/for_whom/Neobanks & Digital Banking.png' },
+              { label: 'InsurTech',                   img: '/for_whom/InsurTech.png' },
+              { label: 'Lending & Credit',            img: '/for_whom/Lending & Credit.png' },
+              { label: 'Web3',                         img: '/for_whom/Web3.png' },
+            ] as const).map((ind) => (
+              <div
+                key={ind.label}
+                className="relative overflow-hidden rounded-[1.25rem] aspect-square"
+              >
+                {/* Photo — fills the square */}
+                <img
+                  src={ind.img}
+                  alt={ind.label}
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
+                />
+                {/* Gradient vignette at bottom for label readability */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)',
+                    height: '45%',
+                  }}
+                />
+                {/* Label */}
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="text-sm font-bold leading-snug text-white lg:text-base">{ind.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Proof */}
       <section className="py-16" style={{ backgroundColor: '#111' }}>
@@ -892,206 +1236,76 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Scroll carousel */}
-        <div
-          ref={carouselRef}
-          style={{ overflow: 'hidden', width: '100%' }}
-        >
-          <div
-            ref={carouselRef}
-            style={{
-              display: 'flex',
-              gap: '16px',
-              alignItems: 'flex-end',
-              width: 'max-content',
-              animation: 'ticker 40s linear infinite',
-            }}
-          >
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <div
-                key={i}
-                style={{
-                  flexShrink: 0,
-                  width: 320,
-                  background: '#faf8f5',
-                  borderRadius: 24,
-                  padding: '2rem 1.75rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '1rem',
-                }}
-              >
-                <p style={{
-                  fontFamily: 'Georgia, "Times New Roman", serif',
-                  fontSize: '1.1rem',
-                  lineHeight: 1.65,
-                  color: '#1a1a1a',
-                  textAlign: 'center',
-                }}>
-                  "{t.quote}"
-                </p>
-                <p style={{ fontSize: '0.92rem', color: '#555', textAlign: 'center', lineHeight: 1.5 }}>
-                  <strong style={{ color: '#111' }}>{t.name}</strong>
-                  {', '}{t.role}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured stories */}
-      <section className="px-4 py-10 lg:px-8 lg:py-14" style={{ backgroundColor: '#111' }}>
-        <div className="mx-auto grid max-w-2xl grid-cols-2 gap-4 lg:max-w-5xl lg:grid-cols-2 lg:items-start lg:gap-5">
-          {[
-            {
-              headline: 'Queue gone in a week',
-              quote: '"Disputes used to pile up over 3–5 days. supVision resolved them in under 2 minutes, no manual steps. The queue was gone by end of week one."',
-              name: 'Marcus T.',
-              role: 'Head of Operations',
-            },
-            {
-              headline: 'Live in 3 days, not 6 months',
-              quote: '"Our previous vendor quoted six months. supVision connected to Zendesk and our KYC provider over a weekend. By Monday it was handling real queries."',
-              name: 'Nina K.',
-              role: 'Director of Customer Ops',
-            },
-            {
-              headline: '74% cost reduction, first quarter',
-              quote: '"Every time volume grew, so did headcount costs. supVision let us handle 4× the load with the same team — 74% opex reduction in the first quarter."',
-              name: 'Tobias H.',
-              role: 'CFO',
-            },
-            {
-              headline: '16× growth, zero new hires',
-              quote: '"5,000 to 80,000 monthly users in eight months. supVision absorbed the entire spike without a single new hire. CSAT improved during the growth phase."',
-              name: 'Yuki T.',
-              role: 'VP Operations',
-            },
-          ].map((s, i) => (
-            <div
-              key={i}
-              className="h-full"
-              style={{
-                backgroundColor: '#224894',
-                borderRadius: 20,
-                padding: '1.75rem 1.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                position: 'relative',
-              }}
-            >
-              {/* Arrow */}
-              <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem' }}>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M4 16L16 4M16 4H7M16 4V13" stroke="#faf8f5" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-
-              {/* Headline */}
-              <p
-                className="pr-8 text-[1.5rem] leading-tight lg:text-[1.75rem] lg:leading-snug"
-                style={{
-                  fontFamily: "'Nohemi', sans-serif",
-                  fontWeight: 300,
-                  color: '#FB9A05',
-                }}
-              >
-                {s.headline}
-              </p>
-
-              {/* Quote */}
-              <p className="flex-1 text-[0.88rem] leading-relaxed text-[#faf8f5] lg:text-[1rem] lg:leading-relaxed">
-                {s.quote}
-              </p>
-
-              {/* Attribution */}
-              <div style={{ marginTop: '0.25rem' }}>
-                <p style={{ fontWeight: 700, fontSize: '0.88rem', color: '#faf8f5' }}>{s.name}</p>
-                <p style={{ fontSize: '0.82rem', color: 'rgba(250,248,245,0.6)', marginTop: 2 }}>{s.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* Built by operators */}
-      <section data-nav-dark className="py-3 px-2 sm:px-3">
+      <section className="py-3 px-2 sm:px-3">
         <div>
-          <div className="rounded-3xl bg-gray-950 px-4 py-10 lg:px-16 lg:py-16">
+          <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#214995' }}>
           <div className="grid gap-10 lg:gap-16 lg:grid-cols-2 lg:items-center">
 
             {/* Left - text */}
             <div>
-              <p className="hidden text-xs font-bold uppercase tracking-[0.2em] lg:block" style={{ color: '#4a72c4' }}>Our story</p>
-              {/* Mobile headline — Canela, как Instant support / Zero effort */}
+              <p className="hidden text-xs font-bold uppercase tracking-[0.2em] text-white/50 lg:block">Our story</p>
+              {/* Mobile headline */}
               <h2
                 className="mt-4 flex flex-col text-center leading-tight lg:hidden"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
               >
                 <span className="text-white">Built by people with</span>
                 <span>
-                  <span style={{ color: '#FB9A05' }}>10+ years </span>
+                  <span style={{ color: '#FB9A05' }}>15+ years </span>
                   <span className="text-white">in fintech.</span>
                 </span>
               </h2>
-              <h2 className="mt-4 hidden text-3xl font-bold leading-snug text-white lg:mt-5 lg:block lg:text-5xl">
-                Built by people with 10+ years in fintech.
+              <h2 className="mt-4 hidden leading-snug text-white lg:mt-5 lg:block lg:text-5xl" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Built by people with 15+ years in fintech.
               </h2>
-              <p className="mt-4 text-center text-sm leading-relaxed text-gray-400 lg:mt-6 lg:text-left lg:text-base">
-                Built by operators, not engineers reading about fintech. We spent a decade in financial services — support, verification queues, regulator audits — and watched knowledge walk out every time an agent left.
+              <p className="mt-4 text-center text-sm leading-relaxed text-white/70 lg:mt-6 lg:text-left lg:text-base">
+                Our team comes from inside the industry — compliance officers, support leads, and engineers who spent over 15 years building and running financial services operations across Europe, the Middle East, and Asia. We know the regulatory pressure, the integration pain, and what it actually takes to scale support without losing control.
               </p>
-
-              {/* Mobile: metrics right after paragraph */}
-              <div className="mt-6 border-t border-white/10 pt-6 lg:hidden">
-                <p className="text-center text-sm font-semibold text-white">
-                  And here&apos;s what we achieved on our own operations first:
-                </p>
-                <div className="mt-5 grid grid-cols-3 gap-4">
-                {[
-                  { value: '70%', label: 'Fewer repeat tickets on our own queue' },
-                  { value: '4×', label: 'Faster internal escalation resolution' },
-                  { value: '100%', label: 'Playbooks captured — no knowledge lost on handoff' },
-                ].map(m => (
-                  <div key={m.label} className="text-center">
-                    <p className="text-2xl font-black text-white">{m.value}</p>
-                    <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
-                  </div>
-                ))}
-                </div>
-              </div>
 
               {/* Mobile photo */}
               <div className="mt-6 overflow-hidden rounded-2xl lg:hidden">
                 <img src="/team.png" alt="supVision team" className="w-full object-cover" />
               </div>
 
-              <p className="mt-4 text-center text-sm font-semibold text-white lg:text-left lg:text-base">
-                So we decided to share it with the whole industry.
+              <p className="mt-4 text-center text-sm leading-relaxed text-white/70 lg:text-left">
+                Today supVision is live across <span className="font-semibold text-white">40+ countries</span>, supporting <span className="font-semibold text-white">20 currencies</span> — handling real customer queries for fintech companies that can't afford downtime, compliance gaps, or slow support.
               </p>
 
-              <div className="mt-6 lg:mt-10">
+              <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
+                {[
+                  { value: '40+', label: 'Countries live' },
+                  { value: '20', label: 'Currencies supported' },
+                  { value: '15+', label: 'Years in fintech' },
+                ].map(m => (
+                  <div key={m.label} className="rounded-2xl border border-white/20 bg-white/10 px-4 py-4 text-center lg:text-left">
+                    <p className="text-2xl font-black text-white">{m.value}</p>
+                    <p className="mt-1 text-xs leading-snug text-white/50">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 lg:mt-8">
                 {/* Mobile button */}
                 <Link
                   to="/about"
-                  className="flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 py-3 text-sm font-semibold text-white lg:hidden"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 py-3 text-sm font-semibold text-white lg:hidden"
                 >
                   Read our story
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
                 </Link>
-                {/* Desktop button: animated */}
+                {/* Desktop button */}
                 <div className="hidden lg:flex flex-wrap items-center gap-6">
                   <Link
                     to="/about"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
+                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
                   >
-                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                    <span className="relative z-10 transition-colors duration-300">Read our story</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+                    <span className="relative z-10">Read our story</span>
+                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                         <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                       </svg>
@@ -1099,29 +1313,11 @@ export default function Home() {
                   </Link>
                   <div className="flex items-center gap-4">
                     <div className="h-px w-8 bg-white/20" />
-                    <span className="text-sm text-white/50">10+ years in fintech before writing a line of code</span>
+                    <span className="text-sm text-white/50">15+ years in fintech, live in multiple countries</span>
                   </div>
                 </div>
               </div>
 
-              {/* Desktop metrics */}
-              <div className="mt-8 hidden border-t border-white/10 pt-10 lg:block">
-                <p className="text-sm font-semibold text-white">
-                  And here&apos;s what we achieved on our own operations first:
-                </p>
-                <div className="mt-6 grid grid-cols-3 gap-6">
-                {[
-                  { value: '70%', label: 'Fewer repeat tickets on our own queue' },
-                  { value: '4×', label: 'Faster internal escalation resolution' },
-                  { value: '100%', label: 'Playbooks captured — no knowledge lost on handoff' },
-                ].map(m => (
-                  <div key={m.label}>
-                    <p className="text-2xl font-black text-white lg:text-3xl">{m.value}</p>
-                    <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
-                  </div>
-                ))}
-                </div>
-              </div>
             </div>
 
             {/* Right - image, desktop only */}
@@ -1142,7 +1338,7 @@ export default function Home() {
 
       {/* Compliance & Security */}
       <section className="py-3 px-2 sm:px-3">
-        <div className="rounded-3xl bg-gray-50 px-4 py-10 lg:px-16 lg:py-16">
+        <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#F3EFE9' }}>
           <div className="mx-auto max-w-7xl">
 
             {/* Mobile */}
@@ -1181,7 +1377,7 @@ export default function Home() {
             <div className="hidden lg:block">
               <h2
                 className="mt-5 text-4xl leading-tight text-gray-900 text-center"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 400 }}
               >
                 We put our security{' '}
                 <span style={{ color: '#FB9A05' }}>to the test </span>
@@ -1191,15 +1387,14 @@ export default function Home() {
                 {complianceCertCards.map((card) => (
                   <div
                     key={card.title}
-                    className="flex flex-col items-center overflow-visible rounded-2xl border border-gray-800 px-6 py-8 text-center"
-                    style={{ backgroundColor: '#1c1c1e' }}
+                    className="flex flex-col items-center overflow-visible rounded-2xl border border-[#e6ddd2] px-6 py-8 text-center bg-white shadow-sm"
                   >
                     <div
                       className={[
                         'relative mb-6 flex items-center justify-center overflow-visible rounded-full border-2',
                         card.badgeOversize ? 'h-24 w-24' : 'h-28 w-28 p-4',
                       ].join(' ')}
-                      style={{ borderColor: '#FB9A05', boxShadow: '0 0 20px rgba(251, 154, 5, 0.2)' }}
+                      style={{ borderColor: '#214995', boxShadow: '0 0 20px rgba(33,73,149,0.12)' }}
                     >
                       <img
                         src={card.badge}
@@ -1212,12 +1407,12 @@ export default function Home() {
                       />
                     </div>
                     <h3
-                      className="text-xl leading-snug text-white"
+                      className="text-xl leading-snug text-gray-900"
                       style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
                     >
                       {card.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-gray-400">{card.desc}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-500">{card.desc}</p>
                   </div>
                 ))}
               </div>
@@ -1672,146 +1867,7 @@ function FAQ() {
 }
 
 
-const testimonials: {
-  name: string
-  role: string
-  company: string
-  bgGradient: string
-  avatar: string
-  quote: string
-  metrics: { value: string; label: string }[]
-}[] = [
-  {
-    name: 'Marcus T.',
-    role: 'Head of Operations',
-    company: 'CLEARFLOW',
-    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
-    avatar: '/team.png',
-    quote: "Dispute queues were our biggest headache — tickets piling up over 3–5 days, agents overwhelmed, customers furious. supVision resolved the same disputes in under 2 minutes, with no manual steps. The queue disappeared in the first week.",
-    metrics: [
-      { value: '< 2 min', label: 'median dispute resolution' },
-      { value: '0', label: 'manual steps required' },
-    ],
-  },
-  {
-    name: 'Priya S.',
-    role: 'VP Customer Experience',
-    company: 'NOVALEND',
-    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
-    avatar: '/image 178 (1)-Photoroom 2.png',
-    quote: "We were stuck in a cycle — agents quit, we onboard new ones, quality drops, repeat. supVision ended that cycle completely. The quality on day one was the same as month twelve. We stopped budgeting for turnover.",
-    metrics: [
-      { value: '0%', label: 'knowledge loss on agent turnover' },
-      { value: '98.4%', label: 'consistent resolution rate' },
-    ],
-  },
-  {
-    name: 'Tobias H.',
-    role: 'CFO',
-    company: 'PAYREX',
-    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
-    avatar: '/team.png',
-    quote: "Every time ticket volume grew, so did our headcount costs — salaries, sick pay, cover shifts, retraining. supVision let us handle 4× the volume with the same team. We cut support operating costs by 74% in the first quarter.",
-    metrics: [
-      { value: '74%', label: 'reduction in support opex' },
-      { value: '4×', label: 'volume, same team size' },
-    ],
-  },
-  {
-    name: 'Sofia M.',
-    role: 'Head of Support',
-    company: 'BANKLY',
-    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
-    avatar: '/image 178 (1)-Photoroom 2.png',
-    quote: "Our customers were hitting payment failures at midnight with no one to help. Covering nights and weekends was expensive and demoralising for the team. supVision took over the whole 24/7 window. Every customer now gets an instant reply, any hour.",
-    metrics: [
-      { value: '24/7', label: 'coverage without shift premiums' },
-      { value: '< 10 s', label: 'avg first response, any hour' },
-    ],
-  },
-  {
-    name: 'Léa C.',
-    role: 'Global Expansion Lead',
-    company: 'FINVAULT',
-    bgGradient: 'linear-gradient(135deg, #0a2218 0%, #0e4a30 60%, #1a7a50 100%)',
-    avatar: '/team.png',
-    quote: "We were routing foreign-language queries through Google Translate and hoping for the best. Complaints from non-English users were 3× higher. supVision handles 50+ languages natively — no awkward phrasing, no miscommunication, launch-ready from day one.",
-    metrics: [
-      { value: '50+', label: 'languages, native fluency' },
-      { value: '3×', label: 'fewer complaints from non-English users' },
-    ],
-  },
-  {
-    name: 'Arjun M.',
-    role: 'Head of Compliance',
-    company: 'KRYPTEX',
-    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
-    avatar: '/team.png',
-    quote: "Regulators asked for a full audit trail on a disputed case. With our old setup that would have taken a week. supVision had every decision logged with timestamps and rationale. We exported the full trail in four minutes.",
-    metrics: [
-      { value: '4 min', label: 'full audit export time' },
-      { value: '100%', label: 'decisions logged automatically' },
-    ],
-  },
-  {
-    name: 'Nina K.',
-    role: 'Director of Customer Ops',
-    company: 'SWIFTCARD',
-    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
-    avatar: '/team.png',
-    quote: "We went live in three days. Not three months — three days. Our old vendor quoted a six-month integration. supVision connected to Zendesk and our KYC provider over a weekend, and by Monday morning it was handling real queries.",
-    metrics: [
-      { value: '3 days', label: 'from contract to live' },
-      { value: '6 months', label: 'saved vs previous vendor quote' },
-    ],
-  },
-  {
-    name: 'Daniel F.',
-    role: 'CTO',
-    company: 'MONEYMESH',
-    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
-    avatar: '/team.png',
-    quote: "We handle card disputes on WhatsApp and Telegram as well as web. supVision handles all three channels with the same logic, same tone, same compliance rules. No separate bots, no inconsistent answers. One system, everywhere.",
-    metrics: [
-      { value: '3 channels', label: 'unified — web, WhatsApp, Telegram' },
-      { value: '1', label: 'policy engine across all of them' },
-    ],
-  },
-  {
-    name: 'Yuki T.',
-    role: 'VP Operations',
-    company: 'ORBITPAY',
-    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
-    avatar: '/team.png',
-    quote: "We scaled from 5,000 to 80,000 monthly active users in eight months. Support volume exploded. supVision absorbed the whole spike without us hiring a single new agent. CSAT actually improved during the growth phase.",
-    metrics: [
-      { value: '16×', label: 'user growth, zero new support hires' },
-      { value: '+12 pts', label: 'CSAT improvement during scale-up' },
-    ],
-  },
-]
 
-const heroIntegrationLogos = [
-  'zendesk.png',
-  'slack.png',
-  'salesforce.png',
-  'freshdesk.png',
-  'hubspot.png',
-  'intecom (1).png',
-  'whatsapp.png',
-  'telegram.png',
-  'notion.png',
-  'confluence.png',
-  'jira.png',
-]
-
-const heroIntegrationLogosMobileExtra = [
-  'gmail.png',
-  'outlook.png',
-  'teams.png',
-  'twillio.png',
-  'mambu.png',
-]
 
 const S = (d: string | string[], fr = false) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
@@ -1863,20 +1919,20 @@ const complianceCertCards = [
     badge: '/gdpr.png',
     badgeAlt: 'GDPR Compliant',
     title: 'GDPR Compliance',
-    desc: 'GDPR-compliant data handling and right-to-erasure support',
+    desc: 'GDPR-compliant data handling and right-to-erasure support.',
   },
   {
     badge: '/badge/image.png',
     badgeAlt: 'PCI DSS Compliant',
     title: 'PCI DSS Aligned',
-    desc: 'PCI DSS aligned, no raw card data ever touches our system',
+    desc: 'PCI DSS aligned — no raw card data ever touches our system.',
     badgeOversize: true,
   },
   {
     badge: '/nda.png',
     badgeAlt: 'NDA protected',
     title: 'NDA-Protected Data',
-    desc: 'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records',
+    desc: 'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records.',
   },
 ]
 
@@ -1889,9 +1945,9 @@ const mobileInsightCards = [
     variant: 'light' as const,
   },
   {
-    label: 'Customer satisfaction',
-    stat: '92%',
-    body: 'Happier customers — faster answers, fewer escalations, and higher CSAT across every channel.',
+    label: 'Tickets handled',
+    stat: '93%',
+    body: '93% of tickets are handled by the AI support agent — fully resolved without a human ever getting involved.',
     variant: 'image' as const,
     image: '/hero_images/Component 174.png',
   },

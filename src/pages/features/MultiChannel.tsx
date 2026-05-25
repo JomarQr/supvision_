@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react'
+import ModelSelectorCard from '../../components/home/ModelSelectorCard'
+import { MODEL_ANIM_STEPS } from '../../components/home/solutionShowcaseData'
 import FeaturePage from './FeaturePage'
 
 const data = {
@@ -37,5 +40,60 @@ const faq = [
 ]
 
 export default function MultiChannel() {
-  return <FeaturePage data={data} faq={faq} />
+  const [modelAnimIdx, setModelAnimIdx] = useState(0)
+
+  useEffect(() => {
+    const t = setTimeout(
+      () => setModelAnimIdx(i => (i + 1) % MODEL_ANIM_STEPS.length),
+      MODEL_ANIM_STEPS[modelAnimIdx].delay
+    )
+    return () => clearTimeout(t)
+  }, [modelAnimIdx])
+
+  const step = MODEL_ANIM_STEPS[modelAnimIdx]
+
+  return (
+    <>
+      <FeaturePage data={data} faq={faq} />
+
+      {/* Pick any AI — model selector animation */}
+      <section className="px-4 py-16 lg:px-8 lg:py-24" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-7xl">
+          {/* Desktop: side by side */}
+          <div className="hidden lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+            <ModelSelectorCard step={step} className="h-[440px]" />
+            <div className="flex flex-col justify-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">AI routing</p>
+              <h2 className="mt-4 text-5xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Pick any AI for any task.
+              </h2>
+              <p className="mt-3 text-xl leading-snug text-gray-500" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Pay only for what you need.
+              </p>
+              <p className="mt-5 max-w-md text-base leading-relaxed text-gray-500">
+                supVision routes each query to the most cost-efficient model — GPT for speed, Claude for reasoning, Gemini for documents — so you never overpay on tokens.
+              </p>
+            </div>
+          </div>
+
+          {/* Mobile: stacked */}
+          <div className="lg:hidden">
+            <div className="text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">AI routing</p>
+              <h2 className="mt-3 text-[1.9rem] leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Pick any AI for any task.
+              </h2>
+              <p className="mt-1 text-lg leading-snug text-gray-500" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Pay only for what you need.
+              </p>
+              <p className="mt-4 mx-auto max-w-xs text-sm leading-relaxed text-gray-500">
+                supVision routes each query to the most cost-efficient model — GPT for speed, Claude for reasoning, Gemini for documents — so you never overpay on tokens.
+              </p>
+            </div>
+            <ModelSelectorCard step={step} className="mt-8 h-[440px]" />
+          </div>
+        </div>
+      </section>
+    </>
+  )
 }
