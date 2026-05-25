@@ -151,7 +151,7 @@ function FeatureTabSection() {
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: isMobile ? '12vh' : '26vh', paddingBottom: '1rem' }}>
         {/* What is supVision? — absolutely positioned so tabs stay centered */}
         <div className={`text-center ${isMobile ? 'px-5' : ''}`} style={{ position: 'absolute', top: isMobile ? '3vh' : '7vh', left: 0, right: 0 }}>
-          <h2 className={`${isMobile ? 'text-2xl' : 'text-4xl'} leading-tight text-gray-900`} style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+          <h2 className={`${isMobile ? 'text-3xl' : 'text-4xl'} leading-tight text-gray-900`} style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
             What is supVision?
           </h2>
           <p className={`mt-2 mx-auto ${isMobile ? 'max-w-xs text-sm' : 'max-w-2xl text-base'} leading-relaxed text-gray-500`}>
@@ -938,7 +938,7 @@ export default function Home() {
           <div className="-mx-6 mt-6 lg:hidden pt-8 pb-8 px-4">
             <div className="mb-8 text-center">
               <h2 className="text-3xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-                Still paying agents to answer the same <span style={{ fontWeight: 700 }}>questions every day?</span>
+                Still paying agents to answer the same questions every day?
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-gray-500">
                 Disputes, KYC checks, payment failures — <strong className="text-gray-700">supVision handles them automatically</strong>, so your team only touches cases that genuinely need a human.
