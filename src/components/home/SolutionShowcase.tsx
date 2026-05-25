@@ -93,7 +93,7 @@ function ModelPickerIntro({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) 
 function DataAccessPanel({ tall }: { tall?: boolean }) {
   return (
     <div
-      className={`flex w-full flex-col overflow-hidden rounded-2xl pt-6 ${tall ? 'h-[420px]' : 'h-96'}`}
+      className={`flex w-full flex-col overflow-hidden rounded-2xl pt-6 ${tall ? 'h-[500px]' : 'h-96'}`}
       style={{ background: '#141414' }}
     >
       <div className="mb-4 flex-shrink-0 px-5">
@@ -166,7 +166,7 @@ function DecisionLogsPanel({
   const scenario = LOG_SCENARIOS[logScene]
   return (
     <div
-      className={`flex w-full flex-col rounded-2xl px-6 pb-5 pt-7 ${tall ? 'h-[420px]' : 'h-96'}`}
+      className={`flex w-full flex-col rounded-2xl px-6 pb-5 pt-7 ${tall ? 'h-[500px]' : 'h-96'}`}
       style={{ background: '#141414', opacity: logFading ? 0 : 1, transition: 'opacity 0.5s ease' }}
     >
       <div className="mb-5 flex flex-shrink-0 items-center gap-2">
@@ -243,7 +243,7 @@ function DecisionLogsPanel({
 
 function LanguagesPanel({ langItems, liftedSlot, tall }: { langItems: LangItem[]; liftedSlot: number; tall?: boolean }) {
   return (
-    <div className={`relative w-full overflow-hidden rounded-2xl ${tall ? 'h-[420px]' : 'h-96'}`} style={{ background: '#1a1a1a' }}>
+    <div className={`relative w-full overflow-hidden rounded-2xl ${tall ? 'h-[500px]' : 'h-96'}`} style={{ background: '#1a1a1a' }}>
       {langItems.map(({ id, langIdx, slot }) => {
         const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
         const flagSize = Math.round(s.h * 0.64)
@@ -318,10 +318,10 @@ function FeatureBlock({
 }) {
   return (
     <div className="flex flex-col items-center gap-3 text-center lg:items-stretch lg:text-center">
-      <h3 className="text-2xl leading-snug text-gray-900 lg:text-[1.65rem]" style={{ fontFamily: "'Canela', serif", fontWeight: 350 }}>
+      <h3 className="text-2xl leading-snug text-gray-900 lg:text-[2.1rem]" style={{ fontFamily: "'Canela', serif", fontWeight: 350 }}>
         {title}
       </h3>
-      <p className="max-w-xs text-sm leading-relaxed text-gray-500 lg:max-w-none">{description}</p>
+      <p className="max-w-xs text-sm leading-relaxed text-gray-500 lg:max-w-none lg:text-base">{description}</p>
       {children}
     </div>
   )
@@ -378,7 +378,7 @@ export default function SolutionShowcase({
             <ModelPickerIntro size="desktop" />
           </div>
 
-          <div className="mt-20 mx-auto max-w-4xl">
+          <div className="mt-20 mx-auto max-w-6xl">
             {/* Top row: Data Access left, AI Decision Logs right + lower */}
             <div className="flex items-start gap-8">
               <div style={{ flex: '0 0 48%' }}>
@@ -389,7 +389,7 @@ export default function SolutionShowcase({
                   <DataAccessPanel tall />
                 </FeatureBlock>
               </div>
-              <div style={{ flex: '0 0 48%', marginTop: '144px' }}>
+              <div style={{ flex: '0 0 48%', marginTop: '200px' }}>
                 <FeatureBlock
                   title="AI Decision Logs"
                   description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
