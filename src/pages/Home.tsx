@@ -395,42 +395,72 @@ export default function Home() {
             </div>
 
             <div className="mt-12 grid grid-cols-2 gap-6">
-              {mobileInsightCards.map((card) => (
-                <div
-                  key={card.label}
-                  className="relative overflow-hidden rounded-[2rem] px-8 py-10 text-center"
-                  style={
-                    card.variant === 'image'
-                      ? {
-                          backgroundImage: `url(${card.image})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                        }
-                      : { backgroundColor: '#F3EFE9' }
-                  }
-                >
-                  {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
-                  <div className="relative z-10">
-                    <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}>
-                      {card.label}
-                    </p>
-                    <p
-                      className="mt-3 leading-none tracking-tight"
-                      style={{
-                        fontFamily: "'Nohemi', sans-serif",
-                        fontWeight: 300,
-                        fontSize: '3.5rem',
-                        color: card.variant === 'image' ? '#fff' : '#111827',
-                      }}
+              {mobileInsightCards.map((card) => {
+                if (card.variant === 'wide') {
+                  return (
+                    <div
+                      key={card.label}
+                      className="col-span-2 relative overflow-hidden rounded-[2rem] px-10 py-10"
+                      style={{ backgroundColor: '#F3EFE9' }}
                     >
-                      {card.stat}
-                    </p>
-                    <p className={`mx-auto mt-4 max-w-sm text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}>
-                      {card.body}
-                    </p>
+                      <div className="flex items-center gap-12">
+                        <div className="flex-shrink-0 text-center" style={{ minWidth: '160px' }}>
+                          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">
+                            {card.label}
+                          </p>
+                          <p
+                            className="mt-3 leading-none tracking-tight"
+                            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '4rem', color: '#111827' }}
+                          >
+                            {card.stat}
+                          </p>
+                        </div>
+                        <div className="h-16 w-px bg-gray-300/60 flex-shrink-0" />
+                        <div>
+                          <p className="text-2xl font-semibold leading-snug text-gray-900">{card.headline}</p>
+                          <p className="mt-3 text-sm leading-relaxed text-gray-500">{card.body}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
+                return (
+                  <div
+                    key={card.label}
+                    className="relative overflow-hidden rounded-[2rem] px-8 py-10 text-center"
+                    style={
+                      card.variant === 'image'
+                        ? {
+                            backgroundImage: `url(${(card as { image: string }).image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }
+                        : { backgroundColor: '#F3EFE9' }
+                    }
+                  >
+                    {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
+                    <div className="relative z-10">
+                      <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}>
+                        {card.label}
+                      </p>
+                      <p
+                        className="mt-3 leading-none tracking-tight"
+                        style={{
+                          fontFamily: "'Nohemi', sans-serif",
+                          fontWeight: 300,
+                          fontSize: '3.5rem',
+                          color: card.variant === 'image' ? '#fff' : '#111827',
+                        }}
+                      >
+                        {card.stat}
+                      </p>
+                      <p className={`mx-auto mt-4 max-w-sm text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}>
+                        {card.body}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             <div className="mt-10 flex items-center justify-center gap-4">
@@ -463,46 +493,67 @@ export default function Home() {
             </div>
 
             <div className="mt-6 flex flex-col gap-3">
-              {mobileInsightCards.map((card) => (
-                <div
-                  key={card.label}
-                  className="relative overflow-hidden rounded-[2rem] px-6 py-9 text-center"
-                  style={
-                    card.variant === 'image'
-                      ? {
-                          backgroundImage: `url(${card.image})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                        }
-                      : { backgroundColor: '#F3EFE9' }
-                  }
-                >
-                  {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
-                  <div className="relative z-10">
-                    <p
-                      className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}
+              {mobileInsightCards.map((card) => {
+                if (card.variant === 'wide') {
+                  return (
+                    <div
+                      key={card.label}
+                      className="relative overflow-hidden rounded-[2rem] px-6 py-8"
+                      style={{ backgroundColor: '#F3EFE9' }}
                     >
-                      {card.label}
-                    </p>
-                    <p
-                      className="mt-2 leading-none tracking-tight"
-                      style={{
-                        fontFamily: "'Nohemi', sans-serif",
-                        fontWeight: 300,
-                        fontSize: '3.25rem',
-                        color: card.variant === 'image' ? '#fff' : '#111827',
-                      }}
-                    >
-                      {card.stat}
-                    </p>
-                    <p
-                      className={`mx-auto mt-4 max-w-[16rem] text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}
-                    >
-                      {card.body}
-                    </p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">{card.label}</p>
+                      <p
+                        className="mt-2 leading-none tracking-tight"
+                        style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.25rem', color: '#111827' }}
+                      >
+                        {card.stat}
+                      </p>
+                      <p className="mt-3 text-lg font-semibold leading-snug text-gray-900">{card.headline}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-500">{card.body}</p>
+                    </div>
+                  )
+                }
+                return (
+                  <div
+                    key={card.label}
+                    className="relative overflow-hidden rounded-[2rem] px-6 py-9 text-center"
+                    style={
+                      card.variant === 'image'
+                        ? {
+                            backgroundImage: `url(${(card as { image: string }).image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }
+                        : { backgroundColor: '#F3EFE9' }
+                    }
+                  >
+                    {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
+                    <div className="relative z-10">
+                      <p
+                        className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}
+                      >
+                        {card.label}
+                      </p>
+                      <p
+                        className="mt-2 leading-none tracking-tight"
+                        style={{
+                          fontFamily: "'Nohemi', sans-serif",
+                          fontWeight: 300,
+                          fontSize: '3.25rem',
+                          color: card.variant === 'image' ? '#fff' : '#111827',
+                        }}
+                      >
+                        {card.stat}
+                      </p>
+                      <p
+                        className={`mx-auto mt-4 max-w-[16rem] text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}
+                      >
+                        {card.body}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
           {/* Cards - 2 per row — desktop */}
@@ -1843,6 +1894,13 @@ const mobileInsightCards = [
     body: 'Happier customers — faster answers, fewer escalations, and higher CSAT across every channel.',
     variant: 'image' as const,
     image: '/hero_images/Component 174.png',
+  },
+  {
+    label: 'Tier-1 tickets resolved',
+    stat: '80%',
+    headline: 'No human required.',
+    body: 'Identity status checks, payment failures, onboarding questions — SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
+    variant: 'wide' as const,
   },
 ]
 
