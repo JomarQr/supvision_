@@ -2,15 +2,17 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import HeroDashboard, { type DashboardView } from '../components/home/HeroDashboard'
-import { LANGUAGES, LANG_SLOT, LOG_SCENARIOS } from '../components/home/solutionShowcaseData'
+import { LANGUAGES, LANG_SLOT } from '../components/home/solutionShowcaseData'
 
-type EscStatus = 'below' | 'routing' | 'resolved'
-const ESC_SCENARIOS: Array<{ user: string; bot: string; user2: string; bot2: string; confidence: number; status: EscStatus }> = [
-  { user: 'Card charged twice — need a dispute', bot: 'I see a duplicate. Can you confirm the amount?', user2: '£89.99 — charged yesterday',               bot2: '@support_team chargeback needed — duplicate £89.99',          confidence: 31, status: 'below'    },
-  { user: "What's my account balance?",          bot: 'Let me pull that up for you.',                   user2: 'My main EUR account please',               bot2: 'Your balance is €2,847.50 ✓',                                 confidence: 87, status: 'resolved' },
-  { user: 'Suspicious transaction — £2,400',     bot: 'Did you authorise this payment?',                user2: "No, I didn't make this",                   bot2: '@support_team suspicious £2,400 txn — customer disputes it',  confidence: 22, status: 'routing'  },
-  { user: 'When does my card expire?',            bot: 'Which card — Visa or Mastercard?',              user2: 'Visa ending in 4821',                      bot2: 'Your card expires 09/2027 ✓',                                 confidence: 94, status: 'resolved' },
-  { user: 'My limit dropped without notice',      bot: 'Let me check your account settings.',           user2: 'From £5,000 to £1,000 overnight',          bot2: '@support_team limit reduced without notice — review needed',  confidence: 35, status: 'below'    },
+const HANDOFF_SCENARIOS = [
+  { customer: 'Alex M.', issue: 'Unauthorized £3,200 transfer', agent: 'Dmitri K.', role: 'Fraud Specialist', userMsg: "I didn't authorize this — £3,200 gone", botMsg: 'Reviewing your account activity now…', context: ['High-value transaction', 'IP location mismatch', 'First-time occurrence'] },
+  { customer: 'Sara L.', issue: 'KYC failure — document rejected', agent: 'Priya N.', role: 'Compliance Lead', userMsg: 'My ID keeps getting rejected', botMsg: 'Let me pull your verification status…', context: ['3rd upload attempt', 'Document quality low', 'Expiry date unclear'] },
+  { customer: 'James W.', issue: 'Duplicate charge — £890 merchant', agent: 'Carlos R.', role: 'Disputes Team', userMsg: 'Charged twice at checkout — both went through', botMsg: 'Checking your recent transactions…', context: ['Duplicate charge detected', 'Merchant: Shopify Store', 'Same amount × 2'] },
+]
+const SANDBOX_QUERIES = [
+  { query: "What's my daily withdrawal limit?", response: 'Your current ATM limit is £500/day. You can request an increase in Settings.', checks: ['Policy compliant', 'Correct data access', 'Tone: friendly'] },
+  { query: 'Transfer £800 to John Smith', response: "I'll need to verify your identity before processing this transfer.", checks: ['Identity check triggered', 'Limit: within range', 'Fraud rules: passed'] },
+  { query: 'Why was my card declined?', response: 'Your card was declined due to an unusual location. This has been flagged for review.', checks: ['Escalation rule triggered', 'Customer notified', 'Tone: correct'] },
 ]
 
 const PERSONAS = [
@@ -315,26 +317,37 @@ export default function Home() {
   )
   const [liftedSlot, setLiftedSlot] = useState(1)
   const [activePersona, setActivePersona] = useState<number | null>(null)
-  const [logScene, setLogScene] = useState(0)
-  const [logRevealedSteps, setLogRevealedSteps] = useState(0)
-  const [logDecisionShown, setLogDecisionShown] = useState(false)
-  const [logFading, setLogFading] = useState(false)
-  const [escIdx, setEscIdx] = useState(0)
-  const [escPhase, setEscPhase] = useState(0)
+  const [handoffPhase, setHandoffPhase] = useState(0)
+  const [handoffScene, setHandoffScene] = useState(0)
+  const [sandboxPhase, setSandboxPhase] = useState(0)
+  const [sandboxScene, setSandboxScene] = useState(0)
   const [testimonialIdx, setTestimonialIdx] = useState(0)
 
   useEffect(() => {
-    const delays = [500, 1000, 900, 1100, 950, 3400]
+    const delays = [600, 1200, 900, 1400, 3500]
     const t = setTimeout(() => {
-      if (escPhase < 5) {
-        setEscPhase(p => p + 1)
+      if (handoffPhase < 4) {
+        setHandoffPhase(p => p + 1)
       } else {
-        setEscPhase(0)
-        setEscIdx(i => (i + 1) % ESC_SCENARIOS.length)
+        setHandoffPhase(0)
+        setHandoffScene(s => (s + 1) % HANDOFF_SCENARIOS.length)
       }
-    }, delays[escPhase])
+    }, delays[handoffPhase])
     return () => clearTimeout(t)
-  }, [escPhase, escIdx])
+  }, [handoffPhase, handoffScene])
+
+  useEffect(() => {
+    const delays = [600, 1100, 1000, 700, 600, 600, 3200]
+    const t = setTimeout(() => {
+      if (sandboxPhase < 6) {
+        setSandboxPhase(p => p + 1)
+      } else {
+        setSandboxPhase(0)
+        setSandboxScene(s => (s + 1) % SANDBOX_QUERIES.length)
+      }
+    }, delays[Math.min(sandboxPhase, delays.length - 1)])
+    return () => clearTimeout(t)
+  }, [sandboxPhase, sandboxScene])
 
   useEffect(() => {
     const steps: [number, number][] = [
@@ -394,21 +407,6 @@ export default function Home() {
     return () => clearInterval(t)
   }, [])
 
-  useEffect(() => {
-    const scenario = LOG_SCENARIOS[logScene]
-    const timers: ReturnType<typeof setTimeout>[] = []
-    setLogRevealedSteps(0)
-    setLogDecisionShown(false)
-    setLogFading(false)
-    scenario.steps.forEach((_, i) => {
-      timers.push(setTimeout(() => setLogRevealedSteps(i + 1), 600 + i * 750))
-    })
-    const afterSteps = 600 + scenario.steps.length * 750
-    timers.push(setTimeout(() => setLogDecisionShown(true), afterSteps + 400))
-    timers.push(setTimeout(() => setLogFading(true), afterSteps + 2400))
-    timers.push(setTimeout(() => setLogScene(s => (s + 1) % LOG_SCENARIOS.length), afterSteps + 2900))
-    return () => timers.forEach(clearTimeout)
-  }, [logScene])
 
   useEffect(() => {
     const onScroll = () => {
@@ -755,98 +753,57 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Smart escalation — square */}
+                  {/* Live Agent Handoff — square */}
                   <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
-                    <p className="text-base font-semibold text-gray-900">Smart escalation &amp; fallback</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">The bot detects uncertainty and routes to a human agent — before the customer even notices.</p>
+                    <p className="text-base font-semibold text-gray-900">Live Agent Handoff</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">When the bot escalates, it passes the full conversation, customer profile, and its own reasoning to the agent — zero re-explaining needed.</p>
                     <div className="mt-4 flex-1 rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)' }}>
                       {(() => {
-                        const sc = ESC_SCENARIOS[escIdx]
-                        const isBelow = sc.confidence < 40
-                        const barColor = isBelow ? '#ef4444' : '#22c55e'
-                        const bot2Parts = sc.bot2.split(/(@support_team)/)
+                        const sc = HANDOFF_SCENARIOS[handoffScene]
                         return (
-                          <div className="flex flex-col h-full px-4 pt-4 pb-4 gap-3">
-                            {/* Messages — top-aligned */}
-                            <div className="flex flex-col gap-3 flex-1 overflow-hidden">
-                              {/* User msg 1 */}
-                              {escPhase >= 1 && (
+                          <div className="flex flex-col h-full px-4 pt-4 pb-4 gap-2.5">
+                            <div className="flex flex-col gap-2.5 flex-1 overflow-hidden">
+                              {handoffPhase >= 1 && (
                                 <div className="flex items-start gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <img src="/avatar.png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
-                                  <div className="rounded-2xl rounded-tl-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>
-                                    {sc.user}
-                                  </div>
+                                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'rgba(255,255,255,0.2)' }}>{sc.customer.split(' ').map(n => n[0]).join('')}</div>
+                                  <div className="rounded-2xl rounded-tl-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>{sc.userMsg}</div>
                                 </div>
                               )}
-                              {/* Bot msg 1 */}
-                              {escPhase >= 2 && (
+                              {handoffPhase === 2 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '82%' }}>
-                                    {sc.bot}
+                                  <div className="rounded-2xl rounded-tr-sm px-3.5 py-2.5" style={{ background: 'rgba(33,73,149,0.85)' }}>
+                                    <span className="flex gap-1 items-center">{[0, 0.3, 0.6].map((d, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/60" style={{ animation: 'pulse 1s ease-in-out infinite', animationDelay: `${d}s` }} />)}</span>
                                   </div>
                                   <img src="/Component 187 (1).png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
                                 </div>
                               )}
-                              {/* User msg 2 */}
-                              {escPhase >= 3 && (
-                                <div className="flex items-start gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <img src="/avatar.png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
-                                  <div className="rounded-2xl rounded-tl-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>
-                                    {sc.user2}
-                                  </div>
-                                </div>
-                              )}
-                              {/* Bot msg 2 */}
-                              {escPhase >= 4 && (
+                              {handoffPhase >= 3 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '88%' }}>
-                                    {bot2Parts.map((part, i) =>
-                                      part === '@support_team'
-                                        ? <span key={i} className="font-bold" style={{ color: '#FB9A05' }}>@support_team</span>
-                                        : <span key={i}>{part}</span>
-                                    )}
-                                  </div>
+                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '82%' }}>{sc.botMsg}</div>
                                   <img src="/Component 187 (1).png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
                                 </div>
                               )}
-                              {/* Outcome badge */}
-                              {escPhase >= 5 && (
-                                <div className="flex justify-center mt-1" style={{ animation: 'feature-text-in 0.25s ease both' }}>
-                                  {isBelow ? (
-                                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" style={{ background: 'rgba(251,154,5,0.18)', color: '#FB9A05', border: '1px solid rgba(251,154,5,0.35)' }}>
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" /><path fillRule="evenodd" d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.239.005.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" clipRule="evenodd" /></svg>
-                                      Routed to human agent
-                                    </span>
-                                  ) : (
-                                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" style={{ background: 'rgba(34,197,94,0.18)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.35)' }}>
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
-                                      Resolved automatically
-                                    </span>
-                                  )}
+                              {handoffPhase >= 4 && (
+                                <div className="rounded-xl p-3 flex flex-col gap-1.5" style={{ background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.16)', animation: 'feature-text-in 0.35s ease both' }}>
+                                  <div className="flex items-center gap-1.5 mb-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FB9A05" className="h-3 w-3 flex-shrink-0"><path fillRule="evenodd" d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Z" clipRule="evenodd" /></svg>
+                                    <span className="text-[10px] font-semibold uppercase tracking-wider text-white/60">Handoff context</span>
+                                  </div>
+                                  <div className="flex items-center justify-between"><span className="text-[11px] text-white/50">Customer</span><span className="text-[11px] font-semibold text-white">{sc.customer}</span></div>
+                                  <div className="flex items-center justify-between"><span className="text-[11px] text-white/50">Issue</span><span className="text-[11px] font-medium" style={{ color: '#FB9A05' }}>{sc.issue}</span></div>
+                                  {sc.context.map((c, i) => (
+                                    <div key={i} className="flex items-center gap-1.5"><span className="text-white/30 text-xs">→</span><span className="text-[11px] text-white/60">{c}</span></div>
+                                  ))}
                                 </div>
                               )}
                             </div>
-                            {/* Input row */}
-                            <div className="flex items-center gap-2.5 rounded-xl px-3.5 py-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.08)', minHeight: 42 }}>
-                              <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
-                              <span className="flex-1 text-sm text-white/35">Ask anything…</span>
-                              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white"><path d="M2.87 2.298a.75.75 0 0 0-.812 1.021L3.39 6.624a1 1 0 0 0 .928.626H8.25a.75.75 0 0 1 0 1.5H4.318a1 1 0 0 0-.927.626l-1.333 3.305a.75.75 0 0 0 .811 1.022l11-4.25a.75.75 0 0 0 0-1.398l-11-4.253Z" /></svg>
+                            {handoffPhase >= 4 && (
+                              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 flex-shrink-0" style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', animation: 'feature-text-in 0.35s ease both' }}>
+                                <div className="h-7 w-7 flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold text-green-300" style={{ background: 'rgba(34,197,94,0.25)' }}>{sc.agent.split(' ').map(n => n[0]).join('')}</div>
+                                <div className="flex flex-col min-w-0"><span className="text-xs font-semibold text-green-300">{sc.agent}</span><span className="text-[10px] text-green-400/70">{sc.role} · Reviewing now</span></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#4ade80" className="h-4 w-4 ml-auto flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
                               </div>
-                            </div>
-                            {/* Certainty bar */}
-                            <div className="flex-shrink-0">
-                              <div className="flex items-center justify-between mb-1.5">
-                                <span className="text-xs font-medium text-white/50">Certainty</span>
-                                <span className="text-xs font-semibold" style={{ color: barColor }}>{escPhase >= 2 ? `${sc.confidence}%` : '—'}</span>
-                              </div>
-                              <div className="h-2 w-full rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.12)' }}>
-                                <div
-                                  className="h-full rounded-full transition-all duration-700"
-                                  style={{ width: escPhase >= 2 ? `${sc.confidence}%` : '0%', backgroundColor: barColor }}
-                                />
-                              </div>
-                            </div>
+                            )}
                           </div>
                         )
                       })()}
@@ -893,40 +850,63 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* AI Decision Logs — 4th card, square */}
+                  {/* Sandbox & Testing Mode — 4th card, square */}
                   <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
-                    <p className="text-base font-semibold text-gray-900">AI Decision Logs</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">See exactly why supVision resolved or escalated each query — full reasoning chain, auditor-ready.</p>
-                    {/* Animation panel — dark beige */}
-                    <div className="mt-4 rounded-2xl flex-1 flex flex-col overflow-hidden px-5 py-4" style={{ background: '#f9fafb', opacity: logFading ? 0 : 1, transition: 'opacity 0.5s ease' }}>
-                      {/* Query pill */}
-                      <div className="mb-3 flex items-center gap-2 flex-shrink-0">
-                        <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#9ca3af', flexShrink: 0, display: 'inline-block' }} />
-                        <span style={{ color: '#111827', fontWeight: 600, fontSize: '1.05rem', fontFamily: "'Nohemi', sans-serif", border: '1.5px solid rgba(0,0,0,0.10)', borderRadius: 9999, padding: '4px 15px', background: 'rgba(255,255,255,0.6)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {LOG_SCENARIOS[logScene].query}
-                        </span>
-                      </div>
-                      {/* Steps */}
-                      <div className="flex flex-col gap-2 pl-3 flex-1 overflow-hidden">
-                        {LOG_SCENARIOS[logScene].steps.slice(0, logRevealedSteps).map((step, i) => (
-                          <div key={i} className="flex items-start gap-2" style={{ animation: 'log-in 0.35s ease both' }}>
-                            <span style={{ color: step.type === 'success' ? '#16a34a' : step.type === 'warning' ? '#d97706' : '#9ca3af', fontSize: '1rem', lineHeight: '1.6rem', flexShrink: 0, fontWeight: 700 }}>
-                              {step.type === 'success' ? '✓' : step.type === 'warning' ? '!' : '→'}
-                            </span>
-                            <span style={{ color: step.type === 'info' ? '#6b7280' : '#111827', fontSize: '1.05rem', fontFamily: "'Nohemi', sans-serif", lineHeight: 1.45 }}>
-                              {step.text}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                      {/* Decision badge */}
-                      {logDecisionShown && (
-                        <div className="flex justify-center pt-3 flex-shrink-0" style={{ animation: 'log-in 0.4s ease both' }}>
-                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 22px', borderRadius: 9999, background: `${LOG_SCENARIOS[logScene].color}18`, border: `1.5px solid ${LOG_SCENARIOS[logScene].color}`, color: LOG_SCENARIOS[logScene].color, fontWeight: 700, fontSize: '1.05rem', fontFamily: "'Nohemi', sans-serif", letterSpacing: '0.08em' }}>
-                            {LOG_SCENARIOS[logScene].decision === 'ESCALATED' ? '⚠' : '✓'}&nbsp;{LOG_SCENARIOS[logScene].decision}
-                          </div>
-                        </div>
-                      )}
+                    <p className="text-base font-semibold text-gray-900">Sandbox &amp; Testing Mode</p>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">Test any change to your bot's behavior in a safe environment before going live — no surprises, no customer impact.</p>
+                    <div className="mt-4 rounded-2xl flex-1 flex flex-col overflow-hidden px-4 pt-4 pb-4 gap-2.5" style={{ background: '#f9fafb' }}>
+                      {(() => {
+                        const sq = SANDBOX_QUERIES[sandboxScene]
+                        return (
+                          <>
+                            {/* Mode header */}
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                              <div className="h-2 w-2 rounded-full bg-amber-400" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+                              <span className="text-xs font-semibold uppercase tracking-wider text-amber-600">Sandbox</span>
+                              <span className="ml-auto text-[10px] text-gray-400">v2.4.1-draft</span>
+                            </div>
+                            {/* Query */}
+                            {sandboxPhase >= 1 && (
+                              <div className="rounded-xl border border-gray-200 bg-white px-3 py-2 flex items-center gap-2 flex-shrink-0" style={{ animation: 'feature-text-in 0.28s ease both' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#9ca3af" className="h-3.5 w-3.5 flex-shrink-0"><path d="M8 1a.75.75 0 0 1 .75.75V6h4.25a.75.75 0 0 1 0 1.5H8.75v4.25a.75.75 0 0 1-1.5 0V7.5H3a.75.75 0 0 1 0-1.5h4.25V1.75A.75.75 0 0 1 8 1Z" /></svg>
+                                <span className="text-xs text-gray-600 leading-snug">{sq.query}</span>
+                              </div>
+                            )}
+                            {/* Running */}
+                            {sandboxPhase === 2 && (
+                              <div className="flex items-center gap-2 px-1" style={{ animation: 'feature-text-in 0.2s ease both' }}>
+                                <div className="h-3.5 w-3.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin flex-shrink-0" />
+                                <span className="text-xs text-gray-400">Running test…</span>
+                              </div>
+                            )}
+                            {/* Response preview */}
+                            {sandboxPhase >= 3 && (
+                              <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5 flex-1 overflow-hidden" style={{ animation: 'feature-text-in 0.28s ease both' }}>
+                                <div className="flex items-center gap-1.5 mb-1.5">
+                                  <img src="/Component 187 (1).png" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                                  <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
+                                </div>
+                                <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
+                              </div>
+                            )}
+                            {/* Checks */}
+                            <div className="flex flex-col gap-1.5 flex-shrink-0">
+                              {sq.checks.map((check, i) => sandboxPhase >= 4 + i && (
+                                <div key={i} className="flex items-center gap-2" style={{ animation: 'log-in 0.25s ease both' }}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#16a34a" className="h-3.5 w-3.5 flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                                  <span className="text-xs text-gray-600">{check}</span>
+                                </div>
+                              ))}
+                              {sandboxPhase >= 6 && (
+                                <div className="mt-1 flex items-center justify-center gap-2 rounded-full py-1.5 px-3" style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', animation: 'log-in 0.3s ease both' }}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#16a34a" className="h-3.5 w-3.5 flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                                  <span className="text-xs font-semibold text-green-700">Ready to deploy</span>
+                                </div>
+                              )}
+                            </div>
+                          </>
+                        )
+                      })()}
                     </div>
                   </div>
                 </div>
@@ -1015,76 +995,40 @@ export default function Home() {
                   })}
                 </div>
               </div>
-              {/* Smart escalation — mobile */}
+              {/* Live Agent Handoff — mobile */}
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
-                <p className="text-base font-semibold text-gray-900">Smart escalation &amp; fallback</p>
-                <p className="mt-1 text-sm leading-relaxed text-gray-500">The bot detects uncertainty in real time and routes to a human agent automatically — before the customer even notices.</p>
+                <p className="text-base font-semibold text-gray-900">Live Agent Handoff</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">When the bot escalates, it passes the full conversation, customer profile, and its own reasoning to the agent — zero re-explaining needed.</p>
                 {(() => {
-                  const sc = ESC_SCENARIOS[escIdx]
-                  const barColor = sc.confidence >= 40 ? '#22c55e' : '#ef4444'
+                  const sc = HANDOFF_SCENARIOS[handoffScene]
                   return (
-                    <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 p-3 flex flex-col gap-2.5">
-                      {/* User bubble */}
-                      {escPhase >= 1 && (
-                        <div className="flex justify-end" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="rounded-2xl rounded-tr-sm bg-[#214995] px-3 py-2 max-w-[80%]">
-                            <span className="text-[11px] leading-relaxed text-white">{sc.user}</span>
-                          </div>
-                        </div>
-                      )}
-                      {/* Bot row */}
-                      {escPhase >= 2 && (
+                    <div className="mt-4 rounded-2xl p-3 flex flex-col gap-2.5 overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)' }}>
+                      {handoffPhase >= 1 && (
                         <div className="flex items-start gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="mt-0.5 h-5 w-5 flex-shrink-0 rounded-full bg-white border border-gray-200 flex items-center justify-center">
-                            <div className="h-2 w-2 rounded-full bg-[#214995]" />
-                          </div>
-                          <div className="rounded-2xl rounded-tl-sm border border-gray-100 bg-white px-3 py-2 shadow-sm">
-                            {escPhase === 2
-                              ? <span className="flex gap-1 items-center" style={{ minWidth: 32 }}>
-                                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0s' }} />
-                                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.3s' }} />
-                                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400" style={{ animation: 'pulse 1s ease-in-out infinite 0.6s' }} />
-                                </span>
-                              : <span className="text-[11px] leading-relaxed text-gray-600">{sc.bot}</span>
-                            }
-                          </div>
+                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: 'rgba(255,255,255,0.2)' }}>{sc.customer.split(' ').map(n => n[0]).join('')}</div>
+                          <div className="rounded-2xl rounded-tl-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>{sc.userMsg}</div>
                         </div>
                       )}
-                      {/* Confidence meter */}
-                      {escPhase >= 3 && (
-                        <div className="rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Confidence score</span>
-                            <span className="text-xs font-bold tabular-nums" style={{ color: barColor }}>{sc.confidence}%</span>
-                          </div>
-                          <div className="relative mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-100">
-                            <div className="h-full rounded-full transition-all duration-700" style={{ width: `${sc.confidence}%`, backgroundColor: barColor }} />
-                            <div className="absolute inset-y-0 w-px bg-gray-600 opacity-40" style={{ left: '40%' }} />
-                          </div>
-                          <div className="mt-1.5 flex justify-between">
-                            <span className="text-[9px] text-gray-400">0%</span>
-                            <span className="text-[9px] font-medium text-gray-500">Threshold 40%</span>
-                            <span className="text-[9px] text-gray-400">100%</span>
-                          </div>
+                      {handoffPhase >= 3 && (
+                        <div className="flex items-start justify-end gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '82%' }}>{sc.botMsg}</div>
+                          <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
                         </div>
                       )}
-                      {/* Status badge */}
-                      {escPhase >= 3 && sc.status === 'below' && (
-                        <div className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <svg className="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 12 12" fill="#f87171"><path d="M6 1.5l4.5 8H1.5L6 1.5Z" /></svg>
-                          <span className="text-xs font-semibold text-red-500">Below confidence threshold</span>
+                      {handoffPhase >= 4 && (
+                        <div className="rounded-xl p-2.5 flex flex-col gap-1" style={{ background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.15)', animation: 'log-in 0.3s ease both' }}>
+                          <div className="flex items-center justify-between"><span className="text-[10px] text-white/50">Customer</span><span className="text-[10px] font-semibold text-white">{sc.customer}</span></div>
+                          <div className="flex items-center justify-between"><span className="text-[10px] text-white/50">Issue</span><span className="text-[10px] font-medium" style={{ color: '#FB9A05' }}>{sc.issue}</span></div>
+                          {sc.context.slice(0, 2).map((c, i) => (
+                            <div key={i} className="flex items-center gap-1"><span className="text-white/30 text-[10px]">→</span><span className="text-[10px] text-white/60">{c}</span></div>
+                          ))}
                         </div>
                       )}
-                      {escPhase >= 3 && sc.status === 'routing' && (
-                        <div className="flex items-center gap-2 rounded-xl border border-orange-100 bg-orange-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-orange-400" style={{ animation: 'pulse 0.9s ease-in-out infinite' }} />
-                          <span className="text-xs font-semibold text-orange-600">Routing to specialist…</span>
-                        </div>
-                      )}
-                      {escPhase >= 3 && sc.status === 'resolved' && (
-                        <div className="flex items-center gap-2 rounded-xl border border-green-100 bg-green-50 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-green-500" />
-                          <span className="text-xs font-semibold text-green-700">Resolved automatically</span>
+                      {handoffPhase >= 4 && (
+                        <div className="flex items-center gap-2 rounded-xl px-2.5 py-2" style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', animation: 'log-in 0.3s ease both' }}>
+                          <div className="h-6 w-6 flex-shrink-0 rounded-full flex items-center justify-center text-[10px] font-bold text-green-300" style={{ background: 'rgba(34,197,94,0.25)' }}>{sc.agent.split(' ').map(n => n[0]).join('')}</div>
+                          <div className="flex flex-col min-w-0"><span className="text-[11px] font-semibold text-green-300">{sc.agent}</span><span className="text-[9px] text-green-400/70">{sc.role}</span></div>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#4ade80" className="h-3.5 w-3.5 ml-auto flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
                         </div>
                       )}
                     </div>
@@ -1145,41 +1089,57 @@ export default function Home() {
                 )
               })()}
 
-              {/* AI Decision Logs — mobile */}
+              {/* Sandbox & Testing Mode — mobile */}
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
-                <p className="text-base font-semibold text-gray-900">AI Decision Logs</p>
-                <p className="mt-1 text-sm leading-relaxed text-gray-500">See exactly why supVision resolved or escalated each query — full reasoning chain exposed for compliance review or agent training.</p>
-                {/* Animation panel — dark beige */}
-                <div className="mt-4 rounded-2xl px-5 py-4 flex flex-col" style={{ background: '#f9fafb', opacity: logFading ? 0 : 1, transition: 'opacity 0.5s ease' }}>
-                  {/* Query pill */}
-                  <div className="mb-4 flex items-center gap-2">
-                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#9ca3af', flexShrink: 0, display: 'inline-block' }} />
-                    <span style={{ color: '#111827', fontWeight: 600, fontSize: '1.1rem', fontFamily: "'Nohemi', sans-serif", border: '1.5px solid rgba(0,0,0,0.10)', borderRadius: 9999, padding: '5px 16px', background: 'rgba(255,255,255,0.6)' }}>
-                      {LOG_SCENARIOS[logScene].query}
-                    </span>
-                  </div>
-                  {/* Steps */}
-                  <div className="flex flex-col gap-2.5 pl-4">
-                    {LOG_SCENARIOS[logScene].steps.slice(0, logRevealedSteps).map((step, i) => (
-                      <div key={i} className="flex items-start gap-2.5" style={{ animation: 'log-in 0.35s ease both' }}>
-                        <span style={{ color: step.type === 'success' ? '#16a34a' : step.type === 'warning' ? '#d97706' : '#9ca3af', fontSize: '1.05rem', lineHeight: '1.7rem', flexShrink: 0, fontWeight: 700 }}>
-                          {step.type === 'success' ? '✓' : step.type === 'warning' ? '!' : '→'}
-                        </span>
-                        <span style={{ color: step.type === 'info' ? '#6b7280' : '#111827', fontSize: '1.1rem', fontFamily: "'Nohemi', sans-serif", lineHeight: 1.5 }}>
-                          {step.text}
-                        </span>
+                <p className="text-base font-semibold text-gray-900">Sandbox &amp; Testing Mode</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">Test any change to your bot's behavior in a safe environment before going live — no surprises, no customer impact.</p>
+                {(() => {
+                  const sq = SANDBOX_QUERIES[sandboxScene]
+                  return (
+                    <div className="mt-4 rounded-2xl px-4 py-4 flex flex-col gap-2.5" style={{ background: '#f9fafb' }}>
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full bg-amber-400" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-amber-600">Sandbox</span>
+                        <span className="ml-auto text-[10px] text-gray-400">v2.4.1-draft</span>
                       </div>
-                    ))}
-                  </div>
-                  {/* Decision badge */}
-                  {logDecisionShown && (
-                    <div className="mt-5 flex justify-center" style={{ animation: 'log-in 0.4s ease both' }}>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 26px', borderRadius: 9999, background: `${LOG_SCENARIOS[logScene].color}18`, border: `1.5px solid ${LOG_SCENARIOS[logScene].color}`, color: LOG_SCENARIOS[logScene].color, fontWeight: 700, fontSize: '1.1rem', fontFamily: "'Nohemi', sans-serif", letterSpacing: '0.08em' }}>
-                        {LOG_SCENARIOS[logScene].decision === 'ESCALATED' ? '⚠' : '✓'}&nbsp;{LOG_SCENARIOS[logScene].decision}
+                      {sandboxPhase >= 1 && (
+                        <div className="rounded-xl border border-gray-200 bg-white px-3 py-2 flex items-center gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#9ca3af" className="h-3.5 w-3.5 flex-shrink-0"><path d="M8 1a.75.75 0 0 1 .75.75V6h4.25a.75.75 0 0 1 0 1.5H8.75v4.25a.75.75 0 0 1-1.5 0V7.5H3a.75.75 0 0 1 0-1.5h4.25V1.75A.75.75 0 0 1 8 1Z" /></svg>
+                          <span className="text-xs text-gray-600 leading-snug">{sq.query}</span>
+                        </div>
+                      )}
+                      {sandboxPhase === 2 && (
+                        <div className="flex items-center gap-2" style={{ animation: 'log-in 0.2s ease both' }}>
+                          <div className="h-3.5 w-3.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin flex-shrink-0" />
+                          <span className="text-xs text-gray-400">Running test…</span>
+                        </div>
+                      )}
+                      {sandboxPhase >= 3 && (
+                        <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <img src="/Component 187 (1).png" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                            <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
+                          </div>
+                          <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
+                        </div>
+                      )}
+                      <div className="flex flex-col gap-1.5">
+                        {sq.checks.map((check, i) => sandboxPhase >= 4 + i && (
+                          <div key={i} className="flex items-center gap-2" style={{ animation: 'log-in 0.25s ease both' }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#16a34a" className="h-3.5 w-3.5 flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                            <span className="text-xs text-gray-600">{check}</span>
+                          </div>
+                        ))}
+                        {sandboxPhase >= 6 && (
+                          <div className="mt-0.5 flex items-center justify-center gap-2 rounded-full py-1.5 px-3" style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', animation: 'log-in 0.3s ease both' }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#16a34a" className="h-3.5 w-3.5 flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                            <span className="text-xs font-semibold text-green-700">Ready to deploy</span>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  )}
-                </div>
+                  )
+                })()}
               </div>
             </div>
 
