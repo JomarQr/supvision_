@@ -25,7 +25,7 @@ type SolutionShowcaseProps = {
 function PayOnlyHighlight({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) {
   const textClass = size === 'desktop' ? 'text-4xl' : 'text-[1.75rem]'
   const svgStyle = size === 'desktop'
-    ? { width: 'calc(100% + 140px)', height: 'calc(100% + 24px)', left: '-100px', top: '-12px', transform: 'rotate(-3deg)' }
+    ? { width: 'calc(100% + 160px)', height: 'calc(100% + 24px)', left: '-130px', top: '-12px', transform: 'rotate(-3deg)' }
     : { width: 'calc(100% + 100px)', height: 'calc(100% + 24px)', left: '-50px', top: '-12px', transform: 'rotate(-3deg)' }
   return (
     <span className="relative inline-block px-6 py-1">
@@ -378,31 +378,37 @@ export default function SolutionShowcase({
             <ModelPickerIntro size="desktop" />
           </div>
 
-          <div className="mt-20 grid gap-10 lg:grid-cols-3 lg:gap-8">
-            <FeatureBlock
-              title="Data Access Controls"
-              description="Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope."
-            >
-              <DataAccessPanel tall />
-            </FeatureBlock>
-            <FeatureBlock
-              title="AI Decision Logs"
-              description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
-            >
-              <DecisionLogsPanel
-                logScene={logScene}
-                logRevealedSteps={logRevealedSteps}
-                logDecisionShown={logDecisionShown}
-                logFading={logFading}
-                tall
-              />
-            </FeatureBlock>
-            <FeatureBlock
-              title="100+ Languages"
-              description="supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost."
-            >
-              <LanguagesPanel langItems={langItems} liftedSlot={liftedSlot} tall />
-            </FeatureBlock>
+          <div className="mt-20 flex items-start gap-8">
+            <div className="flex-1">
+              <FeatureBlock
+                title="Data Access Controls"
+                description="Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope."
+              >
+                <DataAccessPanel tall />
+              </FeatureBlock>
+            </div>
+            <div className="flex-1 mt-20">
+              <FeatureBlock
+                title="AI Decision Logs"
+                description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
+              >
+                <DecisionLogsPanel
+                  logScene={logScene}
+                  logRevealedSteps={logRevealedSteps}
+                  logDecisionShown={logDecisionShown}
+                  logFading={logFading}
+                  tall
+                />
+              </FeatureBlock>
+            </div>
+            <div className="flex-1 mt-40">
+              <FeatureBlock
+                title="100+ Languages"
+                description="supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost."
+              >
+                <LanguagesPanel langItems={langItems} liftedSlot={liftedSlot} tall />
+              </FeatureBlock>
+            </div>
           </div>
 
           <div className="mt-16 flex flex-col items-stretch gap-6 lg:flex-row lg:items-center lg:justify-between">
