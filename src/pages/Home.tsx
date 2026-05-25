@@ -1,26 +1,93 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { submitContactForm } from '../lib/contactApi'
+import HeroChatPreview from '../components/home/HeroChatPreview'
+import SolutionShowcase from '../components/home/SolutionShowcase'
+import { LANGUAGES, LOG_SCENARIOS, MODEL_ANIM_STEPS } from '../components/home/solutionShowcaseData'
+
+const PERSONAS = [
+  { label: 'Payments & Processing',      stacks: ['Dispute escalation flow', 'WhatsApp support flow', 'Zendesk + Mambu stack', 'Telegram CRM bot', 'Email triage & routing'] },
+  { label: 'Neobanks & Digital Banking', stacks: ['Onboarding automation', 'HubSpot onboarding flow', 'Zendesk + Mambu stack', 'CRM-aware support'] },
+  { label: 'Web3',                        stacks: ['Telegram CRM bot', 'WhatsApp support flow', 'CRM-aware support', 'Telegram CRM integration'] },
+  { label: 'Lending & Credit',            stacks: ['CRM-aware support', 'WhatsApp sales support', 'Policy-driven responses', 'Email triage & routing'] },
+  { label: 'InsurTech',                   stacks: ['Policy-driven responses', 'Freshdesk + Linear queue', 'Email triage & routing'] },
+]
+
+function FasterSupportHeadline({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) {
+  const fontSize = size === 'desktop' ? '3.25rem' : '2.45rem'
+  const underlineH = size === 'desktop' ? 14 : 12
+  return (
+    <div className="inline-block">
+      <p className="leading-none tracking-tight" style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize, color: '#111827' }}>
+        <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
+          10x faster
+          <svg
+            viewBox="0 0 190 12"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            style={{ position: 'absolute', bottom: -5, left: '-2%', width: '104%', height: underlineH, pointerEvents: 'none', overflow: 'visible' }}
+          >
+            <path
+              d="M 2 8 C 12 5, 28 10, 48 7 C 64 5, 82 9, 100 6.5 C 118 4, 138 9, 158 7 C 170 5.5, 180 8, 188 7"
+              stroke="#FB9A05"
+              strokeWidth="3.5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 4 9.5 C 20 7, 42 11, 65 8.5 C 88 6, 112 10, 135 8 C 155 6.5, 172 9.5, 187 8.5"
+              stroke="#FB9A05"
+              strokeWidth="1.5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.45"
+            />
+          </svg>
+        </span>
+      </p>
+      <p className="leading-none tracking-tight" style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize, color: '#111827', marginTop: '0.125rem' }}>
+        than manual support
+      </p>
+    </div>
+  )
+}
 
 export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
+  const featuresPanelRef = useRef<HTMLDivElement>(null)
+  const [featuresOpen, setFeaturesOpen] = useState(false)
   const [activeT, setActiveT] = useState(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const carouselPausedRef = useRef(false)
   const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0, 3: 0 })
   const [controlTab, setControlTab] = useState<0 | 1 | 2 | 3>(0)
-  const [stackFilters, setStackFilters] = useState<Record<string, string | null>>({})
-  const [showAllStacks, setShowAllStacks] = useState(false)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
   const [demoAgreed, setDemoAgreed] = useState(false)
   const [demoAttempted, setDemoAttempted] = useState(false)
   const [demoFormIsValid, setDemoFormIsValid] = useState(false)
+  const [demoSending, setDemoSending] = useState(false)
+  const [demoSubmitError, setDemoSubmitError] = useState('')
+  const [demoFormStartedAt] = useState(() => Date.now())
   const demoFormRef = useRef<HTMLFormElement>(null)
-  const [chatStep, setChatStep] = useState(0)
+  const [chatStepMobile, setChatStepMobile] = useState(0)
+  const [chatStepDesktop, setChatStepDesktop] = useState(0)
+  const langCounterRef = useRef(11)
+  const [langItems] = useState<Array<{ id: number; langIdx: number; slot: number }>>(
+    () => Array.from({ length: 11 }, (_, i) => ({ id: i, langIdx: i % LANGUAGES.length, slot: i }))
+  )
+  const [liftedSlot, setLiftedSlot] = useState(1)
+  const [activePersona, setActivePersona] = useState<number | null>(null)
+  const [modelAnimIdx, setModelAnimIdx] = useState(0)
+  const [logScene, setLogScene] = useState(0)
+  const [logRevealedSteps, setLogRevealedSteps] = useState(0)
+  const [logDecisionShown, setLogDecisionShown] = useState(false)
+  const [logFading, setLogFading] = useState(false)
 
   useEffect(() => {
-    // Steps: 1=human msg, 2=reaction appears, 3=bot composes reply1 in input,
-    //        4=bot sends reply1, 5=pause, 6=bot composes reply2 in input,
-    //        7=bot sends reply2, 0=reset
     const steps: [number, number][] = [
       [1, 600], [2, 900], [3, 1400],
       [4, 500], [5, 1800], [6, 1200],
@@ -30,7 +97,7 @@ export default function Home() {
     let timer: ReturnType<typeof setTimeout>
     const tick = () => {
       const [step, delay] = steps[idx]
-      setChatStep(step)
+      setChatStepMobile(step)
       idx = (idx + 1) % steps.length
       timer = setTimeout(tick, delay)
     }
@@ -39,11 +106,75 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
+    const steps: [number, number][] = [
+      [1, 650], [2, 750], [3, 850], [4, 700],
+      [5, 1300], [6, 550], [7, 1200], [8, 550],
+      [9, 1100], [10, 550], [0, 2600],
+    ]
+    let idx = 0
+    let timer: ReturnType<typeof setTimeout>
+    const tick = () => {
+      const [step, delay] = steps[idx]
+      setChatStepDesktop(step)
+      idx = (idx + 1) % steps.length
+      timer = setTimeout(tick, delay)
+    }
+    timer = setTimeout(tick, 700)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (!featuresOpen) return
+    const handler = (e: MouseEvent | TouchEvent) => {
+      if (featuresPanelRef.current && !featuresPanelRef.current.contains(e.target as Node)) {
+        setFeaturesOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    document.addEventListener('touchstart', handler)
+    return () => {
+      document.removeEventListener('mousedown', handler)
+      document.removeEventListener('touchstart', handler)
+    }
+  }, [featuresOpen])
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setActiveT(i => (i + 1) % testimonials.length)
     }, 5000)
     return () => clearInterval(timer)
   }, [])
+
+  useEffect(() => {
+    const t = setTimeout(
+      () => setModelAnimIdx(i => (i + 1) % MODEL_ANIM_STEPS.length),
+      MODEL_ANIM_STEPS[modelAnimIdx].delay
+    )
+    return () => clearTimeout(t)
+  }, [modelAnimIdx])
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setLiftedSlot(s => (s >= 10 ? 1 : s + 1))
+    }, 600)
+    return () => clearInterval(t)
+  }, [])
+
+  useEffect(() => {
+    const scenario = LOG_SCENARIOS[logScene]
+    const timers: ReturnType<typeof setTimeout>[] = []
+    setLogRevealedSteps(0)
+    setLogDecisionShown(false)
+    setLogFading(false)
+    scenario.steps.forEach((_, i) => {
+      timers.push(setTimeout(() => setLogRevealedSteps(i + 1), 600 + i * 750))
+    })
+    const afterSteps = 600 + scenario.steps.length * 750
+    timers.push(setTimeout(() => setLogDecisionShown(true), afterSteps + 400))
+    timers.push(setTimeout(() => setLogFading(true), afterSteps + 2400))
+    timers.push(setTimeout(() => setLogScene(s => (s + 1) % LOG_SCENARIOS.length), afterSteps + 2900))
+    return () => timers.forEach(clearTimeout)
+  }, [logScene])
 
   useEffect(() => {
     const onScroll = () => {
@@ -73,6 +204,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+
   return (
     <div>
       {/* Hero */}
@@ -89,11 +221,16 @@ export default function Home() {
           />
         </div>
 
-        {/* Hero right - main dashboard, вне clipRef, clipPath синхронизирован со скроллом */}
+        {/* Hero right — chat preview, в пределах viewport справа */}
         <div
           ref={dashboardPanelRef}
           className="absolute z-20 hidden lg:block"
-          style={{ left: '53%', width: '52vw', top: '48%', transform: 'translateY(-50%)' }}
+          style={{
+            top: '46%',
+            left: '52.5%',
+            right: 'clamp(1rem, 2vw, 2rem)',
+            transform: 'translateY(-50%)',
+          }}
         >
           <div
             ref={dashboardGlassRef}
@@ -106,11 +243,7 @@ export default function Home() {
               boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
             }}
           >
-            <img
-              src="/image 178 (1)-Photoroom 2.png"
-              alt="Dashboard preview"
-              className="w-full rounded-xl"
-            />
+            <HeroChatPreview chatStep={chatStepDesktop} variant="desktop" className="w-full" />
           </div>
         </div>
 
@@ -126,61 +259,48 @@ export default function Home() {
           {/* Text block */}
           <div className="mt-4 lg:pr-8 lg:mt-12">
             {/* Mobile badge */}
-            <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-white lg:hidden">
-              AI support layer for Fintech
-            </p>
+            <div className="mb-8 flex justify-center lg:hidden">
+              <span className="rounded-lg border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
+                AI support layer for Fintech
+              </span>
+            </div>
             {/* Desktop badge */}
             <div className="mb-6 hidden lg:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
               An AI support layer tailored for fintech industries
             </div>
 
             {/* Mobile headline */}
-            <h1 className="mt-3 flex flex-col text-4xl font-medium leading-tight tracking-tight text-center lg:hidden">
-              <span className="text-white/50">Instant support.</span>
+            <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+              <span style={{ color: '#E5D9CC' }}>Instant support.</span>
               <span className="text-white">Zero effort.</span>
             </h1>
             {/* Desktop headline */}
-            <h1 className="mt-3 hidden flex-col text-6xl font-light leading-tight tracking-tight text-white lg:flex lg:text-left">
-              <span><span className="font-semibold">Autonomous</span> Support</span>
-              <span><span className="font-semibold">Agent</span> for Fintech</span>
+            <h1
+              className="mt-3 hidden flex-col text-6xl leading-tight lg:flex lg:text-left"
+              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            >
+              <span style={{ color: '#E5D9CC' }}>Instant support.</span>
+              <span className="text-white">Zero effort.</span>
             </h1>
 
             <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl mx-auto lg:mx-0">
               The dispute resolved before the customer hit refresh. The onboarding done before compliance got involved. The answer ready before the ticket was even opened.
             </p>
 
-          </div>
+            <div className="mt-6 flex w-full justify-center lg:justify-start">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-gray-900"
+                style={{ backgroundColor: '#E5D9CC' }}
+              >
+                <span className="lg:hidden">Book a Demo!</span>
+                <span className="hidden lg:inline">Let&apos;s chat</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-gray-900">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
 
-          <div className="mt-8 lg:pr-8 flex flex-col items-center gap-3 lg:block">
-            {/* Mobile button: pill with circle, not full width */}
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-5 rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white lg:hidden"
-              style={{ backgroundColor: '#4E6EAB' }}
-            >
-              <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
-            </Link>
-            {/* Desktop button: full animation */}
-            <Link
-              to="/contact"
-              className="group relative hidden overflow-hidden rounded-full border border-white/40 pl-6 pr-1.5 py-1.5 text-base font-semibold text-white lg:inline-flex lg:items-center lg:gap-3"
-            >
-              <span
-                className="absolute right-[6px] top-1/2 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]"
-                style={{ width: '36px', height: '36px', background: 'rgba(255,255,255,0.2)' }}
-              />
-              <span className="relative z-10">Let's chat</span>
-              <span className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.2)' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
-            </Link>
           </div>
 
           {/* Industries ticker — mobile: above dashboard */}
@@ -208,82 +328,8 @@ export default function Home() {
           </div>
 
           {/* Mobile chat preview */}
-          <div className="mt-10 relative z-10 lg:hidden">
-            <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: 'rgba(255,255,255,0.10)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255,255,255,0.20)',
-              }}
-            >
-              {/* Messages — fixed height, human left / bot right */}
-              <div className="px-4 pt-4 pb-2 space-y-3 overflow-hidden" style={{ height: '196px', fontFamily: "'Roboto', sans-serif" }}>
-
-                {/* Human message — left */}
-                {chatStep >= 1 && (
-                  <div className="flex items-end gap-2" style={{ animation: 'feature-text-in 0.3s ease both' }}>
-                    <img src="/avatar.png" className="w-7 h-7 rounded-full flex-shrink-0 mb-0.5 object-cover" />
-                    <div className="relative">
-                      <div className="rounded-2xl rounded-bl-sm px-3 py-2 text-sm text-white" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '78%' }}>
-                        Check transaction #TXN-8821
-                      </div>
-                      {/* Telegram-style reaction: thumbs up + bot avatar */}
-                      {chatStep >= 2 && (
-                        <div className="absolute -bottom-3.5 left-1 flex items-center rounded-full border border-white/20 overflow-hidden" style={{ background: 'rgba(33,73,149,0.75)', animation: 'feature-text-in 0.25s ease both' }}>
-                          <span className="pl-1.5 pr-1 py-0.5 text-xs leading-none">👍</span>
-                          <img src="/Component 187 (1).png" className="w-5 h-5 rounded-full object-cover" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Bot reply 1 — right */}
-                {chatStep >= 4 && (
-                  <div className="flex items-end justify-end gap-2 mt-4" style={{ animation: 'feature-text-in 0.3s ease both' }}>
-                    <div className="rounded-2xl rounded-br-sm px-3 py-2 text-sm text-white" style={{ background: '#214995', maxWidth: '78%' }}>
-                      Transaction is being processed
-                    </div>
-                    <img src="/Component 187 (1).png" className="w-7 h-7 rounded-full flex-shrink-0 mb-0.5 object-cover" />
-                  </div>
-                )}
-
-                {/* Bot reply 2 — right */}
-                {chatStep >= 7 && (
-                  <div className="flex items-end justify-end gap-2" style={{ animation: 'feature-text-in 0.3s ease both' }}>
-                    <div className="rounded-2xl rounded-br-sm px-3 py-2 text-sm text-white" style={{ background: '#214995', maxWidth: '78%' }}>
-                      Transaction completed successfully <span style={{ color: '#4ade80' }}>✓</span>
-                    </div>
-                    <img src="/Component 187 (1).png" className="w-7 h-7 rounded-full flex-shrink-0 mb-0.5 object-cover" />
-                  </div>
-                )}
-
-              </div>
-
-              {/* Input bar — shows bot composing (typewriter), empty otherwise */}
-              <div className="flex items-center gap-2 px-3 py-3 border-t border-white/10">
-                <img src="/Component 187 (1).png" className="w-7 h-7 rounded-full flex-shrink-0 object-cover" />
-                <div className="flex-1 rounded-xl px-3 py-2 text-sm flex items-center overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)', minHeight: '38px', fontFamily: "'Roboto', sans-serif" }}>
-                  {chatStep === 3 && (
-                    <span key="c1" className="text-white whitespace-nowrap overflow-hidden inline-block" style={{ animation: 'chat-type 1.1s steps(32, end) both', width: '0', maxWidth: '100%' }}>
-                      Transaction is being processed
-                    </span>
-                  )}
-                  {chatStep === 6 && (
-                    <span key="c2" className="text-white whitespace-nowrap overflow-hidden inline-block" style={{ animation: 'chat-type 1.0s steps(35, end) both', width: '0', maxWidth: '100%' }}>
-                      Transaction completed successfully ✓
-                    </span>
-                  )}
-                </div>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#214995' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-white">
-                    <path d="M2.87 2.298a.75.75 0 0 0-.812 1.021L3.39 6.624a1 1 0 0 0 .928.626H8.25a.75.75 0 0 1 0 1.5H4.318a1 1 0 0 0-.927.626l-1.333 3.305a.75.75 0 0 0 .811 1.022l11-4.25a.75.75 0 0 0 0-1.398l-11-4.253Z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
+          <div className="relative z-10 mt-10 lg:hidden">
+            <HeroChatPreview chatStep={chatStepMobile} variant="mobile" />
           </div>
           {/* Spacer so lower section doesn't overlap chat card */}
           <div className="pb-8 lg:hidden" />
@@ -314,7 +360,7 @@ export default function Home() {
         {/* Feature blocks - desktop only, pinned to bottom of hero */}
         <div className="hidden lg:absolute lg:bottom-10 lg:left-0 lg:right-0 lg:z-10 lg:block lg:px-8">
           <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-4 lg:gap-4">
-            {heroFeatures.slice(0, 4).map((item) => (
+            {heroDesktopAgentFeatures.map((item) => (
               <div
                 key={item.label}
                 className="flex items-start gap-3 rounded-2xl px-5 py-5"
@@ -348,73 +394,225 @@ export default function Home() {
       </section>
 
       {/* Questions + Stat cards */}
-      <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16 bg-[#F1EDE9] lg:bg-[#faf8f5]">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Question — mobile */}
-          <div className="lg:hidden text-center">
-            <h2 className="text-3xl font-medium leading-tight text-gray-900">
-              One support agent. Every system you already use.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-gray-500">
-              supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
-            </p>
+          {/* Question — mobile: card with brand bg + rounded bottom */}
+          <div className="lg:hidden -mx-10 overflow-hidden rounded-[2.5rem] px-10 pb-8 pt-2" style={{ backgroundColor: '#F1EDE9' }}>
+            <div className="text-center">
+              <h2 className="text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+                One agent that works across every system you already use.
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-gray-500">
+                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
+              </p>
 
-            {/* Integration logos arc carousel — mobile only */}
-            <div className="relative mt-6 -mx-10 overflow-hidden lg:hidden" style={{ height: '280px' }}>
-              {(() => {
-                const logos = [
-                  'zendesk.png', 'slack.png', 'salesforce.png', 'freshdesk.png',
-                  'hubspot.png', 'intecom (1).png', 'whatsapp.png', 'telegram.png',
-                  'notion.png', 'confluence.png', 'jira.png', 'gmail.png',
-                  'outlook.png', 'teams.png', 'twillio.png', 'mambu.png',
-                ]
-                const tilts = [-6, -3, 0, 3, 6, 8, 5, 2, -2, -5, -7, -4, -1, 2, 5, 7]
-                const duration = 28
-                /* smooth cubic bezier: bottom-left → top-right */
-                const motionPath = "path('M -70 268 C 60 255, 160 190, 250 135 C 340 80, 420 35, 510 10')"
-                return logos.map((logo, i) => (
+              <Link
+                to="/integrations"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#214995' }}
+              >
+                Explore all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+
+            {/* Integration logos ticker — edge-to-edge inside card */}
+            <div
+              className="mt-6 -mx-10 overflow-hidden"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+              }}
+            >
+              <div
+                className="flex items-center gap-3"
+                style={{ width: 'max-content', animation: 'ticker 24s linear infinite' }}
+              >
+                {[...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra, ...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra].map((logo, i) => (
                   <div
                     key={i}
-                    style={{
-                      position: 'absolute',
-                      width: '54px',
-                      height: '54px',
-                      borderRadius: '14px',
-                      background: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      offsetPath: motionPath,
-                      offsetRotate: '0deg',
-                      animation: `arc-carousel ${duration}s linear infinite`,
-                      animationDelay: `-${(i / logos.length) * duration}s`,
-                      transform: `rotate(${tilts[i]}deg)`,
-                    } as React.CSSProperties}
+                    className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-white"
                   >
                     <img
                       src={`/logos/${logo}`}
-                      alt={logo.replace('.png', '')}
-                      style={{ width: '68%', height: '68%', objectFit: 'contain' }}
+                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
+                      className="h-[65%] w-[65%] object-contain"
                     />
                   </div>
-                ))
-              })()}
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Question — desktop */}
-          <div className="hidden lg:block">
-            <h2 className="text-center text-3xl leading-snug text-gray-900 sm:text-4xl font-normal">
-              Is your support team <span className="font-bold">drowning in queries</span> while <span className="font-bold">costs keep climbing?</span>
-            </h2>
-            <p className="mt-5 text-center text-base leading-relaxed text-gray-500 mx-auto max-w-3xl">
-              Your agents handle hundreds of repetitive queries daily - identity verification checks, payment failures, onboarding questions. SupVision resolves them automatically, so your team focuses on what actually needs them.
-            </p>
+          {/* Integrations — desktop (same as mobile block) */}
+          <div className="mb-16 hidden lg:block">
+            <div className="text-center">
+              <h2
+                className="mx-auto max-w-3xl text-4xl leading-snug text-gray-900"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              >
+                One agent that works across every system you already use.
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500">
+                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
+              </p>
+              <Link
+                to="/integrations"
+                className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#214995' }}
+              >
+                Explore all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+            <div className="relative left-1/2 mt-12 w-screen max-w-none -translate-x-1/2 overflow-hidden">
+              <div
+                className="flex items-center gap-5 px-2"
+                style={{ width: 'max-content', animation: 'ticker 32s linear infinite' }}
+              >
+                {[...heroIntegrationLogos, ...heroIntegrationLogos, ...heroIntegrationLogos].map((logo, i) => (
+                  <div
+                    key={i}
+                    className="flex h-[5.5rem] w-[5.5rem] flex-shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm sm:h-24 sm:w-24"
+                  >
+                    <img
+                      src={`/logos/${logo}`}
+                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
+                      className="h-[68%] w-[68%] object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Cards - 2 per row */}
-          <div className="mt-16 grid gap-6 sm:grid-cols-2">
+          {/* 10x faster + metrics — desktop */}
+          <div className="mb-20 hidden lg:block">
+            <div className="text-center">
+              <FasterSupportHeadline size="desktop" />
+              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-gray-500">
+                supVision resolves support queries in 1.2s on average — what used to take hours now happens before the customer hits refresh.
+              </p>
+            </div>
+
+            <div className="mt-12 grid grid-cols-2 gap-6">
+              {mobileInsightCards.map((card) => (
+                <div
+                  key={card.label}
+                  className="relative overflow-hidden rounded-[2rem] px-8 py-10 text-center"
+                  style={
+                    card.variant === 'image'
+                      ? {
+                          backgroundImage: `url(${card.image})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                        }
+                      : { backgroundColor: '#F3EFE9' }
+                  }
+                >
+                  {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
+                  <div className="relative z-10">
+                    <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}>
+                      {card.label}
+                    </p>
+                    <p
+                      className="mt-3 leading-none tracking-tight"
+                      style={{
+                        fontFamily: "'Canela', serif",
+                        fontWeight: 300,
+                        fontSize: '3.5rem',
+                        color: card.variant === 'image' ? '#fff' : '#111827',
+                      }}
+                    >
+                      {card.stat}
+                    </p>
+                    <p className={`mx-auto mt-4 max-w-sm text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}>
+                      {card.body}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 flex items-center justify-center gap-4">
+              <Link
+                to="/support-agent"
+                className="inline-flex min-w-[10rem] items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+              >
+                Learn more
+              </Link>
+              <Link
+                to="/integrations"
+                className="inline-flex min-w-[10rem] items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#111827' }}
+              >
+                Explore
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+
+          {/* Single static hero metric + CTAs — mobile only, branded bg */}
+          <div className="mt-6 sm:hidden -mx-10 px-10 pt-8 pb-8" style={{ backgroundColor: '#FAF8F6' }}>
+            <div className="text-center">
+              <FasterSupportHeadline />
+              <p className="mt-4 text-sm leading-relaxed text-gray-500 mx-auto max-w-xs">
+                supVision resolves support queries in 1.2s on average — what used to take hours now happens before the customer hits refresh.
+              </p>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3">
+              {mobileInsightCards.map((card) => (
+                <div
+                  key={card.label}
+                  className="relative overflow-hidden rounded-[2rem] px-6 py-9 text-center"
+                  style={
+                    card.variant === 'image'
+                      ? {
+                          backgroundImage: `url(${card.image})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                        }
+                      : { backgroundColor: '#F3EFE9' }
+                  }
+                >
+                  {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
+                  <div className="relative z-10">
+                    <p
+                      className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}
+                    >
+                      {card.label}
+                    </p>
+                    <p
+                      className="mt-2 leading-none tracking-tight"
+                      style={{
+                        fontFamily: "'Canela', serif",
+                        fontWeight: 300,
+                        fontSize: '3.25rem',
+                        color: card.variant === 'image' ? '#fff' : '#111827',
+                      }}
+                    >
+                      {card.stat}
+                    </p>
+                    <p
+                      className={`mx-auto mt-4 max-w-[16rem] text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}
+                    >
+                      {card.body}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          {/* Cards - 2 per row — desktop */}
+          <div className="mt-16 hidden sm:grid gap-6 sm:grid-cols-2">
             {valueProps.map((v) => (
               <div
                 key={v.headline}
@@ -458,477 +656,325 @@ export default function Home() {
             ))}
           </div>
 
-          {/* CTAs below cards */}
-          {/* Mobile CTAs - full width row */}
-          <div className="mt-10 flex items-center gap-3 lg:hidden">
-            <Link
-              to="/support-agent"
-              className="flex flex-1 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
-            >
-              Learn more
-            </Link>
-            <Link
-              to="/integrations"
-              className="flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
-              style={{ backgroundColor: '#111827' }}
-            >
-              Explore
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </Link>
-          </div>
-          {/* Desktop CTAs */}
-          <div className="mt-10 hidden lg:flex items-center justify-center gap-4">
-            <Link
-              to="/support-agent"
-              className="inline-flex items-center rounded-full border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
-            >
-              Learn more about how the agent works
-            </Link>
-            <Link
-              to="/integrations"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
-              style={{ backgroundColor: '#111827' }}
-            >
-              <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-              <span className="relative z-10">Explore integrations</span>
-              <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+            {/* Mobile CTAs */}
+            <div className="mt-6 flex items-center gap-3">
+              <Link
+                to="/support-agent"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+              >
+                Learn more
+              </Link>
+              <Link
+                to="/integrations"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#111827' }}
+              >
+                Explore
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                 </svg>
-              </span>
-            </Link>
+              </Link>
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* Why supVision header */}
-      <section className="pt-10 pb-4 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Solution</p>
-          <h2 className="mt-5 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal mx-auto max-w-3xl">
-            Built for <span className="font-bold">regulated financial services</span> from day one
-          </h2>
-        </div>
-      </section>
+      {/* Built for fintech — persona selector */}
+      <section className="px-4 py-4 lg:px-6 lg:py-10">
+        <div
+          className="mx-auto flex w-full max-w-2xl flex-col items-start gap-6 rounded-[1.5rem] px-6 py-8 lg:max-w-none lg:items-center lg:gap-8 lg:rounded-[2rem] lg:px-12 lg:py-12"
+          style={{ background: '#1A1A1A' }}
+        >
+          <div className="w-full lg:text-center">
+            <h2
+              className="text-3xl leading-snug text-white lg:text-4xl"
+              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            >
+              Built for the way <span style={{ color: '#FB9A05' }}>fintech works</span>
+            </h2>
+            <p className="mt-2 text-sm text-gray-400 lg:text-base">Select one to see supVision in action.</p>
+          </div>
 
-      {/* Control + Visibility - tabbed */}
-      <section className="py-12 lg:py-24">
-
-          {/* Tab switcher - edge-to-edge scroll on mobile */}
-          <div className="mb-8 lg:mb-12 flex justify-center gap-2 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            {([0, 1, 2, 3] as const).map((tab) => (
+          <div className="flex w-full flex-wrap justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => setActivePersona(null)}
+              className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
+              style={{
+                background: activePersona === null ? '#214995' : 'rgba(255,255,255,0.08)',
+                color: activePersona === null ? '#fff' : '#9ca3af',
+                border: activePersona === null ? '1px solid #214995' : '1px solid rgba(255,255,255,0.1)',
+              }}
+            >
+              All
+            </button>
+            {PERSONAS.map((persona, i) => (
               <button
-                key={tab}
-                onClick={() => setControlTab(tab)}
-                className={`flex-shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-colors ${controlTab === tab ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                key={persona.label}
+                type="button"
+                onClick={() => setActivePersona(prev => (prev === i ? null : i))}
+                className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
+                style={{
+                  background: activePersona === i ? '#214995' : 'rgba(255,255,255,0.08)',
+                  color: activePersona === i ? '#fff' : '#9ca3af',
+                  border: activePersona === i ? '1px solid #214995' : '1px solid rgba(255,255,255,0.1)',
+                }}
               >
-                {featureSections[tab].label}
+                {persona.label}
               </button>
             ))}
           </div>
 
-        <div className="mx-auto w-full max-w-7xl px-4 lg:px-6">
+          {(() => {
+            const all = activePersona === null
+              ? automationStacks
+              : automationStacks.filter(s => PERSONAS[activePersona].stacks.includes(s.label))
 
-          {/* Content */}
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-
-            {/* Text + accordion - first on mobile */}
-            <div className="lg:w-[40%] lg:flex-shrink-0">
-              <p className="text-center lg:text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-400">{featureSections[controlTab].label}</p>
-              <h2 className="mt-3 text-2xl font-bold leading-snug text-gray-900 lg:mt-5 lg:text-3xl">{featureSections[controlTab].title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-gray-500 lg:mt-5">{featureSections[controlTab].description}</p>
-
-              <div className="mt-6 lg:mt-8">
-                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Features</p>
-                <div className="divide-y divide-gray-100 border-t border-gray-100">
-                  {featureSections[controlTab].features.map((f, fi) => (
-                    <div
-                      key={f.title}
-                      className="cursor-pointer py-3"
-                      onClick={() => setActiveFeatures(prev => ({ ...prev, [controlTab]: fi }))}
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <p className={`text-sm font-semibold transition-colors duration-200 ${fi === activeFeatures[controlTab] ? 'text-gray-900' : 'text-gray-400'}`}>
-                          {f.title}
-                        </p>
-                        <span className="flex-shrink-0 text-xl font-light leading-none text-gray-400">
-                          {fi === activeFeatures[controlTab] ? '−' : '+'}
-                        </span>
-                      </div>
-                      {fi === activeFeatures[controlTab] && (
-                        <p
-                          className="mt-1.5 text-sm leading-relaxed text-gray-500"
-                          style={{ animation: 'feature-text-in 0.3s ease both' }}
-                        >
-                          {f.description}
-                        </p>
-                      )}
-                    </div>
+            const renderStackCard = (stack: (typeof automationStacks)[number]) => (
+              <div
+                key={stack.label}
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 lg:gap-3 lg:px-4 lg:py-4"
+                style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <div className="flex flex-shrink-0 items-center -space-x-2">
+                  {stack.logos.map((logo, idx) => (
+                    <StackLogo key={idx} {...logo} />
                   ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Image - below text on mobile, right on desktop */}
-            <div className="overflow-hidden rounded-2xl lg:w-[60%] min-h-[220px] lg:min-h-[480px]">
-              <img
-                key={`${controlTab}-${activeFeatures[controlTab]}`}
-                src={featureSections[controlTab].features[activeFeatures[controlTab]]?.img ?? featureSections[controlTab].img}
-                alt={featureSections[controlTab].features[activeFeatures[controlTab]]?.title}
-                className="h-full w-full object-cover object-top"
-                style={{
-                  minHeight: 'inherit',
-                  animation: 'feature-img-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both',
-                }}
-                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-              />
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Integration finder */}
-      <section className="pt-8 pb-20 px-3 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl sm:px-6">
-          <div className="rounded-2xl lg:rounded-3xl px-4 py-10 lg:px-10 lg:py-16 text-center" style={{ backgroundColor: '#f0ede8' }}>
-            <h2 className="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl lg:text-4xl mx-auto max-w-2xl">
-              Our{' '}
-              <span className="inline-flex items-center rounded-xl px-3 py-1 font-bold" style={{ backgroundColor: 'rgba(33,73,149,0.12)', color: '#214995' }}>
-                integration finder
-              </span>
-              {' '}helps you connect the tools you already use to{' '}
-              <span className="inline-flex items-center rounded-xl px-3 py-1 font-bold" style={{ backgroundColor: 'rgba(33,73,149,0.2)', color: '#214995' }}>
-                automate fintech support
-              </span>
-            </h2>
-
-            <div className="mt-10 flex flex-nowrap items-center justify-center gap-3 lg:flex-wrap">
-              {integrationGroups.map(group => (
-                <div key={group.label} className={group.label === 'KYC' ? 'hidden lg:block' : 'flex-shrink-0'}>
-                  <IntegrationSelect
-                    label={group.label}
-                    options={group.options}
-                    value={stackFilters[group.label] ?? null}
-                    onChange={(name) => setStackFilters(prev => ({ ...prev, [group.label]: name }))}
-                    comingSoon={group.label === 'KYC'}
-                  />
+                <div className="min-w-0">
+                  <p className="text-xs font-bold leading-snug text-white lg:text-sm">{stack.label}</p>
+                  <p className="text-xs leading-snug text-gray-400">{stack.desc}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            )
 
-            {/* Suggested stacks */}
-            {(() => {
-              const active = Object.values(stackFilters).filter(Boolean) as string[]
-              const filtered = active.length === 0
-                ? automationStacks
-                : automationStacks.filter(s => active.every(t => s.tools.includes(t)))
-              const MOBILE_LIMIT = 4
-              const DESKTOP_LIMIT = 9
-              const needsMore = !showAllStacks && filtered.length > DESKTOP_LIMIT
-              const visible = needsMore ? filtered.slice(0, DESKTOP_LIMIT) : filtered
-              const mobileVisible = filtered.slice(0, MOBILE_LIMIT)
-              return (
-                <div className="mt-10">
-                  <div className="mb-4 flex flex-col items-center gap-1 lg:flex-row lg:justify-between">
-                    <p className="text-center lg:text-left text-xs font-semibold uppercase tracking-widest text-gray-400">
-                      {active.length > 0 ? `${filtered.length} matching stack${filtered.length !== 1 ? 's' : ''}` : 'Popular automation stacks'}
-                    </p>
+            const mobileVisible = all.slice(0, 3)
+            const mobileExtra = all.length - 3
+            const desktopVisible = all.slice(0, 12)
+            const desktopExtra = all.length - 12
 
-                    {active.length > 0 && (
-                      <button onClick={() => setStackFilters({})} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
-                        Clear filters ×
-                      </button>
-                    )}
+            return (
+              <>
+                <div className="flex w-full flex-col gap-2.5 lg:hidden">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Suggested integrations</p>
+                  <div className="flex flex-col gap-2.5">
+                    {mobileVisible.map(stack => renderStackCard(stack))}
                   </div>
-                  {filtered.length === 0 ? (
-                    <p className="text-sm text-gray-400 py-4">No stacks match this combination yet. <Link to="/contact" className="font-semibold text-gray-900 hover:underline">Let's build one together →</Link></p>
-                  ) : (
-                    <>
-                    {/* Mobile: max 4, +N more goes to /integrations */}
-                    <div className="lg:hidden grid grid-cols-1 gap-3 text-left">
-                      {mobileVisible.map(stack => (
-                        <div key={stack.label} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
-                          <div className="flex items-center -space-x-2 flex-shrink-0">
-                            {stack.logos.map((logo, i) => <StackLogo key={i} {...logo} />)}
-                          </div>
-                          <div className="text-left min-w-0">
-                            <p className="text-xs font-bold text-gray-900 leading-snug">{stack.label}</p>
-                            <p className="text-xs text-gray-400 leading-snug">{stack.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                      {filtered.length > MOBILE_LIMIT && (
-                        <div className="mt-1 flex justify-center">
-                          <Link to="/integrations" className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
-                            +{filtered.length - MOBILE_LIMIT} more ↓
-                          </Link>
-                        </div>
-                      )}
+                  {mobileExtra > 0 && (
+                    <div className="flex justify-center">
+                      <Link to="/integrations" className="text-xs font-semibold text-gray-400 transition-colors hover:text-gray-200">
+                        +{mobileExtra} more ↓
+                      </Link>
                     </div>
-                    {/* Desktop: max 9, expand inline */}
-                    <div className="hidden lg:grid grid-cols-3 gap-3 text-left">
-                      {visible.map(stack => (
-                        <div key={stack.label} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3">
-                          <div className="flex items-center -space-x-2 flex-shrink-0">
-                            {stack.logos.map((logo, i) => <StackLogo key={i} {...logo} />)}
-                          </div>
-                          <div className="text-left min-w-0">
-                            <p className="text-xs font-bold text-gray-900 leading-snug">{stack.label}</p>
-                            <p className="text-xs text-gray-400 leading-snug">{stack.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {(needsMore || (showAllStacks && filtered.length > DESKTOP_LIMIT)) && (
-                      <div className="mt-3 hidden lg:flex justify-center">
-                        {needsMore ? (
-                          <button onClick={() => setShowAllStacks(true)} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
-                            +{filtered.length - DESKTOP_LIMIT} more ↓
-                          </button>
-                        ) : (
-                          <button onClick={() => setShowAllStacks(false)} className="text-xs font-semibold text-gray-400 hover:text-gray-700 transition-colors">
-                            Show less ↑
-                          </button>
-                        )}
-                      </div>
-                    )}
-                    </>
                   )}
                 </div>
-              )
-            })()}
 
-            <div className="mt-8 lg:mt-10 flex justify-center">
-              {/* Mobile: simple full-width button */}
-              <Link
-                to="/integrations"
-                className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 lg:hidden"
-              >
-                Show all integrations
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </Link>
-              {/* Desktop: animated button */}
-              <Link
-                to="/integrations"
-                className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
-              >
-                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[30]" style={{ backgroundColor: '#214995' }} />
-                <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Show all integrations</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
-
-            <p className="mt-6 text-sm text-gray-500 text-center">
-              Can't find your tool?{' '}
-              <Link to="/contact" className="font-semibold text-gray-900 hover:underline">
-                Let's talk about your stack →
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
-        <div className="mx-auto max-w-7xl px-6">
-
-          {/* Mobile: sticky Benefits label below navbar */}
-          <div
-            className="mb-4 text-center sticky sm:relative z-[49] sm:z-auto py-3 sm:py-0"
-            style={{ top: '72px', backgroundColor: '#faf8f5' }}
-          >
-            <p className="text-2xl font-bold uppercase text-gray-900">Benefits</p>
-          </div>
-
-          {/* Column headers - sticky below navbar, desktop only */}
-          <div
-            className="hidden sm:grid grid-cols-2 mb-3 px-1 sticky z-20 py-3 rounded-xl"
-            style={{ top: '100px', backgroundColor: '#faf8f5' }}
-          >
-            <p className="text-lg font-bold text-gray-400 text-center">Before</p>
-            <p className="text-lg font-bold text-center" style={{ color: '#214995' }}>After</p>
-          </div>
-
-          {/* Stacked sticky cards */}
-          <div className="flex flex-col gap-4">
-            {benefits.map((b, i) => (
-              <div
-                key={b.title}
-                className="sticky"
-                style={{ top: `${154 + i * 40}px`, zIndex: i + 21 }}
-              >
-                <div className="relative grid grid-cols-1 sm:grid-cols-2 overflow-hidden rounded-2xl border border-gray-100 shadow-lg">
-                  {/* Before */}
-                  <div className="flex items-start bg-gray-900 p-6" style={{ minHeight: '160px' }}>
-                    <div className="flex flex-col">
-                      <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 sm:hidden">Before</p>
-                      <div className="mb-3 flex items-center gap-3">
-                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
-                          {b.beforeIcon}
-                        </div>
-                        <h3 className="text-base font-bold text-white">{b.beforeTitle}</h3>
-                      </div>
-                      <p className="text-base leading-relaxed text-white/70">{b.before}</p>
-                    </div>
+                <div className="hidden w-full flex-col gap-4 lg:flex">
+                  <p className="text-center text-xs font-semibold uppercase tracking-widest text-gray-500">Suggested integrations</p>
+                  <div className="grid w-full grid-cols-4 gap-4">
+                    {desktopVisible.map(stack => renderStackCard(stack))}
                   </div>
-                  {/* Mobile arrow - exactly at the border between Before and After */}
-                  <div className="flex sm:hidden items-center justify-center bg-gray-900 pb-0 -mb-[1px] relative z-10">
-                    <div className="flex h-9 w-9 -mb-4 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white rotate-90">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
+                  {desktopExtra > 0 && (
+                    <div className="flex justify-center">
+                      <Link to="/integrations" className="text-xs font-semibold text-gray-400 transition-colors hover:text-gray-200">
+                        +{desktopExtra} more ↓
+                      </Link>
                     </div>
-                  </div>
-                  {/* After */}
-                  <div className="flex items-start bg-white p-6 pt-8 sm:pt-6" style={{ minHeight: '160px' }}>
-                    <div className="flex flex-col">
-                      <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-[0.2em] sm:hidden" style={{ color: '#214995' }}>After</p>
-                      <div className="mb-3 flex items-center gap-3">
-                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
-                          {b.afterIcon}
-                        </div>
-                        <h3 className="text-base font-bold text-gray-900">{b.title}</h3>
-                      </div>
-                      <p className="text-base leading-relaxed text-gray-500">{b.after}</p>
-                    </div>
-                  </div>
-                  {/* Desktop arrow - absolute centered between left/right halves */}
-                  <div className="hidden sm:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full shadow-md" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
+              </>
+            )
+          })()}
 
+          <div className="flex w-full flex-col items-center gap-2 pt-2 lg:pt-4">
+            <Link
+              to="/integrations"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
+              style={{ backgroundColor: '#214995' }}
+            >
+              Show all integrations
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+            <Link to="/contact" className="text-center text-xs text-gray-400 transition-colors hover:text-gray-200">
+              Can&apos;t find your tool? <span className="font-bold text-white">Let&apos;s talk about your stack →</span>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Industries */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Industries</p>
-            <h2 className="mt-4 text-3xl leading-snug text-gray-900 sm:text-4xl font-normal">
-              Built for <span className="font-bold">your industry</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {industries.map((ind) => (
-              <Link
-                key={ind.name}
-                to={ind.to}
-                className="relative overflow-hidden rounded-2xl group"
-                style={{ aspectRatio: '1/1', display: 'block' }}
-              >
-                <img
-                  src={ind.img}
-                  alt={ind.name}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-sm font-bold text-white leading-tight">{ind.name}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SolutionShowcase
+        variant="desktop"
+        modelAnimIdx={modelAnimIdx}
+        logScene={logScene}
+        logRevealedSteps={logRevealedSteps}
+        logDecisionShown={logDecisionShown}
+        logFading={logFading}
+        langItems={langItems}
+        liftedSlot={liftedSlot}
+      />
+
+      <SolutionShowcase
+        variant="mobile"
+        modelAnimIdx={modelAnimIdx}
+        logScene={logScene}
+        logRevealedSteps={logRevealedSteps}
+        logDecisionShown={logDecisionShown}
+        logFading={logFading}
+        langItems={langItems}
+        liftedSlot={liftedSlot}
+      />
 
       {/* Proof */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="py-16" style={{ backgroundColor: '#111' }}>
+        <div className="mb-10 text-center px-6">
+          <p className="text-3xl text-white" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+            Companies that moved from overwhelmed to{' '}
+            <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
+              automated.
+              <svg
+                viewBox="0 0 190 12"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+                style={{ position: 'absolute', bottom: -6, left: '-2%', width: '104%', height: 12, pointerEvents: 'none', overflow: 'visible' }}
+              >
+                <path
+                  d="M 2 8 C 12 5, 28 10, 48 7 C 64 5, 82 9, 100 6.5 C 118 4, 138 9, 158 7 C 170 5.5, 180 8, 188 7"
+                  stroke="#FB9A05" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round"
+                />
+                <path
+                  d="M 4 9.5 C 20 7, 42 11, 65 8.5 C 88 6, 112 10, 135 8 C 155 6.5, 172 9.5, 187 8.5"
+                  stroke="#FB9A05" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.45"
+                />
+              </svg>
+            </span>
+          </p>
+        </div>
 
-          <div className="mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Results</p>
-            <p className="mt-3 text-3xl font-bold text-gray-900">Companies that moved from overwhelmed to automated.</p>
-          </div>
-
-          {/* Card */}
-          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-            <div className="flex flex-col sm:grid sm:h-[320px]" style={{ gridTemplateColumns: '240px 1fr' }}>
-
-              {/* Left - identity */}
+        {/* Scroll carousel */}
+        <div
+          ref={carouselRef}
+          style={{ overflow: 'hidden', width: '100%' }}
+        >
+          <div
+            ref={carouselRef}
+            style={{
+              display: 'flex',
+              gap: '16px',
+              alignItems: 'flex-end',
+              width: 'max-content',
+              animation: 'ticker 40s linear infinite',
+            }}
+          >
+            {[...testimonials, ...testimonials].map((t, i) => (
               <div
-                className="flex flex-col items-center justify-center p-8 min-h-[160px] sm:min-h-0"
+                key={i}
                 style={{
-                  backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  flexShrink: 0,
+                  width: 320,
+                  background: '#faf8f5',
+                  borderRadius: 24,
+                  padding: '2rem 1.75rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '1rem',
                 }}
               >
-                <p className="text-xl font-black text-white text-center">{testimonials[activeT].name}</p>
-                <p className="mt-2 text-base text-white/70 text-center">{testimonials[activeT].role}</p>
+                <p style={{
+                  fontFamily: 'Georgia, "Times New Roman", serif',
+                  fontSize: '1.1rem',
+                  lineHeight: 1.65,
+                  color: '#1a1a1a',
+                  textAlign: 'center',
+                }}>
+                  "{t.quote}"
+                </p>
+                <p style={{ fontSize: '0.92rem', color: '#555', textAlign: 'center', lineHeight: 1.5 }}>
+                  <strong style={{ color: '#111' }}>{t.name}</strong>
+                  {', '}{t.role}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured stories */}
+      <section className="px-4 py-10 lg:px-8 lg:py-14" style={{ backgroundColor: '#111' }}>
+        <div className="mx-auto grid max-w-2xl grid-cols-2 gap-4 lg:max-w-5xl lg:grid-cols-2 lg:items-start lg:gap-5">
+          {[
+            {
+              headline: 'Queue gone in a week',
+              quote: '"Disputes used to pile up over 3–5 days. supVision resolved them in under 2 minutes, no manual steps. The queue was gone by end of week one."',
+              name: 'Marcus T.',
+              role: 'Head of Operations',
+            },
+            {
+              headline: 'Live in 3 days, not 6 months',
+              quote: '"Our previous vendor quoted six months. supVision connected to Zendesk and our KYC provider over a weekend. By Monday it was handling real queries."',
+              name: 'Nina K.',
+              role: 'Director of Customer Ops',
+            },
+            {
+              headline: '74% cost reduction, first quarter',
+              quote: '"Every time volume grew, so did headcount costs. supVision let us handle 4× the load with the same team — 74% opex reduction in the first quarter."',
+              name: 'Tobias H.',
+              role: 'CFO',
+            },
+            {
+              headline: '16× growth, zero new hires',
+              quote: '"5,000 to 80,000 monthly users in eight months. supVision absorbed the entire spike without a single new hire. CSAT improved during the growth phase."',
+              name: 'Yuki T.',
+              role: 'VP Operations',
+            },
+          ].map((s, i) => (
+            <div
+              key={i}
+              className="h-full"
+              style={{
+                backgroundColor: '#224894',
+                borderRadius: 20,
+                padding: '1.75rem 1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+                position: 'relative',
+              }}
+            >
+              {/* Arrow */}
+              <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem' }}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M4 16L16 4M16 4H7M16 4V13" stroke="#faf8f5" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
 
-              {/* Right - quote + metrics + CTA */}
-              <div className="flex flex-col p-8 lg:p-10 overflow-hidden">
-                <div className="flex-1">
-                  <p className="text-5xl font-serif leading-none text-gray-200 select-none">"</p>
-                  <p className="mt-2 text-lg leading-relaxed text-gray-800" style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
-                    {testimonials[activeT].quote}
-                  </p>
-                </div>
+              {/* Headline */}
+              <p
+                className="pr-8 text-[1.5rem] leading-tight lg:text-[1.75rem] lg:leading-snug"
+                style={{
+                  fontFamily: "'Canela', serif",
+                  fontWeight: 300,
+                  color: '#FB9A05',
+                }}
+              >
+                {s.headline}
+              </p>
 
-                <div className="mt-6 border-t border-gray-100 pt-6 flex gap-10">
-                  {testimonials[activeT].metrics.map(m => (
-                    <div key={m.label}>
-                      <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
-                      <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
-                    </div>
-                  ))}
-                </div>
+              {/* Quote */}
+              <p className="flex-1 text-[0.88rem] leading-relaxed text-[#faf8f5] lg:text-[1rem] lg:leading-relaxed">
+                {s.quote}
+              </p>
 
+              {/* Attribution */}
+              <div style={{ marginTop: '0.25rem' }}>
+                <p style={{ fontWeight: 700, fontSize: '0.88rem', color: '#faf8f5' }}>{s.name}</p>
+                <p style={{ fontSize: '0.82rem', color: 'rgba(250,248,245,0.6)', marginTop: 2 }}>{s.role}</p>
               </div>
-
             </div>
-          </div>
-
-          {/* Navigation */}
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <button
-              onClick={() => setActiveT(i => (i - 1 + testimonials.length) % testimonials.length)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                <path fillRule="evenodd" d="M14 8a.75.75 0 0 1-.75.75H3.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L3.56 7.25H13.25A.75.75 0 0 1 14 8Z" clipRule="evenodd" />
-              </svg>
-            </button>
-            <div className="flex gap-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveT(i)}
-                  className="h-2 rounded-full transition-all duration-300"
-                  style={{ width: i === activeT ? '24px' : '8px', backgroundColor: i === activeT ? '#214995' : '#d1d5db' }}
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => setActiveT(i => (i + 1) % testimonials.length)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h9.69L9.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </button>
-          </div>
-
+          ))}
         </div>
       </section>
 
@@ -940,26 +986,42 @@ export default function Home() {
 
             {/* Left - text */}
             <div>
-              <p className="text-center lg:text-left text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#4a72c4' }}>Our story</p>
-              <h2 className="mt-4 text-3xl font-bold leading-snug text-white lg:mt-5 lg:text-5xl">
+              <p className="hidden text-xs font-bold uppercase tracking-[0.2em] lg:block" style={{ color: '#4a72c4' }}>Our story</p>
+              {/* Mobile headline — Canela, как Instant support / Zero effort */}
+              <h2
+                className="mt-4 flex flex-col text-center leading-tight lg:hidden"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+              >
+                <span className="text-white">Built by people with</span>
+                <span>
+                  <span style={{ color: '#FB9A05' }}>10+ years </span>
+                  <span className="text-white">in fintech.</span>
+                </span>
+              </h2>
+              <h2 className="mt-4 hidden text-3xl font-bold leading-snug text-white lg:mt-5 lg:block lg:text-5xl">
                 Built by people with 10+ years in fintech.
               </h2>
-              <p className="mt-4 text-sm leading-relaxed text-gray-400 lg:mt-6 lg:text-base">
-                supVision was not built by engineers who read about fintech. It was built by operators who spent over a decade inside financial services - running support teams, managing verification queues, handling regulator audits, and watching knowledge walk out the door every time an agent left.
+              <p className="mt-4 text-center text-sm leading-relaxed text-gray-400 lg:mt-6 lg:text-left lg:text-base">
+                Built by operators, not engineers reading about fintech. We spent a decade in financial services — support, verification queues, regulator audits — and watched knowledge walk out every time an agent left.
               </p>
 
               {/* Mobile: metrics right after paragraph */}
-              <div className="mt-6 grid grid-cols-3 gap-4 border-t border-white/10 pt-6 lg:hidden">
+              <div className="mt-6 border-t border-white/10 pt-6 lg:hidden">
+                <p className="text-center text-sm font-semibold text-white">
+                  And here&apos;s what we achieved on our own operations first:
+                </p>
+                <div className="mt-5 grid grid-cols-3 gap-4">
                 {[
-                  { value: '10+', label: 'Years inside fintech operations' },
-                  { value: '3 days', label: 'Average time to go live' },
-                  { value: '93%', label: 'Ticket saves — no human agent needed' },
+                  { value: '70%', label: 'Fewer repeat tickets on our own queue' },
+                  { value: '4×', label: 'Faster internal escalation resolution' },
+                  { value: '100%', label: 'Playbooks captured — no knowledge lost on handoff' },
                 ].map(m => (
-                  <div key={m.label}>
+                  <div key={m.label} className="text-center">
                     <p className="text-2xl font-black text-white">{m.value}</p>
                     <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
                   </div>
                 ))}
+                </div>
               </div>
 
               {/* Mobile photo */}
@@ -967,8 +1029,8 @@ export default function Home() {
                 <img src="/team.png" alt="supVision team" className="w-full object-cover" />
               </div>
 
-              <p className="mt-4 text-sm font-semibold text-white lg:text-base">
-                So we built what we needed - and opened it up to the industry.
+              <p className="mt-4 text-center text-sm font-semibold text-white lg:text-left lg:text-base">
+                So we decided to share it with the whole industry.
               </p>
 
               <div className="mt-6 lg:mt-10">
@@ -1004,17 +1066,22 @@ export default function Home() {
               </div>
 
               {/* Desktop metrics */}
-              <div className="mt-8 hidden lg:grid grid-cols-3 gap-6 border-t border-white/10 pt-10">
+              <div className="mt-8 hidden border-t border-white/10 pt-10 lg:block">
+                <p className="text-sm font-semibold text-white">
+                  And here&apos;s what we achieved on our own operations first:
+                </p>
+                <div className="mt-6 grid grid-cols-3 gap-6">
                 {[
-                  { value: '10+', label: 'Years inside fintech operations' },
-                  { value: '3 days', label: 'Average time to go live' },
-                  { value: '93%', label: 'Ticket saves — no human agent needed' },
+                  { value: '70%', label: 'Fewer repeat tickets on our own queue' },
+                  { value: '4×', label: 'Faster internal escalation resolution' },
+                  { value: '100%', label: 'Playbooks captured — no knowledge lost on handoff' },
                 ].map(m => (
                   <div key={m.label}>
                     <p className="text-2xl font-black text-white lg:text-3xl">{m.value}</p>
                     <p className="mt-1 text-xs leading-snug text-gray-500">{m.label}</p>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
 
@@ -1038,12 +1105,13 @@ export default function Home() {
       <section className="py-3 px-2 sm:px-3">
         <div className="rounded-3xl bg-gray-50 px-4 py-10 lg:px-16 lg:py-16">
           <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:gap-16 lg:grid-cols-2 lg:items-start">
 
-            {/* Left */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Compliance & Security</p>
-              <h2 className="mt-4 text-2xl font-bold leading-snug text-gray-900 lg:mt-5 lg:text-4xl">
+            {/* Mobile */}
+            <div className="max-w-3xl mx-auto lg:hidden">
+              <h2
+                className="mt-2 text-center text-[2.25rem] leading-tight text-gray-900"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              >
                 Built for regulated financial services from day one.
               </h2>
               <ul className="mt-6 space-y-4">
@@ -1054,26 +1122,13 @@ export default function Home() {
                         <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
                     </span>
-                    <span className="text-sm leading-relaxed text-gray-700 lg:text-base">{f}</span>
+                    <span className="text-sm leading-relaxed text-gray-700">{f}</span>
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Right - badges */}
-            <div className="flex flex-col items-center gap-6 rounded-2xl border border-gray-200 bg-white p-6 lg:p-12 lg:gap-8">
-              <p className="text-sm font-bold uppercase tracking-widest text-gray-900">Certified & Compliant</p>
-              <div className="flex items-center justify-center gap-6">
-                <img src="/badge/image.png" alt="PCI DSS Compliant" className="h-24 w-auto lg:h-36" />
-                <img src="/badge/image 26 (3).png" alt="GDPR Compliant" className="h-20 w-auto lg:h-28" />
-              </div>
-              <p className="text-center text-sm leading-relaxed text-gray-500">
-                Enterprise-grade security with end-to-end encryption, SOC 2-aligned infrastructure, and full GDPR & PCI DSS compliance.
-              </p>
-              {/* Mobile: full-width, no animation */}
               <Link
                 to="/security"
-                className="flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white lg:hidden"
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
                 style={{ backgroundColor: '#214995' }}
               >
                 Learn more
@@ -1081,23 +1136,66 @@ export default function Home() {
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                 </svg>
               </Link>
-              {/* Desktop: animated */}
-              <Link
-                to="/security"
-                className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#214995' }}
+            </div>
+
+            {/* Desktop */}
+            <div className="hidden lg:block">
+              <h2
+                className="mt-5 text-4xl leading-tight text-gray-900 text-center"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
               >
-                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white/20 transition-transform duration-500 ease-in-out group-hover:scale-[20]" />
-                <span className="relative z-10">Learn more</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
+                We put our security{' '}
+                <span style={{ color: '#FB9A05' }}>to the test </span>
+                with live, independent auditing.
+              </h2>
+              <div className="mt-10 grid grid-cols-3 gap-6">
+                {complianceCertCards.map((card) => (
+                  <div
+                    key={card.title}
+                    className="flex flex-col items-center overflow-visible rounded-2xl border border-gray-800 px-6 py-8 text-center"
+                    style={{ backgroundColor: '#1c1c1e' }}
+                  >
+                    <div
+                      className={[
+                        'relative mb-6 flex items-center justify-center overflow-visible rounded-full border-2',
+                        card.badgeOversize ? 'h-24 w-24' : 'h-28 w-28 p-4',
+                      ].join(' ')}
+                      style={{ borderColor: '#FB9A05', boxShadow: '0 0 20px rgba(251, 154, 5, 0.2)' }}
+                    >
+                      <img
+                        src={card.badge}
+                        alt={card.badgeAlt}
+                        className={
+                          card.badgeOversize
+                            ? 'h-[8.5rem] w-auto max-w-none object-contain'
+                            : 'max-h-full max-w-full object-contain'
+                        }
+                      />
+                    </div>
+                    <h3
+                      className="text-xl leading-snug text-white"
+                      style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                    >
+                      {card.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-400">{card.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-10 flex justify-center">
+                <Link
+                  to="/security"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white"
+                  style={{ backgroundColor: '#214995' }}
+                >
+                  Learn more
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
-                </span>
-              </Link>
+                </Link>
+              </div>
             </div>
 
-          </div>
           </div>
         </div>
       </section>
@@ -1116,13 +1214,20 @@ export default function Home() {
 
             {/* Top text */}
             <div className="px-5 pt-10 pb-0 lg:px-16 lg:py-16 lg:pb-0 lg:flex lg:flex-col lg:justify-start">
-              <p className="text-center text-sm font-bold uppercase tracking-[0.2em] text-white lg:text-left lg:text-xs lg:text-blue-300">Book a demo</p>
-              <h2 className="mt-4 text-3xl font-bold leading-tight text-white lg:text-4xl">Most teams are live within 3 days.</h2>
-              <p className="mt-3 text-base text-blue-200">30 minutes. We'll show exactly how it works for your stack.</p>
+              <p className="hidden text-sm font-bold uppercase tracking-[0.2em] text-blue-300 lg:block">Book a demo</p>
+              <h2 className="mt-4 hidden text-3xl font-bold leading-tight text-white lg:block lg:text-4xl">Most teams are live within 3 days.</h2>
+              <p className="mt-3 hidden text-base text-blue-200 lg:block">30 minutes. We'll show exactly how it works for your stack.</p>
+              <h2
+                className="mt-2 flex flex-col text-center leading-tight lg:hidden"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+              >
+                <span style={{ color: '#FB9A05' }}>30 minutes.</span>
+                <span className="text-white">We&apos;ll show exactly how it works for your stack.</span>
+              </h2>
             </div>
 
             {/* Form - appears second on mobile (right after description), right column on desktop */}
-            <div className="px-5 py-6 lg:px-12 lg:py-16 lg:row-span-2 lg:flex lg:items-center">
+            <div className="px-5 pt-6 pb-3 lg:px-12 lg:py-16 lg:row-span-2 lg:flex lg:items-center">
               {demoSubmitted ? (
                 <div className="w-full rounded-2xl bg-white p-8 text-center shadow-xl">
                   <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
@@ -1138,12 +1243,40 @@ export default function Home() {
                   <form
                     ref={demoFormRef}
                     noValidate
-                    onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                    onSubmit={async (e: FormEvent<HTMLFormElement>) => {
                       e.preventDefault()
-                      const valid = (e.currentTarget as HTMLFormElement).checkValidity()
+                      const form = e.currentTarget
+                      const valid = form.checkValidity()
                       setDemoFormIsValid(valid)
                       setDemoAttempted(true)
-                      if (valid && demoAgreed) setDemoSubmitted(true)
+                      if (!valid || !demoAgreed) return
+
+                      const name = (form.querySelector('#demo-name') as HTMLInputElement).value.trim()
+                      const email = (form.querySelector('#demo-email') as HTMLInputElement).value.trim()
+                      const company = (form.querySelector('#demo-company') as HTMLInputElement).value.trim()
+                      const messageRaw = (form.querySelector('#demo-message') as HTMLTextAreaElement).value.trim()
+                      const message = [
+                        'Book a Demo (homepage)',
+                        company ? `Company: ${company}` : '',
+                        messageRaw || 'No additional details provided.',
+                      ]
+                        .filter(Boolean)
+                        .join('\n\n')
+
+                      setDemoSending(true)
+                      setDemoSubmitError('')
+                      const result = await submitContactForm({
+                        name,
+                        email,
+                        message,
+                        formStartedAt: demoFormStartedAt,
+                      })
+                      setDemoSending(false)
+                      if (!result.ok) {
+                        setDemoSubmitError(result.error)
+                        return
+                      }
+                      setDemoSubmitted(true)
                     }}
                     className="flex flex-col gap-4"
                   >
@@ -1216,10 +1349,11 @@ export default function Home() {
                       {/* Mobile: full-width, no animation */}
                       <button
                         type="submit"
-                        className="flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-bold uppercase tracking-widest text-white lg:hidden"
+                        disabled={demoSending}
+                        className="flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-bold uppercase tracking-widest text-white lg:hidden disabled:opacity-60"
                         style={{ backgroundColor: '#111827' }}
                       >
-                        Send request
+                        {demoSending ? 'Sending…' : 'Send request'}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                           <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                         </svg>
@@ -1227,17 +1361,21 @@ export default function Home() {
                       {/* Desktop: animated */}
                       <button
                         type="submit"
-                        className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
+                        disabled={demoSending}
+                        className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white disabled:opacity-60"
                         style={{ backgroundColor: '#111827' }}
                       >
                         <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                        <span className="relative z-10 uppercase tracking-widest">Send request</span>
+                        <span className="relative z-10 uppercase tracking-widest">{demoSending ? 'Sending…' : 'Send request'}</span>
                         <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                             <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                           </svg>
                         </span>
                       </button>
+                      {demoSubmitError && (
+                        <p className="mt-3 text-xs text-red-500">{demoSubmitError}</p>
+                      )}
                       {demoAttempted && (!demoFormIsValid || !demoAgreed) && (
                         <p className="mt-3 flex items-center gap-2 text-xs text-red-500">
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0">
@@ -1253,8 +1391,8 @@ export default function Home() {
             </div>
 
             {/* Bottom text - bullets + contact (one line on mobile) */}
-            <div className="px-5 py-8 lg:px-16 lg:pt-8 lg:pb-16">
-              <ul className="flex flex-col gap-3">
+            <div className="px-5 pt-2 pb-8 lg:px-16 lg:pt-8 lg:pb-16">
+              <ul className="hidden flex-col gap-3 lg:flex">
                 {['30-minute live walkthrough', 'Tailored to your support stack', 'No commitment required'].map(item => (
                   <li key={item} className="flex items-center gap-3 text-base text-white/80">
                     <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
@@ -1268,7 +1406,7 @@ export default function Home() {
               </ul>
 
               {/* Email + contact */}
-              <div className="mt-6 border-t border-white/10 pt-6">
+              <div className="lg:mt-6 lg:border-t lg:border-white/10 lg:pt-6">
                 {/* Mobile: email address + big icons left-aligned, no labels */}
                 <div className="flex items-center justify-between lg:hidden">
                   <a href="mailto:info@supvision.ai" className="text-sm font-semibold text-white hover:text-blue-200 transition-colors">
@@ -1380,26 +1518,38 @@ function FAQItem({ item, isOpen, onToggle }: { item: { q: string; a: string }; i
   }, [isOpen])
 
   return (
-    <div>
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
       <button
         onClick={onToggle}
-        className="flex w-full items-center justify-between gap-8 py-7 text-left"
+        className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left"
       >
-        <span className="text-lg font-semibold text-gray-900">{item.q}</span>
-        <span className={[
-          'flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white transition-transform duration-300',
-          isOpen ? 'rotate-45' : '',
-        ].join(' ')}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-5 w-5 text-gray-500">
-            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+        <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
+        <span
+          className={[
+            'flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300',
+            isOpen ? 'rotate-180' : '',
+          ].join(' ')}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+          >
+            <path d="M4 6l4 4 4-4" />
           </svg>
         </span>
       </button>
       <div
         ref={bodyRef}
+        className="px-6"
         style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
       >
-        <p className="pb-7 text-base leading-relaxed text-gray-500">{item.a}</p>
+        <p className="pb-6 text-sm leading-relaxed text-gray-500 lg:text-[15px]">{item.a}</p>
       </div>
     </div>
   )
@@ -1419,26 +1569,30 @@ function FAQ() {
   }
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8">
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
 
         <div className="mb-8 text-center">
-          <p className="text-2xl font-bold uppercase text-gray-900">FAQ</p>
+          <h2
+            className="leading-tight"
+            style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+          >
+            <span className="text-gray-900">Frequently asked questions</span>
+          </h2>
         </div>
 
-        <div className="mt-12 divide-y divide-gray-200">
+        <div className="mt-6 grid grid-cols-1 gap-3 lg:grid-cols-2">
           {faqItems.map((item, i) => (
-            <div key={i} className={i >= 5 ? 'hidden lg:block' : ''}>
-              <FAQItem
-                item={item}
-                isOpen={open === i}
-                onToggle={() => setOpen(open === i ? null : i)}
-              />
-            </div>
+            <FAQItem
+              key={i}
+              item={item}
+              isOpen={open === i}
+              onToggle={() => setOpen(open === i ? null : i)}
+            />
           ))}
         </div>
 
@@ -1516,114 +1670,157 @@ const testimonials: {
   metrics: { value: string; label: string }[]
 }[] = [
   {
-    name: 'Dmytriy K.',
-    role: 'Head of Customer Support',
-    company: 'NEOBANK',
+    name: 'Marcus T.',
+    role: 'Head of Operations',
+    company: 'CLEARFLOW',
     bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
     avatar: '/team.png',
-    quote: "We used to hire new people every time we expanded to a new geography. Now we automatically serve all regions - Europe, the US, Asia, the Middle East - without adding a single agent. The setup took three days.",
+    quote: "Dispute queues were our biggest headache — tickets piling up over 3–5 days, agents overwhelmed, customers furious. supVision resolved the same disputes in under 2 minutes, with no manual steps. The queue disappeared in the first week.",
     metrics: [
-      { value: '4 regions', label: 'served without new hires' },
-      { value: '3 days', label: 'to go live globally' },
+      { value: '< 2 min', label: 'median dispute resolution' },
+      { value: '0', label: 'manual steps required' },
     ],
   },
   {
-    name: 'Alan N.',
-    role: 'Customer Success Lead',
-    company: 'PAYTECH',
+    name: 'Priya S.',
+    role: 'VP Customer Experience',
+    company: 'NOVALEND',
     bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
     avatar: '/image 178 (1)-Photoroom 2.png',
-    quote: "We cut support headcount by 30% while handling 3× the ticket volume. The agents that stayed are focused on real escalations, not copy-pasting the same repetitive answers all day. ROI showed up faster than any tool we've ever deployed.",
+    quote: "We were stuck in a cycle — agents quit, we onboard new ones, quality drops, repeat. supVision ended that cycle completely. The quality on day one was the same as month twelve. We stopped budgeting for turnover.",
     metrics: [
-      { value: '30%', label: 'reduction in support headcount' },
-      { value: '3×', label: 'ticket volume, same team' },
+      { value: '0%', label: 'knowledge loss on agent turnover' },
+      { value: '98.4%', label: 'consistent resolution rate' },
     ],
   },
   {
-    name: 'Ruslan V.',
-    role: 'Head of Operations',
-    company: 'FINLEND',
+    name: 'Tobias H.',
+    role: 'CFO',
+    company: 'PAYREX',
     bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
     avatar: '/team.png',
-    quote: "We went from a 4-hour average resolution time to under 2 minutes for verification queries. Ops costs dropped and CSAT went up at the same time. SupVision made the whole support flow predictable and auditable.",
+    quote: "Every time ticket volume grew, so did our headcount costs — salaries, sick pay, cover shifts, retraining. supVision let us handle 4× the volume with the same team. We cut support operating costs by 74% in the first quarter.",
     metrics: [
-      { value: '< 2 min', label: 'avg verification resolution time' },
-      { value: '1 month', label: 'to measurable ROI' },
+      { value: '74%', label: 'reduction in support opex' },
+      { value: '4×', label: 'volume, same team size' },
     ],
   },
   {
-    name: 'Cyril B.',
-    role: 'Compliance Lead',
-    company: 'LENDCORE',
+    name: 'Sofia M.',
+    role: 'Head of Support',
+    company: 'BANKLY',
     bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
     avatar: '/image 178 (1)-Photoroom 2.png',
-    quote: "Our compliance team was skeptical about automating disputes. But SupVision handles edge cases better than we expected, and logs every decision with a full rationale and timestamp. When our auditors asked for a trail, we exported it in minutes.",
+    quote: "Our customers were hitting payment failures at midnight with no one to help. Covering nights and weekends was expensive and demoralising for the team. supVision took over the whole 24/7 window. Every customer now gets an instant reply, any hour.",
     metrics: [
-      { value: '100%', label: 'automated decision audit coverage' },
-      { value: '< 5 min', label: 'regulator export time' },
+      { value: '24/7', label: 'coverage without shift premiums' },
+      { value: '< 10 s', label: 'avg first response, any hour' },
+    ],
+  },
+  {
+    name: 'Léa C.',
+    role: 'Global Expansion Lead',
+    company: 'FINVAULT',
+    bgGradient: 'linear-gradient(135deg, #0a2218 0%, #0e4a30 60%, #1a7a50 100%)',
+    avatar: '/team.png',
+    quote: "We were routing foreign-language queries through Google Translate and hoping for the best. Complaints from non-English users were 3× higher. supVision handles 50+ languages natively — no awkward phrasing, no miscommunication, launch-ready from day one.",
+    metrics: [
+      { value: '50+', label: 'languages, native fluency' },
+      { value: '3×', label: 'fewer complaints from non-English users' },
+    ],
+  },
+  {
+    name: 'Arjun M.',
+    role: 'Head of Compliance',
+    company: 'KRYPTEX',
+    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
+    avatar: '/team.png',
+    quote: "Regulators asked for a full audit trail on a disputed case. With our old setup that would have taken a week. supVision had every decision logged with timestamps and rationale. We exported the full trail in four minutes.",
+    metrics: [
+      { value: '4 min', label: 'full audit export time' },
+      { value: '100%', label: 'decisions logged automatically' },
+    ],
+  },
+  {
+    name: 'Nina K.',
+    role: 'Director of Customer Ops',
+    company: 'SWIFTCARD',
+    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
+    avatar: '/team.png',
+    quote: "We went live in three days. Not three months — three days. Our old vendor quoted a six-month integration. supVision connected to Zendesk and our KYC provider over a weekend, and by Monday morning it was handling real queries.",
+    metrics: [
+      { value: '3 days', label: 'from contract to live' },
+      { value: '6 months', label: 'saved vs previous vendor quote' },
+    ],
+  },
+  {
+    name: 'Daniel F.',
+    role: 'CTO',
+    company: 'MONEYMESH',
+    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
+    avatar: '/team.png',
+    quote: "We handle card disputes on WhatsApp and Telegram as well as web. supVision handles all three channels with the same logic, same tone, same compliance rules. No separate bots, no inconsistent answers. One system, everywhere.",
+    metrics: [
+      { value: '3 channels', label: 'unified — web, WhatsApp, Telegram' },
+      { value: '1', label: 'policy engine across all of them' },
+    ],
+  },
+  {
+    name: 'Yuki T.',
+    role: 'VP Operations',
+    company: 'ORBITPAY',
+    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
+    avatar: '/team.png',
+    quote: "We scaled from 5,000 to 80,000 monthly active users in eight months. Support volume exploded. supVision absorbed the whole spike without us hiring a single new agent. CSAT actually improved during the growth phase.",
+    metrics: [
+      { value: '16×', label: 'user growth, zero new support hires' },
+      { value: '+12 pts', label: 'CSAT improvement during scale-up' },
     ],
   },
 ]
 
 const complianceFeatures = [
-  'Full audit trail for every automated decision and escalation',
-  'Verification workflow logic with built-in confidence thresholds',
   'GDPR-compliant data handling and right-to-erasure support',
   'PCI DSS aligned, no raw card data ever touches our system',
   'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records',
 ]
 
+const complianceCertCards = [
+  {
+    badge: '/gdpr.png',
+    badgeAlt: 'GDPR Compliant',
+    title: 'GDPR Compliance',
+    desc: 'GDPR-compliant data handling and right-to-erasure support',
+  },
+  {
+    badge: '/badge/image.png',
+    badgeAlt: 'PCI DSS Compliant',
+    title: 'PCI DSS Aligned',
+    desc: 'PCI DSS aligned, no raw card data ever touches our system',
+    badgeOversize: true,
+  },
+  {
+    badge: '/nda.png',
+    badgeAlt: 'NDA protected',
+    title: 'NDA-Protected Data',
+    desc: 'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records',
+  },
+]
 
-const benefits = [
+
+const mobileInsightCards = [
   {
-    beforeTitle: 'Queues growing every day',
-    before: 'Disputes and transaction failures pile up in queues, resolved manually over days.',
-    beforeImg: '/benefits/Disputes and transaction failures.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" /></svg>,
-    title: 'Automated workflows made easy',
-    after: 'Resolve disputes and transaction failures in real time, median resolution under 2 minutes, zero manual steps.',
-    afterImg: '/benefits/Resolve disputes and transaction.png',
-    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>,
+    label: 'Support costs',
+    stat: '68%',
+    body: 'Cut cost by 68% on repetitive tier-1 volume — without adding headcount.',
+    variant: 'light' as const,
   },
   {
-    beforeTitle: 'Support team rotates every few months',
-    before: 'Agents leave, new ones need onboarding, and quality drops every time someone quits. Constant recruiting, training, and handover costs with no end in sight.',
-    beforeImg: '/benefits/Compliance is bolted on after the fact.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" /></svg>,
-    title: 'Zero turnover. Consistent quality.',
-    after: 'supVision never quits, never needs retraining, and delivers the same quality on day 1 and year 3. No offboarding, no knowledge loss, no gap in coverage.',
-    afterImg: '/benefits/Built for compliance from day one.png',
-    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>,
-  },
-  {
-    beforeTitle: 'Scaling costs, shrinking margins',
-    before: 'Growing support demand means more headcount — salaries, sick days, annual leave, bonuses, and constant retraining with no end in sight.',
-    beforeImg: '/benefits/Growing support demand means.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>,
-    title: 'Reduce costs by up to 80%',
-    after: 'No salaries, no sick pay, no vacation cover, no bonuses. Teams using supVision cut support operating costs by up to 80% while maintaining a 98.4% resolution rate.',
-    afterImg: '/benefits/Reduce costs, improve quality.png',
-    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
-  },
-  {
-    beforeTitle: 'Support stops at 5pm',
-    before: 'Customers hit payment failures at midnight and on weekends. Finding agents willing to cover nights, holidays, and time zones is nearly impossible — and expensive.',
-    beforeImg: '/hero_images/live-chat-response.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
-    title: '24/7 AI support, always on',
-    after: 'supVision resolves queries around the clock — no shift changes, no sick days, no holidays. Every customer gets an instant response at any hour, in any time zone.',
-    afterImg: '/hero_images/ticket-list-resolved.png',
-    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>,
-  },
-  {
-    beforeTitle: 'Agents rely on Google Translate',
-    before: 'Your support team uses Google Translate to handle foreign-language queries. Mistranslations, awkward phrasing, and miscommunication with partners happen every day.',
-    beforeImg: '/hero_images/onboarding-setup.png',
-    beforeIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802" /></svg>,
-    title: 'Native fluency in 50+ languages',
-    after: 'supVision responds in the customer\'s language — natively, not translated. No awkward phrasing, no miscommunication. Launch in any region from day one without hiring local agents.',
-    afterImg: '/hero_images/analytics-dashboard.png',
-    afterIcon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" /></svg>,
+    label: 'Customer satisfaction',
+    stat: '92%',
+    body: 'Happier customers — faster answers, fewer escalations, and higher CSAT across every channel.',
+    variant: 'image' as const,
+    image: '/hero_images/Component 174.png',
   },
 ]
 
@@ -1731,12 +1928,58 @@ const industries = [
   },
 ]
 
+const heroIntegrationLogos = [
+  'zendesk.png',
+  'slack.png',
+  'salesforce.png',
+  'freshdesk.png',
+  'hubspot.png',
+  'intecom (1).png',
+  'whatsapp.png',
+  'telegram.png',
+  'notion.png',
+  'confluence.png',
+  'jira.png',
+]
+
+const heroIntegrationLogosMobileExtra = [
+  'gmail.png',
+  'outlook.png',
+  'teams.png',
+  'twillio.png',
+  'mambu.png',
+]
+
 const heroIndustries = [
   { label: 'Payments & Processing', icon: S(['M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z', 'M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z']) },
   { label: 'Neobanks', icon: S('M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6ZM20.25 10.332v9.418H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.418a.75.75 0 0 1 0-1.5h15.75a.75.75 0 0 1 0 1.5Zm-4.5 0v5.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75v-5.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75Zm-8.25-.75a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75H7.5Z', true) },
   { label: 'Web3', icon: S('M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z', true) },
   { label: 'Lending & Credit', icon: S(['M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z', 'M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z', 'M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z']) },
   { label: 'InsurTech', icon: S('M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z', true) },
+]
+
+/** Desktop hero — what the support agent does for your team */
+const heroDesktopAgentFeatures = [
+  {
+    label: 'Resolve tier-1 support',
+    desc: 'Closes disputes, payments, and verification queries autonomously — median resolution under 2 minutes.',
+    icon: S('M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z', true),
+  },
+  {
+    label: 'Escalate with full context',
+    desc: 'Hands complex cases to your team with the thread, live CRM/KYC data, and why the agent stepped back.',
+    icon: S('M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z', true),
+  },
+  {
+    label: 'Verify with live data',
+    desc: 'Pulls account, transaction, and identity state from your stack before every reply — no generic scripts.',
+    icon: S('M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', true),
+  },
+  {
+    label: 'Work across your channels',
+    desc: 'Email, chat, WhatsApp, Telegram, and your helpdesk — one agent for every channel your customers use.',
+    icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']),
+  },
 ]
 
 const heroFeatures = [
@@ -1753,129 +1996,6 @@ const heroFeatures = [
   { label: 'Log Streaming', icon: S('M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm14.25 6a.75.75 0 0 1-.22.53l-2.25 2.25a.75.75 0 1 1-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 1 1 1.06-1.06l2.25 2.25c.141.14.22.331.22.53Zm-10.28-.53a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L8.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-2.25 2.25Z', true) },
   { label: 'Regulator Exports', icon: S('M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z', true) },
 ]
-
-const integrationGroups: { label: string; options: { name: string; color: string; letter: string; logoUrl: string }[] }[] = [
-  {
-    label: 'Helpdesk',
-    options: [
-      { name: 'Zendesk', color: '#03363D', letter: 'Z', logoUrl: '/logos/zendesk.png' },
-      { name: 'Intercom', color: '#1F8FEF', letter: 'I', logoUrl: '/logos/intecom (1).png' },
-      { name: 'Freshdesk', color: '#25C16F', letter: 'F', logoUrl: '/logos/freshdesk.png' },
-      { name: 'Salesforce Service', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
-    ],
-  },
-  {
-    label: 'KYC',
-    options: [
-      { name: 'Sumsub', color: '#FF6B00', letter: 'S', logoUrl: 'https://logo.clearbit.com/sumsub.com' },
-      { name: 'Jumio', color: '#0066CC', letter: 'J', logoUrl: 'https://logo.clearbit.com/jumio.com' },
-      { name: 'Veriff', color: '#3245FB', letter: 'V', logoUrl: 'https://logo.clearbit.com/veriff.com' },
-      { name: 'Onfido', color: '#1A1A2E', letter: 'O', logoUrl: 'https://logo.clearbit.com/onfido.com' },
-    ],
-  },
-  {
-    label: 'CRM',
-    options: [
-      { name: 'HubSpot', color: '#FF7A59', letter: 'H', logoUrl: '/logos/hubspot.png' },
-      { name: 'Salesforce CRM', color: '#00A1E0', letter: 'S', logoUrl: '/logos/salesforce.png' },
-      { name: 'Pipedrive', color: '#1A1F36', letter: 'P', logoUrl: '/logos/Pipedrive.png' },
-      { name: 'Zoho CRM', color: '#E42527', letter: 'Z', logoUrl: '/logos/zoro.png' },
-      { name: 'Mambu', color: '#FF3B00', letter: 'M', logoUrl: '/logos/mambu.png' },
-    ],
-  },
-  {
-    label: 'Channel',
-    options: [
-      { name: 'WhatsApp', color: '#25D366', letter: 'W', logoUrl: '/logos/whatsapp.png' },
-      { name: 'Telegram', color: '#26A5E4', letter: 'T', logoUrl: '/logos/telegram.png' },
-      { name: 'Gmail', color: '#EA4335', letter: '@', logoUrl: '/logos/gmail.png' },
-      { name: 'Mail / SMTP', color: '#6B7280', letter: 'M', logoUrl: '/mail.png' },
-      { name: 'Outlook', color: '#0078D4', letter: 'O', logoUrl: '/logos/outlook.png' },
-      { name: 'Facebook Messenger', color: '#0084FF', letter: 'F', logoUrl: '/logos/facebook messenger.png' },
-      { name: 'WeChat', color: '#07C160', letter: 'W', logoUrl: '/logos/wechat.png' },
-      { name: 'Line', color: '#00B900', letter: 'L', logoUrl: '/logos/line.png' },
-      { name: 'Viber', color: '#7360F2', letter: 'V', logoUrl: '/logos/viber.png' },
-      { name: 'Twilio SMS', color: '#F22F46', letter: 'T', logoUrl: '/logos/twillio.png' },
-    ],
-  },
-]
-
-function IntegrationLogo({ logoUrl, color, letter, size }: { logoUrl: string; color: string; letter: string; size: number }) {
-  const [err, setErr] = useState(false)
-  return err ? (
-    <span
-      className="flex flex-shrink-0 items-center justify-center rounded-lg text-white font-bold leading-none"
-      style={{ backgroundColor: color, width: size, height: size, fontSize: size * 0.4 }}
-    >
-      {letter}
-    </span>
-  ) : (
-    <img
-      src={logoUrl}
-      alt=""
-      className="flex-shrink-0 rounded-lg object-contain bg-white"
-      style={{ width: size, height: size }}
-      onError={() => setErr(true)}
-    />
-  )
-}
-
-function IntegrationSelect({ label, options, value, onChange, comingSoon }: {
-  label: string
-  options: { name: string; color: string; letter: string; logoUrl: string }[]
-  value: string | null
-  onChange: (name: string | null) => void
-  comingSoon?: boolean
-}) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      className="relative"
-      onMouseEnter={() => { if (comingSoon) setOpen(true) }}
-      onMouseLeave={() => { if (comingSoon) setOpen(false) }}
-    >
-      <button
-        onClick={() => { if (!comingSoon) setOpen(v => !v) }}
-        className={`flex items-center gap-2 rounded-full border-2 bg-white pl-4 pr-4 py-3 text-sm font-semibold focus:outline-none transition-colors ${comingSoon ? 'cursor-default text-gray-400 border-gray-200' : 'cursor-pointer hover:bg-gray-50 border-gray-900 text-gray-900'}`}
-      >
-        <span>{label}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-          className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${comingSoon ? 'text-gray-300' : 'text-gray-500'}`}>
-          <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-        </svg>
-      </button>
-
-      {open && (
-        <div className="absolute left-0 top-full z-50 mt-2 min-w-[200px] overflow-hidden rounded-2xl border border-gray-100 bg-white py-2 shadow-xl">
-          {comingSoon ? (
-            <div className="px-4 py-3 text-sm font-semibold text-gray-400">Coming soon</div>
-          ) : (
-            options.map(opt => (
-              <button
-                key={opt.name}
-                onClick={() => { onChange(opt.name); setOpen(false) }}
-                className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 ${value === opt.name ? 'bg-gray-50' : ''}`}
-              >
-                <IntegrationLogo logoUrl={opt.logoUrl} color={opt.color} letter={opt.letter} size={28} />
-                {opt.name}
-              </button>
-            ))
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
 
 function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
   const [err, setErr] = useState(false)

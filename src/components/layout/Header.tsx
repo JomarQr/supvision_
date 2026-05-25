@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
+import { forWhomIndustries, forWhomRoles } from '../../data/forWhom'
 
 // ── Overview mega-menu data ──────────────────────────────────────────────────
 const overviewCategories = [
@@ -47,22 +48,18 @@ const overviewCategories = [
   },
 ]
 
-// ── For whom dropdown data ───────────────────────────────────────────────────
-const forWhomDropdown = {
-  industries: [
-    { label: 'Payments & Processing', desc: 'Dispute resolution, chargebacks, transaction queries', to: '/industries/payments-processing' },
-    { label: 'Neobanks & Digital Banking', desc: 'Account support, identity verification, onboarding at scale', to: '/industries/neobanks' },
-    { label: 'Web3', desc: 'Wallet issues, verification, volatile-volume support', to: '/industries/crypto-web3' },
-    { label: 'Lending & Credit', desc: 'Loan queries, repayment issues, eligibility checks', to: '/industries/lending-credit' },
-    { label: 'InsurTech', desc: 'Claims triage, policy queries, compliance handling', to: '/industries/insurtech' },
-  ],
-  roles: [
-    { label: 'Head of Support', desc: 'Cut queues, automate tier-1, free your agents', to: '/roles/head-of-support' },
-    { label: 'Compliance & Risk', desc: 'Audit logs, escalation rules, regulator-ready exports', to: '/roles/compliance-risk' },
-    { label: 'Operations & Growth', desc: 'Scale support without scaling headcount', to: '/roles/operations-growth' },
-    { label: 'Founders & C-Suite', desc: 'Lower costs, faster resolution, measurable ROI', to: '/roles/founders-csuite' },
-  ],
-}
+const forWhomCategories = [
+  {
+    key: 'industries',
+    label: 'By industry',
+    items: forWhomIndustries.map(({ label, desc, to }) => ({ label, desc, to })),
+  },
+  {
+    key: 'roles',
+    label: 'By role',
+    items: forWhomRoles.map(({ label, desc, to }) => ({ label, desc, to })),
+  },
+]
 
 
 // ── Header ───────────────────────────────────────────────────────────────────
@@ -99,6 +96,7 @@ export default function Header() {
   const [overviewOpen, setOverviewOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState('solutions')
   const [forWhomOpen, setForWhomOpen] = useState(false)
+  const [activeForWhomCategory, setActiveForWhomCategory] = useState('industries')
   const overviewTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const forWhomTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -107,7 +105,6 @@ export default function Header() {
   const [openOverviewCat, setOpenOverviewCat] = useState<string | null>(null)
   const toggleOverviewCat = (key: string) =>
     setOpenOverviewCat(prev => prev === key ? null : key)
-
   const [openForWhomCat, setOpenForWhomCat] = useState<string | null>(null)
   const toggleForWhomCat = (key: string) =>
     setOpenForWhomCat(prev => prev === key ? null : key)
@@ -127,6 +124,10 @@ export default function Header() {
   }, [overviewOpen])
 
   useEffect(() => {
+    if (!forWhomOpen) setActiveForWhomCategory('industries')
+  }, [forWhomOpen])
+
+  useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -143,9 +144,8 @@ export default function Header() {
     timer.current = setTimeout(() => setter(false), 120)
   }
 
-  const linkClass = `text-base font-semibold transition-colors duration-300 ${isDark ? 'text-white hover:!text-white/70' : 'text-gray-900 hover:!text-[#214995]'}`
-
   const activeCat = overviewCategories.find(c => c.key === activeCategory) ?? overviewCategories[0]
+  const activeForWhomCat = forWhomCategories.find(c => c.key === activeForWhomCategory) ?? forWhomCategories[0]
 
   const [navHovered, setNavHovered] = useState(false)
   const [scrollTop, setScrollTop] = useState(0)
@@ -176,6 +176,27 @@ export default function Header() {
   const BANNER_H = 32
   const HEADER_H = 48
   const pastHeader = scrollTop > BANNER_H + HEADER_H
+  const lightNavPaths = [
+    '/about',
+    '/contact',
+    '/pricing',
+    '/integrations',
+    '/for-whom',
+    '/kyc-onboarding',
+    '/dispute-resolution',
+    '/escalation-rules',
+    '/multi-channel',
+    '/audit-logs',
+    '/multi-language',
+    '/analytics',
+    '/support-agent',
+  ]
+  const forceLightNav =
+    lightNavPaths.includes(pathname) ||
+    pathname.startsWith('/industries/') ||
+    pathname.startsWith('/roles/')
+  const navDark = isDark && !forceLightNav
+  const linkClass = `text-base font-semibold transition-colors duration-300 ${navDark ? 'text-white hover:!text-white/70' : 'text-gray-900 hover:!text-[#214995]'}`
 
   // Desktop: stays fixed, moves with banner
   const desktopTop = Math.max(0, BANNER_H - scrollTop)
@@ -184,6 +205,9 @@ export default function Header() {
   const mobileShowSticky = pastHeader && scrollDir === 'up'
   const mobileTop = mobileShowSticky ? 0 : BANNER_H - scrollTop
   const headerTop = isMobile ? mobileTop : desktopTop
+  const mobileHeroDark = pathname === '/'
+  const mobileLogoInverted = !mobileShowSticky && !forceLightNav && mobileHeroDark
+  const mobileMenuIconDark = mobileShowSticky || forceLightNav
 
   return (
     <>
@@ -211,9 +235,14 @@ export default function Header() {
           {/* Logo */}
           <a href="/" onClick={handleLogoClick} className="flex items-center">
             {/* Mobile: white at top, dark when sticky */}
-            <img src="/Component 156 (3).png" alt="Logo" className="h-10 w-auto lg:hidden" style={mobileShowSticky ? undefined : { filter: 'brightness(0) invert(1)' }} />
+            <img
+              src="/Component 156 (3).png"
+              alt="Logo"
+              className="h-10 w-auto lg:hidden"
+              style={mobileLogoInverted ? { filter: 'brightness(0) invert(1)' } : undefined}
+            />
             {/* Desktop: responds to dark background */}
-            <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block transition-all duration-300" style={isDark ? { filter: 'brightness(0) invert(1)' } : undefined} />
+            <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block transition-all duration-300" style={navDark ? { filter: 'brightness(0) invert(1)' } : undefined} />
           </a>
 
           {/* Desktop Nav */}
@@ -296,47 +325,42 @@ export default function Header() {
                   onMouseEnter={() => open(setForWhomOpen, forWhomTimer)}
                   onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
                 >
-                  <div className="w-[640px] rounded-2xl bg-white p-6 shadow-xl ring-1 ring-gray-100">
-                    <div className="grid grid-cols-2 divide-x divide-gray-100">
-                      <div className="min-w-0 pr-6">
-                        <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
-                          <span style={{ backgroundColor: '#214995', width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            <img src="/icons/pie-chart.png" alt="" style={{ width: '13px', height: '13px', display: 'block', objectFit: 'contain', filter: 'brightness(0) invert(1)', margin: 0, padding: 0 }} />
-                          </span>
-                          By industry
-                        </p>
-                        <ul className="space-y-0.5">
-                          {forWhomDropdown.industries.map(item => (
-                            <li key={item.label}>
-                              <Link to={item.to} onClick={() => setForWhomOpen(false)} className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-50">
-                                <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
-                                <p className="text-xs text-gray-400 whitespace-normal break-words">{item.desc}</p>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="min-w-0 pl-6">
-                        <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
-                          <span style={{ backgroundColor: '#214995', width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white" style={{ width: '14px', height: '14px', display: 'block' }}>
-                              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-                            </svg>
-                          </span>
-                          By role
-                        </p>
-                        <ul className="space-y-0.5">
-                          {forWhomDropdown.roles.map(item => (
-                            <li key={item.label}>
-                              <Link to={item.to} onClick={() => setForWhomOpen(false)} className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-50">
-                                <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
-                                <p className="text-xs text-gray-400 whitespace-normal break-words">{item.desc}</p>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                  <div className="flex w-[680px] overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-gray-100">
+
+                    <div className="flex w-56 flex-shrink-0 flex-col gap-1 bg-gray-50 p-4">
+                      {forWhomCategories.map(cat => (
+                        <button
+                          key={cat.key}
+                          onMouseEnter={() => setActiveForWhomCategory(cat.key)}
+                          className={[
+                            'w-full rounded-xl px-4 py-3 text-left text-xs font-bold uppercase tracking-widest transition-colors',
+                            activeForWhomCategory === cat.key
+                              ? 'bg-white text-gray-900 shadow-sm'
+                              : 'text-gray-400 hover:text-gray-700',
+                          ].join(' ')}
+                        >
+                          {cat.label}
+                        </button>
+                      ))}
                     </div>
+
+                    <div className="flex-1 p-5">
+                      <ul className="space-y-0.5">
+                        {activeForWhomCat.items.map(item => (
+                          <li key={item.label}>
+                            <Link
+                              to={item.to}
+                              onClick={() => setForWhomOpen(false)}
+                              className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-blue-50"
+                            >
+                              <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                              <p className="text-xs text-gray-400">{item.desc}</p>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
                   </div>
                 </div>
               )}
@@ -349,7 +373,7 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className={linkClass}>Log in</a>
+            <NavLink to="/login" end className={linkClass}>Log in</NavLink>
             <Link
               to="/contact"
               className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
@@ -372,11 +396,11 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 ${mobileShowSticky ? 'text-gray-900' : 'text-white'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 ${mobileMenuIconDark ? 'text-gray-900' : 'text-white'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 ${mobileShowSticky ? 'text-gray-900' : 'text-white'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 ${mobileMenuIconDark ? 'text-gray-900' : 'text-white'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path fillRule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 8a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 8Zm0 3.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
               </svg>
             )}
@@ -445,9 +469,9 @@ export default function Header() {
                 </svg>
               </span>
             </Link>
-            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="text-center text-sm text-gray-900">
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center text-sm text-gray-900">
               Log in
-            </a>
+            </Link>
           </nav>
         </div>
 
@@ -492,19 +516,16 @@ export default function Header() {
                 </svg>
               </span>
             </Link>
-            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="text-center text-sm text-gray-900">
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center text-sm text-gray-900">
               Log in
-            </a>
+            </Link>
           </nav>
         </div>
 
         {/* For whom content */}
         <div className={`absolute inset-0 overflow-y-auto transition-transform duration-300 ease-in-out ${mobileScreen === 'forwhom' ? 'translate-x-0' : 'translate-x-full'}`}>
           <nav className="flex flex-col gap-2 px-2 pt-1 pb-2">
-            {[
-              { key: 'industries', label: 'By industry', items: forWhomDropdown.industries },
-              { key: 'roles', label: 'By role', items: forWhomDropdown.roles },
-            ].map(cat => {
+            {forWhomCategories.map(cat => {
               const isOpen = openForWhomCat === cat.key
               return (
                 <div key={cat.key} className="overflow-hidden rounded-2xl bg-white">
@@ -517,7 +538,12 @@ export default function Header() {
                   {isOpen && (
                     <div className="mt-1 flex flex-col gap-0.5 px-2 pb-2">
                       {cat.items.map(item => (
-                        <Link key={item.label} to={item.to} onClick={() => setMobileMenuOpen(false)} className="block rounded-xl px-5 py-2.5 hover:bg-gray-50">
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block rounded-xl px-5 py-2.5 hover:bg-gray-50"
+                        >
                           <p className="text-sm font-semibold text-gray-900">{item.label}</p>
                           <p className="text-xs text-gray-400">{item.desc}</p>
                         </Link>
@@ -535,9 +561,9 @@ export default function Header() {
                 </svg>
               </span>
             </Link>
-            <a href="https://platform.supvision.ai" target="_blank" rel="noopener noreferrer" className="text-center text-sm text-gray-900">
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center text-sm text-gray-900">
               Log in
-            </a>
+            </Link>
           </nav>
         </div>
 
