@@ -379,25 +379,33 @@ export default function SolutionShowcase({
           </div>
 
           <div className="mt-20 mx-auto max-w-4xl">
-            <div className="grid grid-cols-2 gap-8">
-              <FeatureBlock
-                title="Data Access Controls"
-                description="Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope."
-              >
-                <DataAccessPanel tall />
-              </FeatureBlock>
-              <FeatureBlock
-                title="AI Decision Logs"
-                description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
-              >
-                <DecisionLogsPanel
-                  logScene={logScene}
-                  logRevealedSteps={logRevealedSteps}
-                  logDecisionShown={logDecisionShown}
-                  logFading={logFading}
-                  tall
-                />
-              </FeatureBlock>
+            {/* Top row: Data Access left, AI Decision Logs right + lower */}
+            <div className="flex items-start gap-8">
+              <div style={{ flex: '0 0 48%' }}>
+                <FeatureBlock
+                  title="Data Access Controls"
+                  description="Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope."
+                >
+                  <DataAccessPanel tall />
+                </FeatureBlock>
+              </div>
+              <div style={{ flex: '0 0 48%', marginTop: '72px' }}>
+                <FeatureBlock
+                  title="AI Decision Logs"
+                  description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
+                >
+                  <DecisionLogsPanel
+                    logScene={logScene}
+                    logRevealedSteps={logRevealedSteps}
+                    logDecisionShown={logDecisionShown}
+                    logFading={logFading}
+                    tall
+                  />
+                </FeatureBlock>
+              </div>
+            </div>
+            {/* Bottom: Languages below Data Access, shifted slightly left */}
+            <div style={{ maxWidth: '48%', marginTop: '32px', marginLeft: '-24px' }}>
               <FeatureBlock
                 title="100+ Languages"
                 description="supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost."
