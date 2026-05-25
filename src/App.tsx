@@ -1,17 +1,71 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
-import HomePage from './pages/HomePage';
-import ContactPage from './pages/ContactPage';
+import { Routes, Route } from 'react-router-dom'
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
+// Disable browser scroll restoration so we fully control scroll position
+if (typeof window !== 'undefined') {
+  window.history.scrollRestoration = 'manual'
 }
 
-export default App;
+import Layout from '@/components/layout/Layout'
+import Home from '@/pages/Home'
+import About from '@/pages/About'
+import Contact from '@/pages/Contact'
+import Pricing from '@/pages/Pricing'
+import SupportAgent from '@/pages/SupportAgent'
+import KycOnboarding from '@/pages/features/KycOnboarding'
+import DisputeResolution from '@/pages/features/DisputeResolution'
+import EscalationRules from '@/pages/features/EscalationRules'
+import MultiChannel from '@/pages/features/MultiChannel'
+import AuditLogs from '@/pages/features/AuditLogs'
+import MultiLanguage from '@/pages/features/MultiLanguage'
+import Integrations from '@/pages/Integrations'
+import ForWhom from '@/pages/ForWhom'
+import PaymentsProcessing from '@/pages/industries/PaymentsProcessing'
+import Neobanks from '@/pages/industries/Neobanks'
+import CryptoWeb3 from '@/pages/industries/CryptoWeb3'
+import LendingCredit from '@/pages/industries/LendingCredit'
+import InsurTech from '@/pages/industries/InsurTech'
+import HeadOfSupport from '@/pages/roles/HeadOfSupport'
+import ComplianceRisk from '@/pages/roles/ComplianceRisk'
+import Security from '@/pages/Security'
+import OperationsGrowth from '@/pages/roles/OperationsGrowth'
+import FoundersCsuite from '@/pages/roles/FoundersCsuite'
+import Analytics from '@/pages/Analytics'
+import PrivacyPolicy from '@/pages/PrivacyPolicy'
+import Login from '@/pages/Login'
+import NotFound from '@/pages/NotFound'
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/support-agent" element={<SupportAgent />} />
+        <Route path="/kyc-onboarding" element={<KycOnboarding />} />
+        <Route path="/dispute-resolution" element={<DisputeResolution />} />
+        <Route path="/escalation-rules" element={<EscalationRules />} />
+        <Route path="/multi-channel" element={<MultiChannel />} />
+        <Route path="/audit-logs" element={<AuditLogs />} />
+        <Route path="/multi-language" element={<MultiLanguage />} />
+        <Route path="/integrations" element={<Integrations />} />
+        <Route path="/for-whom" element={<ForWhom />} />
+        <Route path="/industries/payments-processing" element={<PaymentsProcessing />} />
+        <Route path="/industries/neobanks" element={<Neobanks />} />
+        <Route path="/industries/crypto-web3" element={<CryptoWeb3 />} />
+        <Route path="/industries/lending-credit" element={<LendingCredit />} />
+        <Route path="/industries/insurtech" element={<InsurTech />} />
+        <Route path="/roles/head-of-support" element={<HeadOfSupport />} />
+        <Route path="/roles/compliance-risk" element={<ComplianceRisk />} />
+        <Route path="/roles/operations-growth" element={<OperationsGrowth />} />
+        <Route path="/roles/founders-csuite" element={<FoundersCsuite />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/security" element={<Security />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  )
+}

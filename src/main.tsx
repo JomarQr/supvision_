@@ -1,13 +1,22 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App'
 import './index.css'
-import App from './App.tsx'
-import { initSmoothScroll } from './smoothScroll'
 
-initSmoothScroll()
+const container = document.getElementById('root')!
 
-createRoot(document.getElementById('root')!).render(
+const app = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 )
+
+// If pre-rendered HTML is present, hydrate it - otherwise create from scratch (dev)
+if (container.innerHTML.trim()) {
+  hydrateRoot(container, app)
+} else {
+  createRoot(container).render(app)
+}
