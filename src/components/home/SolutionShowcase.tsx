@@ -291,7 +291,6 @@ function FeatureBlock({
   title,
   description,
   children,
-  centered,
 }: {
   title: string
   description: string

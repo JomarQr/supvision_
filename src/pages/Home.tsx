@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import HeroChatPreview from '../components/home/HeroChatPreview'
@@ -60,11 +60,7 @@ export default function Home() {
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const featuresPanelRef = useRef<HTMLDivElement>(null)
   const [featuresOpen, setFeaturesOpen] = useState(false)
-  const [activeT, setActiveT] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
-  const carouselPausedRef = useRef(false)
-  const [activeFeatures, setActiveFeatures] = useState<Record<number, number>>({ 0: 0, 1: 0, 2: 0, 3: 0 })
-  const [controlTab, setControlTab] = useState<0 | 1 | 2 | 3>(0)
   const [demoSubmitted, setDemoSubmitted] = useState(false)
   const [demoAgreed, setDemoAgreed] = useState(false)
   const [demoAttempted, setDemoAttempted] = useState(false)
@@ -75,7 +71,6 @@ export default function Home() {
   const demoFormRef = useRef<HTMLFormElement>(null)
   const [chatStepMobile, setChatStepMobile] = useState(0)
   const [chatStepDesktop, setChatStepDesktop] = useState(0)
-  const langCounterRef = useRef(11)
   const [langItems] = useState<Array<{ id: number; langIdx: number; slot: number }>>(
     () => Array.from({ length: 11 }, (_, i) => ({ id: i, langIdx: i % LANGUAGES.length, slot: i }))
   )
@@ -1585,7 +1580,8 @@ function FAQ() {
           </h2>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-3 lg:grid-cols-2">
+        {/* Mobile: single column */}
+        <div className="mt-6 flex flex-col gap-3 lg:hidden">
           {faqItems.map((item, i) => (
             <FAQItem
               key={i}
@@ -1596,188 +1592,41 @@ function FAQ() {
           ))}
         </div>
 
+        {/* Desktop: two independent columns so expanding one side doesn't shift the other */}
+        <div className="mt-6 hidden gap-3 lg:flex lg:items-start">
+          <div className="flex flex-1 flex-col gap-3">
+            {faqItems.filter((_, i) => i % 2 === 0).map((item) => {
+              const i = faqItems.indexOf(item)
+              return (
+                <FAQItem
+                  key={i}
+                  item={item}
+                  isOpen={open === i}
+                  onToggle={() => setOpen(open === i ? null : i)}
+                />
+              )
+            })}
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            {faqItems.filter((_, i) => i % 2 === 1).map((item) => {
+              const i = faqItems.indexOf(item)
+              return (
+                <FAQItem
+                  key={i}
+                  item={item}
+                  isOpen={open === i}
+                  onToggle={() => setOpen(open === i ? null : i)}
+                />
+              )
+            })}
+          </div>
+        </div>
+
       </div>
     </section>
   )
 }
 
-
-const featureSections: { label: string; title: string; description: string; img: string; bgGradient: string; features: { title: string; description: string; img?: string }[] }[] = [
-  {
-    label: 'Control',
-    title: 'Define exactly how supVision responds',
-    description: 'supVision goes beyond automate-or-escalate. Set confidence thresholds, restrict topics, and require human approval for sensitive actions - on your terms.',
-    img: '/control/Confidence Thresholds.png',
-    bgGradient: 'linear-gradient(135deg, #ddd8ce 0%, #b8ad99 50%, #9e9080 100%)',
-    features: [
-      { title: 'Confidence Thresholds', description: 'Set per-topic confidence levels so supVision only automates when it is certain enough. Below threshold, it escalates with full context attached.', img: '/control/Confidence Thresholds.png' },
-      { title: 'Topic Restrictions', description: 'Define exactly which query types are handled by AI and which always route to a human agent - verification rejections, disputes, high-value account changes.', img: '/control/Topic Restrictions.png' },
-      { title: 'Escalation Rules', description: 'Build custom escalation logic based on query type, customer tier, account status, or regulatory category. Every rule is logged and auditable.', img: '/control/Escalation Rules.png' },
-      { title: 'Response Approval', description: 'Require human sign-off before supVision sends responses in high-risk categories, keeping your team in control without slowing down routine queries.', img: '/control/Response Approval.png' },
-      { title: 'Data Access Controls', description: 'Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope.', img: '/control/Data Access Controls.png' },
-    ],
-  },
-  {
-    label: 'Integration',
-    title: 'Connects to your existing stack in days',
-    description: 'supVision runs on top of what you already use - no platform migration, no rip-and-replace. Connect your helpdesk, identity verification provider, CRM, and knowledge base, and go live in 3 to 5 business days.',
-    img: '/foto for solutions/Helpdesk Connectors.png',
-    bgGradient: 'linear-gradient(135deg, #c8d8e8 0%, #8aaac8 50%, #607890 100%)',
-    features: [
-      { title: 'Helpdesk Connectors', description: 'Native integrations with Zendesk, Intercom, Freshdesk, and Salesforce Service Cloud - supVision works inside your existing ticket workflow, not alongside it.', img: '/foto for solutions/Helpdesk Connectors.png' },
-      { title: 'Identity Providers', description: 'Pull live verification status and identity data in real time - before every response.', img: '/foto for solutions/Identity Providers.png' },
-      { title: 'Knowledge Base', description: 'Index your Confluence spaces, Notion pages, or Guru cards so the agent answers using your own internal policies and procedures - not generic responses.', img: '/foto for solutions/Knowledge Base.png' },
-      { title: 'Messaging Channels', description: 'Deploy across WhatsApp, Telegram, email, and live chat simultaneously - one supVision instance, every channel your customers use.', img: '/foto for solutions/Messaging Channels.png' },
-      { title: 'Webhook & API', description: 'Integrate with any internal tool via REST API or webhooks. If it has an API, supVision can query it before responding to a customer.', img: '/foto for solutions/Webhook & API.png' },
-    ],
-  },
-  {
-    label: 'Visibility',
-    title: 'Full insight into every automated action',
-    description: 'Every AI decision is logged, every escalation is documented, and every response is traceable - so you always know what happened, why it happened, and who was responsible.',
-    img: '/foto for solutions/Regulator Exports (3).png',
-    bgGradient: 'linear-gradient(135deg, #d8e0d0 0%, #a0b890 50%, #708060 100%)',
-    features: [
-      { title: 'Full Audit Trail', description: 'Every automated decision is logged with timestamp, confidence score, data sources queried, and the full conversation context - regulator-ready out of the box.', img: '/visibility/Full Audit Trail.png' },
-      { title: 'AI Decision Logs', description: 'See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training.', img: '/visibility/AI Decision Logs.png' },
-      { title: 'Log Streaming', description: 'Send real-time workflow data to tools like Datadog or Splunk for centralized monitoring, alerting, and integration with your existing security stack.', img: '/visibility/Log Streaming.png' },
-      { title: 'Regulator Exports', description: 'Generate audit-ready reports for FCA, PSD2, or internal compliance reviews in minutes - structured, signed, and ready to share without manual extraction.', img: '/foto for solutions/Regulator Exports (3).png' },
-    ],
-  },
-  {
-    label: 'Orchestration',
-    title: 'Fits any business structure. We handle the setup.',
-    description: 'supVision adapts to your existing processes — not the other way around. The agent connects to your apps, emails, and databases on its own, then acts across your entire workflow with minimal effort from your side. We handle the implementation from day one.',
-    img: '/foto for solutions/Zero-disruption deployment.png',
-    bgGradient: 'linear-gradient(135deg, #e0d8f0 0%, #a090c8 50%, #705890 100%)',
-    features: [
-      { title: 'Zero-disruption deployment', description: 'supVision connects to your current stack without requiring platform migration or process redesign. The agent learns your workflows and goes live in days — your team keeps working as usual.', img: '/foto for solutions/Zero-disruption deployment.png' },
-      { title: 'Autonomous data access', description: 'The agent independently checks emails, internal apps, and databases to gather the context it needs before responding. No manual data pulling, no copy-paste between systems.', img: '/foto for solutions/Autonomous data access.png' },
-      { title: 'Beyond tier-1: complex multi-party resolutions', description: 'supVision handles cases where resolution requires communication with the client, a provider, and internal teams simultaneously — not just an auto-reply. Incorrect transaction status? The agent contacts both the client and the provider, confirms the correct status, and updates the record. Funds held in limbo? It coordinates next steps with all parties and resolves the hold. Duplicate charge? It verifies both sides, initiates the reversal, and keeps the client informed throughout.', img: '/foto for solutions/Beyond tier-1_ complex multi-party resolutions.png' },
-      { title: 'Adapts to your org structure', description: 'Whether you route issues through a single team or across multiple departments and external partners, supVision maps to your actual processes and acts accordingly — no rigid templates.', img: '/foto for solutions/Adapts to your org structure.png' },
-      { title: 'We do the implementation', description: 'Our team configures integrations, maps your workflows, and runs the onboarding end-to-end. Your team reviews and approves. Minimum effort from your side, maximum output from day one.', img: '/foto for solutions/We do the implementation.png' },
-    ],
-  },
-]
-
-const testimonials: {
-  name: string
-  role: string
-  company: string
-  bgGradient: string
-  avatar: string
-  quote: string
-  metrics: { value: string; label: string }[]
-}[] = [
-  {
-    name: 'Marcus T.',
-    role: 'Head of Operations',
-    company: 'CLEARFLOW',
-    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
-    avatar: '/team.png',
-    quote: "Dispute queues were our biggest headache — tickets piling up over 3–5 days, agents overwhelmed, customers furious. supVision resolved the same disputes in under 2 minutes, with no manual steps. The queue disappeared in the first week.",
-    metrics: [
-      { value: '< 2 min', label: 'median dispute resolution' },
-      { value: '0', label: 'manual steps required' },
-    ],
-  },
-  {
-    name: 'Priya S.',
-    role: 'VP Customer Experience',
-    company: 'NOVALEND',
-    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
-    avatar: '/image 178 (1)-Photoroom 2.png',
-    quote: "We were stuck in a cycle — agents quit, we onboard new ones, quality drops, repeat. supVision ended that cycle completely. The quality on day one was the same as month twelve. We stopped budgeting for turnover.",
-    metrics: [
-      { value: '0%', label: 'knowledge loss on agent turnover' },
-      { value: '98.4%', label: 'consistent resolution rate' },
-    ],
-  },
-  {
-    name: 'Tobias H.',
-    role: 'CFO',
-    company: 'PAYREX',
-    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
-    avatar: '/team.png',
-    quote: "Every time ticket volume grew, so did our headcount costs — salaries, sick pay, cover shifts, retraining. supVision let us handle 4× the volume with the same team. We cut support operating costs by 74% in the first quarter.",
-    metrics: [
-      { value: '74%', label: 'reduction in support opex' },
-      { value: '4×', label: 'volume, same team size' },
-    ],
-  },
-  {
-    name: 'Sofia M.',
-    role: 'Head of Support',
-    company: 'BANKLY',
-    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
-    avatar: '/image 178 (1)-Photoroom 2.png',
-    quote: "Our customers were hitting payment failures at midnight with no one to help. Covering nights and weekends was expensive and demoralising for the team. supVision took over the whole 24/7 window. Every customer now gets an instant reply, any hour.",
-    metrics: [
-      { value: '24/7', label: 'coverage without shift premiums' },
-      { value: '< 10 s', label: 'avg first response, any hour' },
-    ],
-  },
-  {
-    name: 'Léa C.',
-    role: 'Global Expansion Lead',
-    company: 'FINVAULT',
-    bgGradient: 'linear-gradient(135deg, #0a2218 0%, #0e4a30 60%, #1a7a50 100%)',
-    avatar: '/team.png',
-    quote: "We were routing foreign-language queries through Google Translate and hoping for the best. Complaints from non-English users were 3× higher. supVision handles 50+ languages natively — no awkward phrasing, no miscommunication, launch-ready from day one.",
-    metrics: [
-      { value: '50+', label: 'languages, native fluency' },
-      { value: '3×', label: 'fewer complaints from non-English users' },
-    ],
-  },
-  {
-    name: 'Arjun M.',
-    role: 'Head of Compliance',
-    company: 'KRYPTEX',
-    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
-    avatar: '/team.png',
-    quote: "Regulators asked for a full audit trail on a disputed case. With our old setup that would have taken a week. supVision had every decision logged with timestamps and rationale. We exported the full trail in four minutes.",
-    metrics: [
-      { value: '4 min', label: 'full audit export time' },
-      { value: '100%', label: 'decisions logged automatically' },
-    ],
-  },
-  {
-    name: 'Nina K.',
-    role: 'Director of Customer Ops',
-    company: 'SWIFTCARD',
-    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
-    avatar: '/team.png',
-    quote: "We went live in three days. Not three months — three days. Our old vendor quoted a six-month integration. supVision connected to Zendesk and our KYC provider over a weekend, and by Monday morning it was handling real queries.",
-    metrics: [
-      { value: '3 days', label: 'from contract to live' },
-      { value: '6 months', label: 'saved vs previous vendor quote' },
-    ],
-  },
-  {
-    name: 'Daniel F.',
-    role: 'CTO',
-    company: 'MONEYMESH',
-    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
-    avatar: '/team.png',
-    quote: "We handle card disputes on WhatsApp and Telegram as well as web. supVision handles all three channels with the same logic, same tone, same compliance rules. No separate bots, no inconsistent answers. One system, everywhere.",
-    metrics: [
-      { value: '3 channels', label: 'unified — web, WhatsApp, Telegram' },
-      { value: '1', label: 'policy engine across all of them' },
-    ],
-  },
-  {
-    name: 'Yuki T.',
-    role: 'VP Operations',
-    company: 'ORBITPAY',
-    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
-    avatar: '/team.png',
-    quote: "We scaled from 5,000 to 80,000 monthly active users in eight months. Support volume exploded. supVision absorbed the whole spike without us hiring a single new agent. CSAT actually improved during the growth phase.",
-    metrics: [
-      { value: '16×', label: 'user growth, zero new support hires' },
-      { value: '+12 pts', label: 'CSAT improvement during scale-up' },
-    ],
-  },
-]
 
 const complianceFeatures = [
   'GDPR-compliant data handling and right-to-erasure support',
@@ -1869,133 +1718,6 @@ const S = (d: string | string[], fr = false) => (
     )}
   </svg>
 )
-
-const industries = [
-  {
-    name: 'Payments & Processing',
-    subtitle: 'Dispute resolution, chargebacks, and transaction queries - automated.',
-    img: '/for_whom/Payments & Processing.png',
-    to: '/industries/payments-processing',
-    bullets: [
-      'Automated chargeback and dispute resolution - median response under 2 minutes',
-      'Real-time transaction status queries answered without agent involvement',
-      'PCI DSS aligned - no raw card data ever touches our system',
-    ],
-  },
-  {
-    name: 'Neobanks & Digital Banking',
-    subtitle: 'Account support, identity verification, and onboarding - at the scale digital banks demand.',
-    img: '/for_whom/Neobanks & Digital Banking.png',
-    to: '/industries/neobanks',
-    bullets: [
-      'Identity verification and onboarding queries resolved autonomously - no queue, no wait',
-      '24/7 account and card support without adding headcount',
-      'FCA and GDPR compliant from day one - no retrofitting required',
-    ],
-  },
-  {
-    name: 'InsurTech',
-    subtitle: 'Policy queries, claims status, and coverage questions - handled automatically.',
-    img: '/for_whom/InsurTech.png',
-    to: '/industries/insurtech',
-    bullets: [
-      'Claims status updates and policy queries resolved without agent involvement',
-      '24/7 policyholder support across every channel',
-      'Full audit trail for every AI-generated response - audit-ready by default',
-    ],
-  },
-  {
-    name: 'Lending & Credit',
-    subtitle: 'Loan status, repayment queries, and credit questions - answered instantly.',
-    img: '/for_whom/Lending & Credit.png',
-    to: '/industries/lending-credit',
-    bullets: [
-      'Loan application status updates resolved autonomously',
-      'Repayment and credit queries answered in real time without manual review',
-      'GDPR aligned - customer data handled with full compliance controls',
-    ],
-  },
-  {
-    name: 'Web3',
-    subtitle: 'Wallet support, transaction queries, and onboarding - at crypto speed.',
-    img: '/for_whom/Web3.png',
-    to: '/industries/crypto-web3',
-    bullets: [
-      'Transaction and wallet queries resolved without manual intervention',
-      '24/7 support for onboarding, token transfers, and account access',
-      'Built for the pace and scale of Web3 user growth',
-    ],
-  },
-]
-
-const heroIntegrationLogos = [
-  'zendesk.png',
-  'slack.png',
-  'salesforce.png',
-  'freshdesk.png',
-  'hubspot.png',
-  'intecom (1).png',
-  'whatsapp.png',
-  'telegram.png',
-  'notion.png',
-  'confluence.png',
-  'jira.png',
-]
-
-const heroIntegrationLogosMobileExtra = [
-  'gmail.png',
-  'outlook.png',
-  'teams.png',
-  'twillio.png',
-  'mambu.png',
-]
-
-const heroIndustries = [
-  { label: 'Payments & Processing', icon: S(['M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z', 'M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z']) },
-  { label: 'Neobanks', icon: S('M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6ZM20.25 10.332v9.418H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.418a.75.75 0 0 1 0-1.5h15.75a.75.75 0 0 1 0 1.5Zm-4.5 0v5.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75v-5.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75Zm-8.25-.75a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75H7.5Z', true) },
-  { label: 'Web3', icon: S('M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z', true) },
-  { label: 'Lending & Credit', icon: S(['M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z', 'M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z', 'M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z']) },
-  { label: 'InsurTech', icon: S('M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z', true) },
-]
-
-/** Desktop hero — what the support agent does for your team */
-const heroDesktopAgentFeatures = [
-  {
-    label: 'Resolve tier-1 support',
-    desc: 'Closes disputes, payments, and verification queries autonomously — median resolution under 2 minutes.',
-    icon: S('M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z', true),
-  },
-  {
-    label: 'Escalate with full context',
-    desc: 'Hands complex cases to your team with the thread, live CRM/KYC data, and why the agent stepped back.',
-    icon: S('M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z', true),
-  },
-  {
-    label: 'Verify with live data',
-    desc: 'Pulls account, transaction, and identity state from your stack before every reply — no generic scripts.',
-    icon: S('M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', true),
-  },
-  {
-    label: 'Work across your channels',
-    desc: 'Email, chat, WhatsApp, Telegram, and your helpdesk — one agent for every channel your customers use.',
-    icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']),
-  },
-]
-
-const heroFeatures = [
-  { label: 'Confidence Thresholds', desc: 'Set minimum accuracy levels before AI responds', icon: S('M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z') },
-  { label: 'Topic Restrictions', desc: 'Define which queries AI handles and which always route to a human', icon: S('M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z', true) },
-  { label: 'Escalation Rules', desc: 'Custom handoff logic by query type or risk level', icon: S('M15.22 6.268a.75.75 0 0 1 .968-.431l5.942 2.28a.75.75 0 0 1 .431.97l-2.28 5.941a.75.75 0 1 1-1.4-.537l1.63-4.251-1.086.43a11.293 11.293 0 0 0-5.18 4.458.75.75 0 0 1-1.242.044L9.75 13.5l-3.75 3.75a.75.75 0 0 1-1.06-1.06l4.5-4.5a.75.75 0 0 1 1.06 0l2.044 2.044a12.793 12.793 0 0 1 5.595-4.973l1.085-.43-4.251-1.63a.75.75 0 0 1-.432-.968Z', true) },
-  { label: 'Response Approval', desc: 'Require human sign-off before sending in high-risk categories', icon: S('M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53-1.954-1.954a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.137-.089l3.833-5.175Z', true) },
-  { label: 'Data Access Controls', icon: S('M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z', true) },
-  { label: 'Full Audit Trail', icon: S(['M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z', 'M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375ZM6 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V12Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 15a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V15Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75ZM6 18a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V18Zm2.25 0a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75Z'], true) },
-  { label: 'AI Decision Logs', icon: S('M2.25 6a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z', true) },
-  { label: 'Identity & Onboarding', icon: S('M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z', true) },
-  { label: 'Dispute Resolution', icon: S('M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.54 15h6.42l.5 1.5H8.29l.5-1.5Zm8.085-8.995a.75.75 0 1 0-.75-1.299 12.81 12.81 0 0 0-3.558 3.05L11.03 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l2.47-2.47 1.617 1.618a.75.75 0 0 0 1.146-.102 11.312 11.312 0 0 1 3.612-3.321Z', true) },
-  { label: 'Multi-channel', icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']) },
-  { label: 'Log Streaming', icon: S('M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm14.25 6a.75.75 0 0 1-.22.53l-2.25 2.25a.75.75 0 1 1-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 1 1 1.06-1.06l2.25 2.25c.141.14.22.331.22.53Zm-10.28-.53a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 1 0 1.06-1.06L8.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-2.25 2.25Z', true) },
-  { label: 'Regulator Exports', icon: S('M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z', true) },
-]
 
 function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
   const [err, setErr] = useState(false)
