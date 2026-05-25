@@ -15,7 +15,11 @@ interface RequestBody {
 
 const MIN_FORM_FILL_MS = 1_500
 const MAX_FORM_AGE_MS = 2 * 60 * 60 * 1000
-const DEFAULT_ALLOWED_ORIGINS = ['https://supvision.ai', 'https://www.supvision.ai']
+const DEFAULT_ALLOWED_ORIGINS = [
+  'https://supvision.ai',
+  'https://www.supvision.ai',
+  'https://supvi.pages.dev',
+]
 
 function sanitize(str: string): string {
   return str.replace(/[\r\n]/g, ' ').trim()
