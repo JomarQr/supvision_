@@ -385,100 +385,6 @@ export default function Home() {
       <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16 bg-[#F1EDE9] lg:bg-[#faf8f5]">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* Question — mobile: card with brand bg + rounded bottom */}
-          <div className="lg:hidden -mx-10 overflow-hidden rounded-[2.5rem] px-10 pb-8 pt-2" style={{ backgroundColor: '#F1EDE9' }}>
-            <div className="text-center">
-              <h2 className="text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
-                One agent that works across every system you already use.
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-gray-500">
-                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
-              </p>
-
-              <Link
-                to="/integrations"
-                className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#214995' }}
-              >
-                Explore all integrations
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </Link>
-            </div>
-
-            {/* Integration logos ticker — edge-to-edge inside card */}
-            <div
-              className="mt-6 -mx-10 overflow-hidden"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-              }}
-            >
-              <div
-                className="flex items-center gap-3"
-                style={{ width: 'max-content', animation: 'ticker 24s linear infinite' }}
-              >
-                {[...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra, ...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra].map((logo, i) => (
-                  <div
-                    key={i}
-                    className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-white"
-                  >
-                    <img
-                      src={`/logos/${logo}`}
-                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
-                      className="h-[65%] w-[65%] object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Integrations — desktop (same as mobile block) */}
-          <div className="mb-16 hidden lg:block">
-            <div className="text-center">
-              <h2
-                className="mx-auto max-w-3xl text-4xl leading-snug text-gray-900"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
-              >
-                One agent that works across every system you already use.
-              </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500">
-                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
-              </p>
-              <Link
-                to="/integrations"
-                className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#214995' }}
-              >
-                Explore all integrations
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </Link>
-            </div>
-            <div className="relative left-1/2 mt-12 w-screen max-w-none -translate-x-1/2 overflow-hidden">
-              <div
-                className="flex items-center gap-5 px-2"
-                style={{ width: 'max-content', animation: 'ticker 32s linear infinite' }}
-              >
-                {[...heroIntegrationLogos, ...heroIntegrationLogos, ...heroIntegrationLogos].map((logo, i) => (
-                  <div
-                    key={i}
-                    className="flex h-[5.5rem] w-[5.5rem] flex-shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm sm:h-24 sm:w-24"
-                  >
-                    <img
-                      src={`/logos/${logo}`}
-                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
-                      className="h-[68%] w-[68%] object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* 10x faster + metrics — desktop */}
           <div className="mb-20 hidden lg:block">
             <div className="text-center">
@@ -663,7 +569,101 @@ export default function Home() {
                 </svg>
               </Link>
             </div>
+          </div>          {/* Question — mobile: card with brand bg + rounded bottom */}
+          <div className="lg:hidden -mx-10 overflow-hidden rounded-[2.5rem] px-10 pb-8 pt-2" style={{ backgroundColor: '#F1EDE9' }}>
+            <div className="text-center">
+              <h2 className="text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+                One agent that works across every system you already use.
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-gray-500">
+                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
+              </p>
+
+              <Link
+                to="/integrations"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#214995' }}
+              >
+                Explore all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+
+            {/* Integration logos ticker — edge-to-edge inside card */}
+            <div
+              className="mt-6 -mx-10 overflow-hidden"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+              }}
+            >
+              <div
+                className="flex items-center gap-3"
+                style={{ width: 'max-content', animation: 'ticker 24s linear infinite' }}
+              >
+                {[...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra, ...heroIntegrationLogos, ...heroIntegrationLogosMobileExtra].map((logo, i) => (
+                  <div
+                    key={i}
+                    className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-2xl bg-white"
+                  >
+                    <img
+                      src={`/logos/${logo}`}
+                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
+                      className="h-[65%] w-[65%] object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+
+          {/* Integrations — desktop (same as mobile block) */}
+          <div className="mb-16 hidden lg:block">
+            <div className="text-center">
+              <h2
+                className="mx-auto max-w-3xl text-4xl leading-snug text-gray-900"
+                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              >
+                One agent that works across every system you already use.
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-500">
+                supVision plugs into your existing stack and handles customer queries automatically — no rip-and-replace required.
+              </p>
+              <Link
+                to="/integrations"
+                className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+                style={{ backgroundColor: '#214995' }}
+              >
+                Explore all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+            <div className="relative left-1/2 mt-12 w-screen max-w-none -translate-x-1/2 overflow-hidden">
+              <div
+                className="flex items-center gap-5 px-2"
+                style={{ width: 'max-content', animation: 'ticker 32s linear infinite' }}
+              >
+                {[...heroIntegrationLogos, ...heroIntegrationLogos, ...heroIntegrationLogos].map((logo, i) => (
+                  <div
+                    key={i}
+                    className="flex h-[5.5rem] w-[5.5rem] flex-shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm sm:h-24 sm:w-24"
+                  >
+                    <img
+                      src={`/logos/${logo}`}
+                      alt={logo.replace(/\.png$/, '').replace(/\s*\(\d+\)/, '')}
+                      className="h-[68%] w-[68%] object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+
 
         </div>
       </section>
