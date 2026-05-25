@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import ForWhomCardsSection from '../components/forWhom/ForWhomCardsSection'
 import { forWhomIndustries, forWhomRoles } from '../data/forWhom'
 
-const canelaStyle = { fontFamily: "'Canela', serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
 export default function ForWhom() {
   return (

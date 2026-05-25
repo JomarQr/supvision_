@@ -18,7 +18,7 @@ function FasterSupportHeadline({ size = 'mobile' }: { size?: 'mobile' | 'desktop
   const underlineH = size === 'desktop' ? 14 : 12
   return (
     <div className="inline-block">
-      <p className="leading-none tracking-tight" style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize, color: '#111827' }}>
+      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color: '#111827' }}>
         <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
           10x faster
           <svg
@@ -47,7 +47,7 @@ function FasterSupportHeadline({ size = 'mobile' }: { size?: 'mobile' | 'desktop
           </svg>
         </span>
       </p>
-      <p className="leading-none tracking-tight" style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize, color: '#111827', marginTop: '0.125rem' }}>
+      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color: '#111827', marginTop: '0.125rem' }}>
         than manual support
       </p>
     </div>
@@ -258,14 +258,14 @@ export default function Home() {
             </div>
 
             {/* Mobile headline */}
-            <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+            <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
               <span style={{ color: '#E5D9CC' }}>Instant support.</span>
               <span className="text-white">Zero effort.</span>
             </h1>
             {/* Desktop headline */}
             <h1
               className="mt-3 hidden flex-col text-6xl leading-tight lg:flex lg:text-left"
-              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               <span style={{ color: '#E5D9CC' }}>Instant support.</span>
               <span className="text-white">Zero effort.</span>
@@ -417,7 +417,7 @@ export default function Home() {
                     <p
                       className="mt-3 leading-none tracking-tight"
                       style={{
-                        fontFamily: "'Canela', serif",
+                        fontFamily: "'Nohemi', sans-serif",
                         fontWeight: 300,
                         fontSize: '3.5rem',
                         color: card.variant === 'image' ? '#fff' : '#111827',
@@ -487,7 +487,7 @@ export default function Home() {
                     <p
                       className="mt-2 leading-none tracking-tight"
                       style={{
-                        fontFamily: "'Canela', serif",
+                        fontFamily: "'Nohemi', sans-serif",
                         fontWeight: 300,
                         fontSize: '3.25rem',
                         color: card.variant === 'image' ? '#fff' : '#111827',
@@ -572,7 +572,7 @@ export default function Home() {
           </div>          {/* Question — mobile: card with brand bg + rounded bottom */}
           <div className="lg:hidden -mx-10 overflow-hidden rounded-[2.5rem] px-10 pb-8 pt-2" style={{ backgroundColor: '#F1EDE9' }}>
             <div className="text-center">
-              <h2 className="text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+              <h2 className="text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                 One agent that works across every system you already use.
               </h2>
               <p className="mt-4 text-base leading-relaxed text-gray-500">
@@ -624,7 +624,7 @@ export default function Home() {
             <div className="text-center">
               <h2
                 className="mx-auto max-w-3xl text-4xl leading-snug text-gray-900"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 One agent that works across every system you already use.
               </h2>
@@ -677,7 +677,7 @@ export default function Home() {
           <div className="w-full lg:text-center">
             <h2
               className="text-3xl leading-snug text-white lg:text-4xl"
-              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               Built for the way <span style={{ color: '#FB9A05' }}>fintech works</span>
             </h2>
@@ -818,7 +818,7 @@ export default function Home() {
       {/* Proof */}
       <section className="py-16" style={{ backgroundColor: '#111' }}>
         <div className="mb-10 text-center px-6">
-          <p className="text-3xl text-white" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+          <p className="text-3xl text-white" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
             Companies that moved from overwhelmed to{' '}
             <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
               automated.
@@ -943,7 +943,7 @@ export default function Home() {
               <p
                 className="pr-8 text-[1.5rem] leading-tight lg:text-[1.75rem] lg:leading-snug"
                 style={{
-                  fontFamily: "'Canela', serif",
+                  fontFamily: "'Nohemi', sans-serif",
                   fontWeight: 300,
                   color: '#FB9A05',
                 }}
@@ -978,7 +978,7 @@ export default function Home() {
               {/* Mobile headline — Canela, как Instant support / Zero effort */}
               <h2
                 className="mt-4 flex flex-col text-center leading-tight lg:hidden"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
               >
                 <span className="text-white">Built by people with</span>
                 <span>
@@ -1098,7 +1098,7 @@ export default function Home() {
             <div className="max-w-3xl mx-auto lg:hidden">
               <h2
                 className="mt-2 text-center text-[2.25rem] leading-tight text-gray-900"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 Built for regulated financial services from day one.
               </h2>
@@ -1130,7 +1130,7 @@ export default function Home() {
             <div className="hidden lg:block">
               <h2
                 className="mt-5 text-4xl leading-tight text-gray-900 text-center"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 We put our security{' '}
                 <span style={{ color: '#FB9A05' }}>to the test </span>
@@ -1162,7 +1162,7 @@ export default function Home() {
                     </div>
                     <h3
                       className="text-xl leading-snug text-white"
-                      style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                      style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
                     >
                       {card.title}
                     </h3>
@@ -1207,7 +1207,7 @@ export default function Home() {
               <p className="mt-3 hidden text-base text-blue-200 lg:block">30 minutes. We'll show exactly how it works for your stack.</p>
               <h2
                 className="mt-2 flex flex-col text-center leading-tight lg:hidden"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
               >
                 <span style={{ color: '#FB9A05' }}>30 minutes.</span>
                 <span className="text-white">We&apos;ll show exactly how it works for your stack.</span>
@@ -1567,7 +1567,7 @@ function FAQ() {
         <div className="mb-8 text-center">
           <h2
             className="leading-tight"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
           >
             <span className="text-gray-900">Frequently asked questions</span>
           </h2>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const canelaStyle = { fontFamily: "'Canela', serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
 const heroPills = ['Real-time', 'Bot vs human', 'Heatmap', 'Exports']
 

@@ -269,7 +269,7 @@ export default function IntegrationFinder() {
         <div className="mb-8 text-center lg:mb-12">
           <h2
             className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:text-5xl"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             Find your integration in seconds
           </h2>

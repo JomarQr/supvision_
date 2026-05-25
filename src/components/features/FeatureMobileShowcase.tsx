@@ -27,7 +27,7 @@ function FeatureAccordionItem({ item }: { item: { q: string; a: string } }) {
       >
         <span
           className="text-lg text-gray-900"
-          style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
         >
           {item.q}
         </span>
@@ -64,7 +64,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
       <div className="mx-auto w-full max-w-4xl text-center">
         <h1
           className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
-          style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
         >
           {data.title}
         </h1>
@@ -106,7 +106,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
           </span>
           <h2
             className="mt-5 text-[1.65rem] leading-snug text-white sm:text-[1.85rem]"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             {data.title}. Your agent handles it <em className="italic">perfectly</em>.
           </h2>
@@ -121,7 +121,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
                 <div className="text-[#9BB0E8]">{card.icon}</div>
                 <h3
                   className="text-sm leading-snug text-white sm:text-base"
-                  style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
                 >
                   {card.title}
                 </h3>
@@ -140,7 +140,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
           </span>
           <h2
             className="mt-5 text-[1.65rem] leading-snug text-gray-900 sm:text-[1.85rem]"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             From query to resolution — <em className="italic">step by step</em>.
           </h2>

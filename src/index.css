@@ -181,7 +181,7 @@
 
   body {
     @apply text-gray-900 antialiased;
-    font-family: 'Figtree', sans-serif;
+    font-family: 'Nohemi', sans-serif;
     background-color: #faf8f5;
     overflow-x: clip;
   }

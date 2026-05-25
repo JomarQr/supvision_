@@ -123,7 +123,7 @@ export default function About() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <h1
             className="whitespace-nowrap text-center text-[2rem] leading-tight sm:text-[3.25rem] lg:text-6xl"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300, color: '#111827' }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, color: '#111827' }}
           >
             What is supVision?
           </h1>
@@ -163,7 +163,7 @@ export default function About() {
           <div className="pt-16 pb-10 text-center">
             <p
               className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               Our story
             </p>
@@ -189,7 +189,7 @@ export default function About() {
                 >
                   <h3
                     className="text-xl leading-tight text-gray-900 sm:text-2xl"
-                    style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
                   >
                     {item.title}
                   </h3>
@@ -244,7 +244,7 @@ export default function About() {
             <div>
               <p
                 className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 The problem we lived
               </p>
@@ -277,7 +277,7 @@ export default function About() {
                 <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-3.5 text-center shadow-sm">
                   <p
                     className="text-2xl leading-tight"
-                    style={{ fontFamily: "'Canela', serif", fontWeight: 300, color: '#214995' }}
+                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, color: '#214995' }}
                   >
                     {m.value}
                   </p>
@@ -309,7 +309,7 @@ export default function About() {
               <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
                 <p
                   className="text-[2rem] leading-tight sm:text-[3.25rem]"
-                  style={{ fontFamily: "'Canela', serif", fontWeight: 300, color: '#214995' }}
+                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, color: '#214995' }}
                 >
                   {m.value}
                 </p>
@@ -339,7 +339,7 @@ export default function About() {
           <div className="mb-12 text-center">
             <h2
               className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               The values that drive us
             </h2>
@@ -350,7 +350,7 @@ export default function About() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                   {v.icon}
                 </div>
-                <h3 className="text-[1.6rem] leading-tight text-gray-900 sm:text-[1.75rem]" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>{v.title}</h3>
+                <h3 className="text-[1.6rem] leading-tight text-gray-900 sm:text-[1.75rem]" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>{v.title}</h3>
                 <p className="text-sm leading-relaxed text-gray-500">{v.desc}</p>
               </div>
             ))}
@@ -376,7 +376,7 @@ export default function About() {
           <div className="mb-10 text-center">
             <h2
               className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               Our office
             </h2>
@@ -444,7 +444,7 @@ export default function About() {
         >
           <h2
             className="text-[2rem] leading-tight text-white sm:text-[3.25rem]"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             Ready to stop living the problem?
           </h2>

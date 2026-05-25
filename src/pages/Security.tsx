@@ -15,7 +15,7 @@ type TextCertCard = {
   desc: string
 }
 
-const canelaStyle = { fontFamily: "'Canela', serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 const accentPeach = '#E6B17E'
 
 const certCards: (ImageCertCard | TextCertCard)[] = [

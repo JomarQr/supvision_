@@ -125,7 +125,7 @@ function FeatureFAQ({ mobileItems, desktopItems }: { mobileItems: typeof sharedF
         <div className="mb-8 text-center">
           <h2
             className="leading-tight lg:hidden"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
           >
             <span className="text-gray-900">Frequently asked questions</span>
           </h2>
@@ -294,7 +294,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
         >
           <h2
             className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             {data.ctaTitle}
           </h2>

@@ -326,7 +326,7 @@ function ComplyMobileSection() {
       </span>
       <h2
         className="mt-5 text-[1.65rem] leading-snug text-white sm:text-[1.85rem]"
-        style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+        style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
       >
         Stay compliant — every decision <em className="italic">logged</em>.
       </h2>
@@ -349,7 +349,7 @@ function ComplyMobileSection() {
             <div style={{ color: '#9BB0E8' }}>{card.icon}</div>
             <h3
               className="text-lg leading-snug text-white"
-              style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               {card.title}
             </h3>
@@ -380,7 +380,7 @@ function ConnectMobileSection() {
       </span>
       <h2
         className="mt-5 text-[1.65rem] leading-snug text-gray-900 sm:text-[1.85rem]"
-        style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+        style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
       >
         Built for your stack — not a platform <em className="italic">migration</em>.
       </h2>
@@ -478,7 +478,7 @@ function VerifyMobileSection() {
       </span>
       <h2
         className="mx-auto mt-5 max-w-sm text-[1.65rem] leading-snug text-gray-900 sm:text-[1.85rem]"
-        style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+        style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
       >
         Your agent <em className="italic">verifies</em> before it replies.
       </h2>
@@ -505,7 +505,7 @@ function VerifyMobileSection() {
             type="button"
             onClick={() => setActiveTab(tab.id)}
             className="relative flex-1 pb-3 text-center text-base text-gray-900"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             {tab.label}
             {activeTab === tab.id && (
@@ -527,7 +527,7 @@ function VerifyMobileSection() {
       <div className="mt-6 text-left">
         <h3
           className="text-2xl text-gray-900"
-          style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
         >
           {active.title}
         </h3>
@@ -562,7 +562,7 @@ function FeatureAccordionItem({ item }: { item: { q: string; a: string } }) {
       >
         <span
           className="text-lg text-gray-900"
-          style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+          style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
         >
           {item.q}
         </span>
@@ -661,7 +661,7 @@ function SupportAgentFAQ() {
         <div className="mb-8 text-center lg:mb-8">
           <h2
             className="leading-tight lg:hidden"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300, fontSize: '2.25rem' }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
           >
             <span className="text-gray-900">Frequently asked questions</span>
           </h2>
@@ -695,7 +695,7 @@ export default function SupportAgent() {
             <div className="mx-auto max-w-3xl text-center">
               <h1
                 className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 Create your first autonomous support agent
               </h1>
@@ -742,7 +742,7 @@ export default function SupportAgent() {
               </span>
               <h2
                 className="mt-5 text-[1.65rem] leading-snug text-white sm:text-[1.85rem]"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 Resolve fintech support. Your agent handles it perfectly.
               </h2>
@@ -759,7 +759,7 @@ export default function SupportAgent() {
                     <div style={{ color: '#9BB0E8' }}>{card.icon}</div>
                     <h3
                       className="text-base leading-snug text-white"
-                      style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                      style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
                     >
                       {card.title}
                     </h3>
@@ -779,7 +779,7 @@ export default function SupportAgent() {
               </span>
               <h2
                 className="mt-5 text-[1.65rem] leading-snug text-gray-900 sm:text-[1.85rem]"
-                style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
                 Your agent <em className="italic">escalates</em> before it guesses.
               </h2>
@@ -1013,7 +1013,7 @@ export default function SupportAgent() {
                 </div>
                 <h3
                   className="text-xl leading-snug text-white"
-                  style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
                 >
                   {card.title}
                 </h3>
@@ -1050,7 +1050,7 @@ export default function SupportAgent() {
         >
           <h2
             className="text-[2rem] leading-tight text-white sm:text-[3.25rem]"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             Ready to deploy your Support Agent?
           </h2>

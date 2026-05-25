@@ -14,7 +14,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Figtree', 'system-ui', 'sans-serif'],
+        sans: ['Nohemi', 'system-ui', 'sans-serif'],
         nohemi: ['Nohemi', 'system-ui', 'sans-serif'],
       },
     },

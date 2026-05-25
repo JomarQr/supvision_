@@ -16,7 +16,7 @@ export default function Integrations() {
         >
           <h2
             className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"
-            style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
             Don&apos;t see your tool?
           </h2>

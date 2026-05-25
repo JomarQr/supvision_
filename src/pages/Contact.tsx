@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 
-const canelaStyle = { fontFamily: "'Canela', serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
 const DEMO_BULLETS = [
   '30-minute live walkthrough',

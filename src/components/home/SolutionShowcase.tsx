@@ -44,7 +44,7 @@ function PayOnlyHighlight({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) 
           strokeLinejoin="round"
         />
       </svg>
-      <span className={`relative leading-snug text-gray-900 ${textClass}`} style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+      <span className={`relative leading-snug text-gray-900 ${textClass}`} style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
         Pay only for what you need.
       </span>
     </span>
@@ -55,7 +55,7 @@ function ModelPickerIntro({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) 
   if (size === 'desktop') {
     return (
       <div className="flex flex-col justify-center">
-        <p className="text-5xl leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+        <p className="text-5xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
           Pick any AI for any task.
         </p>
         <PayOnlyHighlight size={size} />
@@ -79,7 +79,7 @@ function ModelPickerIntro({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) 
   }
   return (
     <div className="text-center">
-      <p className="mt-4 text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+      <p className="mt-4 text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
         Pick any AI for any task.
       </p>
       <PayOnlyHighlight size={size} />
@@ -97,7 +97,7 @@ function DataAccessPanel({ tall }: { tall?: boolean }) {
       style={{ background: '#141414' }}
     >
       <div className="mb-4 flex-shrink-0 px-5">
-        <span style={{ color: '#f3f4f6', fontWeight: 600, fontSize: '0.9rem', fontFamily: "'Figtree', sans-serif" }}>
+        <span style={{ color: '#f3f4f6', fontWeight: 600, fontSize: '0.9rem', fontFamily: "'Nohemi', sans-serif" }}>
           Choose which data the agent can access
         </span>
       </div>
@@ -121,7 +121,7 @@ function DataAccessPanel({ tall }: { tall?: boolean }) {
                 color: item.highlight ? '#FB9A05' : '#e5e7eb',
                 fontWeight: 600,
                 fontSize: '0.88rem',
-                fontFamily: "'Figtree', sans-serif",
+                fontFamily: "'Nohemi', sans-serif",
               }}
             >
               {item.name}
@@ -176,7 +176,7 @@ function DecisionLogsPanel({
             color: '#f3f4f6',
             fontWeight: 600,
             fontSize: '1.08rem',
-            fontFamily: "'Figtree', sans-serif",
+            fontFamily: "'Nohemi', sans-serif",
             textAlign: 'left',
             border: '1.5px solid rgba(255,255,255,0.25)',
             borderRadius: 9999,
@@ -205,7 +205,7 @@ function DecisionLogsPanel({
               style={{
                 color: step.type === 'info' ? '#9ca3af' : '#e5e7eb',
                 fontSize: '0.85rem',
-                fontFamily: "'Figtree', sans-serif",
+                fontFamily: "'Nohemi', sans-serif",
                 lineHeight: 1.5,
                 textAlign: 'left',
               }}
@@ -229,7 +229,7 @@ function DecisionLogsPanel({
               color: scenario.color,
               fontWeight: 700,
               fontSize: '0.88rem',
-              fontFamily: "'Figtree', sans-serif",
+              fontFamily: "'Nohemi', sans-serif",
               letterSpacing: '0.08em',
             }}
           >
@@ -289,7 +289,7 @@ function LanguagesPanel({ langItems, liftedSlot, tall }: { langItems: LangItem[]
                 style={{
                   flex: 1,
                   textAlign: 'center',
-                  fontFamily: "'Figtree', sans-serif",
+                  fontFamily: "'Nohemi', sans-serif",
                   fontWeight: 700,
                   color: 'white',
                   fontSize,
@@ -318,7 +318,7 @@ function FeatureBlock({
 }) {
   return (
     <div className="flex flex-col items-center gap-3 text-center lg:items-stretch lg:text-center">
-      <h3 className="text-2xl leading-snug text-gray-900 lg:text-[2.1rem]" style={{ fontFamily: "'Canela', serif", fontWeight: 350 }}>
+      <h3 className="text-2xl leading-snug text-gray-900 lg:text-[2.1rem]" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 350 }}>
         {title}
       </h3>
       <p className="max-w-xs text-sm leading-relaxed text-gray-500 lg:max-w-none lg:text-base">{description}</p>
@@ -338,7 +338,7 @@ function NeverSleepsCard({ compact }: { compact?: boolean }) {
     >
       <h3
         className={`text-center leading-snug text-white ${compact ? 'text-3xl lg:text-4xl' : 'text-3xl'}`}
-        style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}
+        style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
       >
         Support that never sleeps
       </h3>

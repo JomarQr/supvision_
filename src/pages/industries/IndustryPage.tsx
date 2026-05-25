@@ -274,7 +274,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
         <div className="mx-auto max-w-4xl px-6">
           <div className="mb-10 text-center lg:mb-10">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Results</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900 lg:font-bold" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>Measurable business impact</h2>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900 lg:font-bold" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>Measurable business impact</h2>
             <p className="mt-3 text-base text-gray-500">supVision delivers consistent, quantifiable improvements across support costs, response times, and team efficiency.</p>
           </div>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4">

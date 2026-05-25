@@ -131,7 +131,7 @@ function FooterColumn({
         style={
           mobile
             ? {
-                fontFamily: "'Canela', serif",
+                fontFamily: "'Nohemi', sans-serif",
                 fontWeight: 300,
                 fontSize: '2.5rem',
                 color: mobileHeadingDark ? '#7A756C' : '#9E9890',
