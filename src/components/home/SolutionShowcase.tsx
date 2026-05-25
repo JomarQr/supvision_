@@ -101,7 +101,7 @@ function DataAccessPanel({ tall }: { tall?: boolean }) {
           Choose which data the agent can access
         </span>
       </div>
-      <div className={`flex flex-col gap-2.5 ${tall ? 'px-8' : 'px-14'}`}>
+      <div className={`flex flex-col gap-2.5 ${tall ? 'px-8' : 'px-5'}`}>
         {DATA_ACCESS_ITEMS.map(item => (
           <div
             key={item.name}
