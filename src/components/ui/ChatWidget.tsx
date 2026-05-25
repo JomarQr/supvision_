@@ -84,6 +84,7 @@ export default function ChatWidget() {
       <div
         className="grid grid-cols-2 overflow-hidden rounded-xl shadow-xl cursor-pointer"
         onMouseEnter={() => setOpen(true)}
+        onClick={() => setOpen(o => !o)}
         style={{ width: '74px', height: '74px', gap: '4px', padding: '4px', backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
       >
         {contacts.map((c) => (
