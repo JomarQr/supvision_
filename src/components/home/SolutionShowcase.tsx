@@ -355,7 +355,7 @@ export default function SolutionShowcase({
         <div className="mx-auto max-w-7xl">
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             <ModelPickerIntro size="desktop" />
-            <ModelSelectorCard step={step} className="min-h-[380px]" />
+            <ModelSelectorCard step={step} className="h-[440px]" />
           </div>
 
           <div className="mt-20 grid gap-10 lg:grid-cols-3 lg:gap-8">
