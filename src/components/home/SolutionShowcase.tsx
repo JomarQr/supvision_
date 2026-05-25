@@ -23,20 +23,17 @@ type SolutionShowcaseProps = {
 }
 
 function PayOnlyHighlight({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) {
-  const textClass = size === 'desktop' ? 'text-4xl' : 'text-[1.75rem]'
+  const textClass = size === 'desktop' ? 'text-5xl' : 'text-[1.75rem]'
+  const svgStyle = size === 'desktop'
+    ? { width: 'calc(100% + 120px)', height: 'calc(100% + 28px)', left: '-70px', top: '-14px', transform: 'rotate(-3deg)' }
+    : { width: 'calc(100% + 100px)', height: 'calc(100% + 24px)', left: '-50px', top: '-12px', transform: 'rotate(-3deg)' }
   return (
     <span className="relative inline-block px-6 py-1">
       <svg
         aria-hidden="true"
         viewBox="-205 -38 410 76"
         className="pointer-events-none absolute"
-        style={{
-          width: 'calc(100% + 100px)',
-          height: 'calc(100% + 24px)',
-          left: '-50px',
-          top: '-12px',
-          transform: 'rotate(-3deg)',
-        }}
+        style={svgStyle}
       >
         <path
           d="M -187 10 C -191 -22, -122 -34, 4 -32 C 124 -30, 190 -18, 192 7 C 194 30, 122 38, -4 36 C -120 34, -189 26, -187 10 Z"
