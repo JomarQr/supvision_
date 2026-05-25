@@ -134,13 +134,6 @@ export default function Home() {
   }, [featuresOpen])
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveT(i => (i + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [])
-
-  useEffect(() => {
     const t = setTimeout(
       () => setModelAnimIdx(i => (i + 1) % MODEL_ANIM_STEPS.length),
       MODEL_ANIM_STEPS[modelAnimIdx].delay
@@ -1628,6 +1621,186 @@ function FAQ() {
 }
 
 
+const testimonials: {
+  name: string
+  role: string
+  company: string
+  bgGradient: string
+  avatar: string
+  quote: string
+  metrics: { value: string; label: string }[]
+}[] = [
+  {
+    name: 'Marcus T.',
+    role: 'Head of Operations',
+    company: 'CLEARFLOW',
+    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
+    avatar: '/team.png',
+    quote: "Dispute queues were our biggest headache — tickets piling up over 3–5 days, agents overwhelmed, customers furious. supVision resolved the same disputes in under 2 minutes, with no manual steps. The queue disappeared in the first week.",
+    metrics: [
+      { value: '< 2 min', label: 'median dispute resolution' },
+      { value: '0', label: 'manual steps required' },
+    ],
+  },
+  {
+    name: 'Priya S.',
+    role: 'VP Customer Experience',
+    company: 'NOVALEND',
+    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
+    avatar: '/image 178 (1)-Photoroom 2.png',
+    quote: "We were stuck in a cycle — agents quit, we onboard new ones, quality drops, repeat. supVision ended that cycle completely. The quality on day one was the same as month twelve. We stopped budgeting for turnover.",
+    metrics: [
+      { value: '0%', label: 'knowledge loss on agent turnover' },
+      { value: '98.4%', label: 'consistent resolution rate' },
+    ],
+  },
+  {
+    name: 'Tobias H.',
+    role: 'CFO',
+    company: 'PAYREX',
+    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
+    avatar: '/team.png',
+    quote: "Every time ticket volume grew, so did our headcount costs — salaries, sick pay, cover shifts, retraining. supVision let us handle 4× the volume with the same team. We cut support operating costs by 74% in the first quarter.",
+    metrics: [
+      { value: '74%', label: 'reduction in support opex' },
+      { value: '4×', label: 'volume, same team size' },
+    ],
+  },
+  {
+    name: 'Sofia M.',
+    role: 'Head of Support',
+    company: 'BANKLY',
+    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
+    avatar: '/image 178 (1)-Photoroom 2.png',
+    quote: "Our customers were hitting payment failures at midnight with no one to help. Covering nights and weekends was expensive and demoralising for the team. supVision took over the whole 24/7 window. Every customer now gets an instant reply, any hour.",
+    metrics: [
+      { value: '24/7', label: 'coverage without shift premiums' },
+      { value: '< 10 s', label: 'avg first response, any hour' },
+    ],
+  },
+  {
+    name: 'Léa C.',
+    role: 'Global Expansion Lead',
+    company: 'FINVAULT',
+    bgGradient: 'linear-gradient(135deg, #0a2218 0%, #0e4a30 60%, #1a7a50 100%)',
+    avatar: '/team.png',
+    quote: "We were routing foreign-language queries through Google Translate and hoping for the best. Complaints from non-English users were 3× higher. supVision handles 50+ languages natively — no awkward phrasing, no miscommunication, launch-ready from day one.",
+    metrics: [
+      { value: '50+', label: 'languages, native fluency' },
+      { value: '3×', label: 'fewer complaints from non-English users' },
+    ],
+  },
+  {
+    name: 'Arjun M.',
+    role: 'Head of Compliance',
+    company: 'KRYPTEX',
+    bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #3d1a6b 60%, #6b38b8 100%)',
+    avatar: '/team.png',
+    quote: "Regulators asked for a full audit trail on a disputed case. With our old setup that would have taken a week. supVision had every decision logged with timestamps and rationale. We exported the full trail in four minutes.",
+    metrics: [
+      { value: '4 min', label: 'full audit export time' },
+      { value: '100%', label: 'decisions logged automatically' },
+    ],
+  },
+  {
+    name: 'Nina K.',
+    role: 'Director of Customer Ops',
+    company: 'SWIFTCARD',
+    bgGradient: 'linear-gradient(135deg, #0f2a5e 0%, #214995 60%, #4a72c4 100%)',
+    avatar: '/team.png',
+    quote: "We went live in three days. Not three months — three days. Our old vendor quoted a six-month integration. supVision connected to Zendesk and our KYC provider over a weekend, and by Monday morning it was handling real queries.",
+    metrics: [
+      { value: '3 days', label: 'from contract to live' },
+      { value: '6 months', label: 'saved vs previous vendor quote' },
+    ],
+  },
+  {
+    name: 'Daniel F.',
+    role: 'CTO',
+    company: 'MONEYMESH',
+    bgGradient: 'linear-gradient(135deg, #0d3320 0%, #1a5c38 60%, #2e9e60 100%)',
+    avatar: '/team.png',
+    quote: "We handle card disputes on WhatsApp and Telegram as well as web. supVision handles all three channels with the same logic, same tone, same compliance rules. No separate bots, no inconsistent answers. One system, everywhere.",
+    metrics: [
+      { value: '3 channels', label: 'unified — web, WhatsApp, Telegram' },
+      { value: '1', label: 'policy engine across all of them' },
+    ],
+  },
+  {
+    name: 'Yuki T.',
+    role: 'VP Operations',
+    company: 'ORBITPAY',
+    bgGradient: 'linear-gradient(135deg, #2d1a00 0%, #7c4a00 60%, #c47a00 100%)',
+    avatar: '/team.png',
+    quote: "We scaled from 5,000 to 80,000 monthly active users in eight months. Support volume exploded. supVision absorbed the whole spike without us hiring a single new agent. CSAT actually improved during the growth phase.",
+    metrics: [
+      { value: '16×', label: 'user growth, zero new support hires' },
+      { value: '+12 pts', label: 'CSAT improvement during scale-up' },
+    ],
+  },
+]
+
+const heroIntegrationLogos = [
+  'zendesk.png',
+  'slack.png',
+  'salesforce.png',
+  'freshdesk.png',
+  'hubspot.png',
+  'intecom (1).png',
+  'whatsapp.png',
+  'telegram.png',
+  'notion.png',
+  'confluence.png',
+  'jira.png',
+]
+
+const heroIntegrationLogosMobileExtra = [
+  'gmail.png',
+  'outlook.png',
+  'teams.png',
+  'twillio.png',
+  'mambu.png',
+]
+
+const S = (d: string | string[], fr = false) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+    {(Array.isArray(d) ? d : [d]).map((p, i) =>
+      fr ? <path key={i} fillRule="evenodd" d={p} clipRule="evenodd" /> : <path key={i} d={p} />
+    )}
+  </svg>
+)
+
+const heroIndustries = [
+  { label: 'Payments & Processing', icon: S(['M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z', 'M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z']) },
+  { label: 'Neobanks', icon: S('M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6ZM20.25 10.332v9.418H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.418a.75.75 0 0 1 0-1.5h15.75a.75.75 0 0 1 0 1.5Zm-4.5 0v5.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75v-5.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75Zm-8.25-.75a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h1.5a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75H7.5Z', true) },
+  { label: 'Web3', icon: S('M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z', true) },
+  { label: 'Lending & Credit', icon: S(['M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z', 'M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z', 'M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z']) },
+  { label: 'InsurTech', icon: S('M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z', true) },
+]
+
+const heroDesktopAgentFeatures = [
+  {
+    label: 'Resolve tier-1 support',
+    desc: 'Closes disputes, payments, and verification queries autonomously — median resolution under 2 minutes.',
+    icon: S('M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z', true),
+  },
+  {
+    label: 'Escalate with full context',
+    desc: 'Hands complex cases to your team with the thread, live CRM/KYC data, and why the agent stepped back.',
+    icon: S('M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z', true),
+  },
+  {
+    label: 'Verify with live data',
+    desc: 'Pulls account, transaction, and identity state from your stack before every reply — no generic scripts.',
+    icon: S('M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', true),
+  },
+  {
+    label: 'Work across your channels',
+    desc: 'Email, chat, WhatsApp, Telegram, and your helpdesk — one agent for every channel your customers use.',
+    icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']),
+  },
+]
+
 const complianceFeatures = [
   'GDPR-compliant data handling and right-to-erasure support',
   'PCI DSS aligned, no raw card data ever touches our system',
@@ -1710,14 +1883,6 @@ const valueProps = [
     robot: false,
   },
 ]
-
-const S = (d: string | string[], fr = false) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
-    {(Array.isArray(d) ? d : [d]).map((p, i) =>
-      fr ? <path key={i} fillRule="evenodd" d={p} clipRule="evenodd" /> : <path key={i} d={p} />
-    )}
-  </svg>
-)
 
 function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
   const [err, setErr] = useState(false)
