@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
-import HeroChatPreview from '../components/home/HeroChatPreview'
 import HeroDashboard, { type DashboardView } from '../components/home/HeroDashboard'
 import { LANGUAGES, LANG_SLOT, LOG_SCENARIOS } from '../components/home/solutionShowcaseData'
 
@@ -22,46 +21,6 @@ const PERSONAS = [
   { label: 'InsurTech',                   stacks: ['Policy-driven responses', 'Freshdesk + Linear queue', 'Email triage & routing'] },
 ]
 
-function FasterSupportHeadline({ size = 'mobile', color = '#111827' }: { size?: 'mobile' | 'desktop'; color?: string }) {
-  const fontSize = size === 'desktop' ? '3.25rem' : '2.45rem'
-  const underlineH = size === 'desktop' ? 14 : 12
-  return (
-    <div className="inline-block">
-      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color }}>
-        <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
-          10x faster
-          <svg
-            viewBox="0 0 190 12"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            style={{ position: 'absolute', bottom: -5, left: '-2%', width: '104%', height: underlineH, pointerEvents: 'none', overflow: 'visible' }}
-          >
-            <path
-              d="M 2 8 C 12 5, 28 10, 48 7 C 64 5, 82 9, 100 6.5 C 118 4, 138 9, 158 7 C 170 5.5, 180 8, 188 7"
-              stroke="#FB9A05"
-              strokeWidth="3.5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M 4 9.5 C 20 7, 42 11, 65 8.5 C 88 6, 112 10, 135 8 C 155 6.5, 172 9.5, 187 8.5"
-              stroke="#FB9A05"
-              strokeWidth="1.5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0.45"
-            />
-          </svg>
-        </span>
-      </p>
-      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color, marginTop: '0.125rem' }}>
-        than manual support
-      </p>
-    </div>
-  )
-}
 
 const FEATURE_TABS: Array<{ key: string; label: string; heading: string; description: string; features: { title: string; body: string; view: DashboardView }[]; reversed?: boolean }> = [
   {
@@ -102,7 +61,7 @@ const FEATURE_TABS: Array<{ key: string; label: string; heading: string; descrip
 ]
 
 const ALL_STEPS = FEATURE_TABS.flatMap(tab =>
-  tab.features.map((f, fi) => ({ tabKey: tab.key, featureIdx: fi }))
+  tab.features.map((_f, fi) => ({ tabKey: tab.key, featureIdx: fi }))
 )
 const STEP_HEIGHT_VH = 75
 const CONTAINER_HEIGHT_VH = 100 + STEP_HEIGHT_VH * (ALL_STEPS.length - 1)
@@ -348,8 +307,8 @@ export default function Home() {
   const [demoSubmitError, setDemoSubmitError] = useState('')
   const [demoFormStartedAt] = useState(() => Date.now())
   const demoFormRef = useRef<HTMLFormElement>(null)
-  const [chatStepMobile, setChatStepMobile] = useState(0)
-  const [chatStepDesktop, setChatStepDesktop] = useState(0)
+  const [, setChatStepMobile] = useState(0)
+  const [, setChatStepDesktop] = useState(0)
   const [langItems] = useState<Array<{ id: number; langIdx: number; slot: number }>>(
     () => Array.from({ length: 11 }, (_, i) => ({ id: i, langIdx: i % LANGUAGES.length, slot: i }))
   )
@@ -2285,28 +2244,6 @@ const complianceCertCards = [
 ]
 
 
-const mobileInsightCards = [
-  {
-    label: 'Support costs',
-    stat: '68%',
-    body: 'Cut cost by 68% on repetitive tier-1 volume — without adding headcount.',
-    variant: 'light' as const,
-  },
-  {
-    label: 'Tickets handled',
-    stat: '93%',
-    body: '93% of tickets are handled by the AI support agent — fully resolved without a human ever getting involved.',
-    variant: 'image' as const,
-    image: '/hero_images/Component 174.png',
-  },
-  {
-    label: 'Tier-1 tickets resolved',
-    stat: '80%',
-    headline: 'No human required.',
-    body: 'Identity status checks, payment failures, onboarding questions — SupVision closes them automatically. Your agents focus only on the cases that genuinely need them.',
-    variant: 'wide' as const,
-  },
-]
 
 const valueProps = [
   {

@@ -195,7 +195,6 @@ export default function Header() {
     lightNavPaths.includes(pathname) ||
     pathname.startsWith('/industries/') ||
     pathname.startsWith('/roles/')
-  const navDark = isDark && !forceLightNav
   const linkClass = `text-base font-semibold transition-colors duration-300 text-gray-900 hover:!text-[#214995]`
 
   // Desktop: stays fixed, moves with banner
