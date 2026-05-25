@@ -409,7 +409,7 @@ export default function SolutionShowcase({
     <>
       <section className="px-4 pb-4 pt-10 lg:hidden">
         <ModelPickerIntro />
-        <ModelSelectorCard step={step} className="mt-6" />
+        <ModelSelectorCard step={step} className="mt-6 h-[440px]" />
       </section>
 
       <section className="px-4 py-6 lg:hidden">

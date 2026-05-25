@@ -21,7 +21,7 @@ const PROVIDERS = [
 
 export default function ModelSelectorCard({ step, className = '' }: { step: ModelAnimStep; className?: string }) {
   return (
-    <div className={`relative rounded-2xl border border-gray-200 bg-white shadow-sm ${className}`}>
+    <div className={`relative rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden ${className}`}>
       <div className="px-4 pb-1 pt-4">
         <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">Model</span>
         <span className="ml-1 text-xs text-red-400">*</span>
