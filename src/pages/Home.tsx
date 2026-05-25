@@ -15,12 +15,11 @@ const SANDBOX_QUERIES = [
   { query: 'Why was my card declined?', response: 'Your card was declined due to an unusual location. This has been flagged for review.', checks: ['Escalation rule triggered', 'Customer notified', 'Tone: correct'] },
 ]
 
-const PERSONAS = [
-  { label: 'Payments & Processing',      stacks: ['Dispute escalation flow', 'WhatsApp support flow', 'Zendesk + Mambu stack', 'Telegram CRM bot', 'Email triage & routing'] },
-  { label: 'Neobanks & Digital Banking', stacks: ['Onboarding automation', 'HubSpot onboarding flow', 'Zendesk + Mambu stack', 'CRM-aware support'] },
-  { label: 'Web3',                        stacks: ['Telegram CRM bot', 'WhatsApp support flow', 'CRM-aware support', 'Telegram CRM integration'] },
-  { label: 'Lending & Credit',            stacks: ['CRM-aware support', 'WhatsApp sales support', 'Policy-driven responses', 'Email triage & routing'] },
-  { label: 'InsurTech',                   stacks: ['Policy-driven responses', 'Freshdesk + Linear queue', 'Email triage & routing'] },
+const INTEGRATION_CATEGORIES = [
+  { label: 'Helpdesk',  tools: ['Zendesk', 'Freshdesk', 'Intercom'] },
+  { label: 'CRM',       tools: ['Salesforce CRM', 'HubSpot', 'Pipedrive', 'Zoho CRM'] },
+  { label: 'Messaging', tools: ['WhatsApp', 'Telegram'] },
+  { label: 'Email',     tools: ['Gmail'] },
 ]
 
 
@@ -150,7 +149,7 @@ function FeatureTabSection() {
 
   return (
     <div ref={containerRef} style={{ height: `${CONTAINER_HEIGHT_VH}vh` }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: isMobile ? '12vh' : '26vh', paddingBottom: '1rem' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: isMobile ? 'hidden' : 'visible', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: isMobile ? '12vh' : '22vh', paddingBottom: '1rem' }}>
         {/* What is supVision? — absolutely positioned so tabs stay centered */}
         <div className={`text-center ${isMobile ? 'px-5' : ''}`} style={{ position: 'absolute', top: isMobile ? '3vh' : '7vh', left: 0, right: 0 }}>
           <h2 className={`${isMobile ? 'text-3xl' : 'text-4xl'} leading-tight text-gray-900`} style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
@@ -1263,9 +1262,9 @@ export default function Home() {
               className="text-3xl leading-snug text-gray-900 lg:text-4xl"
               style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
-              Built for the way <span style={{ color: '#FB9A05' }}>fintech works</span>
+              Works with everything <span style={{ fontWeight: 700 }}>in your stack</span>
             </h2>
-            <p className="mt-2 text-sm text-gray-500 lg:text-base">Select one to see supVision in action.</p>
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">Filter by category to explore integrations.</p>
           </div>
 
           {/* Filter tabs */}
@@ -1282,9 +1281,9 @@ export default function Home() {
             >
               All
             </button>
-            {PERSONAS.map((persona, i) => (
+            {INTEGRATION_CATEGORIES.map((cat, i) => (
               <button
-                key={persona.label}
+                key={cat.label}
                 type="button"
                 onClick={() => setActivePersona(prev => (prev === i ? null : i))}
                 className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
@@ -1294,7 +1293,7 @@ export default function Home() {
                   border: activePersona === i ? '1px solid #214995' : '1px solid rgba(0,0,0,0.1)',
                 }}
               >
-                {persona.label}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -1302,7 +1301,7 @@ export default function Home() {
           {(() => {
             const all = activePersona === null
               ? automationStacks
-              : automationStacks.filter(s => PERSONAS[activePersona].stacks.includes(s.label))
+              : automationStacks.filter(s => s.tools.some(t => INTEGRATION_CATEGORIES[activePersona].tools.includes(t)))
 
             const renderStackCard = (stack: (typeof automationStacks)[number]) => (
               <div
