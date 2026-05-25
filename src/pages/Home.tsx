@@ -167,8 +167,8 @@ function FeatureTabSection() {
               onClick={() => handleTabClick(t.key)}
               className="rounded-full border font-medium transition-all duration-200"
               style={{
-                padding: isMobile ? '0.25rem 0.875rem' : '0.375rem 1.25rem',
-                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                padding: isMobile ? '0.625rem 1.375rem' : '0.375rem 1.25rem',
+                fontSize: isMobile ? '0.9375rem' : '0.875rem',
                 backgroundColor: activeKey === t.key ? '#111827' : '#F3EFE9',
                 borderColor: activeKey === t.key ? '#111827' : '#d4cfc8',
                 color: activeKey === t.key ? '#fff' : '#6b7280',
@@ -259,6 +259,7 @@ function FeatureTabSection() {
             ref={imgWrapRef}
             style={{
               flexShrink: 0,
+              order: isMobile ? -1 : 0,
               width: isMobile ? '100%' : (expanded ? '58%' : '80%'),
               transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1)',
             }}
