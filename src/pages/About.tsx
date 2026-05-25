@@ -350,7 +350,7 @@ export default function About() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
                   {v.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">{v.title}</h3>
+                <h3 className="text-[1.6rem] leading-tight text-gray-900 sm:text-[1.75rem]" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>{v.title}</h3>
                 <p className="text-sm leading-relaxed text-gray-500">{v.desc}</p>
               </div>
             ))}
