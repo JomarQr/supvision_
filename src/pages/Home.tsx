@@ -1002,7 +1002,7 @@ export default function Home() {
                 {(() => {
                   const sc = HANDOFF_SCENARIOS[handoffScene]
                   return (
-                    <div className="mt-4 rounded-2xl p-3 flex flex-col gap-2.5 overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)' }}>
+                    <div className="mt-4 rounded-2xl p-3 flex flex-col gap-2.5 overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)', height: 272, flexShrink: 0 }}>
                       {handoffPhase >= 1 && (
                         <div className="flex items-start gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: 'rgba(255,255,255,0.2)' }}>{sc.customer.split(' ').map(n => n[0]).join('')}</div>
@@ -1096,7 +1096,7 @@ export default function Home() {
                 {(() => {
                   const sq = SANDBOX_QUERIES[sandboxScene]
                   return (
-                    <div className="mt-4 rounded-2xl px-4 py-4 flex flex-col gap-2.5" style={{ background: '#f9fafb' }}>
+                    <div className="mt-4 rounded-2xl px-4 py-4 flex flex-col gap-2.5 overflow-hidden" style={{ background: '#f9fafb', height: 272, flexShrink: 0 }}>
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-amber-400" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
                         <span className="text-xs font-semibold uppercase tracking-wider text-amber-600">Sandbox</span>
