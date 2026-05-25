@@ -55,15 +55,38 @@ function PayOnlyHighlight({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) 
 }
 
 function ModelPickerIntro({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) {
-  const titleClass = size === 'desktop' ? 'text-4xl' : 'text-[1.75rem]'
-  const descClass = size === 'desktop' ? 'mx-auto max-w-lg' : 'mx-auto max-w-xs'
+  if (size === 'desktop') {
+    return (
+      <div className="flex flex-col justify-center">
+        <p className="text-5xl leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+          Pick any AI for any task.
+        </p>
+        <PayOnlyHighlight size={size} />
+        <p className="mt-4 max-w-md text-base leading-relaxed text-gray-500">
+          supVision routes each query to the most cost-efficient model — GPT for speed, Claude for reasoning, Gemini for documents — so you never overpay on tokens.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white"
+            style={{ backgroundColor: '#214995' }}
+          >
+            Book a demo
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="text-center">
-      <p className={`leading-snug text-gray-900 ${titleClass} ${size === 'desktop' ? '' : 'mt-4'}`} style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
+      <p className="mt-4 text-[1.75rem] leading-snug text-gray-900" style={{ fontFamily: "'Canela', serif", fontWeight: 300 }}>
         Pick any AI for any task.
       </p>
       <PayOnlyHighlight size={size} />
-      <p className={`mt-3 text-sm leading-relaxed text-gray-500 ${descClass}`}>
+      <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-gray-500">
         supVision routes each query to the most cost-efficient model — GPT for speed, Claude for reasoning, Gemini for documents — so you never overpay on tokens.
       </p>
     </div>
@@ -353,9 +376,9 @@ export default function SolutionShowcase({
     return (
       <section className="hidden bg-[#faf8f5] px-6 py-16 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
-            <ModelPickerIntro size="desktop" />
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <ModelSelectorCard step={step} className="h-[440px]" />
+            <ModelPickerIntro size="desktop" />
           </div>
 
           <div className="mt-20 grid gap-10 lg:grid-cols-3 lg:gap-8">
