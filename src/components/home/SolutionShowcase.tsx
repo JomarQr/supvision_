@@ -378,16 +378,14 @@ export default function SolutionShowcase({
             <ModelPickerIntro size="desktop" />
           </div>
 
-          <div className="mt-20 flex items-start gap-8">
-            <div className="flex-1">
+          <div className="mt-20 mx-auto max-w-4xl">
+            <div className="grid grid-cols-2 gap-8">
               <FeatureBlock
                 title="Data Access Controls"
                 description="Control exactly which systems and data fields supVision can access per query type, so sensitive data is never exposed beyond its intended scope."
               >
                 <DataAccessPanel tall />
               </FeatureBlock>
-            </div>
-            <div className="flex-1 mt-20">
               <FeatureBlock
                 title="AI Decision Logs"
                 description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
@@ -400,8 +398,6 @@ export default function SolutionShowcase({
                   tall
                 />
               </FeatureBlock>
-            </div>
-            <div className="flex-1 mt-40">
               <FeatureBlock
                 title="100+ Languages"
                 description="supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost."
