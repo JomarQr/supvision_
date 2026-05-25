@@ -389,7 +389,7 @@ export default function SolutionShowcase({
                   <DataAccessPanel tall />
                 </FeatureBlock>
               </div>
-              <div style={{ flex: '0 0 48%', marginTop: '72px' }}>
+              <div style={{ flex: '0 0 48%', marginTop: '144px' }}>
                 <FeatureBlock
                   title="AI Decision Logs"
                   description="See exactly why supVision chose to resolve or escalate each query, with the full reasoning chain exposed for compliance review or agent training."
@@ -405,7 +405,7 @@ export default function SolutionShowcase({
               </div>
             </div>
             {/* Bottom: Languages below Data Access, shifted slightly left */}
-            <div style={{ maxWidth: '48%', marginTop: '32px', marginLeft: '-24px' }}>
+            <div style={{ maxWidth: '48%', marginTop: '32px', marginLeft: '-56px' }}>
               <FeatureBlock
                 title="100+ Languages"
                 description="supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost."
