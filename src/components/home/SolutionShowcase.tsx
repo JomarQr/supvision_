@@ -23,9 +23,9 @@ type SolutionShowcaseProps = {
 }
 
 function PayOnlyHighlight({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) {
-  const textClass = size === 'desktop' ? 'text-5xl' : 'text-[1.75rem]'
+  const textClass = size === 'desktop' ? 'text-4xl' : 'text-[1.75rem]'
   const svgStyle = size === 'desktop'
-    ? { width: 'calc(100% + 120px)', height: 'calc(100% + 28px)', left: '-70px', top: '-14px', transform: 'rotate(-3deg)' }
+    ? { width: 'calc(100% + 140px)', height: 'calc(100% + 24px)', left: '-100px', top: '-12px', transform: 'rotate(-3deg)' }
     : { width: 'calc(100% + 100px)', height: 'calc(100% + 24px)', left: '-50px', top: '-12px', transform: 'rotate(-3deg)' }
   return (
     <span className="relative inline-block px-6 py-1">
