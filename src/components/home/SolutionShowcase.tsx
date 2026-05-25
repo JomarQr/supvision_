@@ -411,10 +411,10 @@ export default function SolutionShowcase({
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col items-stretch gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="mt-24 flex flex-col items-center gap-6">
             <Link
               to="/support-agent"
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white lg:flex-shrink-0"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white"
               style={{ backgroundColor: '#214995' }}
             >
               Explore all features
@@ -422,7 +422,7 @@ export default function SolutionShowcase({
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
-            <div className="min-w-0 flex-1 lg:max-w-2xl">
+            <div className="w-full max-w-2xl">
               <NeverSleepsCard compact />
             </div>
           </div>
