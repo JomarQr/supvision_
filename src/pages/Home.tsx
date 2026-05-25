@@ -494,8 +494,9 @@ export default function Home() {
 
             {/* Mobile headline */}
             <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-              <span className="text-white"><span style={{ fontWeight: 800 }}>Agentic</span> Support Team</span>
-              <span className="text-white">for <span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
+              <span className="text-white"><span style={{ fontWeight: 800 }}>Agentic</span> Support</span>
+              <span className="text-white">Team for</span>
+              <span className="text-white"><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
             </h1>
             {/* Desktop headline */}
             <h1
