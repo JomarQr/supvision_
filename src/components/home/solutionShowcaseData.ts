@@ -38,16 +38,16 @@ export const LOG_SCENARIOS = [
 ]
 
 export const LANGUAGES = [
-  { code: 'gb', name: 'English' },
-  { code: 'es', name: 'Español' },
-  { code: 'fr', name: 'Français' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'ru', name: 'Русский' },
-  { code: 'id', name: 'Bahasa' },
-  { code: 'sa', name: 'العربية' },
-  { code: 'cn', name: '中文' },
-  { code: 'br', name: 'Português' },
-  { code: 'jp', name: '日本語' },
+  { flag: '/countries/endlish.png',    name: 'English'    },
+  { flag: '/countries/russia.png',     name: 'Русский'    },
+  { flag: '/countries/saudi.png',      name: 'العربية'    },
+  { flag: '/countries/china.png',      name: '中文'        },
+  { flag: '/countries/brazil.png',     name: 'Português'  },
+  { flag: '/countries/japan.png',      name: '日本語'      },
+  { flag: '/countries/indian.png',     name: 'हिन्दी'      },
+  { flag: '/countries/greec.png',      name: 'Ελληνικά'   },
+  { flag: '/countries/Kazachstan.png', name: 'Қазақша'    },
+  { flag: '/countries/thailanf.png',   name: 'ภาษาไทย'    },
 ]
 
 export const LANG_SLOT = [

@@ -161,12 +161,6 @@ export default function About() {
         <div className="sticky top-20 overflow-hidden" style={{ backgroundColor: '#faf8f5', height: 'calc(100vh - 5rem)' }}>
           {/* Header - centered */}
           <div className="pt-16 pb-10 text-center">
-            <p
-              className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
-            >
-              Our story
-            </p>
             <p className="mt-1 text-base text-gray-500">Ten years in fintech before we wrote a line of supVision code.</p>
           </div>
 

@@ -196,7 +196,7 @@ export default function Header() {
     pathname.startsWith('/industries/') ||
     pathname.startsWith('/roles/')
   const navDark = isDark && !forceLightNav
-  const linkClass = `text-base font-semibold transition-colors duration-300 ${navDark ? 'text-white hover:!text-white/70' : 'text-gray-900 hover:!text-[#214995]'}`
+  const linkClass = `text-base font-semibold transition-colors duration-300 text-gray-900 hover:!text-[#214995]`
 
   // Desktop: stays fixed, moves with banner
   const desktopTop = Math.max(0, BANNER_H - scrollTop)
@@ -225,7 +225,8 @@ export default function Header() {
       }}
     >
       <div
-        className={`mx-auto lg:max-w-7xl lg:rounded-2xl lg:bg-white/[0.12] lg:border lg:border-white/25 lg:shadow-[0_4px_24px_rgba(0,0,0,0.12)] lg:backdrop-blur-md ${isMobile && mobileShowSticky ? 'bg-white shadow-md' : 'bg-transparent'}`}
+        className={`mx-auto lg:max-w-7xl lg:rounded-2xl lg:border lg:shadow-[0_2px_16px_rgba(0,0,0,0.08)] ${isMobile && mobileShowSticky ? 'bg-white shadow-md' : 'bg-transparent'}`}
+        style={{ backgroundColor: isMobile && !mobileShowSticky ? undefined : '#faf8f5', borderColor: '#e8e2d9' }}
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
@@ -241,8 +242,8 @@ export default function Header() {
               className="h-10 w-auto lg:hidden"
               style={mobileLogoInverted ? { filter: 'brightness(0) invert(1)' } : undefined}
             />
-            {/* Desktop: responds to dark background */}
-            <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block transition-all duration-300" style={navDark ? { filter: 'brightness(0) invert(1)' } : undefined} />
+            {/* Desktop: always dark logo on beige nav */}
+            <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block" />
           </a>
 
           {/* Desktop Nav */}

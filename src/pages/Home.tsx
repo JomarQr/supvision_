@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import HeroChatPreview from '../components/home/HeroChatPreview'
-import HeroDashboard from '../components/home/HeroDashboard'
+import HeroDashboard, { type DashboardView } from '../components/home/HeroDashboard'
 import { LANGUAGES, LANG_SLOT, LOG_SCENARIOS } from '../components/home/solutionShowcaseData'
 
 type EscStatus = 'below' | 'routing' | 'resolved'
@@ -22,12 +22,12 @@ const PERSONAS = [
   { label: 'InsurTech',                   stacks: ['Policy-driven responses', 'Freshdesk + Linear queue', 'Email triage & routing'] },
 ]
 
-function FasterSupportHeadline({ size = 'mobile' }: { size?: 'mobile' | 'desktop' }) {
+function FasterSupportHeadline({ size = 'mobile', color = '#111827' }: { size?: 'mobile' | 'desktop'; color?: string }) {
   const fontSize = size === 'desktop' ? '3.25rem' : '2.45rem'
   const underlineH = size === 'desktop' ? 14 : 12
   return (
     <div className="inline-block">
-      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color: '#111827' }}>
+      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color }}>
         <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
           10x faster
           <svg
@@ -56,9 +56,279 @@ function FasterSupportHeadline({ size = 'mobile' }: { size?: 'mobile' | 'desktop
           </svg>
         </span>
       </p>
-      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color: '#111827', marginTop: '0.125rem' }}>
+      <p className="leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize, color, marginTop: '0.125rem' }}>
         than manual support
       </p>
+    </div>
+  )
+}
+
+const FEATURE_TABS: Array<{ key: string; label: string; heading: string; description: string; features: { title: string; body: string; view: DashboardView }[]; reversed?: boolean }> = [
+  {
+    key: 'Control',
+    label: 'CONTROL',
+    heading: 'Define exactly how supVision responds',
+    description: 'supVision goes beyond automate-or-escalate. Set confidence thresholds, restrict topics, and require human approval for sensitive actions — on your terms.',
+    features: [
+      { title: 'Confidence Thresholds', body: 'Set per-topic confidence levels so supVision only automates when certain enough. Below threshold, it escalates with full context attached.', view: 'confidence' },
+      { title: 'Topic Restrictions', body: 'Block specific topics from being handled automatically — legal, compliance, or regulatory queries go straight to humans.', view: 'topic-restrictions' },
+      { title: 'Data Access Controls', body: 'Granular permissions for what data the AI can read, write, or reference during a conversation.', view: 'data-access' },
+    ],
+  },
+  {
+    key: 'Adaptivity',
+    label: 'ADAPTIVITY',
+    reversed: true,
+    heading: 'An AI that shapes itself to your business',
+    description: 'supVision is not a generic chatbot. It learns your workflows, adapts to your tone, and adjusts its behavior per channel, customer tier, and context — automatically.',
+    features: [
+      { title: 'Continuous Learning', body: 'Every resolved ticket and agent correction feeds back into the model. supVision gets sharper over time without any manual retraining.', view: 'continuous-learning' as DashboardView },
+      { title: 'Industry Presets', body: 'Pre-configured behaviour for neobanks, payment processors, crypto platforms, and lending — tuned for the queries and compliance norms of each vertical.', view: 'industry-presets' as DashboardView },
+      { title: 'Tone & Style Controls', body: 'Define how supVision communicates — formal, friendly, concise — and apply different styles per channel or customer segment.', view: 'tone-style' as DashboardView },
+    ],
+  },
+  {
+    key: 'Visibility',
+    label: 'VISIBILITY',
+    heading: 'See exactly what your AI is doing',
+    description: 'Every conversation, decision, and escalation is logged. Get the audit trail, analytics, and confidence scores your compliance team actually needs.',
+    features: [
+      { title: 'Audit Logs', body: 'Full conversation history with timestamps, confidence scores, and escalation reasons — exportable for compliance.', view: 'audit-logs' as DashboardView },
+      { title: 'Confidence Reporting', body: 'See where the AI is uncertain — identify gaps in your knowledge base before they affect customers.', view: 'confidence-reporting' as DashboardView },
+      { title: 'Team Performance', body: 'Compare AI vs. human resolution rates, response times, and satisfaction scores side by side.', view: 'team-performance' as DashboardView },
+      { title: 'Resolution Analytics', body: 'Track auto-resolution rates, avg. response times, and escalation volume by topic, channel, and time period.', view: 'analytics' as DashboardView },
+    ],
+  },
+]
+
+const ALL_STEPS = FEATURE_TABS.flatMap(tab =>
+  tab.features.map((f, fi) => ({ tabKey: tab.key, featureIdx: fi }))
+)
+const STEP_HEIGHT_VH = 75
+const CONTAINER_HEIGHT_VH = 100 + STEP_HEIGHT_VH * (ALL_STEPS.length - 1)
+
+function FeatureTabSection() {
+  const [activeKey, setActiveKey] = useState<string | null>(null)
+  const [openIdx, setOpenIdx] = useState(0)
+  const imgWrapRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const activeKeyRef = useRef<string | null>(null)
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1024)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  const tab = FEATURE_TABS.find(t => t.key === activeKey) ?? null
+  const reversed = tab?.reversed ?? false
+  const expanded = activeKey !== null
+  const dashView: DashboardView = (expanded && tab && openIdx >= 0) ? (tab.features[openIdx]?.view ?? 'default') : 'default'
+
+  function animateImage(fromTabKey: string | null, toTabKey: string) {
+    const el = imgWrapRef.current
+    if (!el || fromTabKey === toTabKey) return
+    const fromR = FEATURE_TABS.find(t => t.key === fromTabKey)?.reversed ?? false
+    const toR   = FEATURE_TABS.find(t => t.key === toTabKey)?.reversed   ?? false
+    el.getAnimations().forEach(a => a.cancel())
+    const fromX = (!fromR && toR) ? '55%' : (fromR && !toR) ? '-55%' : '18px'
+    el.animate(
+      [{ transform: `translateX(${fromX})`, opacity: 0.4 }, { transform: 'translateX(0)', opacity: 1 }],
+      { duration: 580, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
+    )
+  }
+
+  function applyStep(stepIdx: number) {
+    const step = ALL_STEPS[Math.max(0, Math.min(stepIdx, ALL_STEPS.length - 1))]
+    if (!step) return
+    if (step.tabKey !== activeKeyRef.current) {
+      animateImage(activeKeyRef.current, step.tabKey)
+      activeKeyRef.current = step.tabKey
+    }
+    setActiveKey(step.tabKey)
+    setOpenIdx(step.featureIdx)
+  }
+
+  useEffect(() => {
+    const handler = () => {
+      const el = containerRef.current
+      if (!el) return
+      if (el.offsetHeight === 0) return
+      const rect = el.getBoundingClientRect()
+      if (rect.top > window.innerHeight * 0.8) {
+        if (activeKeyRef.current !== null) { activeKeyRef.current = null; setActiveKey(null); setOpenIdx(0) }
+        return
+      }
+      const totalScroll = (ALL_STEPS.length - 1) * (STEP_HEIGHT_VH / 100) * window.innerHeight
+      const progress = Math.max(0, Math.min(1, -rect.top / totalScroll))
+      applyStep(Math.floor(progress * ALL_STEPS.length + 0.05))
+    }
+    window.addEventListener('scroll', handler, { passive: true })
+    handler()
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
+
+  function scrollToStep(stepIdx: number) {
+    const el = containerRef.current
+    if (!el) return
+    const absTop = window.scrollY + el.getBoundingClientRect().top
+    const target = absTop + stepIdx * (STEP_HEIGHT_VH / 100) * window.innerHeight
+    window.scrollTo({ top: target, behavior: 'smooth' })
+  }
+
+  function handleTabClick(key: string) {
+    const idx = ALL_STEPS.findIndex(s => s.tabKey === key)
+    if (idx >= 0) scrollToStep(idx)
+  }
+
+  function handleFeatureClick(tabKey: string, featureIdx: number) {
+    const idx = ALL_STEPS.findIndex(s => s.tabKey === tabKey && s.featureIdx === featureIdx)
+    if (idx >= 0) scrollToStep(idx)
+  }
+
+  return (
+    <div ref={containerRef} style={{ height: `${CONTAINER_HEIGHT_VH}vh` }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: isMobile ? '12vh' : '26vh', paddingBottom: '1rem' }}>
+        {/* What is supVision? — absolutely positioned so tabs stay centered */}
+        <div className={`text-center ${isMobile ? 'px-5' : ''}`} style={{ position: 'absolute', top: isMobile ? '3vh' : '7vh', left: 0, right: 0 }}>
+          <h2 className={`${isMobile ? 'text-2xl' : 'text-4xl'} leading-tight text-gray-900`} style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+            What is supVision?
+          </h2>
+          <p className={`mt-2 mx-auto ${isMobile ? 'max-w-xs text-sm' : 'max-w-2xl text-base'} leading-relaxed text-gray-500`}>
+            supVision is the platform that lets you run an autonomous AI support agent — and stay fully in control of how it behaves. Set the rules, define the limits, and let it work. No surprises, no black boxes. Your agent, on your terms.
+          </p>
+        </div>
+
+        {/* Tab pills */}
+        <div className="mb-4 mt-10 flex items-center justify-center gap-2">
+          {FEATURE_TABS.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => handleTabClick(t.key)}
+              className="rounded-full border font-medium transition-all duration-200"
+              style={{
+                padding: isMobile ? '0.25rem 0.875rem' : '0.375rem 1.25rem',
+                fontSize: isMobile ? '0.75rem' : '0.875rem',
+                backgroundColor: activeKey === t.key ? '#111827' : '#F3EFE9',
+                borderColor: activeKey === t.key ? '#111827' : '#d4cfc8',
+                color: activeKey === t.key ? '#fff' : '#6b7280',
+              }}
+            >
+              {t.key}
+            </button>
+          ))}
+        </div>
+
+        {/* Content row */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: expanded ? (isMobile ? '0.75rem' : '2.5rem') : '0',
+            flexDirection: isMobile ? 'column' : (reversed ? 'row-reverse' : 'row'),
+            justifyContent: (expanded || isMobile) ? 'flex-start' : 'center',
+            transition: 'gap 0.55s ease',
+          }}
+        >
+          {/* Text panel — above dashboard on mobile */}
+          {isMobile && (
+            <div
+              style={{
+                width: '100%',
+                maxHeight: expanded ? '28vh' : '0px',
+                opacity: expanded ? 1 : 0,
+                overflow: 'hidden',
+                transition: 'max-height 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
+              }}
+            >
+              {tab && (
+                <div className="divide-y divide-gray-200 px-2">
+                  {tab.features.map((f, i) => (
+                    <div key={f.title}>
+                      <button
+                        onClick={() => handleFeatureClick(tab.key, i)}
+                        className="flex w-full items-center justify-between py-2.5 text-left"
+                      >
+                        <span className={`text-sm font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
+                        <span className="ml-3 flex-shrink-0 text-xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
+                      </button>
+                      {openIdx === i && (
+                        <p className="pb-2 text-xs leading-relaxed text-gray-500">{f.body}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Text panel — desktop */}
+          {!isMobile && (
+            <div
+              style={{
+                flexShrink: 0,
+                width: expanded ? '42%' : '0%',
+                opacity: expanded ? 1 : 0,
+                overflow: 'hidden',
+                transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
+              }}
+            >
+              {tab && (
+                <div className="divide-y divide-gray-200">
+                  {tab.features.map((f, i) => (
+                    <div key={f.title}>
+                      <button
+                        onClick={() => handleFeatureClick(tab.key, i)}
+                        className="flex w-full items-center justify-between py-4 text-left"
+                      >
+                        <span className={`text-xl font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
+                        <span className="ml-4 flex-shrink-0 text-2xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
+                      </button>
+                      {openIdx === i && (
+                        <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.body}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Dashboard */}
+          <div
+            ref={imgWrapRef}
+            style={{
+              flexShrink: 0,
+              width: isMobile ? '100%' : (expanded ? '58%' : '80%'),
+              transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1)',
+            }}
+          >
+            {isMobile ? (
+              <div style={{ overflow: 'hidden', borderRadius: '1rem', height: 268 }}>
+                <div style={{ transform: 'scale(0.536)', transformOrigin: 'top left', width: '186.6%', height: 500, flexShrink: 0 }}>
+                  <HeroDashboard animated={expanded} view={expanded ? dashView : 'default'} />
+                </div>
+              </div>
+            ) : (
+              <HeroDashboard animated={expanded} view={dashView} />
+            )}
+          </div>
+        </div>
+
+        {/* Skip button */}
+        <div className={`${isMobile ? 'mt-4' : 'mt-16'} flex justify-center`}>
+          <button
+            onClick={() => scrollToStep(ALL_STEPS.length - 1)}
+            className="flex flex-col items-center gap-1 text-sm font-medium text-gray-400 transition-all hover:text-gray-600"
+          >
+            Skip
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 animate-bounce">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -91,6 +361,7 @@ export default function Home() {
   const [logFading, setLogFading] = useState(false)
   const [escIdx, setEscIdx] = useState(0)
   const [escPhase, setEscPhase] = useState(0)
+  const [testimonialIdx, setTestimonialIdx] = useState(0)
 
   useEffect(() => {
     const delays = [500, 1000, 900, 1100, 950, 3400]
@@ -264,16 +535,16 @@ export default function Home() {
 
             {/* Mobile headline */}
             <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-              <span className="text-white">Agentic Support Team</span>
-              <span style={{ color: '#E5D9CC' }}>for Fintech Industry</span>
+              <span className="text-white"><span style={{ fontWeight: 800 }}>Agentic</span> Support Team</span>
+              <span className="text-white">for <span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
             </h1>
             {/* Desktop headline */}
             <h1
-              className="mt-3 hidden flex-col text-6xl leading-tight lg:flex lg:text-left"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+              className="mt-3 hidden flex-col leading-tight lg:flex lg:text-left"
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2.6rem, 3.8vw, 3.75rem)' }}
             >
-              <span className="text-white">Agentic Support Team</span>
-              <span style={{ color: '#E5D9CC' }}>for Fintech Industry</span>
+              <span className="text-white whitespace-nowrap"><span style={{ fontWeight: 800 }}>Agentic</span> Support Team</span>
+              <span className="text-white whitespace-nowrap">for <span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
             </h1>
 
             <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl mx-auto lg:mx-0">
@@ -320,9 +591,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile chat preview */}
-          <div className="relative z-10 mt-10 lg:hidden">
-            <HeroChatPreview chatStep={chatStepMobile} variant="mobile" />
+          {/* Mobile dashboard — scaled down to fit */}
+          <div className="relative z-10 mt-10 lg:hidden mx-3 overflow-hidden rounded-2xl" style={{ height: 315 }}>
+            <div style={{ transform: 'scale(0.63)', transformOrigin: 'top left', width: '158.7%', height: 500, flexShrink: 0 }}>
+              <HeroDashboard animated={true} view="default" />
+            </div>
           </div>
           {/* Spacer so lower section doesn't overlap chat card */}
           <div className="pb-8 lg:hidden" />
@@ -358,27 +631,24 @@ export default function Home() {
                 key={item.label}
                 className="flex items-start gap-3 rounded-2xl px-5 py-5"
                 style={{
-                  background: 'rgba(255,255,255,0.12)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255,255,255,0.25)',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+                  background: '#F3EFE9',
+                  border: '1px solid #e6ddd2',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
                 }}
               >
                 <div
                   className="flex-shrink-0 flex items-center justify-center rounded-full"
                   style={{
                     width: '40px', height: '40px',
-                    background: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.25)',
+                    background: '#214995',
                     color: '#fff',
                   }}
                 >
                   {item.icon}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white leading-snug">{item.label}</p>
-                  {item.desc && <p className="mt-1 text-xs leading-snug text-white/60">{item.desc}</p>}
+                  <p className="text-sm font-semibold text-gray-900 leading-snug">{item.label}</p>
+                  {item.desc && <p className="mt-1 text-xs leading-snug text-gray-500">{item.desc}</p>}
                 </div>
               </div>
             ))}
@@ -390,43 +660,43 @@ export default function Home() {
       <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16 bg-[#F1EDE9] lg:bg-[#faf8f5]">
         <div className="mx-auto max-w-7xl px-6">
 
-          {/* ── ZONE 1: Headline + 3 metrics ── desktop */}
+          {/* ── ZONE 1: Intro + 4 metrics ── desktop */}
           <div className="hidden lg:block">
-            <div className="text-center">
-              <FasterSupportHeadline size="desktop" />
-              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-gray-500">
-                supVision resolves support queries in 1.2s on average — what used to take hours now happens before the customer hits refresh.
+            {/* Intro text */}
+            <div className="mb-10 text-center">
+              <h2 className="text-4xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Still paying agents to answer the same<br /><span style={{ fontWeight: 700 }}>questions every day?</span>
+              </h2>
+              <p className="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-gray-500">
+                Disputes, KYC checks, payment failures — <strong className="text-gray-700">supVision handles them automatically</strong>, so your team only touches cases that genuinely need a human.
               </p>
             </div>
 
-            {/* 3 metric cards in a row */}
-            <div className="mt-10 grid grid-cols-3 gap-6">
+            {/* 4 metric cards in a row */}
+            <div className="grid grid-cols-2 gap-5">
+              {/* 10x faster */}
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9' }}>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Response speed</p>
+                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>10x faster</p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">10 times faster than manual support — avg. <strong className="text-gray-700">1.2s</strong> to resolution, so customers get answers in seconds, not minutes.</p>
+              </div>
               {/* 68% */}
-              <div className="relative overflow-hidden rounded-[2rem] px-8 py-10" style={{ backgroundColor: '#F3EFE9' }}>
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9' }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Support costs</p>
-                <p className="mt-3 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>68%</p>
-                <p className="mt-4 text-sm leading-relaxed text-gray-500">Cut cost by 68% on repetitive tier-1 volume — without adding headcount.</p>
+                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>68% cheaper</p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">Cut support costs by 68% on repetitive tier-1 volume — without adding headcount. Your team stays focused on work that actually needs a human.</p>
               </div>
               {/* 93% */}
-              <div className="rounded-[2rem] px-8 py-10" style={{ backgroundColor: '#F3EFE9' }}>
+              <div className="rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9' }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Tickets handled</p>
-                <p className="mt-3 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>93%</p>
-                <p className="mt-4 text-sm leading-relaxed text-gray-500">93% of tickets are handled by the AI support agent — fully resolved without a human ever getting involved.</p>
+                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>93% resolved</p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">93% of tickets fully resolved automatically. Complex or high-risk cases are escalated to human agents for a precise, careful response.</p>
               </div>
               {/* 3 days */}
-              <div className="relative overflow-hidden rounded-[2rem] px-8 py-10" style={{ backgroundColor: '#214995' }}>
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#214995' }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">Integration time</p>
-                <p className="mt-3 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#fff' }}>3 days</p>
-                <p className="mt-3 text-lg font-semibold leading-snug text-white">No rip-and-replace.</p>
-                <p className="mt-2 text-sm leading-relaxed text-white/70">Plug into your existing Zendesk, Freshdesk, or CRM — fully operational over a weekend, without touching your core stack.</p>
-                <div className="mt-5 flex flex-col gap-2">
-                  {['Day 1 — connect your stack', 'Day 2 — configure scenarios', 'Day 3 — go live'].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-white/20 text-[9px] font-bold text-white">{i + 1}</span>
-                      <span className="text-xs text-white/80">{step}</span>
-                    </div>
-                  ))}
-                </div>
+                <p className="mt-2 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#fff' }}>3 days</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">Most companies go live within 3 days by connecting the tools they already use — Zendesk, Freshdesk, Intercom, or a custom CRM. No rebuilding, no disruption.</p>
               </div>
             </div>
 
@@ -448,10 +718,19 @@ export default function Home() {
                 </svg>
               </Link>
             </div>
+
+
+            <FeatureTabSection />
           </div>
 
           {/* ── ZONE 2: Core Functionalities ── desktop */}
           <div className="mt-20 mb-20 hidden lg:block">
+
+            <div className="mb-6 text-center">
+              <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Everything you need,{' '}<span style={{ fontWeight: 700 }}>out of the box</span>
+              </h2>
+            </div>
 
             {/* Animated feature cards */}
             {(() => {
@@ -503,7 +782,7 @@ export default function Home() {
                           >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 8px', height: '100%', background: '#ffffff', borderRadius: 9999, border: '3.5px solid #e5e7eb', overflow: 'hidden' }}>
                               <div style={{ width: flagSize, height: flagSize, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: '#333' }}>
-                                <img src={`https://flagcdn.com/w80/${LANGUAGES[langIdx].code}.png`} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <img src={LANGUAGES[langIdx].flag} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                               </div>
                               <span style={{ flex: 1, textAlign: 'center', fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#111827', fontSize, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
                                 {LANGUAGES[langIdx].name}
@@ -694,80 +973,48 @@ export default function Home() {
             })()}
           </div>
 
-          {/* Single static hero metric + CTAs — mobile only, branded bg */}
-          <div className="mt-6 sm:hidden -mx-10 px-10 pt-8 pb-8" style={{ backgroundColor: '#FAF8F6' }}>
-            <div className="text-center">
-              <FasterSupportHeadline />
-              <p className="mt-4 text-sm leading-relaxed text-gray-500 mx-auto max-w-xs">
-                supVision resolves support queries in 1.2s on average — what used to take hours now happens before the customer hits refresh.
+          {/* Mobile — same heading + 4 metric cards as desktop */}
+          <div className="mt-6 lg:hidden pt-8 pb-8">
+            <div className="mb-8 text-center">
+              <h2 className="text-3xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Still paying agents to answer the same <span style={{ fontWeight: 700 }}>questions every day?</span>
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-gray-500">
+                Disputes, KYC checks, payment failures — <strong className="text-gray-700">supVision handles them automatically</strong>, so your team only touches cases that genuinely need a human.
               </p>
             </div>
 
-            <div className="mt-6 flex flex-col gap-3">
-              {mobileInsightCards.map((card) => {
-                if (card.variant === 'wide') {
-                  return (
-                    <div
-                      key={card.label}
-                      className="relative overflow-hidden rounded-[2rem] px-6 py-8"
-                      style={{ backgroundColor: '#F3EFE9' }}
-                    >
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">{card.label}</p>
-                      <p
-                        className="mt-2 leading-none tracking-tight"
-                        style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.25rem', color: '#111827' }}
-                      >
-                        {card.stat}
-                      </p>
-                      <p className="mt-3 text-lg font-semibold leading-snug text-gray-900">{card.headline}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-gray-500">{card.body}</p>
-                    </div>
-                  )
-                }
-                return (
-                  <div
-                    key={card.label}
-                    className="relative overflow-hidden rounded-[2rem] px-6 py-9"
-                    style={
-                      card.variant === 'image'
-                        ? {
-                            backgroundImage: `url(${(card as { image: string }).image})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                          }
-                        : { backgroundColor: '#F3EFE9' }
-                    }
-                  >
-                    {card.variant === 'image' && <div className="absolute inset-0 bg-black/50" aria-hidden />}
-                    <div className="relative z-10">
-                      <p
-                        className={`text-xs font-semibold uppercase tracking-[0.14em] ${card.variant === 'image' ? 'text-white/70' : 'text-gray-500'}`}
-                      >
-                        {card.label}
-                      </p>
-                      <p
-                        className="mt-2 leading-none tracking-tight"
-                        style={{
-                          fontFamily: "'Nohemi', sans-serif",
-                          fontWeight: 300,
-                          fontSize: '3.25rem',
-                          color: card.variant === 'image' ? '#fff' : '#111827',
-                        }}
-                      >
-                        {card.stat}
-                      </p>
-                      <p
-                        className={`mt-4 text-sm leading-relaxed ${card.variant === 'image' ? 'text-white/80' : 'text-gray-500'}`}
-                      >
-                        {card.body}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9' }}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Response speed</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>10x faster</p>
+                <p className="mt-2 text-[11px] leading-relaxed text-gray-500">10× faster than manual support — avg. <strong className="text-gray-700">1.2s</strong> to resolution.</p>
+              </div>
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9' }}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Support costs</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>68% cheaper</p>
+                <p className="mt-2 text-[11px] leading-relaxed text-gray-500">Cut costs by 68% on tier-1 volume — without adding headcount.</p>
+              </div>
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9' }}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Tickets handled</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>93% resolved</p>
+                <p className="mt-2 text-[11px] leading-relaxed text-gray-500">Fully resolved automatically. Complex cases escalated to human agents.</p>
+              </div>
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#214995' }}>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white/60">Integration time</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#fff' }}>3 days</p>
+                <p className="mt-2 text-[11px] leading-relaxed text-white/70">Most companies go live within 3 days using tools they already have.</p>
+              </div>
             </div>
 
+            <FeatureTabSection />
+
             {/* 3 key differentiators — mobile */}
+            <div className="mt-10 mb-2 text-center">
+              <h2 className="text-3xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                Everything you need,{' '}<span style={{ fontWeight: 700 }}>out of the box</span>
+              </h2>
+            </div>
             <div className="mt-6 flex flex-col gap-4">
               {/* 100+ Languages — mobile */}
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
@@ -796,7 +1043,7 @@ export default function Home() {
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 8px', height: '100%', background: '#ffffff', borderRadius: 9999, border: '3.5px solid #e5e7eb', overflow: 'hidden' }}>
                           <div style={{ width: flagSize, height: flagSize, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: '#333' }}>
-                            <img src={`https://flagcdn.com/w80/${LANGUAGES[langIdx].code}.png`} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={LANGUAGES[langIdx].flag} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           </div>
                           <span style={{ flex: 1, textAlign: 'center', fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#111827', fontSize, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
                             {LANGUAGES[langIdx].name}
@@ -1045,10 +1292,9 @@ export default function Home() {
       </section>
 
       {/* Industries — Built for your industry */}
-      <section className="py-12 px-4 lg:py-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="pt-4 pb-12 px-4 lg:pt-6 lg:pb-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center lg:mb-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Industries</p>
             <h2 className="mt-3 text-4xl lg:text-5xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
               Built for <span style={{ fontWeight: 700 }}>your industry</span>
             </h2>
@@ -1056,48 +1302,32 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-4">
             {([
-              { label: 'Payments & Processing',      img: '/for_whom/Payments & Processing.png' },
-              { label: 'Neobanks & Digital Banking', img: '/for_whom/Neobanks & Digital Banking.png' },
-              { label: 'InsurTech',                   img: '/for_whom/InsurTech.png' },
-              { label: 'Lending & Credit',            img: '/for_whom/Lending & Credit.png' },
-              { label: 'Web3',                         img: '/for_whom/Web3.png' },
-            ] as const).map((ind) => {
-              const pIdx = PERSONAS.findIndex(p => p.label === ind.label)
-              const isActive = activePersona === pIdx
-              return (
-                <button
-                  key={ind.label}
-                  type="button"
-                  className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none"
-                  style={{ boxShadow: isActive ? '0 0 0 3px #214995' : 'none' }}
-                  onClick={() => {
-                    setActivePersona(pIdx === -1 ? null : pIdx)
-                    personaSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                  }}
-                >
-                  <img
-                    src={ind.img}
-                    alt={ind.label}
-                    className="absolute inset-0 h-full w-full object-cover object-center"
-                    onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
-                  />
-                  <div
-                    className="absolute bottom-0 left-0 right-0 pointer-events-none"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)', height: '50%' }}
-                  />
-                  {isActive && (
-                    <div className="absolute top-3 right-3 flex h-6 w-6 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-white">
-                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-sm font-bold leading-snug text-white lg:text-base">{ind.label}</p>
-                  </div>
-                </button>
-              )
-            })}
+              { label: 'Payments & Processing',      img: '/for_whom/Payments & Processing.png', to: '/industries/payments-processing' },
+              { label: 'Neobanks & Digital Banking', img: '/for_whom/Neobanks & Digital Banking.png', to: '/industries/neobanks' },
+              { label: 'InsurTech',                   img: '/for_whom/InsurTech.png', to: '/industries/insurtech' },
+              { label: 'Lending & Credit',            img: '/for_whom/Lending & Credit.png', to: '/industries/lending-credit' },
+              { label: 'Web3',                         img: '/for_whom/Web3.png', to: '/industries/crypto-web3' },
+            ] as const).map((ind) => (
+              <Link
+                key={ind.label}
+                to={ind.to}
+                className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none block"
+              >
+                <img
+                  src={ind.img}
+                  alt={ind.label}
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0' }}
+                />
+                <div
+                  className="absolute bottom-0 left-0 right-0 pointer-events-none"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)', height: '50%' }}
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="text-sm font-bold leading-snug text-white lg:text-base">{ind.label}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -1233,58 +1463,168 @@ export default function Home() {
 
 
 
-      {/* Proof */}
-      <section className="py-16" style={{ backgroundColor: '#111' }}>
-        <div className="mb-10 text-center px-6">
-          <p className="text-3xl text-white" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-            Companies that moved from overwhelmed to{' '}
-            <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
-              automated.
-              <svg
-                viewBox="0 0 190 12"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-                style={{ position: 'absolute', bottom: -6, left: '-2%', width: '104%', height: 12, pointerEvents: 'none', overflow: 'visible' }}
-              >
-                <path
-                  d="M 2 8 C 12 5, 28 10, 48 7 C 64 5, 82 9, 100 6.5 C 118 4, 138 9, 158 7 C 170 5.5, 180 8, 188 7"
-                  stroke="#FB9A05" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round"
-                />
-                <path
-                  d="M 4 9.5 C 20 7, 42 11, 65 8.5 C 88 6, 112 10, 135 8 C 155 6.5, 172 9.5, 187 8.5"
-                  stroke="#FB9A05" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.45"
-                />
-              </svg>
-            </span>
-          </p>
-        </div>
+      {/* Proof — testimonials */}
+      {(() => {
+        const TESTIMONIALS = [
+          {
+            name: 'Ruslan V.',
+            title: 'Head of Operations',
+            quote: 'We went from a 4-hour average resolution time to under 2 minutes for verification queries. Ops costs dropped and CSAT went up at the same time. supVision made the whole support flow predictable and auditable.',
+            stats: [
+              { value: '< 2 min', label: 'avg verification resolution time' },
+              { value: '1 month',  label: 'to measurable ROI' },
+            ],
+          },
+          {
+            name: 'Alan N.',
+            title: 'Customer Success Lead',
+            quote: "We cut support headcount by 30% while handling 3× the ticket volume. The agents that stayed are focused on real escalations, not copy-pasting the same repetitive answers all day. ROI showed up faster than any tool we've ever deployed.",
+            stats: [
+              { value: '30%', label: 'reduction in support headcount' },
+              { value: '3×',  label: 'ticket volume, same team' },
+            ],
+          },
+          {
+            name: 'Cyril B.',
+            title: 'Compliance Lead',
+            quote: 'Our compliance team was skeptical about automating disputes. But supVision handles edge cases better than we expected, and logs every decision with a full rationale and timestamp. When our auditors asked for a trail, we exported it in minutes.',
+            stats: [
+              { value: '100%',   label: 'automated decision audit coverage' },
+              { value: '< 5 min', label: 'regulator export time' },
+            ],
+          },
+          {
+            name: 'Dmytriy K.',
+            title: 'Head of Customer Support',
+            quote: 'We used to hire new people every time we expanded to a new geography. Now we automatically serve all regions — Europe, the US, Asia, the Middle East — without adding a single agent. The setup took three days.',
+            stats: [
+              { value: '4 regions', label: 'served without new hires' },
+              { value: '3 days',    label: 'to go live globally' },
+            ],
+          },
+        ]
+        const t = TESTIMONIALS[testimonialIdx]
+        const total = TESTIMONIALS.length
+        return (
+          <section className="py-16 px-4 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+            <div className="mx-auto max-w-5xl">
+              {/* Heading */}
+              <div className="mb-10 text-center">
+                <p className="text-3xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                  Companies that moved from overwhelmed to{' '}
+                  <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
+                    automated.
+                    <svg viewBox="0 0 190 12" preserveAspectRatio="none" aria-hidden="true"
+                      style={{ position: 'absolute', bottom: -6, left: '-2%', width: '104%', height: 12, pointerEvents: 'none', overflow: 'visible' }}>
+                      <path d="M 2 8 C 12 5, 28 10, 48 7 C 64 5, 82 9, 100 6.5 C 118 4, 138 9, 158 7 C 170 5.5, 180 8, 188 7"
+                        stroke="#FB9A05" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M 4 9.5 C 20 7, 42 11, 65 8.5 C 88 6, 112 10, 135 8 C 155 6.5, 172 9.5, 187 8.5"
+                        stroke="#FB9A05" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.45" />
+                    </svg>
+                  </span>
+                </p>
+              </div>
 
-      </section>
+              {/* Card */}
+              <div className="overflow-hidden rounded-2xl bg-white shadow-xl" style={{ minHeight: 260 }}>
+                <div className="flex flex-col lg:flex-row">
+
+                  {/* Left — blue panel with wave */}
+                  <div className="relative flex w-full flex-shrink-0 flex-col items-center justify-end overflow-hidden px-6 pb-8 pt-10 lg:w-72 lg:items-start lg:pb-10 lg:pt-14" style={{ backgroundColor: '#1a3280' }}>
+                    {/* SVG wave layers */}
+                    <svg viewBox="0 0 288 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true"
+                      className="absolute inset-0 h-full w-full">
+                      <path d="M -40 220 Q 60 160 140 200 Q 220 240 320 180 L 320 320 L -40 320 Z" fill="rgba(255,255,255,0.06)" />
+                      <path d="M -40 260 Q 80 200 170 240 Q 250 275 340 220 L 340 320 L -40 320 Z" fill="rgba(255,255,255,0.05)" />
+                      <path d="M -20 180 Q 70 130 160 165 Q 240 198 330 145 L 330 0 L -20 0 Z" fill="rgba(255,255,255,0.04)" />
+                      <path d="M -20 200 Q 90 145 180 182 Q 260 215 350 162 L 350 0 L -20 0 Z" fill="rgba(255,255,255,0.03)" />
+                    </svg>
+                    <div className="relative z-10 text-center lg:text-left">
+                      <p className="text-xl font-black text-white">{t.name}</p>
+                      <p className="mt-1 text-sm text-white/60">{t.title}</p>
+                    </div>
+                  </div>
+
+                  {/* Right — quote + stats */}
+                  <div className="flex flex-1 flex-col justify-between px-8 py-8 lg:px-10 lg:py-10">
+                    {/* Quote mark */}
+                    <div>
+                      <p className="mb-4 text-2xl font-black leading-none" style={{ color: '#e5e7eb' }}>"</p>
+                      <p key={testimonialIdx} className="text-base leading-relaxed text-gray-700 lg:text-lg">{t.quote}</p>
+                    </div>
+
+                    {/* Divider + stats */}
+                    <div className="mt-8 border-t border-gray-100 pt-6">
+                      <div className="flex flex-wrap gap-8">
+                        {t.stats.map(s => (
+                          <div key={s.label}>
+                            <p className="text-2xl font-black" style={{ color: '#214995' }}>{s.value}</p>
+                            <p className="mt-0.5 text-xs text-gray-400">{s.label}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="mt-6 flex items-center justify-center gap-4">
+                <button
+                  onClick={() => setTestimonialIdx(i => (i - 1 + total) % total)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-400 transition-colors hover:border-gray-500 hover:text-gray-700"
+                >
+                  <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                    <path fillRule="evenodd" d="M14 8a.75.75 0 0 1-.75.75H5.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L5.56 7.25h7.69A.75.75 0 0 1 14 8Z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                <div className="flex items-center gap-2">
+                  {TESTIMONIALS.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setTestimonialIdx(i)}
+                      className="transition-all"
+                      style={{ width: i === testimonialIdx ? 28 : 8, height: 8, borderRadius: 100, backgroundColor: i === testimonialIdx ? '#214995' : '#d1d5db' }}
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={() => setTestimonialIdx(i => (i + 1) % total)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-400 transition-colors hover:border-gray-500 hover:text-gray-700"
+                >
+                  <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </section>
+        )
+      })()}
 
       {/* Built by operators */}
       <section className="py-3 px-2 sm:px-3">
         <div>
-          <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#214995' }}>
+          <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#F9FAFB' }}>
           <div className="grid gap-10 lg:gap-16 lg:grid-cols-2 lg:items-center">
 
             {/* Left - text */}
             <div>
-              <p className="hidden text-xs font-bold uppercase tracking-[0.2em] text-white/50 lg:block">Our story</p>
               {/* Mobile headline */}
               <h2
                 className="mt-4 flex flex-col text-center leading-tight lg:hidden"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
               >
-                <span className="text-white">Built by people with</span>
+                <span className="text-gray-900">Built by people with</span>
                 <span>
                   <span style={{ color: '#FB9A05' }}>15+ years </span>
-                  <span className="text-white">in fintech.</span>
+                  <span className="text-gray-900">in fintech.</span>
                 </span>
               </h2>
-              <h2 className="mt-4 hidden leading-snug text-white lg:mt-5 lg:block lg:text-5xl" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="mt-4 hidden leading-snug text-gray-900 lg:mt-5 lg:block lg:text-5xl" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                 Built by people with 15+ years in fintech.
               </h2>
-              <p className="mt-4 text-center text-sm leading-relaxed text-white/70 lg:mt-6 lg:text-left lg:text-base">
+              <p className="mt-4 text-center text-sm leading-relaxed text-gray-500 lg:mt-6 lg:text-left lg:text-base">
                 Our team comes from inside the industry — compliance officers, support leads, and engineers who spent over 15 years building and running financial services operations across Europe, the Middle East, and Asia. We know the regulatory pressure, the integration pain, and what it actually takes to scale support without losing control.
               </p>
 
@@ -1293,31 +1633,18 @@ export default function Home() {
                 <img src="/team.png" alt="supVision team" className="w-full object-cover" />
               </div>
 
-              <p className="mt-4 text-center text-sm leading-relaxed text-white/70 lg:text-left">
-                Today supVision is live across <span className="font-semibold text-white">40+ countries</span>, supporting <span className="font-semibold text-white">20 currencies</span> — handling real customer queries for fintech companies that can't afford downtime, compliance gaps, or slow support.
+              <p className="mt-4 text-center text-sm leading-relaxed text-gray-500 lg:text-left">
+                Today supVision is live across <span className="font-semibold text-gray-900">40+ countries</span>, supporting <span className="font-semibold text-gray-900">20 currencies</span> — handling real customer queries for fintech companies that can't afford downtime, compliance gaps, or slow support.
               </p>
-
-              <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
-                {[
-                  { value: '40+', label: 'Countries live' },
-                  { value: '20', label: 'Currencies supported' },
-                  { value: '15+', label: 'Years in fintech' },
-                ].map(m => (
-                  <div key={m.label} className="rounded-2xl border border-white/20 bg-white/10 px-4 py-4 text-center lg:text-left">
-                    <p className="text-2xl font-black text-white">{m.value}</p>
-                    <p className="mt-1 text-xs leading-snug text-white/50">{m.label}</p>
-                  </div>
-                ))}
-              </div>
 
               <div className="mt-6 lg:mt-8">
                 {/* Mobile button */}
                 <Link
                   to="/about"
-                  className="flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 py-3 text-sm font-semibold text-white lg:hidden"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 lg:hidden"
                 >
                   Read our story
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
                 </Link>
@@ -1325,18 +1652,18 @@ export default function Home() {
                 <div className="hidden lg:flex flex-wrap items-center gap-6">
                   <Link
                     to="/about"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-white/30 bg-white/10 pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-5 pr-1.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
                   >
                     <span className="relative z-10">Read our story</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                         <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                       </svg>
                     </span>
                   </Link>
                   <div className="flex items-center gap-4">
-                    <div className="h-px w-8 bg-white/20" />
-                    <span className="text-sm text-white/50">15+ years in fintech, live in multiple countries</span>
+                    <div className="h-px w-8 bg-gray-300" />
+                    <span className="text-sm text-gray-400">15+ years in fintech, live in multiple countries</span>
                   </div>
                 </div>
               </div>
@@ -1344,12 +1671,11 @@ export default function Home() {
             </div>
 
             {/* Right - image, desktop only */}
-            <div className="hidden lg:block overflow-hidden rounded-2xl" style={{ minHeight: '520px' }}>
+            <div className="hidden lg:flex self-stretch overflow-hidden rounded-2xl">
               <img
                 src="/team.png"
                 alt="supVision team"
                 className="h-full w-full object-cover"
-                style={{ minHeight: '520px' }}
               />
             </div>
 
@@ -1410,7 +1736,7 @@ export default function Home() {
                 {complianceCertCards.map((card) => (
                   <div
                     key={card.title}
-                    className="flex flex-col items-center overflow-visible rounded-2xl border border-[#e6ddd2] px-6 py-8 text-center bg-white shadow-sm"
+                    className="flex flex-col items-center overflow-visible px-6 py-8 text-center"
                   >
                     <div
                       className={[
@@ -1471,7 +1797,6 @@ export default function Home() {
 
             {/* Top text */}
             <div className="px-5 pt-10 pb-0 lg:px-16 lg:py-16 lg:pb-0 lg:flex lg:flex-col lg:justify-start">
-              <p className="hidden text-sm font-bold uppercase tracking-[0.2em] text-blue-300 lg:block">Book a demo</p>
               <h2 className="mt-4 hidden text-3xl font-bold leading-tight text-white lg:block lg:text-4xl">Most teams are live within 3 days.</h2>
               <p className="mt-3 hidden text-base text-blue-200 lg:block">30 minutes. We'll show exactly how it works for your stack.</p>
               <h2
@@ -1911,22 +2236,22 @@ const heroIndustries = [
 const heroDesktopAgentFeatures = [
   {
     label: 'Resolve tier-1 support',
-    desc: 'Closes disputes, payments, and verification queries autonomously — median resolution under 2 minutes.',
+    desc: 'Disputes, payments, verification — closed autonomously in under 2 min.',
     icon: S('M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z', true),
   },
   {
     label: 'Escalate with full context',
-    desc: 'Hands complex cases to your team with the thread, live CRM/KYC data, and why the agent stepped back.',
+    desc: 'Complex cases handed off with thread, CRM/KYC data, and reason.',
     icon: S('M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z', true),
   },
   {
     label: 'Verify with live data',
-    desc: 'Pulls account, transaction, and identity state from your stack before every reply — no generic scripts.',
+    desc: 'Pulls account, transaction & identity state before every reply.',
     icon: S('M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', true),
   },
   {
     label: 'Work across your channels',
-    desc: 'Email, chat, WhatsApp, Telegram, and your helpdesk — one agent for every channel your customers use.',
+    desc: 'Email, WhatsApp, Telegram, chat & helpdesk — one agent, every channel.',
     icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']),
   },
 ]
