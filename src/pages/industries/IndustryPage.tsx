@@ -339,8 +339,6 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       </section>
 
 
-      <IndustryFAQ />
-
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div
@@ -362,6 +360,8 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
           </div>
         </div>
       </section>
+
+      <IndustryFAQ />
 
     </div>
   )

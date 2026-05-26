@@ -219,28 +219,6 @@ export default function Security() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="px-4 pb-16 pt-4 sm:px-6 lg:px-8 lg:pb-24">
-        <div className="mx-auto max-w-4xl">
-          <h2
-            className="mb-8 text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
-            style={canelaStyle}
-          >
-            Frequently asked questions
-          </h2>
-          <div className="flex flex-col gap-3">
-            {faqs.map((item, i) => (
-              <SecurityFaqItem
-                key={item.q}
-                item={item}
-                isOpen={faqOpen === i}
-                onToggle={() => setFaqOpen(faqOpen === i ? null : i)}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="px-4 pb-20 sm:px-6 lg:px-8">
         <div
@@ -276,6 +254,28 @@ export default function Security() {
             >
               See pricing
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="px-4 pb-16 pt-4 sm:px-6 lg:px-8 lg:pb-24">
+        <div className="mx-auto max-w-4xl">
+          <h2
+            className="mb-8 text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
+            style={canelaStyle}
+          >
+            Frequently asked questions
+          </h2>
+          <div className="flex flex-col gap-3">
+            {faqs.map((item, i) => (
+              <SecurityFaqItem
+                key={item.q}
+                item={item}
+                isOpen={faqOpen === i}
+                onToggle={() => setFaqOpen(faqOpen === i ? null : i)}
+              />
+            ))}
           </div>
         </div>
       </section>

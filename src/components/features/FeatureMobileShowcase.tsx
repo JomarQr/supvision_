@@ -60,38 +60,41 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
   const accordionItems = data.steps.map((s) => ({ q: s.title, a: s.desc }))
 
   return (
-    <section className="px-4 pb-8 pt-4 sm:px-6 lg:hidden">
-      <div className="mx-auto w-full max-w-4xl text-center">
-        <h1
-          className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
-          style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
-        >
-          {data.title}
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gray-500">
-          {data.subtitle}
-        </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-          {pills.map((label) => (
-            <span
-              key={label}
-              className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800 shadow-sm sm:text-sm"
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-        <div className="mt-8 flex justify-center">
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
-            style={{ backgroundColor: '#101827' }}
+    <section className="px-4 pb-8 pt-4 sm:px-6">
+      <div className="mx-auto w-full max-w-4xl text-center lg:max-w-7xl">
+        {/* Title / pills / CTA — mobile only, desktop hero has these */}
+        <div className="lg:hidden">
+          <h1
+            className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
-            <span>Let&apos;s chat</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
-              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-            </svg>
-          </Link>
+            {data.title}
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gray-500">
+            {data.subtitle}
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            {pills.map((label) => (
+              <span
+                key={label}
+                className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800 shadow-sm sm:text-sm"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+              style={{ backgroundColor: '#101827' }}
+            >
+              <span>Let&apos;s chat</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          </div>
         </div>
 
         <div
@@ -155,7 +158,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
         </div>
 
         {data.coreImage && (
-          <div className="mt-8 overflow-hidden rounded-3xl">
+          <div className="mt-8 overflow-hidden rounded-3xl lg:hidden">
             <img src={data.coreImage} alt={data.title} className="h-auto w-full object-cover" />
           </div>
         )}

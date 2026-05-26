@@ -192,24 +192,15 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={desc} />
       </Helmet>
-      <FeatureMobileShowcase data={data} />
-
-      {/* Desktop hero + capabilities */}
-      <section className="hidden pb-24 pt-8 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      {/* Desktop hero */}
+      <section className="hidden pb-0 pt-8 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           {data.coreImage ? (
-            <div className="mb-12 overflow-hidden rounded-3xl border bg-white" style={{ borderColor: 'rgba(33,73,149,0.15)' }}>
+            <div className="mb-12 overflow-hidden rounded-3xl" style={{ border: '1.5px solid #111827' }}>
               <div className="grid lg:grid-cols-2">
                 <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
-                  <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                      <path fillRule="evenodd" d="M9.58 1.077a.75.75 0 0 1 .405.82L9.165 6h4.085a.75.75 0 0 1 .567 1.241l-6.5 7.5a.75.75 0 0 1-1.302-.638L6.835 10H2.75a.75.75 0 0 1-.567-1.241l6.5-7.5a.75.75 0 0 1 .897-.182Z" clipRule="evenodd" />
-                    </svg>
-                    {data.badge}
-                  </p>
                   <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">{data.title}</h1>
                   <p className="mt-4 text-base leading-relaxed text-gray-600">{data.subtitle}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-500">{data.description}</p>
                   {data.highlights && data.highlights.length > 0 && (
                     <ul className="mt-8 space-y-4">
                       {data.highlights.map((h) => (
@@ -236,12 +227,11 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
                     </Link>
                   </div>
                 </div>
-                <div className="relative" style={{ aspectRatio: '1/1' }}>
+                <div className="relative min-h-[420px] overflow-hidden">
                   <img
                     src={data.coreImage}
                     alt={data.title}
-                    style={{ position: 'absolute', top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 2rem)' }}
-                    className="rounded-2xl object-cover"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
               </div>
@@ -264,48 +254,10 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
               </div>
             </div>
           )}
-          <div className="mt-8 mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Capabilities</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">
-              What supVision handles for <span className="font-black">{data.title}</span>
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {data.points.map((p) => (
-              <div key={p.title} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: '#214995' }}>
-                    {p.icon}
-                  </div>
-                  <h3 className="text-sm font-bold text-gray-900">{p.title}</h3>
-                </div>
-                <p className="text-sm leading-relaxed text-gray-500">{p.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* How it works — desktop */}
-      <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">How it works</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">
-              From query to resolution, <span className="font-black">step by step</span>
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {data.steps.map((s) => (
-              <div key={s.step} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-                <span className="text-4xl font-black" style={{ color: '#214995' }}>{s.step}</span>
-                <h3 className="mt-4 text-base font-bold text-gray-900">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-gray-500">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FeatureMobileShowcase data={data} />
 
       {/* CTA — above FAQ */}
       <section className="py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
