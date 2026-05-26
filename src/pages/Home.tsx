@@ -1551,86 +1551,41 @@ export default function Home() {
         )
       })()}
 
+
+
       {/* Built by operators */}
       <section className="py-3 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl">
           <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#faf8f5' }}>
-          <div className="grid gap-10 lg:gap-16 lg:grid-cols-2 lg:items-center">
-
-            {/* Left - text */}
-            <div>
-              {/* Mobile headline */}
+            <div className="mx-auto max-w-2xl text-center">
               <h2
-                className="mt-4 flex flex-col text-center leading-tight lg:hidden"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
+                className="mt-4 leading-tight text-gray-900"
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3rem)' }}
               >
-                <span className="text-gray-900">Built by people with</span>
-                <span>
-                  <span style={{ fontWeight: 700 }}>15+ years </span>
-                  <span className="text-gray-900">in fintech.</span>
-                </span>
-              </h2>
-              <h2 className="mt-4 hidden leading-snug text-gray-900 lg:mt-5 lg:block lg:text-5xl" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                 Built by people with <span style={{ fontWeight: 700 }}>15+ years</span> in fintech.
               </h2>
-              <p className="mt-4 text-center text-sm leading-relaxed text-gray-500 lg:mt-6 lg:text-left lg:text-base">
+              <p className="mt-6 text-sm leading-relaxed text-gray-500 lg:text-base">
                 Our team comes from inside the industry — compliance officers, support leads, and engineers who spent over 15 years building and running financial services operations across Europe, the Middle East, and Asia. We know the regulatory pressure, the integration pain, and what it actually takes to scale support without losing control.
               </p>
-
-              {/* Mobile photo */}
-              <div className="mt-6 overflow-hidden rounded-2xl lg:hidden">
-                <img src="/team.png" alt="supVision team" className="w-full object-cover" />
-              </div>
-
-              <p className="mt-4 text-center text-sm leading-relaxed text-gray-500 lg:text-left">
+              <p className="mt-4 text-sm leading-relaxed text-gray-500 lg:text-base">
                 Today supVision is live across <span className="font-semibold text-gray-900">40+ countries</span>, supporting <span className="font-semibold text-gray-900">20 currencies</span> — handling real customer queries for fintech companies that can't afford downtime, compliance gaps, or slow support.
               </p>
-
-              <div className="mt-6 lg:mt-8">
-                {/* Mobile button */}
+              <div className="mt-8 flex flex-col items-center gap-3">
+                <span className="text-sm text-gray-400">15+ yrs fintech · 40+ countries</span>
                 <Link
                   to="/about"
-                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF] lg:hidden"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                 >
                   Read our story
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
                 </Link>
-                {/* Desktop button */}
-                <div className="hidden lg:flex flex-nowrap items-center gap-6">
-                  <Link
-                    to="/about"
-                    className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
-                  >
-                    Read our story
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
-                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                    </svg>
-                  </Link>
-                  <div className="flex items-center gap-4">
-                    <div className="h-px w-8 shrink-0 bg-gray-300" />
-                    <span className="text-sm text-gray-400 whitespace-nowrap">15+ yrs fintech · 40+ countries</span>
-                  </div>
-                </div>
               </div>
-
             </div>
-
-            {/* Right - image, desktop only */}
-            <div className="hidden lg:block self-start overflow-hidden rounded-2xl">
-              <img
-                src="/team.png"
-                alt="supVision team"
-                className="w-full object-cover object-top"
-              />
-            </div>
-
           </div>
         </div>
-        </div>
       </section>
-
 
       {/* Compliance & Security */}
       <section className="py-10 px-4 sm:px-6 lg:py-16 lg:px-8">
