@@ -11,14 +11,6 @@ const TICKETS = [
   { name: 'Liu W.',     task: 'PIN reset — locked out',  status: 'In Progress', sc: 'orange' },
 ]
 
-const RECENT_PROJECTS = [
-  { label: 'Zendesk escalation flow', due: 'Connected May 22',  color: '#214995' },
-  { label: 'WhatsApp bot — KYC',      due: 'Connected May 20',  color: '#FB9A05' },
-  { label: 'Mambu transaction sync',  due: 'Connected May 18',  color: '#22c55e' },
-  { label: 'Telegram CRM bot',        due: 'Connected May 15',  color: '#8b5cf6' },
-  { label: 'Freshdesk triage rules',  due: 'Connected May 12',  color: '#f43f5e' },
-]
-
 const NAV = [
   { label: 'Dashboard', active: true  },
   { label: 'Tickets',   active: false, badge: '12+' },
@@ -65,7 +57,6 @@ export default function HeroDashboard() {
   const R = 42
   const circ = 2 * Math.PI * R
   const resolution = 68
-  const filled = circ * (resolution / 100)
 
   const visibleTickets = [0, 1, 2, 3].map(i => TICKETS[(rowOffset + i) % TICKETS.length])
 
