@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import PageMeta from '../components/PageMeta'
 
 const sections = [
   {
@@ -63,6 +64,11 @@ const sections = [
 export default function PrivacyPolicy() {
   return (
     <div className="pt-24">
+      <PageMeta
+        title="Privacy Policy — supVision"
+        description="How supVision collects, uses, and protects your data. GDPR-compliant. Your privacy is built into our architecture."
+        path="/privacy-policy"
+      />
 
       {/* Hero */}
       <section className="px-4 pt-16 pb-16 sm:px-6 lg:px-8">

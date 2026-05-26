@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useRef, useEffect } from 'react'
+import PageMeta from '../components/PageMeta'
 
 const timeline = [
   {
@@ -35,7 +36,7 @@ const timeline = [
 ]
 
 const problemMetrics = [
-  { value: '10+', label: 'Years inside fintech operations' },
+  { value: '15+', label: 'Years inside fintech operations' },
   { value: '24/7', label: 'The reality of fintech customer support' },
   { value: '8 weeks', label: 'Average agent onboarding time we kept repeating' },
   { value: '3 days', label: 'Time to go live with supVision' },
@@ -117,6 +118,11 @@ export default function About() {
 
   return (
     <div className="pt-24">
+      <PageMeta
+        title="About supVision — Built by Fintech Operators"
+        description="15+ years inside fintech operations. We built supVision because we lived the problem firsthand. Meet the team behind autonomous fintech support."
+        path="/about"
+      />
 
       {/* Hero */}
       <section className="px-4 pt-10 pb-8 sm:px-6 lg:px-8 lg:pt-12">
@@ -161,7 +167,7 @@ export default function About() {
         <div className="sticky top-20 overflow-hidden" style={{ backgroundColor: '#faf8f5', height: 'calc(100vh - 5rem)' }}>
           {/* Header - centered */}
           <div className="pt-16 pb-10 text-center">
-            <p className="mt-1 text-base text-gray-500">Ten years in fintech before we wrote a line of supVision code.</p>
+            <p className="mt-1 text-base text-gray-500">Fifteen years in fintech before we wrote a line of supVision code.</p>
           </div>
 
           {/* Horizontal track - first card starts at screen center */}
@@ -268,14 +274,14 @@ export default function About() {
           <div className="mt-4 flex items-center gap-2 lg:hidden">
             <div className="flex w-[46%] flex-shrink-0 flex-col gap-2">
               {problemMetrics.map((m) => (
-                <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-3.5 text-center shadow-sm">
+                <div key={m.label} className="rounded-2xl p-3.5 text-center" style={{ border: '1.5px solid #111827' }}>
                   <p
                     className="text-2xl leading-tight"
-                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, color: '#214995' }}
+                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#214995' }}
                   >
                     {m.value}
                   </p>
-                  <p className="mt-2 text-xs leading-snug text-gray-500">{m.label}</p>
+                  <p className="mt-2 text-sm leading-snug text-gray-500">{m.label}</p>
                 </div>
               ))}
             </div>
@@ -287,11 +293,10 @@ export default function About() {
           <div className="mt-6 flex justify-center lg:hidden">
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
-              style={{ backgroundColor: '#101827' }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
             >
               <span>Ready to change your support</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
@@ -300,14 +305,14 @@ export default function About() {
           {/* Desktop metrics */}
           <div className="mt-12 hidden gap-4 lg:grid lg:grid-cols-4">
             {problemMetrics.map((m) => (
-              <div key={m.label} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+              <div key={m.label} className="rounded-2xl p-6" style={{ border: '1.5px solid #111827' }}>
                 <p
                   className="text-[2rem] leading-tight sm:text-[3.25rem]"
-                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, color: '#214995' }}
+                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#214995' }}
                 >
                   {m.value}
                 </p>
-                <p className="mt-3 text-xs leading-relaxed text-gray-500">{m.label}</p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">{m.label}</p>
               </div>
             ))}
           </div>
@@ -315,11 +320,10 @@ export default function About() {
           <div className="mt-8 hidden justify-center lg:flex">
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
-              style={{ backgroundColor: '#101827' }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
             >
               <span>Ready to change your support</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>

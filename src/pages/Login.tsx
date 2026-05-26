@@ -41,23 +41,20 @@ export default function Login() {
           <div
             className="rounded-3xl p-8 sm:p-10"
             style={{
-              background: 'rgba(255,255,255,0.12)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(255,255,255,0.25)',
-              boxShadow: '0 4px 32px rgba(0,0,0,0.18)',
+              backgroundColor: '#faf8f5',
+              border: '2px solid #111827',
             }}
           >
-          <h1 className="text-center text-[2rem] leading-tight text-white sm:text-[2.35rem]" style={canelaStyle}>
+          <h1 className="text-center text-[2rem] leading-tight text-gray-900 sm:text-[2.35rem]" style={canelaStyle}>
             Log in
           </h1>
-          <p className="mt-2 text-center text-sm leading-relaxed text-white/70">
+          <p className="mt-2 text-center text-sm leading-relaxed text-gray-500">
             Access your supVision workspace
           </p>
 
           <form className="mt-8 space-y-5" onSubmit={handleSubmit} noValidate>
             <div>
-              <label htmlFor="login-email" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-white/80">
+              <label htmlFor="login-email" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-gray-600">
                 Email
               </label>
               <input
@@ -70,15 +67,15 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
                 className="w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-[#214995] focus:ring-2 focus:ring-[#214995]/20"
-                style={{ borderColor: showEmailError ? '#f87171' : 'rgba(255,255,255,0.35)' }}
+                style={{ borderColor: showEmailError ? '#f87171' : '#d1d5db' }}
               />
               {showEmailError && (
-                <p className="mt-1.5 text-xs text-red-300">Enter your email address</p>
+                <p className="mt-1.5 text-xs text-red-500">Enter your email address</p>
               )}
             </div>
 
             <div>
-              <label htmlFor="login-password" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-white/80">
+              <label htmlFor="login-password" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-gray-600">
                 Password
               </label>
               <input
@@ -91,10 +88,10 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-[#214995] focus:ring-2 focus:ring-[#214995]/20"
-                style={{ borderColor: showPasswordError ? '#f87171' : 'rgba(255,255,255,0.35)' }}
+                style={{ borderColor: showPasswordError ? '#f87171' : '#d1d5db' }}
               />
               {showPasswordError && (
-                <p className="mt-1.5 text-xs text-red-300">Enter your password</p>
+                <p className="mt-1.5 text-xs text-red-500">Enter your password</p>
               )}
             </div>
 
@@ -110,9 +107,9 @@ export default function Login() {
             </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-white/75">
+          <p className="mt-8 text-center text-sm text-gray-500">
             Don&apos;t have an account?{' '}
-            <Link to="/contact" className="font-semibold text-white underline underline-offset-2 hover:text-white/90">
+            <Link to="/contact" className="font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700">
               Contact us
             </Link>
           </p>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import IntegrationFinder, { allIntegrations, integrationCategories } from '../components/ui/IntegrationFinder'
+import { allIntegrations, integrationCategories } from '../components/ui/IntegrationFinder'
+import PageMeta from '../components/PageMeta'
 
 const complianceCertCards = [
   {
@@ -114,86 +115,6 @@ const escalateAccordionItems = [
   {
     q: 'Escalation reason logged',
     a: 'Every handoff records why confidence dropped and which data was pulled — audit-ready for QA and regulators.',
-  },
-]
-
-const capabilities = [
-  {
-    title: 'Identity & Onboarding',
-    desc: 'Automate identity verification and onboarding flows',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v9A1.5 1.5 0 0 0 4.5 14h7a1.5 1.5 0 0 0 1.5-1.5V5.621a1.5 1.5 0 0 0-.44-1.06L9.94 2.439A1.5 1.5 0 0 0 8.878 2H4.5Zm3 5.5a.75.75 0 0 0-1.5 0v2.69L5.47 9.22a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l1.75-1.75a.75.75 0 1 0-1.06-1.06L7.5 10.19V7.5Z" clipRule="evenodd" /></svg>,
-  },
-  {
-    title: 'Dispute Resolution',
-    desc: 'Resolve chargebacks and transaction disputes in real time',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>,
-  },
-  {
-    title: 'Escalation Rules',
-    desc: 'Custom confidence thresholds and seamless human handoffs',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M8 1a.75.75 0 0 1 .75.75V6h-1.5V1.75A.75.75 0 0 1 8 1ZM4.11 3.05a.75.75 0 0 1 1.06 0l.76.76-.53.53a5.5 5.5 0 0 0-.614.807.75.75 0 0 1-1.23-.855 7.01 7.01 0 0 1 .784-1.03l-.226-.226a.75.75 0 0 1 0-1.06Zm7.78 0a.75.75 0 0 0-1.06 0l-.76.76.53.53a5.5 5.5 0 0 1 .614.807.75.75 0 0 0 1.23-.855 7.01 7.01 0 0 0-.784-1.03l.226-.226a.75.75 0 0 0 0-1.06ZM8 13a5 5 0 1 0 0-10A5 5 0 0 0 8 13Zm.75-7.5h-1.5v3.25l2.25 1.5.75-1.125-1.5-1v-2.625Z" clipRule="evenodd" /></svg>,
-  },
-  {
-    title: 'Multi-channel Support',
-    desc: 'Email, chat, WhatsApp, Telegram, API - all in one',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M1 8.74C1 9.99 1.99 11 3.2 11H4v1.5a.5.5 0 0 0 .854.354l1.896-1.854H9.8c1.21 0 2.2-1.01 2.2-2.26V4.26C12 3.01 11.01 2 9.8 2H3.2C1.99 2 1 3.01 1 4.26v4.48Zm11.5-.74c0 .706-.271 1.35-.714 1.832l.007.009 1.386 1.355A.5.5 0 0 0 14 10.5V9h.8c1.21 0 2.2-1.01 2.2-2.26V4.26C17 3.01 16.01 2 14.8 2H12.5v.74H13c1.21 0 2.2 1.01 2.2 2.26v3.48C15.2 9.49 14.5 10 13.7 10h-.9A1.7 1.7 0 0 1 12.5 8Z" clipRule="evenodd" /></svg>,
-  },
-  {
-    title: 'Audit Logs',
-    desc: 'Traceable decision trail, regulator-ready exports',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4 4a2 2 0 0 1 2-2h4.75a.75.75 0 0 1 .53.22l2.25 2.25a.75.75 0 0 1 .22.53V12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm5 .5V3.5l2 2H9.5A.5.5 0 0 1 9 5.5ZM5.5 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5Zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z" clipRule="evenodd" /></svg>,
-  },
-  {
-    title: 'Multi-language',
-    desc: 'Respond in 50+ languages with no configuration required',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM5.5 5.5A.5.5 0 0 1 6 5h.5V4h-1a.5.5 0 0 1 0-1h1a1 1 0 0 1 1 1v.5h.5a.5.5 0 0 1 0 1H7v2H5.5a.5.5 0 0 1 0-1H6V6h-.5a.5.5 0 0 1-.5-.5ZM8 9a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z" clipRule="evenodd" /></svg>,
-  },
-]
-
-
-const howItWorks = [
-  {
-    step: '01',
-    title: 'Customer sends a query',
-    desc: 'Via email, chat, WhatsApp, Telegram, or your existing helpdesk widget. The agent receives it in real time across all channels simultaneously.',
-  },
-  {
-    step: '02',
-    title: 'Agent reads full context',
-    desc: 'Pulls live data from your CRM, identity verification provider, and knowledge base. No guessing - every response is grounded in the customer\'s actual account state and your internal policies.',
-  },
-  {
-    step: '03',
-    title: 'Resolves or escalates',
-    desc: 'If confidence exceeds your threshold, the agent resolves autonomously and logs the decision. If not, it hands off to a human agent with everything they need already attached.',
-  },
-  {
-    step: '04',
-    title: 'Logs everything for compliance',
-    desc: 'The full decision trail - query, data pulled, response, confidence score, outcome - is written to your audit log in real time. Regulator-ready exports available on demand.',
-  },
-]
-
-const useCases = [
-  {
-    title: 'Payment declined',
-    scenario: '"Why was my payment declined?"',
-    resolution: 'Agent queries the payment processor, identifies the failure code (insufficient funds, 3DS failure, blocked card), and tells the customer exactly what happened and what to do - in under 30 seconds.',
-  },
-  {
-    title: 'Verification stuck',
-    scenario: '"My verification is still pending after 3 days."',
-    resolution: 'Agent checks the verification provider status, surfaces the specific blocker (document quality, mismatched data), and walks the customer through re-submission - no human agent needed.',
-  },
-  {
-    title: 'Disputed transaction',
-    scenario: '"I didn\'t authorise this transaction."',
-    resolution: 'Agent opens a dispute ticket, collects required information, applies your escalation rules, and - for eligible disputes - initiates an immediate provisional credit while the case is reviewed.',
-  },
-  {
-    title: 'Limit increase',
-    scenario: '"I need to increase my spending limit."',
-    resolution: 'Agent checks eligibility criteria against the customer\'s account profile, explains the outcome, and either processes the request or routes it to the appropriate team with context pre-filled.',
   },
 ]
 
@@ -401,7 +322,7 @@ function ConnectMobileSection() {
                 <button
                   type="button"
                   className="cursor-default rounded-full border px-4 py-1.5 text-sm font-semibold"
-                  style={{ backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#9ca3af' }}
+                  style={{ backgroundColor: 'transparent', borderColor: '#111827', color: '#9ca3af' }}
                 >
                   {cat}
                 </button>
@@ -424,7 +345,7 @@ function ConnectMobileSection() {
               style={
                 active === cat
                   ? { backgroundColor: '#214995', borderColor: '#214995', color: '#fff' }
-                  : { backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#374151' }
+                  : { backgroundColor: 'transparent', borderColor: '#111827', color: '#374151' }
               }
             >
               {cat}
@@ -453,6 +374,11 @@ function ConnectMobileSection() {
             </div>
           </div>
         ))}
+        {filtered.length > visible.length && (
+          <Link to="/integrations" className="mt-1 block text-center text-sm font-semibold text-gray-400 hover:text-gray-900 transition-colors">
+            +{filtered.length - visible.length} more ↓
+          </Link>
+        )}
       </div>
 
       <div className="mt-6 flex justify-center">
@@ -488,8 +414,7 @@ function VerifyMobileSection() {
       <div className="mt-6 flex justify-center">
         <Link
           to="/contact"
-          className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-gray-900"
-          style={{ backgroundColor: '#E8D9FF' }}
+          className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
         >
           Book a demo
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
@@ -609,19 +534,19 @@ function SupportAgentFAQItem({
   }, [isOpen])
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white lg:rounded-none lg:border-0 lg:bg-transparent">
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left lg:gap-8 lg:px-0 lg:py-7"
+        className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left"
       >
-        <span className="text-[15px] font-medium leading-snug text-gray-900 lg:text-lg lg:font-semibold">
+        <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">
           {item.q}
         </span>
         <span
           className={[
-            'flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300 lg:h-9 lg:w-9 lg:rounded-full lg:border lg:border-gray-200 lg:bg-white',
-            isOpen ? 'rotate-180 lg:rotate-45' : '',
+            'flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300',
+            isOpen ? 'rotate-180' : '',
           ].join(' ')}
         >
           <svg
@@ -632,21 +557,18 @@ function SupportAgentFAQItem({
             strokeWidth="1.75"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-4 w-4 text-gray-900 lg:hidden"
+            className="h-4 w-4"
           >
             <path d="M4 6l4 4 4-4" />
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="hidden h-5 w-5 text-gray-500 lg:block">
-            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
           </svg>
         </span>
       </button>
       <div
         ref={bodyRef}
-        className="px-5 lg:px-0"
+        className="px-6"
         style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
       >
-        <p className="pb-5 text-sm leading-relaxed text-gray-500 lg:pb-7 lg:text-base">{item.a}</p>
+        <p className="pb-6 text-sm leading-relaxed text-gray-500 lg:text-[15px]">{item.a}</p>
       </div>
     </div>
   )
@@ -656,19 +578,19 @@ function SupportAgentFAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:bg-white lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-7xl px-2 lg:px-6">
-        <div className="mb-8 text-center lg:mb-8">
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
+        <div className="mb-8 text-center">
           <h2
-            className="leading-tight lg:hidden"
+            className="leading-tight"
             style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
           >
-            <span className="text-gray-900">Frequently asked questions</span>
+            <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
-          <p className="hidden text-2xl font-bold uppercase text-gray-900 lg:block">FAQ</p>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 lg:mt-12 lg:gap-0 lg:divide-y lg:divide-gray-200">
+        {/* Mobile: single column */}
+        <div className="mt-6 flex flex-col gap-3 lg:hidden">
           {agentFaqItems.map((item, i) => (
             <SupportAgentFAQItem
               key={item.q}
@@ -678,6 +600,36 @@ function SupportAgentFAQ() {
             />
           ))}
         </div>
+
+        {/* Desktop: two columns */}
+        <div className="mt-6 hidden gap-3 lg:flex lg:items-start">
+          <div className="flex flex-1 flex-col gap-3">
+            {agentFaqItems.filter((_, i) => i % 2 === 0).map((item) => {
+              const i = agentFaqItems.indexOf(item)
+              return (
+                <SupportAgentFAQItem
+                  key={item.q}
+                  item={item}
+                  isOpen={open === i}
+                  onToggle={() => setOpen(open === i ? null : i)}
+                />
+              )
+            })}
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            {agentFaqItems.filter((_, i) => i % 2 === 1).map((item) => {
+              const i = agentFaqItems.indexOf(item)
+              return (
+                <SupportAgentFAQItem
+                  key={item.q}
+                  item={item}
+                  isOpen={open === i}
+                  onToggle={() => setOpen(open === i ? null : i)}
+                />
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -686,29 +638,34 @@ function SupportAgentFAQ() {
 export default function SupportAgent() {
   return (
     <div className="pt-24">
+      <PageMeta
+        title="AI Support Agent for Fintech — supVision"
+        description="Create an autonomous support agent for your fintech in minutes. Resolves KYC queries, disputes, and transaction issues 24/7 — no human needed."
+        path="/support-agent"
+      />
 
       {/* Hero */}
       <section className="px-4 pb-16 sm:px-6 lg:px-8 lg:pt-8">
         <div className="mx-auto max-w-7xl lg:px-6">
-          {/* Mobile */}
-          <div className="lg:hidden">
+          <div>
             <div className="mx-auto max-w-3xl text-center">
               <h1
-                className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
+                className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:whitespace-nowrap"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
-                Create your first autonomous support agent
+                Create your first <span style={{ fontWeight: 700 }}>autonomous support agent</span>
               </h1>
               <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-gray-500">
                 Fintech support that turns customer messages into verified, policy-safe resolutions — powered by your live stack, in every channel you already use.
               </p>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              <div className="mt-6 flex flex-nowrap items-center justify-center gap-2">
                 {heroFeaturePills.map((label) => (
                   <button
                     key={label}
                     type="button"
                     onClick={() => scrollToSupportSection(pillSectionIds[label])}
-                    className="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-800 shadow-sm transition-colors hover:border-[#214995] hover:text-[#214995]"
+                    className="rounded-full px-4 py-1.5 text-sm font-medium text-gray-800 transition-colors hover:bg-gray-900 hover:text-white"
+                    style={{ border: '1.5px solid #111827' }}
                   >
                     {label}
                   </button>
@@ -728,7 +685,7 @@ export default function SupportAgent() {
               </div>
             </div>
 
-            <div className="mx-auto mt-10 max-w-3xl">
+            <div className="mx-auto mt-10 max-w-3xl lg:max-w-4xl">
             <div
               id="support-resolve"
               className="scroll-mt-32 overflow-hidden rounded-3xl px-5 py-8 text-left sm:px-6"
@@ -799,190 +756,8 @@ export default function SupportAgent() {
             </div>
           </div>
 
-          <div className="hidden overflow-hidden rounded-3xl border border-gray-100 bg-white lg:block">
-            <div className="grid lg:grid-cols-2">
-
-              {/* Left - text */}
-              <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
-                <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#214995' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
-                    <path fillRule="evenodd" d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1 12.75A.75.75 0 0 1 1.75 12H8a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 12.75Z" clipRule="evenodd" />
-                  </svg>
-                  Solutions
-                </p>
-
-                <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
-                  Support Agent
-                </h1>
-
-                <ul className="mt-8 space-y-4">
-                  {[
-                    'Resolves verification, disputes, and payment queries autonomously in under 2 minutes',
-                    'Connects to your CRM, core banking, and identity verification provider - answers with real data',
-                    'Compliant by design - audit logs, escalation rules, and zero financial advice risk',
-                  ].map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(33,73,149,0.12)' }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3" style={{ color: '#214995' }}>
-                          <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                      <span className="text-sm leading-relaxed text-gray-700">{h}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-10">
-                  <Link
-                    to="/contact"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
-                  >
-                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                    <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Let's chat!</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right - image */}
-              <div className="relative hidden lg:block" style={{ aspectRatio: '1/1' }}>
-                <img
-                  src="/Component 185 (2).png"
-                  alt="Support Agent"
-                  className="absolute inset-4 rounded-2xl object-cover"
-                  style={{ top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 2rem)' }}
-                />
-              </div>
-
-            </div>
-          </div>
         </div>
       </section>
-
-      {/* How it works — desktop only */}
-      <section className="hidden pt-8 pb-24 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">How it works</p>
-            <p className="mt-3 text-base text-gray-500">From customer message to resolution - in seconds.</p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {howItWorks.map((step) => (
-              <div key={step.step} className="flex flex-col rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-                <span className="text-4xl font-black" style={{ color: '#214995' }}>{step.step}</span>
-                <h3 className="mt-4 text-base font-bold text-gray-900">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-gray-500">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Capabilities — desktop only */}
-      <section className="hidden py-8 px-4 sm:px-6 lg:block lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="overflow-hidden rounded-3xl px-10 py-14" style={{ backgroundColor: '#214995' }}>
-            <div className="mb-12 text-center">
-              <p className="text-2xl font-bold uppercase text-white">Capabilities</p>
-              <p className="mt-3 text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Everything the Support Agent handles autonomously.</p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {capabilities.map((c) => (
-                <div key={c.title} className="flex flex-col rounded-2xl bg-white p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: '#214995' }}>
-                      {c.icon}
-                    </div>
-                    <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
-                  </div>
-                  <p className="text-sm leading-relaxed text-gray-500">{c.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Use cases - phone mockups — desktop only */}
-      <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Real scenarios</p>
-            <p className="mt-3 text-base text-gray-500">What the Support Agent resolves every day.</p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {useCases.map((uc) => (
-              <div key={uc.scenario} className="flex flex-col">
-                {/* Label above phone */}
-                <p className="mb-4 text-center text-sm font-semibold text-gray-900">{uc.title}</p>
-                {/* Phone frame */}
-                <div className="flex-1 rounded-[2rem] border-[6px] border-gray-800 bg-white shadow-2xl overflow-hidden">
-                  {/* Status bar */}
-                  <div className="flex items-center justify-between bg-gray-800 px-4 pt-3 pb-2">
-                    <span className="text-[10px] font-semibold text-white">9:41</span>
-                    <div className="h-3 w-16 rounded-full bg-gray-700" />
-                    <div className="flex items-center gap-1">
-                      <div className="h-2 w-2 rounded-full bg-white/60" />
-                      <div className="h-2 w-2 rounded-full bg-white/60" />
-                      <div className="h-2 w-3 rounded-sm bg-white/60" />
-                    </div>
-                  </div>
-                  {/* Chat header */}
-                  <div className="flex items-center gap-2 border-b border-gray-100 bg-white px-4 py-3">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M1 8.74c0 .983.713 1.825 1.69 1.943L3 10.698V13a1 1 0 0 0 1.447.894L7.098 12.5H9.5A2.5 2.5 0 0 0 12 10V8h.5a2.5 2.5 0 0 0 0-5H12a2.5 2.5 0 0 0-2.5-2.5h-6A2.5 2.5 0 0 0 1 3v5.74Z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-gray-900">Support Agent</p>
-                      <p className="text-[10px] text-green-500">● Online</p>
-                    </div>
-                  </div>
-                  {/* Chat messages */}
-                  <div className="flex flex-col gap-3 bg-gray-50 p-4 min-h-[340px]">
-                    {/* Customer bubble */}
-                    <div className="flex justify-end">
-                      <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-gray-200 px-3 py-2">
-                        <p className="text-xs leading-relaxed text-gray-800">{uc.scenario}</p>
-                      </div>
-                    </div>
-                    {/* Typing indicator */}
-                    <div className="flex items-center gap-1 pl-1">
-                      <div className="flex gap-1 rounded-2xl rounded-tl-sm px-3 py-2" style={{ backgroundColor: '#214995' }}>
-                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" style={{ animationDelay: '0ms' }} />
-                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" style={{ animationDelay: '150ms' }} />
-                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-white" style={{ animationDelay: '300ms' }} />
-                      </div>
-                    </div>
-                    {/* Agent bubble */}
-                    <div className="flex justify-start">
-                      <div className="max-w-[80%] rounded-2xl rounded-tl-sm px-3 py-2 text-white" style={{ backgroundColor: '#214995' }}>
-                        <p className="text-xs leading-relaxed">{uc.resolution}</p>
-                      </div>
-                    </div>
-                    {/* Resolved badge */}
-                    <div className="mt-auto flex justify-center pt-2">
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-[10px] font-semibold text-green-700">✓ Resolved automatically</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="hidden lg:block">
-        <IntegrationFinder />
-      </div>
 
       {/* Compliance certificates */}
       <section className="py-8 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
@@ -991,8 +766,8 @@ export default function SupportAgent() {
             {complianceCertCards.map((card) => (
               <div
                 key={card.title}
-                className="flex flex-col items-center overflow-visible rounded-2xl border border-gray-800 px-6 py-8 text-center"
-                style={{ backgroundColor: '#1c1c1e' }}
+                className="flex flex-col items-center overflow-visible rounded-2xl px-6 py-8 text-center"
+                style={{ border: '1.5px solid #111827' }}
               >
                 <div
                   className={[
@@ -1012,23 +787,22 @@ export default function SupportAgent() {
                   />
                 </div>
                 <h3
-                  className="text-xl leading-snug text-white"
-                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                  className="text-xl leading-snug text-gray-900"
+                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 500 }}
                 >
                   {card.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-gray-400">{card.desc}</p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">{card.desc}</p>
               </div>
             ))}
           </div>
           <div className="mt-6 flex justify-center">
             <Link
               to="/security"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
-              style={{ backgroundColor: '#214995' }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-transparent px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
             >
               Learn more
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>

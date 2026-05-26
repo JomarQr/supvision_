@@ -45,7 +45,9 @@ function StatusBadge({ status, sc }: { status: string; sc: string }) {
   )
 }
 
-export default function HeroDashboard({ animated = true, view = 'default' }: { animated?: boolean; view?: DashboardView }) {
+export default function HeroDashboard({ animated = true, view = 'default', beige = false }: { animated?: boolean; view?: DashboardView; beige?: boolean }) {
+  const bg = beige ? '#faf8f5' : '#fff'
+  const divider = beige ? '#e8e2d9' : '#f0f0f0'
   const [bars, setBars] = useState(BARS)
   const [rowOffset, setRowOffset] = useState(0)
   const [sla, setSla] = useState(47)
@@ -95,7 +97,7 @@ export default function HeroDashboard({ animated = true, view = 'default' }: { a
   return (
     <div style={{
       display: 'flex',
-      background: '#fff',
+      background: bg,
       borderRadius: 22,
       overflow: 'hidden',
       boxShadow: '0 20px 70px rgba(0,0,0,0.20)',
@@ -106,7 +108,7 @@ export default function HeroDashboard({ animated = true, view = 'default' }: { a
       height: 500,
     }}>
       {/* ── SIDEBAR ── */}
-      <div style={{ width: 120, background: '#fff', borderRight: '1px solid #f0f0f0', display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
+      <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
           <img src="/Component 156 (3).png" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
@@ -141,7 +143,7 @@ export default function HeroDashboard({ animated = true, view = 'default' }: { a
       {/* ── MAIN ── */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#f8f9fb', minWidth: 0 }}>
         {/* Header */}
-        <div style={{ background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+        <div style={{ background: bg, borderBottom: `1px solid ${divider}`, padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f3f4f6', borderRadius: 10, padding: '6px 12px', flex: 1, maxWidth: 200 }}>
             <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 12, height: 12, flexShrink: 0 }}>
               <path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" />

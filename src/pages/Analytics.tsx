@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import PageMeta from '../components/PageMeta'
 
 const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
@@ -194,40 +195,25 @@ function AnalyticsFAQItem({
   }, [isOpen])
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white lg:rounded-none lg:border-0 lg:bg-transparent">
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left lg:px-0 lg:py-7"
+        className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left"
       >
-        <span className="text-[15px] font-medium leading-snug text-gray-900 lg:text-lg lg:font-semibold">{item.q}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={`h-4 w-4 flex-shrink-0 text-gray-900 transition-transform duration-300 lg:hidden ${isOpen ? 'rotate-180' : ''}`}
-        >
-          <path d="M4 6l4 4 4-4" />
-        </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          className={`hidden h-5 w-5 text-gray-500 transition-transform duration-300 lg:block ${isOpen ? 'rotate-45' : ''}`}
-        >
-          <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-        </svg>
+        <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
+        <span className={['flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300', isOpen ? 'rotate-180' : ''].join(' ')}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </span>
       </button>
       <div
         ref={bodyRef}
-        className="px-5 lg:px-0"
+        className="px-6"
         style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
       >
-        <p className="pb-5 text-sm leading-relaxed text-gray-500 lg:pb-7 lg:text-base lg:max-w-3xl">{item.a}</p>
+        <p className="pb-6 text-sm leading-relaxed text-gray-500 lg:text-[15px]">{item.a}</p>
       </div>
     </div>
   )
@@ -237,23 +223,33 @@ function AnalyticsFAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:bg-white lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-4xl px-2 lg:max-w-7xl lg:px-6">
-        <div className="mb-8 text-center lg:mb-12">
-          <h2 className="leading-tight lg:hidden" style={{ ...canelaStyle, fontSize: '2.25rem' }}>
-            <span className="text-gray-900">Frequently asked questions</span>
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
+        <div className="mb-8 text-center">
+          <h2 className="leading-tight" style={{ ...canelaStyle, fontSize: '2.25rem' }}>
+            <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
-          <p className="hidden text-2xl font-bold uppercase text-gray-900 lg:block">FAQ</p>
         </div>
-        <div className="mt-6 flex flex-col gap-3 lg:mt-12 lg:gap-0 lg:divide-y lg:divide-gray-200">
+        {/* Mobile */}
+        <div className="mt-6 flex flex-col gap-3 lg:hidden">
           {faqItems.map((item, i) => (
-            <AnalyticsFAQItem
-              key={item.q}
-              item={item}
-              isOpen={open === i}
-              onToggle={() => setOpen(open === i ? null : i)}
-            />
+            <AnalyticsFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
           ))}
+        </div>
+        {/* Desktop: two columns */}
+        <div className="mt-6 hidden gap-3 lg:flex lg:items-start">
+          <div className="flex flex-1 flex-col gap-3">
+            {faqItems.filter((_, i) => i % 2 === 0).map((item) => {
+              const i = faqItems.indexOf(item)
+              return <AnalyticsFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            })}
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            {faqItems.filter((_, i) => i % 2 === 1).map((item) => {
+              const i = faqItems.indexOf(item)
+              return <AnalyticsFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -263,6 +259,11 @@ function AnalyticsFAQ() {
 export default function Analytics() {
   return (
     <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
+      <PageMeta
+        title="Support Analytics — supVision"
+        description="Real-time analytics for fintech support teams. Track resolution rates, escalation patterns, and AI performance across all channels."
+        path="/analytics"
+      />
 
       {/* Hero */}
       <section className="px-4 pb-12 pt-4 sm:px-6 lg:pb-16 lg:px-8 lg:pt-8">
@@ -548,8 +549,6 @@ export default function Analytics() {
         </div>
       </section>
 
-      <AnalyticsFAQ />
-
       {/* CTA */}
       <section className="px-4 pb-16 sm:px-6 lg:pb-24 lg:px-8">
         <div
@@ -572,19 +571,21 @@ export default function Analytics() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
             >
               <span>Book a demo</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0" style={{ color: '#214995' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
-            <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+            <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border-2 border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
             </Link>
           </div>
         </div>
       </section>
+
+      <AnalyticsFAQ />
     </div>
   )
 }

@@ -21,6 +21,8 @@ const routes = [
   '/audit-logs',
   '/multi-language',
   '/integrations',
+  '/analytics',
+  '/for-whom',
   '/industries/payments-processing',
   '/industries/neobanks',
   '/industries/crypto-web3',
@@ -31,11 +33,14 @@ const routes = [
   '/roles/operations-growth',
   '/roles/founders-csuite',
   '/security',
+  '/privacy-policy',
 ]
 
 for (const url of routes) {
-  const appHtml = render(url)
-  const html = template.replace('<!--app-html-->', appHtml)
+  const { html: appHtml, headTags } = render(url)
+  const html = template
+    .replace('<!--helmet-->', headTags ?? '')
+    .replace('<!--app-html-->', appHtml)
 
   const filePath = url === '/'
     ? 'dist/client/index.html'

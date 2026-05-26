@@ -1,7 +1,94 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import IndustryRoleMobileHero from '../../components/forWhom/IndustryRoleMobileHero'
+
+const industryFaqItems = [
+  {
+    q: 'How quickly can supVision go live for my fintech?',
+    a: 'Most teams are live within 3 business days. supVision connects to your existing helpdesk, CRM, and identity verification providers — no platform migration required. You configure escalation rules, set confidence thresholds, and go.',
+  },
+  {
+    q: 'Does supVision work with our existing support stack?',
+    a: 'Yes. supVision integrates with Zendesk, Intercom, Freshdesk, Salesforce, HubSpot, and custom CRMs out of the box. It also connects to WhatsApp, Telegram, email, and API channels — no rebuilding needed.',
+  },
+  {
+    q: 'How does supVision handle regulated queries like KYC or disputes?',
+    a: 'supVision is built specifically for regulated financial services. It handles identity verification queries, transaction disputes, chargebacks, and onboarding flows with full audit trail and GDPR/PCI DSS alignment — not retrofitted from a generic AI tool.',
+  },
+  {
+    q: 'What happens when the AI cannot resolve an issue?',
+    a: 'supVision escalates to a human agent with full context — conversation history, customer profile, decision trace, and reason for escalation. Your team never starts from zero. You control the confidence thresholds that trigger handoff.',
+  },
+  {
+    q: 'Is our customer data safe?',
+    a: 'Customer data is processed under GDPR. supVision operates on a zero-retention model for sensitive fields — PII and card data are never stored beyond the active session. All infrastructure is SOC 2-aligned with end-to-end encryption.',
+  },
+  {
+    q: 'What results can we expect?',
+    a: '93% of tickets handled by AI, 68% reduction in support costs, and 10× faster response times on average. Most customers see measurable ROI within the first month of going live.',
+  },
+]
+
+function IndustryFAQItem({ item, isOpen, onToggle }: { item: { q: string; a: string }; isOpen: boolean; onToggle: () => void }) {
+  const bodyRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    if (isOpen) { el.style.maxHeight = el.scrollHeight + 'px'; el.style.opacity = '1' }
+    else { el.style.maxHeight = '0px'; el.style.opacity = '0' }
+  }, [isOpen])
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
+      <button onClick={onToggle} className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left">
+        <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
+        <span className={['flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300', isOpen ? 'rotate-180' : ''].join(' ')}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </span>
+      </button>
+      <div ref={bodyRef} className="px-6" style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}>
+        <p className="pb-6 text-sm leading-relaxed text-gray-500 lg:text-[15px]">{item.a}</p>
+      </div>
+    </div>
+  )
+}
+
+function IndustryFAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+  return (
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
+        <div className="mb-8 text-center">
+          <h2 className="leading-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
+            <span className="text-gray-900">Frequently Asked Questions</span>
+          </h2>
+        </div>
+        <div className="mt-6 flex flex-col gap-3 lg:hidden">
+          {industryFaqItems.map((item, i) => (
+            <IndustryFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+          ))}
+        </div>
+        <div className="mt-6 hidden gap-3 lg:flex lg:items-start">
+          <div className="flex flex-1 flex-col gap-3">
+            {industryFaqItems.filter((_, i) => i % 2 === 0).map((item) => {
+              const i = industryFaqItems.indexOf(item)
+              return <IndustryFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            })}
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            {industryFaqItems.filter((_, i) => i % 2 === 1).map((item) => {
+              const i = industryFaqItems.indexOf(item)
+              return <IndustryFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
   const [err, setErr] = useState(false)
@@ -46,11 +133,25 @@ export interface IndustryPageData {
 }
 
 export default function IndustryPage({ data }: { data: IndustryPageData }) {
+  const { pathname } = useLocation()
+  const url = `https://supvision.ai${pathname}`
+  const title = `AI Support for ${data.title} — supVision`
+  const desc = data.description.length > 160 ? data.description.slice(0, 157) + '...' : data.description
   const heroPills = data.metrics.slice(0, 3).map((m) => m.value)
   const accordionItems = data.metrics.map((m) => ({ q: m.value, a: m.label }))
 
   return (
     <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={desc} />
+        <link rel="canonical" href={url} />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={desc} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={desc} />
+      </Helmet>
 
       <section className="px-4 pb-2 pt-4 sm:px-6 lg:hidden">
         <IndustryRoleMobileHero
@@ -68,8 +169,8 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       <section className="hidden px-4 pt-8 pb-4 sm:px-6 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
           <div
-            className="overflow-hidden rounded-3xl border"
-            style={{ backgroundColor: '#ffffff', borderColor: 'rgba(33,73,149,0.15)' }}
+            className="overflow-hidden rounded-3xl border-2"
+            style={{ backgroundColor: 'transparent', borderColor: '#111827' }}
           >
             <div className="grid lg:grid-cols-2">
 
@@ -100,15 +201,12 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
                 <div className="mt-10">
                   <Link
                     to="/contact"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                   >
-                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                    <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Let's chat!</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
+                    Let's chat!
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                    </svg>
                   </Link>
                 </div>
               </div>
@@ -128,24 +226,64 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       </section>
 
       {/* Challenges — desktop */}
-      <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="hidden py-16 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Challenges</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">
-              Challenges that we can solve for <span className="font-black">{data.title}</span>
+          <div className="overflow-hidden rounded-3xl px-10 py-10" style={{ backgroundColor: '#1A1A1A' }}>
+            <span
+              className="inline-block rounded-full px-4 py-1 text-sm font-medium"
+              style={{ backgroundColor: '#F5F0E8', color: '#1A1A1A' }}
+            >
+              By industry
+            </span>
+            <h2
+              className="mt-5 text-center text-[2rem] leading-snug text-white lg:text-[2.25rem]"
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+            >
+              Challenges we solve for <em className="italic">{data.title}</em>.
             </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {data.challenges.map((c) => (
-              <div key={c.title} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
-                  {c.icon}
+            <div className="mt-8 grid grid-cols-2 gap-4">
+              {data.challenges.slice(0, 4).map((card) => (
+                <div
+                  key={card.title}
+                  className="flex flex-col gap-3 rounded-2xl p-5"
+                  style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <div style={{ color: '#9BB0E8' }}>{card.icon}</div>
+                  <h3
+                    className="text-base leading-snug text-white sm:text-lg"
+                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-gray-400">{card.desc}</p>
                 </div>
-                <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">{c.desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Outcomes — desktop */}
+      <section className="hidden pb-16 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="overflow-hidden rounded-3xl px-10 py-10" style={{ backgroundColor: '#faf8f5', border: '1px solid #e8e2d9' }}>
+            <span className="inline-block rounded-full border border-gray-900 px-4 py-1 text-sm font-medium text-gray-900">
+              Outcomes
+            </span>
+            <h2
+              className="mt-5 text-center text-[2rem] leading-snug text-gray-900 lg:text-[2.25rem]"
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+            >
+              What <em className="italic">{data.title}</em> teams get.
+            </h2>
+            <div className="mt-8 flex flex-col divide-y divide-gray-200">
+              {data.metrics.map((m) => (
+                <div key={m.label} className="flex flex-col items-center py-6 text-center">
+                  <span className="text-5xl font-black text-gray-900">{m.value}</span>
+                  <p className="mt-2 whitespace-nowrap text-base leading-relaxed text-gray-500">{m.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -182,20 +320,16 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 to="/integrations"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#101827' }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
               >
-                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                <span className="relative z-10">See all integrations</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                  </svg>
-                </span>
+                See all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Book a demo
               </Link>
@@ -204,95 +338,8 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="sticky top-20 z-20 mb-10 py-6 text-center" style={{ backgroundColor: '#faf8f5' }}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Benefits</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">
-              supVision advantages for <span className="font-black">{data.title}</span>
-            </h2>
-            <p className="mt-3 text-base text-gray-500 mx-auto max-w-2xl">Purpose-built for regulated financial services - not retrofitted from a generic AI tool. These are the outcomes supVision consistently delivers.</p>
-          </div>
-          <div className="flex flex-col gap-4">
-            {[
-              {
-                icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5"><path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clipRule="evenodd" /></svg>,
-                title: '24/7 autonomous support',
-                desc: 'No SLA gaps, no shift changes. supVision resolves queries around the clock with no human fatigue - every customer gets an instant response.',
-                dark: true,
-              },
-              {
-                icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5"><path fillRule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" /></svg>,
-                title: 'Compliant by design',
-                desc: 'FCA, GDPR, and PCI DSS aligned from day one. Not retrofitted from a generic AI tool - built for regulated financial services from the ground up.',
-                dark: false,
-              },
-              {
-                icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5"><path fillRule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z" clipRule="evenodd" /></svg>,
-                title: 'Live in 3 days',
-                desc: 'Connect your existing helpdesk, CRM, and KYC tools. No platform migration, no 6-month implementation. You configure, set thresholds, and go.',
-                dark: true,
-              },
-              {
-                icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5"><path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75ZM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 0 1-1.875-1.875V8.625ZM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 0 1 3 19.875v-6.75Z" /></svg>,
-                title: '93% ticket saves',
-                desc: '93% of tickets handled by AI, 72% of all message flow managed, 49% of cases fully closed — your team focuses only on what genuinely needs them.',
-                dark: false,
-              },
-            ].map((b, i) => (
-              <div
-                key={b.title}
-                className="sticky"
-                style={{ top: `${280 + i * 24}px`, zIndex: i === 3 ? 21 : i + 10 }}
-              >
-                <div
-                  className="overflow-hidden rounded-2xl shadow-lg"
-                  style={{ backgroundColor: b.dark ? '#111827' : '#fff', minHeight: '140px' }}
-                >
-                  <div className="flex items-start gap-5 p-8">
-                    <div
-                      className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
-                      style={b.dark ? { backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff' } : { backgroundColor: '#eef2fb', color: '#214995' }}
-                    >
-                      {b.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold" style={{ color: b.dark ? '#fff' : '#111827' }}>{b.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed" style={{ color: b.dark ? 'rgba(255,255,255,0.6)' : '#6b7280' }}>{b.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Metrics strip */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl px-6">
-          <div className="mb-10 text-center lg:mb-10">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Results</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900 lg:font-bold" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>Measurable business impact</h2>
-            <p className="mt-3 text-base text-gray-500">supVision delivers consistent, quantifiable improvements across support costs, response times, and team efficiency.</p>
-          </div>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4">
-            {data.metrics.slice(0, 3).map((m) => (
-              <div key={m.label} className="col-span-1 rounded-2xl border border-gray-100 bg-white px-4 py-4 shadow-sm lg:col-span-2 lg:px-5">
-                <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
-                <p className="mt-2 text-xs leading-relaxed text-gray-500">{m.label}</p>
-              </div>
-            ))}
-            {data.metrics.slice(3, 5).map((m) => (
-              <div key={m.label} className="col-span-1 rounded-2xl border border-gray-100 bg-white px-4 py-4 shadow-sm lg:col-span-3 lg:px-5">
-                <p className="text-3xl font-black" style={{ color: '#214995' }}>{m.value}</p>
-                <p className="mt-2 text-xs leading-relaxed text-gray-500">{m.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <IndustryFAQ />
 
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
@@ -303,13 +350,13 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
           <h2 className="text-3xl font-bold text-white">{data.ctaTitle}</h2>
           <p className="mt-4 text-base text-blue-200">{data.ctaDesc}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100">
+            <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]">
               Book a demo
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
-            <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+            <Link to="/pricing" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
             </Link>
           </div>

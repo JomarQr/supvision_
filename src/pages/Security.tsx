@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import PageMeta from '../components/PageMeta'
 
 type ImageCertCard = {
   badge: string
@@ -16,7 +17,6 @@ type TextCertCard = {
 }
 
 const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
-const accentPeach = '#E6B17E'
 
 const certCards: (ImageCertCard | TextCertCard)[] = [
   {
@@ -39,16 +39,6 @@ const certCards: (ImageCertCard | TextCertCard)[] = [
     title: 'NDA-Protected Data',
     desc: 'All client data is protected under a signed NDA. supVision staff cannot access your customer records by design.',
     badgeOversize: false,
-  },
-  {
-    textBadge: ['SOC 2', 'Type II'],
-    title: 'SOC 2 Type II Compliance',
-    desc: 'Audited against rigorous trust principles for security, availability, and confidentiality. Available on Enterprise plans.',
-  },
-  {
-    textBadge: ['ISO', '27001'],
-    title: 'ISO 27001',
-    desc: 'International framework for managing and improving information security. Infrastructure hosted in certified data centres.',
   },
 ]
 
@@ -141,25 +131,25 @@ export default function Security() {
 
   return (
     <div className="bg-[#faf8f5]">
+      <PageMeta
+        title="Security & Compliance — supVision"
+        description="GDPR, PCI DSS, and NDA-protected. supVision's zero-access architecture keeps your customer data safe and your business compliant."
+        path="/security"
+      />
 
-      {/* Dark hero */}
+      {/* Hero */}
       <section
-        data-nav-dark
         className="px-4 pb-16 pt-28 text-center sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-32"
-        style={{ backgroundColor: '#141414' }}
+        style={{ backgroundColor: '#faf8f5' }}
       >
         <div className="mx-auto max-w-3xl">
           <h1
-            className="text-[2rem] leading-tight sm:text-[2.75rem] lg:text-[3.5rem]"
-            style={canelaStyle}
+            className="text-4xl leading-snug text-gray-900"
+            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
           >
-            <span style={{ color: accentPeach }}>Privacy</span>
-            <span className="text-white"> first.</span>
-            <br />
-            <span style={{ color: accentPeach }}>Security</span>
-            <span className="text-white"> always.</span>
+            Privacy <span style={{ fontWeight: 700 }}>first.</span> Security <span style={{ fontWeight: 700 }}>always.</span>
           </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
+          <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-gray-500 sm:text-base">
             We never sell or share your data. supVision runs on zero-retention architecture — no supVision employee can read your customer conversations — and we align to SOC 2, ISO 27001, GDPR, and PCI DSS standards.
           </p>
         </div>
@@ -167,32 +157,15 @@ export default function Security() {
 
       {/* Auditing + cert cards */}
       <section
-        data-nav-dark
-        className="px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28"
-        style={{ backgroundColor: '#141414' }}
+        className="px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14"
+        style={{ backgroundColor: '#faf8f5' }}
       >
-        <div className="mx-auto max-w-4xl">
-          <h2
-            className="text-center text-[1.65rem] leading-snug text-white sm:text-[2.25rem] lg:text-[2.5rem]"
-            style={canelaStyle}
-          >
-            We put our security to the test with live, independent auditing.
-          </h2>
-          <div className="mt-8 flex justify-center">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
-              View our compliance report
-            </Link>
-          </div>
-
-          <div className="mt-12 flex flex-col gap-5">
+        <div className="mx-auto max-w-xl">
+          <div className="flex flex-col gap-5">
             {certCards.map((card) => (
               <div
                 key={card.title}
-                className="flex flex-col items-center rounded-3xl border border-gray-800 px-6 py-10 text-center sm:px-10 sm:py-12"
-                style={{ backgroundColor: '#1c1c1e' }}
+                className="flex flex-col items-center rounded-3xl px-6 py-10 text-center sm:px-10 sm:py-12" style={{ border: '1.5px solid #111827' }}
               >
                 <CertBadgeRing oversize={'badge' in card && card.badgeOversize}>
                   {'badge' in card ? (
@@ -208,76 +181,40 @@ export default function Security() {
                   ) : (
                     <div className="flex flex-col items-center justify-center px-2 text-center">
                       {card.textBadge.map((line) => (
-                        <span key={line} className="text-sm font-bold leading-tight text-white sm:text-base">
+                        <span key={line} className="text-sm font-bold leading-tight text-gray-900 sm:text-base">
                           {line}
                         </span>
                       ))}
                     </div>
                   )}
                 </CertBadgeRing>
-                <h3 className="text-xl leading-snug text-white sm:text-2xl" style={canelaStyle}>
+                <h3 className="text-xl leading-snug text-gray-900 sm:text-2xl" style={{ ...canelaStyle, fontWeight: 500 }}>
                   {card.title}
                 </h3>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-400">{card.desc}</p>
+                <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-500">{card.desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Privacy built-in — cream card */}
-      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div
-          className="mx-auto max-w-4xl rounded-3xl px-6 py-10 text-center sm:px-10 sm:py-14"
-          style={{ backgroundColor: '#FEF9E8' }}
-        >
-          <div className="mx-auto mb-8 flex max-w-xs justify-center">
-            <img
-              src="/Component 184 (1).png"
-              alt=""
-              className="h-40 w-auto object-contain sm:h-48"
-            />
-          </div>
-          <h2
-            className="text-[1.75rem] leading-tight text-gray-900 sm:text-[2.25rem]"
-            style={canelaStyle}
-          >
-            Privacy{' '}
-            <span className="relative inline-block">
-              built-in
-              <svg
-                className="absolute -bottom-1 left-0 w-full"
-                viewBox="0 0 120 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-                aria-hidden
+          {/* Privacy text + policy buttons */}
+          <div className="mt-10 text-center">
+            <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-500 sm:text-base">
+              With supVision&apos;s zero-access architecture, customer conversations and PII are never visible to our team. PII is anonymised before AI processing, and every decision is logged for audit.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
               >
-                <path
-                  d="M2 6C20 2 40 1 60 3s40 2 58-1"
-                  stroke="#FB9A05"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-lg text-sm leading-relaxed text-gray-700 sm:text-base">
-            With supVision&apos;s zero-access architecture, customer conversations and PII are never visible to our team. PII is anonymised before AI processing, and every decision is logged for audit.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
-            >
-              Data Policy
-            </Link>
+                Privacy Policy
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
+              >
+                Data Policy
+              </Link>
+            </div>
           </div>
         </div>
       </section>

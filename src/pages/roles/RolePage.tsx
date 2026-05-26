@@ -1,7 +1,94 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import IndustryRoleMobileHero from '../../components/forWhom/IndustryRoleMobileHero'
+
+const roleFaqItems = [
+  {
+    q: 'How quickly can supVision go live?',
+    a: 'Most teams are live within 3 business days. supVision connects to your existing helpdesk, CRM, and identity providers — no platform migration required. You configure escalation rules, set confidence thresholds, and go.',
+  },
+  {
+    q: 'Does supVision integrate with our current tools?',
+    a: 'Yes. supVision integrates with Zendesk, Intercom, Freshdesk, Salesforce, HubSpot, and custom CRMs out of the box. It also works across email, chat, WhatsApp, Telegram, and API channels — no rebuilding needed.',
+  },
+  {
+    q: 'How does the AI know when to escalate to a human?',
+    a: "You set confidence thresholds per topic. When supVision is below threshold — or encounters a query type you've flagged for human review — it escalates with full context attached: conversation history, customer profile, and its own decision trace.",
+  },
+  {
+    q: 'Can we control which queries the AI handles automatically?',
+    a: 'Completely. You define which topics supVision can automate, which require human approval, and which are blocked from automation entirely. Everything is configurable without engineering work.',
+  },
+  {
+    q: 'Is customer data safe and compliant?',
+    a: 'supVision is GDPR and PCI DSS aligned by design. PII and card data are never stored beyond the active session. All automated decisions are logged with a full audit trail — exportable for compliance review on demand.',
+  },
+  {
+    q: 'What results should we expect?',
+    a: '93% of tickets handled automatically, 68% reduction in support costs, and 10× faster response times on average. Most teams see measurable ROI within the first month of going live.',
+  },
+]
+
+function RoleFAQItem({ item, isOpen, onToggle }: { item: { q: string; a: string }; isOpen: boolean; onToggle: () => void }) {
+  const bodyRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    if (isOpen) { el.style.maxHeight = el.scrollHeight + 'px'; el.style.opacity = '1' }
+    else { el.style.maxHeight = '0px'; el.style.opacity = '0' }
+  }, [isOpen])
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
+      <button onClick={onToggle} className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left">
+        <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
+        <span className={['flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300', isOpen ? 'rotate-180' : ''].join(' ')}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </span>
+      </button>
+      <div ref={bodyRef} className="px-6" style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}>
+        <p className="pb-6 text-sm leading-relaxed text-gray-500 lg:text-[15px]">{item.a}</p>
+      </div>
+    </div>
+  )
+}
+
+function RoleFAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+  return (
+    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
+        <div className="mb-8 text-center">
+          <h2 className="leading-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
+            <span className="text-gray-900">Frequently Asked Questions</span>
+          </h2>
+        </div>
+        <div className="mt-6 flex flex-col gap-3 lg:hidden">
+          {roleFaqItems.map((item, i) => (
+            <RoleFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+          ))}
+        </div>
+        <div className="mt-6 hidden gap-3 lg:flex lg:items-start">
+          <div className="flex flex-1 flex-col gap-3">
+            {roleFaqItems.filter((_, i) => i % 2 === 0).map((item) => {
+              const i = roleFaqItems.indexOf(item)
+              return <RoleFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            })}
+          </div>
+          <div className="flex flex-1 flex-col gap-3">
+            {roleFaqItems.filter((_, i) => i % 2 === 1).map((item) => {
+              const i = roleFaqItems.indexOf(item)
+              return <RoleFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string; letter: string }) {
   const [err, setErr] = useState(false)
@@ -45,12 +132,26 @@ export interface RolePageData {
 }
 
 export default function RolePage({ data }: { data: RolePageData }) {
+  const { pathname } = useLocation()
+  const url = `https://supvision.ai${pathname}`
+  const title = `${data.title} — supVision`
+  const desc = data.subtitle.length > 160 ? data.subtitle.slice(0, 157) + '...' : data.subtitle
   const hasImage = !!data.heroImage
   const heroPills = data.metrics.slice(0, 3).map((m) => m.value)
   const accordionItems = data.metrics.map((m) => ({ q: m.value, a: m.label }))
 
   return (
     <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={desc} />
+        <link rel="canonical" href={url} />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={desc} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={desc} />
+      </Helmet>
 
       <section className="px-4 pb-2 pt-4 sm:px-6 lg:hidden">
         <IndustryRoleMobileHero
@@ -100,15 +201,12 @@ export default function RolePage({ data }: { data: RolePageData }) {
                 <div className="mt-10">
                   <Link
                     to="/contact"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-6 pr-1.5 py-1.5 text-sm font-semibold"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                   >
-                    <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                    <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">Let's chat!</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
+                    Let's chat!
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                    </svg>
                   </Link>
                 </div>
               </div>
@@ -184,22 +282,21 @@ export default function RolePage({ data }: { data: RolePageData }) {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 to="/integrations"
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-5 pr-1.5 py-1.5 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#101827' }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
               >
-                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                <span className="relative z-10">See all integrations</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                  </svg>
-                </span>
+                See all integrations
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Book a demo
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
               </Link>
             </div>
           </div>
@@ -296,6 +393,8 @@ export default function RolePage({ data }: { data: RolePageData }) {
         </div>
       </section>
 
+      <RoleFAQ />
+
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div
@@ -305,13 +404,13 @@ export default function RolePage({ data }: { data: RolePageData }) {
           <h2 className="text-3xl font-bold text-white">{data.ctaTitle}</h2>
           <p className="mt-4 text-base text-blue-200">{data.ctaDesc}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100">
+            <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]">
               Book a demo
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
-            <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+            <Link to="/pricing" className="inline-flex items-center gap-2 rounded-full border-2 border-white px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
               See pricing
             </Link>
           </div>

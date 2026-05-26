@@ -288,7 +288,7 @@ export default function IntegrationFinder() {
                 >
                   <button
                     className="rounded-full border px-5 py-2 text-sm font-semibold transition-colors cursor-default"
-                    style={{ backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#9ca3af' }}
+                    style={{ backgroundColor: 'transparent', borderColor: '#111827', color: '#9ca3af' }}
                   >
                     {cat}
                   </button>
@@ -309,7 +309,7 @@ export default function IntegrationFinder() {
                 className="rounded-full border px-5 py-2 text-sm font-semibold transition-colors"
                 style={active === cat
                   ? { backgroundColor: '#214995', borderColor: '#214995', color: '#fff' }
-                  : { backgroundColor: '#fff', borderColor: '#e5e7eb', color: '#374151' }}
+                  : { backgroundColor: 'transparent', borderColor: '#111827', color: '#374151' }}
               >
                 {cat}
               </button>
@@ -338,10 +338,11 @@ export default function IntegrationFinder() {
                 }
               }}
               className={[
-                'group relative flex h-full flex-col rounded-2xl border border-gray-200 bg-white shadow-sm text-left',
+                'group relative flex h-full flex-col rounded-2xl text-left',
                 mobileTwoColumn ? 'gap-2.5 p-3' : 'gap-4 p-5 sm:p-6',
-                item.comingSoon ? '' : 'lg:cursor-pointer lg:hover:shadow-md lg:hover:border-gray-300',
+                item.comingSoon ? '' : 'lg:cursor-pointer',
               ].join(' ')}
+              style={{ border: '1.5px solid #111827' }}
             >
               <div className={mobileTwoColumn ? 'flex flex-col gap-2' : 'flex items-center gap-3'}>
                 <img
@@ -414,9 +415,10 @@ export default function IntegrationFinder() {
               type="button"
               onClick={() => setShowAll(true)}
               className={[
-                'flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gray-300 bg-white p-5 text-center transition-colors hover:border-gray-400',
+                'flex flex-col items-center justify-center gap-2 rounded-2xl p-5 text-center transition-colors',
                 mobileTwoColumn ? 'min-h-[140px]' : '',
               ].join(' ')}
+              style={{ border: '2px dashed #111827' }}
             >
               <span className="text-2xl font-black text-gray-900">+{hidden}</span>
               <span className="text-sm font-semibold text-gray-400 lg:text-xs">more integrations</span>
@@ -427,7 +429,8 @@ export default function IntegrationFinder() {
         <div className="mt-8 flex justify-center lg:mt-10">
           <Link
             to="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900"
+            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white"
+            style={{ border: '1.5px solid #111827' }}
           >
             <span className="lg:hidden">Can&apos;t find your tool? Let&apos;s chat</span>
             <span className="hidden lg:inline">Can&apos;t find your tool? Let&apos;s chat about a custom integration</span>

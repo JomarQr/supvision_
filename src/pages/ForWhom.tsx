@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom'
 import ForWhomCardsSection from '../components/forWhom/ForWhomCardsSection'
 import { forWhomIndustries, forWhomRoles } from '../data/forWhom'
+import PageMeta from '../components/PageMeta'
 
 const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
 export default function ForWhom() {
   return (
     <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
+      <PageMeta
+        title="Who supVision is For — Fintech Teams"
+        description="Built for fintech support leaders, compliance officers, operations teams, and founders scaling customer support without scaling headcount."
+        path="/for-whom"
+      />
       <section className="px-4 pb-4 pt-6 text-center sm:px-6 lg:pb-8 lg:pt-10">
         <div className="mx-auto max-w-4xl">
           <p className="text-xs font-bold uppercase tracking-widest text-gray-400">For whom</p>

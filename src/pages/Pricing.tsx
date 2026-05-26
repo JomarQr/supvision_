@@ -1,4 +1,6 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import PageMeta from '../components/PageMeta'
 
 const plans = [
   {
@@ -32,7 +34,7 @@ const plans = [
         ],
       },
     ],
-    bestFor: 'Startups and small fintech teams handling under 500 support tickets per month.',
+    bestFor: <><strong className="text-gray-700">Startups and small fintech teams</strong> handling under <strong className="text-gray-700">500 tickets/month</strong>.</>,
   },
   {
     name: 'Growth',
@@ -67,7 +69,7 @@ const plans = [
         ],
       },
     ],
-    bestFor: 'Growing fintech companies expanding to new markets with complex support needs.',
+    bestFor: <><strong className="text-gray-700">Growing fintech companies</strong> expanding to <strong className="text-gray-700">new markets</strong> with complex support needs.</>,
   },
   {
     name: 'Enterprise',
@@ -104,7 +106,7 @@ const plans = [
         ],
       },
     ],
-    bestFor: 'Regulated financial institutions, payment processors, and global fintech enterprises.',
+    bestFor: <><strong className="text-gray-700">Regulated financial institutions</strong>, payment processors, and <strong className="text-gray-700">global fintech enterprises</strong>.</>,
   },
 ]
 
@@ -131,9 +133,14 @@ const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as c
 export default function Pricing() {
   return (
     <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
+      <PageMeta
+        title="Pricing — supVision"
+        description="Transparent pricing for AI fintech support. Starter, Growth, and Enterprise plans. Start small, scale fast — no long-term commitment required."
+        path="/pricing"
+      />
 
       {/* Header */}
-      <section className="px-4 pb-10 text-center sm:px-6 lg:pb-16 lg:px-8">
+      <section className="px-4 pb-10 pt-10 text-center sm:px-6 lg:pb-16 lg:px-8 lg:pt-16">
         <div className="mx-auto max-w-3xl">
           <h1
             className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:text-5xl"
@@ -157,9 +164,10 @@ export default function Pricing() {
                 className={[
                   'relative flex h-full flex-col rounded-2xl',
                   plan.highlight
-                    ? 'border-2 border-[#214995] bg-white shadow-xl'
-                    : 'border border-gray-200 bg-white shadow-sm',
+                    ? 'border-2 border-[#214995] shadow-xl'
+                    : '',
                 ].join(' ')}
+                style={plan.highlight ? undefined : { border: '1.5px solid #111827' }}
               >
                 {/* Badge */}
                 {plan.badge && (
@@ -207,7 +215,7 @@ export default function Pricing() {
                   </div>
 
                   {/* Best for */}
-                  <div className="mt-8 rounded-xl bg-gray-50 px-4 py-3">
+                  <div className="mt-8 rounded-xl px-4 py-3" style={{ border: '1.5px dashed #9ca3af' }}>
                     <p className="text-xs leading-relaxed text-gray-500">
                       <span className="font-semibold text-gray-700">Best for:</span> {plan.bestFor}
                     </p>
@@ -220,7 +228,7 @@ export default function Pricing() {
                       'mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold transition-colors',
                       plan.highlight
                         ? 'text-white'
-                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200',
+                        : 'border-2 border-gray-900 bg-transparent text-gray-900 hover:bg-[#AAC6FF]',
                     ].join(' ')}
                     style={plan.highlight ? { backgroundColor: '#214995' } : undefined}
                   >
@@ -248,24 +256,25 @@ export default function Pricing() {
             </h2>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+          <div className="overflow-hidden rounded-2xl" style={{ border: '1.5px solid #111827' }}>
             {/* Table header */}
-            <div className="grid grid-cols-4 border-b border-gray-200 bg-gray-50 px-6 py-4">
-              <div />
-              <div className="text-center text-sm font-bold text-gray-700">Starter</div>
-              <div className="text-center text-sm font-bold" style={{ color: '#214995' }}>Growth</div>
-              <div className="text-center text-sm font-bold text-gray-700">Enterprise</div>
+            <div className="grid grid-cols-4" style={{ borderBottom: '1.5px solid #111827' }}>
+              <div className="px-6 py-4" />
+              <div className="px-4 py-4 text-center text-sm font-bold text-gray-700" style={{ borderLeft: '1.5px solid #111827' }}>Starter</div>
+              <div className="px-4 py-4 text-center text-sm font-bold" style={{ color: '#214995', backgroundColor: '#EEF3FF', borderLeft: '1.5px solid #111827' }}>Growth</div>
+              <div className="px-4 py-4 text-center text-sm font-bold text-gray-700" style={{ borderLeft: '1.5px solid #111827' }}>Enterprise</div>
             </div>
 
             {comparisonRows.map((row, i) => (
               <div
                 key={i}
-                className={['grid grid-cols-4 px-6 py-4', i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'].join(' ')}
+                className="grid grid-cols-4"
+                style={i < comparisonRows.length - 1 ? { borderBottom: '1px solid #111827' } : undefined}
               >
-                <div className="text-sm font-bold text-gray-900">{row.label}</div>
-                <div className="text-center text-sm text-gray-900">{row.starter}</div>
-                <div className="text-center text-sm font-semibold text-gray-900">{row.growth}</div>
-                <div className="text-center text-sm text-gray-900">{row.enterprise}</div>
+                <div className="px-6 py-3.5 text-sm font-bold text-gray-900">{row.label}</div>
+                <div className="px-4 py-3.5 text-center text-sm text-gray-600" style={{ borderLeft: '1.5px solid #111827' }}>{row.starter}</div>
+                <div className="px-4 py-3.5 text-center text-sm font-semibold text-gray-900" style={{ backgroundColor: '#EEF3FF', borderLeft: '1.5px solid #111827', color: row.growth === '✓' ? '#214995' : undefined }}>{row.growth}</div>
+                <div className="px-4 py-3.5 text-center text-sm text-gray-600" style={{ borderLeft: '1.5px solid #111827' }}>{row.enterprise}</div>
               </div>
             ))}
           </div>

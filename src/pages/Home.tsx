@@ -1,5 +1,6 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { type ReactNode, FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import PageMeta from '../components/PageMeta'
 import { submitContactForm } from '../lib/contactApi'
 import HeroDashboard, { type DashboardView } from '../components/home/HeroDashboard'
 import { LANGUAGES, LANG_SLOT } from '../components/home/solutionShowcaseData'
@@ -22,6 +23,44 @@ const INTEGRATION_CATEGORIES = [
   { label: 'Email',     tools: ['Gmail'] },
 ]
 
+const TESTIMONIALS = [
+  {
+    name: 'Ruslan V.',
+    title: 'Head of Operations',
+    quote: <>We went from a <strong className="text-gray-900">4-hour average resolution time to under 2 minutes</strong> for verification queries. <strong className="text-gray-900">Ops costs dropped and CSAT went up</strong> at the same time. supVision made the whole support flow <strong className="text-gray-900">predictable and auditable.</strong></>,
+    stats: [
+      { value: '< 2 min', label: 'avg verification resolution time' },
+      { value: '1 month',  label: 'to measurable ROI' },
+    ],
+  },
+  {
+    name: 'Alan N.',
+    title: 'Customer Success Lead',
+    quote: <>We <strong className="text-gray-900">cut support headcount by 30%</strong> while handling <strong className="text-gray-900">3× the ticket volume.</strong> The agents that stayed are focused on real escalations, not copy-pasting the same repetitive answers all day. <strong className="text-gray-900">ROI showed up faster</strong> than any tool we&apos;ve ever deployed.</>,
+    stats: [
+      { value: '30%', label: 'reduction in support headcount' },
+      { value: '3×',  label: 'ticket volume, same team' },
+    ],
+  },
+  {
+    name: 'Cyril B.',
+    title: 'Compliance Lead',
+    quote: <>Our compliance team was skeptical about automating disputes. But supVision <strong className="text-gray-900">handles edge cases better than we expected</strong>, and <strong className="text-gray-900">logs every decision with a full rationale and timestamp.</strong> When our auditors asked for a trail, we <strong className="text-gray-900">exported it in minutes.</strong></>,
+    stats: [
+      { value: '100%',   label: 'automated decision audit coverage' },
+      { value: '< 5 min', label: 'regulator export time' },
+    ],
+  },
+  {
+    name: 'Dmytriy K.',
+    title: 'Head of Customer Support',
+    quote: <>We used to hire new people every time we expanded to a new geography. Now we <strong className="text-gray-900">automatically serve all regions</strong> — Europe, the US, Asia, the Middle East — <strong className="text-gray-900">without adding a single agent.</strong> The setup took <strong className="text-gray-900">three days.</strong></>,
+    stats: [
+      { value: '4 regions', label: 'served without new hires' },
+      { value: '3 days',    label: 'to go live globally' },
+    ],
+  },
+]
 
 const FEATURE_TABS: Array<{ key: string; label: string; heading: string; description: string; features: { title: string; body: string; view: DashboardView }[]; reversed?: boolean }> = [
   {
@@ -72,6 +111,7 @@ function FeatureTabSection() {
   const [openIdx, setOpenIdx] = useState(0)
   const imgWrapRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
   const activeKeyRef = useRef<string | null>(null)
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1024)
 
@@ -149,145 +189,178 @@ function FeatureTabSection() {
 
   return (
     <div ref={containerRef} style={{ height: `${CONTAINER_HEIGHT_VH}vh` }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: isMobile ? 'hidden' : 'visible', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: isMobile ? '12vh' : '22vh', paddingBottom: '1rem' }}>
-        {/* What is supVision? — absolutely positioned so tabs stay centered */}
-        <div className={`text-center ${isMobile ? 'px-5' : ''}`} style={{ position: 'absolute', top: isMobile ? '3vh' : '7vh', left: 0, right: 0 }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: isMobile ? 'hidden' : 'visible', display: 'flex', flexDirection: 'column' }}>
+
+        {/* What is supVision? — slides up under navbar on scroll */}
+        <div
+          ref={headingRef}
+          className={`text-center ${isMobile ? 'px-5' : ''}`}
+          style={{
+            paddingTop: isMobile ? '5vh' : '11vh',
+            paddingBottom: isMobile ? '2vh' : '2.5vh',
+          }}
+        >
           <h2 className={`${isMobile ? 'text-3xl' : 'text-4xl'} leading-tight text-gray-900`} style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
             What is supVision?
           </h2>
           <p className={`mt-2 mx-auto ${isMobile ? 'max-w-xs text-sm' : 'max-w-2xl text-base'} leading-relaxed text-gray-500`}>
-            supVision is the platform that lets you run an autonomous AI support agent — and stay fully in control of how it behaves. Set the rules, define the limits, and let it work. No surprises, no black boxes. Your agent, on your terms.
+            supVision is the platform that lets you run an <strong className="text-gray-700">autonomous AI support agent</strong> — and stay <strong className="text-gray-700">fully in control</strong> of how it behaves. Set the rules, define the limits, and let it work. <strong className="text-gray-700">No surprises, no black boxes.</strong> Your agent, on your terms.
           </p>
         </div>
 
-        {/* Tab pills */}
-        <div className="mb-4 mt-10 flex items-center justify-center gap-2">
-          {FEATURE_TABS.map((t) => (
-            <button
-              key={t.key}
-              onClick={() => handleTabClick(t.key)}
-              className="rounded-full border font-medium transition-all duration-200"
-              style={{
-                padding: isMobile ? '0.625rem 1.375rem' : '0.375rem 1.25rem',
-                fontSize: isMobile ? '0.9375rem' : '0.875rem',
-                backgroundColor: activeKey === t.key ? '#111827' : '#F3EFE9',
-                borderColor: activeKey === t.key ? '#111827' : '#d4cfc8',
-                color: activeKey === t.key ? '#fff' : '#6b7280',
-              }}
-            >
-              {t.key}
-            </button>
-          ))}
-        </div>
+        {/* Content + skip — flex-1, centred in remaining space */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingBottom: '1rem' }}>
 
-        {/* Content row */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: expanded ? (isMobile ? '0.75rem' : '2.5rem') : '0',
-            flexDirection: isMobile ? 'column' : (reversed ? 'row-reverse' : 'row'),
-            justifyContent: (expanded || isMobile) ? 'flex-start' : 'center',
-            transition: 'gap 0.55s ease',
-          }}
-        >
-          {/* Text panel — above dashboard on mobile */}
-          {isMobile && (
-            <div
-              style={{
-                width: '100%',
-                maxHeight: expanded ? '28vh' : '0px',
-                opacity: expanded ? 1 : 0,
-                overflow: 'hidden',
-                transition: 'max-height 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
-              }}
-            >
-              {tab && (
-                <div className="divide-y divide-gray-200 px-2">
-                  {tab.features.map((f, i) => (
-                    <div key={f.title}>
-                      <button
-                        onClick={() => handleFeatureClick(tab.key, i)}
-                        className="flex w-full items-center justify-between py-2.5 text-left"
-                      >
-                        <span className={`text-sm font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
-                        <span className="ml-3 flex-shrink-0 text-xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
-                      </button>
-                      {openIdx === i && (
-                        <p className="pb-2 text-xs leading-relaxed text-gray-500">{f.body}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          {/* Tab pills */}
+          <div className="mb-4 flex items-center justify-center gap-2">
+            {FEATURE_TABS.map((t) => (
+              <button
+                key={t.key}
+                onClick={() => handleTabClick(t.key)}
+                className="rounded-full border font-medium transition-all duration-200"
+                style={{
+                  padding: isMobile ? '0.625rem 1.375rem' : '0.375rem 1.25rem',
+                  fontSize: isMobile ? '0.9375rem' : '0.875rem',
+                  backgroundColor: activeKey === t.key ? '#111827' : '#F3EFE9',
+                  borderColor: activeKey === t.key ? '#111827' : '#d4cfc8',
+                  color: activeKey === t.key ? '#fff' : '#6b7280',
+                }}
+              >
+                {t.key}
+              </button>
+            ))}
+          </div>
 
-          {/* Text panel — desktop */}
-          {!isMobile && (
-            <div
-              style={{
-                flexShrink: 0,
-                width: expanded ? '42%' : '0%',
-                opacity: expanded ? 1 : 0,
-                overflow: 'hidden',
-                transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
-              }}
-            >
-              {tab && (
-                <div className="divide-y divide-gray-200">
-                  {tab.features.map((f, i) => (
-                    <div key={f.title}>
-                      <button
-                        onClick={() => handleFeatureClick(tab.key, i)}
-                        className="flex w-full items-center justify-between py-4 text-left"
-                      >
-                        <span className={`text-xl font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
-                        <span className="ml-4 flex-shrink-0 text-2xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
-                      </button>
-                      {openIdx === i && (
-                        <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.body}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Dashboard */}
+          {/* Content row */}
           <div
-            ref={imgWrapRef}
             style={{
-              flexShrink: 0,
-              order: isMobile ? -1 : 0,
-              width: isMobile ? '100%' : (expanded ? '58%' : '80%'),
-              transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: expanded ? (isMobile ? '0.75rem' : '2.5rem') : '0',
+              flexDirection: isMobile ? 'column' : (reversed ? 'row-reverse' : 'row'),
+              justifyContent: (expanded || isMobile) ? 'flex-start' : 'center',
+              transition: 'gap 0.55s ease',
             }}
           >
-            {isMobile ? (
-              <div style={{ overflow: 'hidden', borderRadius: '1rem', height: 268 }}>
-                <div style={{ transform: 'scale(0.536)', transformOrigin: 'top left', width: '186.6%', height: 500, flexShrink: 0 }}>
-                  <HeroDashboard animated={expanded} view={expanded ? dashView : 'default'} />
-                </div>
+            {/* Text panel — above dashboard on mobile */}
+            {isMobile && (
+              <div
+                style={{
+                  width: '100%',
+                  maxHeight: expanded ? '28vh' : '0px',
+                  opacity: expanded ? 1 : 0,
+                  overflow: 'hidden',
+                  transition: 'max-height 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
+                }}
+              >
+                {tab && (
+                  <div className="divide-y divide-gray-200 px-2">
+                    {tab.features.map((f, i) => (
+                      <div key={f.title}>
+                        <button
+                          onClick={() => handleFeatureClick(tab.key, i)}
+                          className="flex w-full items-center justify-between py-2.5 text-left"
+                        >
+                          <span className={`text-sm font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
+                          <span className="ml-3 flex-shrink-0 text-xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
+                        </button>
+                        {openIdx === i && (
+                          <p className="pb-2 text-xs leading-relaxed text-gray-500">{f.body}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-            ) : (
-              <HeroDashboard animated={expanded} view={dashView} />
             )}
-          </div>
-        </div>
 
-        {/* Skip button */}
-        <div className={`${isMobile ? 'mt-4' : 'mt-16'} flex justify-center`}>
-          <button
-            onClick={() => scrollToStep(ALL_STEPS.length - 1)}
-            className="flex flex-col items-center gap-1 text-sm font-medium text-gray-400 transition-all hover:text-gray-600"
-          >
-            Skip
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 animate-bounce">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
+            {/* Text panel — desktop */}
+            {!isMobile && (
+              <div
+                style={{
+                  flexShrink: 0,
+                  width: expanded ? '42%' : '0%',
+                  opacity: expanded ? 1 : 0,
+                  overflow: 'hidden',
+                  transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease',
+                }}
+              >
+                {tab && (
+                  <div className="divide-y divide-gray-200">
+                    {tab.features.map((f, i) => (
+                      <div key={f.title}>
+                        <button
+                          onClick={() => handleFeatureClick(tab.key, i)}
+                          className="flex w-full items-center justify-between py-4 text-left"
+                        >
+                          <span className={`text-xl font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
+                          <span className="ml-4 flex-shrink-0 text-2xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
+                        </button>
+                        {openIdx === i && (
+                          <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.body}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Dashboard */}
+            <div
+              ref={imgWrapRef}
+              style={{
+                flexShrink: 0,
+                order: isMobile ? -1 : 0,
+                width: isMobile ? '100%' : (expanded ? '58%' : '80%'),
+                transition: 'width 0.55s cubic-bezier(0.22,1,0.36,1)',
+              }}
+            >
+              {isMobile ? (
+                <div style={{ overflow: 'hidden', borderRadius: '1rem', height: 268 }}>
+                  <div style={{ transform: 'scale(0.536)', transformOrigin: 'top left', width: '186.6%', height: 500, flexShrink: 0 }}>
+                    <HeroDashboard animated={expanded} view={expanded ? dashView : 'default'} />
+                  </div>
+                </div>
+              ) : (
+                <HeroDashboard animated={expanded} view={dashView} />
+              )}
+            </div>
+          </div>
+
+          {/* Nav buttons */}
+          <div className={`${isMobile ? 'mt-2' : 'mt-6'} flex items-center justify-center gap-3`}>
+            <button
+              onClick={() => {
+                const el = containerRef.current
+                if (!el) return
+                const absTop = window.scrollY + el.getBoundingClientRect().top
+                window.scrollTo({ top: Math.max(0, absTop - window.innerHeight), behavior: 'smooth' })
+              }}
+              className="inline-flex w-28 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white" style={{ border: '2px solid #111827' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Back
+            </button>
+            <button
+              onClick={() => {
+                const el = containerRef.current
+                if (!el) return
+                const absTop = window.scrollY + el.getBoundingClientRect().top
+                const containerBottom = absTop + (CONTAINER_HEIGHT_VH / 100) * window.innerHeight
+                window.scrollTo({ top: containerBottom + 40, behavior: 'smooth' })
+              }}
+              className="inline-flex w-28 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white" style={{ border: '2px solid #111827' }}
+            >
+              Skip
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -435,9 +508,20 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const t = setInterval(() => {
+      setTestimonialIdx(i => (i + 1) % TESTIMONIALS.length)
+    }, 5000)
+    return () => clearInterval(t)
+  }, [])
 
   return (
     <div>
+      <PageMeta
+        title="supVision — AI Support Agent for Fintech"
+        description="Automate fintech customer support with an autonomous AI agent. Resolves KYC, disputes, and transaction queries 24/7 — compliant, multilingual, no human needed."
+        path="/"
+      />
       {/* Hero */}
       <section data-nav-dark className="relative flex overflow-hidden lg:overflow-visible lg:min-h-screen items-start" style={{ backgroundColor: '#faf8f5' }}>
         {/* Clipping wrapper - shrinks on scroll, clips only bg */}
@@ -464,7 +548,7 @@ export default function Home() {
           }}
         >
           <div ref={dashboardGlassRef}>
-            <HeroDashboard />
+            <HeroDashboard beige />
           </div>
         </div>
 
@@ -486,34 +570,34 @@ export default function Home() {
               </span>
             </div>
             {/* Desktop badge */}
-            <div className="mb-6 hidden lg:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
+            <div className="mb-6 hidden lg:inline-flex items-center rounded-full px-4 py-2 text-base font-medium text-gray-900" style={{ backgroundColor: '#F4EFE9' }}>
               An AI support layer tailored for fintech industries
             </div>
 
             {/* Mobile headline */}
             <h1 className="mt-3 flex flex-col text-5xl leading-tight text-center lg:hidden" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-              <span className="text-white"><span style={{ fontWeight: 800 }}>Agentic</span> Support</span>
-              <span className="text-white">Team for</span>
-              <span className="text-white"><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
+              <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Agentic</span> Support</span>
+              <span style={{ color: '#F4EFE9' }}>Team for</span>
+              <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
             </h1>
             {/* Desktop headline */}
             <h1
               className="mt-3 hidden flex-col leading-tight lg:flex lg:text-left"
               style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2.6rem, 3.8vw, 3.75rem)' }}
             >
-              <span className="text-white whitespace-nowrap"><span style={{ fontWeight: 800 }}>Agentic</span> Support Team</span>
-              <span className="text-white whitespace-nowrap">for <span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
+              <span style={{ color: '#F4EFE9' }} className="whitespace-nowrap"><span style={{ fontWeight: 800 }}>Agentic</span> Support Team</span>
+              <span style={{ color: '#F4EFE9' }} className="whitespace-nowrap">for <span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
             </h1>
 
-            <p className="mt-8 text-base leading-relaxed text-white text-center lg:text-left max-w-xs lg:max-w-xl mx-auto lg:mx-0">
+            <p className="mt-8 text-base leading-relaxed text-center lg:text-left max-w-xs lg:max-w-xl mx-auto lg:mx-0" style={{ color: '#F4EFE9' }}>
               The dispute resolved before the customer hit refresh. The onboarding done before compliance got involved. The answer ready before the ticket was even opened.
             </p>
 
             <div className="mt-6 flex w-full justify-center lg:justify-start">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-gray-900"
-                style={{ backgroundColor: '#E5D9CC' }}
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-5 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#F3EFE9]"
+                style={{ backgroundColor: '#F3EFE9' }}
               >
                 <span className="lg:hidden">Book a Demo</span>
                 <span className="hidden lg:inline">Let&apos;s chat</span>
@@ -552,7 +636,7 @@ export default function Home() {
           {/* Mobile dashboard — scaled down to fit */}
           <div className="relative z-10 mt-10 lg:hidden mx-3 overflow-hidden rounded-2xl" style={{ height: 315 }}>
             <div style={{ transform: 'scale(0.63)', transformOrigin: 'top left', width: '158.7%', height: 500, flexShrink: 0 }}>
-              <HeroDashboard animated={true} view="default" />
+              <HeroDashboard animated={true} view="default" beige />
             </div>
           </div>
           {/* Spacer so lower section doesn't overlap chat card */}
@@ -560,7 +644,7 @@ export default function Home() {
 
           {/* Industries ticker — desktop only (mobile version is above dashboard) */}
           <div
-            className="mt-24 hidden overflow-hidden lg:block"
+            className="mt-16 hidden overflow-hidden lg:block"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 82%, transparent 100%)',
@@ -594,19 +678,12 @@ export default function Home() {
                   boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
                 }}
               >
-                <div
-                  className="flex-shrink-0 flex items-center justify-center rounded-full"
-                  style={{
-                    width: '40px', height: '40px',
-                    background: '#214995',
-                    color: '#fff',
-                  }}
-                >
+                <div className="flex-shrink-0 text-gray-900">
                   {item.icon}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-900 leading-snug">{item.label}</p>
-                  {item.desc && <p className="mt-1 text-xs leading-snug text-gray-500">{item.desc}</p>}
+                  <p className="text-base font-semibold text-gray-900 leading-snug">{item.label}</p>
+                  {item.desc && <p className="mt-1 text-xs leading-snug text-gray-400">{item.desc}</p>}
                 </div>
               </div>
             ))}
@@ -625,27 +702,27 @@ export default function Home() {
               <h2 className="text-4xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                 Still paying agents to answer the same<br /><span style={{ fontWeight: 700 }}>questions every day?</span>
               </h2>
-              <p className="mt-4 mx-auto max-w-2xl text-base leading-relaxed text-gray-500">
-                Disputes, KYC checks, payment failures — <strong className="text-gray-700">supVision handles them automatically</strong>, so your team only touches cases that genuinely need a human.
+              <p className="mt-4 mx-auto max-w-2xl text-sm lg:text-base leading-relaxed text-gray-500">
+                With the help of supVision, you will <strong className="text-gray-700">resolve disputes, payment failures, and repetitive queries automatically</strong> — so your team only touches cases that genuinely need a human.
               </p>
             </div>
 
             {/* 4 metric cards in a row */}
             <div className="grid grid-cols-2 gap-5">
               {/* 10x faster */}
-              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9' }}>
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Response speed</p>
                 <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>10x faster</p>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">10 times faster than manual support — avg. <strong className="text-gray-700">1.2s</strong> to resolution, so customers get answers in seconds, not minutes.</p>
               </div>
               {/* 68% */}
-              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9' }}>
+              <div className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Support costs</p>
                 <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>68% cheaper</p>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">Cut support costs by 68% on repetitive tier-1 volume — without adding headcount. Your team stays focused on work that actually needs a human.</p>
               </div>
               {/* 93% */}
-              <div className="rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9' }}>
+              <div className="rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Tickets handled</p>
                 <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>93% resolved</p>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">93% of tickets fully resolved automatically. Complex or high-risk cases are escalated to human agents for a precise, careful response.</p>
@@ -661,14 +738,13 @@ export default function Home() {
             <div className="mt-8 flex items-center justify-center gap-4">
               <Link
                 to="/support-agent"
-                className="inline-flex min-w-[10rem] items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+                className="inline-flex min-w-[10rem] items-center justify-center rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Learn more
               </Link>
               <Link
                 to="/integrations"
-                className="inline-flex min-w-[10rem] items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#111827' }}
+                className="inline-flex min-w-[10rem] items-center justify-center gap-2 rounded-full border-2 border-transparent bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
               >
                 Explore
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
@@ -682,12 +758,15 @@ export default function Home() {
           </div>
 
           {/* ── ZONE 2: Core Functionalities ── desktop */}
-          <div className="mt-20 mb-20 hidden lg:block">
+          <div className="mt-32 mb-20 hidden lg:block">
 
             <div className="mb-6 text-center">
               <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                 Everything you need,{' '}<span style={{ fontWeight: 700 }}>out of the box</span>
               </h2>
+              <p className="mt-3 mx-auto max-w-xl text-sm leading-relaxed text-gray-500 lg:text-base">
+                Every tool your support team needs — deployed in days, no rebuilding required.
+              </p>
             </div>
 
             {/* Animated feature cards */}
@@ -714,10 +793,10 @@ export default function Home() {
               return (
                 <div className="mt-10 grid grid-cols-2 gap-6">
                   {/* 100+ Languages — square */}
-                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                  <div className="rounded-2xl px-6 py-6 flex flex-col aspect-square overflow-hidden" style={{ border: '1.5px solid #111827' }}>
                     <p className="text-base font-semibold text-gray-900">100+ Languages</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost.</p>
-                    <div className="mt-4 rounded-xl flex-1 relative overflow-hidden bg-gray-50 border border-gray-100">
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">supVision <strong className="text-gray-700">automatically detects</strong> your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. <strong className="text-gray-700">No setup, no routing rules, no extra cost.</strong></p>
+                    <div className="mt-4 rounded-xl flex-1 relative overflow-hidden" style={{ background: '#EDE8DF', border: '1.5px solid #111827' }}>
                       {langItems.map(({ id, langIdx, slot }) => {
                         const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
                         const flagSize = Math.round(s.h * 0.64)
@@ -753,10 +832,10 @@ export default function Home() {
                   </div>
 
                   {/* Live Agent Handoff — square */}
-                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                  <div className="rounded-2xl px-6 py-6 flex flex-col aspect-square overflow-hidden" style={{ border: '1.5px solid #111827' }}>
                     <p className="text-base font-semibold text-gray-900">Live Agent Handoff</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">When the bot escalates, it passes the full conversation, customer profile, and its own reasoning to the agent — zero re-explaining needed.</p>
-                    <div className="mt-4 flex-1 rounded-2xl overflow-hidden flex flex-col" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)' }}>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">When the bot escalates, it passes the <strong className="text-gray-700">full conversation, customer profile, and its own reasoning</strong> to the agent — <strong className="text-gray-700">zero re-explaining needed.</strong></p>
+                    <div className="mt-4 flex-1 rounded-xl overflow-hidden flex flex-col" style={{ background: '#EDE8DF', border: '1.5px solid #111827' }}>
                       {(() => {
                         const sc = HANDOFF_SCENARIOS[handoffScene]
                         return (
@@ -764,43 +843,43 @@ export default function Home() {
                             <div className="flex flex-col gap-2.5 flex-1 overflow-hidden">
                               {handoffPhase >= 1 && (
                                 <div className="flex items-start gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'rgba(255,255,255,0.2)' }}>{sc.customer.split(' ').map(n => n[0]).join('')}</div>
-                                  <div className="rounded-2xl rounded-tl-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>{sc.userMsg}</div>
+                                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-gray-600 bg-gray-200">{sc.customer.split(' ').map(n => n[0]).join('')}</div>
+                                  <div className="rounded-2xl rounded-tl-sm text-gray-800 text-sm px-3.5 py-2 leading-snug bg-gray-200" style={{ maxWidth: '82%' }}>{sc.userMsg}</div>
                                 </div>
                               )}
                               {handoffPhase === 2 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <div className="rounded-2xl rounded-tr-sm px-3.5 py-2.5" style={{ background: 'rgba(33,73,149,0.85)' }}>
-                                    <span className="flex gap-1 items-center">{[0, 0.3, 0.6].map((d, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/60" style={{ animation: 'pulse 1s ease-in-out infinite', animationDelay: `${d}s` }} />)}</span>
+                                  <div className="rounded-2xl rounded-tr-sm px-3.5 py-2.5" style={{ background: '#2C1F0E' }}>
+                                    <span className="flex gap-1 items-center">{[0, 0.3, 0.6].map((d, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/70" style={{ animation: 'pulse 1s ease-in-out infinite', animationDelay: `${d}s` }} />)}</span>
                                   </div>
                                   <img src="/Component 187 (1).png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
                                 </div>
                               )}
                               {handoffPhase >= 3 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
-                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '82%' }}>{sc.botMsg}</div>
+                                  <div className="rounded-2xl rounded-tr-sm text-white text-sm px-3.5 py-2 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
                                   <img src="/Component 187 (1).png" alt="" className="h-8 w-8 flex-shrink-0 rounded-full object-cover mt-0.5" />
                                 </div>
                               )}
                               {handoffPhase >= 4 && (
-                                <div className="rounded-xl p-3 flex flex-col gap-1.5" style={{ background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.16)', animation: 'feature-text-in 0.35s ease both' }}>
+                                <div className="rounded-xl p-3 flex flex-col gap-1.5 bg-white border border-gray-200" style={{ animation: 'feature-text-in 0.35s ease both' }}>
                                   <div className="flex items-center gap-1.5 mb-0.5">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FB9A05" className="h-3 w-3 flex-shrink-0"><path fillRule="evenodd" d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM8 4a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 8 4Z" clipRule="evenodd" /></svg>
-                                    <span className="text-[10px] font-semibold uppercase tracking-wider text-white/60">Handoff context</span>
+                                    <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Handoff context</span>
                                   </div>
-                                  <div className="flex items-center justify-between"><span className="text-[11px] text-white/50">Customer</span><span className="text-[11px] font-semibold text-white">{sc.customer}</span></div>
-                                  <div className="flex items-center justify-between"><span className="text-[11px] text-white/50">Issue</span><span className="text-[11px] font-medium" style={{ color: '#FB9A05' }}>{sc.issue}</span></div>
+                                  <div className="flex items-center justify-between"><span className="text-[11px] text-gray-400">Customer</span><span className="text-[11px] font-semibold text-gray-900">{sc.customer}</span></div>
+                                  <div className="flex items-center justify-between"><span className="text-[11px] text-gray-400">Issue</span><span className="text-[11px] font-medium" style={{ color: '#c97a00' }}>{sc.issue}</span></div>
                                   {sc.context.map((c, i) => (
-                                    <div key={i} className="flex items-center gap-1.5"><span className="text-white/30 text-xs">→</span><span className="text-[11px] text-white/60">{c}</span></div>
+                                    <div key={i} className="flex items-center gap-1.5"><span className="text-gray-300 text-xs">→</span><span className="text-[11px] text-gray-500">{c}</span></div>
                                   ))}
                                 </div>
                               )}
                             </div>
                             {handoffPhase >= 4 && (
-                              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 flex-shrink-0" style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', animation: 'feature-text-in 0.35s ease both' }}>
-                                <div className="h-7 w-7 flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold text-green-300" style={{ background: 'rgba(34,197,94,0.25)' }}>{sc.agent.split(' ').map(n => n[0]).join('')}</div>
-                                <div className="flex flex-col min-w-0"><span className="text-xs font-semibold text-green-300">{sc.agent}</span><span className="text-[10px] text-green-400/70">{sc.role} · Reviewing now</span></div>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#4ade80" className="h-4 w-4 ml-auto flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 flex-shrink-0 bg-green-50 border border-green-200" style={{ animation: 'feature-text-in 0.35s ease both' }}>
+                                <div className="h-7 w-7 flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold text-green-700 bg-green-100">{sc.agent.split(' ').map(n => n[0]).join('')}</div>
+                                <div className="flex flex-col min-w-0"><span className="text-xs font-semibold text-green-700">{sc.agent}</span><span className="text-[10px] text-green-600/70">{sc.role} · Reviewing now</span></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#16a34a" className="h-4 w-4 ml-auto flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
                               </div>
                             )}
                           </div>
@@ -810,10 +889,10 @@ export default function Home() {
                   </div>
 
                   {/* One layer — single-ring orbital, square */}
-                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                  <div className="rounded-2xl px-6 py-6 flex flex-col aspect-square overflow-hidden" style={{ border: '1.5px solid #111827' }}>
                     <p className="text-base font-semibold text-gray-900">One layer, every system</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — nothing falls through the cracks.</p>
-                    <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 flex-1 relative overflow-hidden">
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — <strong className="text-gray-700">nothing falls through the cracks.</strong></p>
+                    <div className="mt-4 rounded-xl flex-1 relative overflow-hidden" style={{ background: '#EDE8DF', border: '1.5px solid #111827' }}>
                       {/* Single orbit ring */}
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="rounded-full border border-dashed border-gray-200" style={{ width: '286px', height: '286px' }} />
@@ -821,13 +900,13 @@ export default function Home() {
                       {/* Pulse rings at center */}
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         {[0, 0.9, 1.8].map((d, i) => (
-                          <div key={i} className="absolute rounded-full border border-[#214995]/25" style={{ width: '40px', height: '40px', animation: 'pulse-ring 2.6s ease-out infinite', animationDelay: `${d}s` }} />
+                          <div key={i} className="absolute rounded-full border border-[#2C1F0E]/25" style={{ width: '40px', height: '40px', animation: 'pulse-ring 2.6s ease-out infinite', animationDelay: `${d}s` }} />
                         ))}
                       </div>
                       {/* Data-pull particles */}
                       {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
                         <div key={`p-${angle}`} className="absolute pointer-events-none" style={{ top: '50%', left: '50%', marginTop: '-3px', marginLeft: '-3px', animation: `data-pull 2.2s ease-in infinite`, animationDelay: `${i * 0.275}s`, ['--da' as string]: `${angle}deg` }}>
-                          <div className="h-1.5 w-1.5 rounded-full bg-[#214995]/50" />
+                          <div className="h-1.5 w-1.5 rounded-full bg-[#2C1F0E]/50" />
                         </div>
                       ))}
                       {/* All logos — single ring */}
@@ -842,7 +921,7 @@ export default function Home() {
                       ))}
                       {/* supVision center */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="relative z-10 rounded-xl px-3 py-2 text-[11px] font-bold text-white leading-tight text-center" style={{ backgroundColor: '#214995', boxShadow: '0 0 16px rgba(33,73,149,0.4)' }}>
+                        <div className="relative z-10 rounded-xl px-3 py-2 text-[11px] font-bold text-white leading-tight text-center" style={{ backgroundColor: '#2C1F0E', boxShadow: '0 0 16px rgba(44,31,14,0.4)' }}>
                           supVision
                         </div>
                       </div>
@@ -850,10 +929,10 @@ export default function Home() {
                   </div>
 
                   {/* Sandbox & Testing Mode — 4th card, square */}
-                  <div className="rounded-2xl bg-white px-6 py-6 shadow-sm border border-gray-100 flex flex-col aspect-square overflow-hidden">
+                  <div className="rounded-2xl px-6 py-6 flex flex-col aspect-square overflow-hidden" style={{ border: '1.5px solid #111827' }}>
                     <p className="text-base font-semibold text-gray-900">Sandbox &amp; Testing Mode</p>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">Test any change to your bot's behavior in a safe environment before going live — no surprises, no customer impact.</p>
-                    <div className="mt-4 rounded-2xl flex-1 flex flex-col overflow-hidden px-4 pt-4 pb-4 gap-2.5" style={{ background: '#f9fafb' }}>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">Test any change to your bot's behavior in a <strong className="text-gray-700">safe environment</strong> before going live — <strong className="text-gray-700">no surprises, no customer impact.</strong></p>
+                    <div className="mt-4 rounded-2xl flex-1 flex flex-col overflow-hidden px-4 pt-4 pb-4 gap-2.5" style={{ background: '#EDE8DF', border: '1.5px solid #111827' }}>
                       {(() => {
                         const sq = SANDBOX_QUERIES[sandboxScene]
                         return (
@@ -920,7 +999,7 @@ export default function Home() {
                 Still paying agents to answer the same questions every day?
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-gray-500">
-                Disputes, KYC checks, payment failures — <strong className="text-gray-700">supVision handles them automatically</strong>, so your team only touches cases that genuinely need a human.
+                With the help of supVision, you will <strong className="text-gray-700">resolve disputes, payment failures, and repetitive queries automatically</strong> — so your team only touches cases that genuinely need a human.
               </p>
             </div>
 
@@ -959,8 +1038,8 @@ export default function Home() {
               {/* 100+ Languages — mobile */}
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
                 <p className="text-base font-semibold text-gray-900">100+ Languages</p>
-                <p className="mt-1 text-sm leading-relaxed text-gray-500">supVision automatically detects your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. No setup, no routing rules, no extra cost.</p>
-                <div className="mt-4 rounded-xl relative overflow-hidden bg-gray-50 border border-gray-100" style={{ height: '220px', maskImage: 'linear-gradient(to top, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 70%, transparent 100%)' }}>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">supVision <strong className="text-gray-700">automatically detects</strong> your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. <strong className="text-gray-700">No setup, no routing rules, no extra cost.</strong></p>
+                <div className="mt-4 rounded-xl relative overflow-hidden" style={{ height: '220px', background: '#EDE8DF', border: '1.5px solid #111827', maskImage: 'linear-gradient(to top, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 70%, transparent 100%)' }}>
                   {langItems.slice(0, 7).map(({ id, langIdx, slot }) => {
                     const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
                     const flagSize = Math.round(s.h * 0.64)
@@ -997,37 +1076,37 @@ export default function Home() {
               {/* Live Agent Handoff — mobile */}
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
                 <p className="text-base font-semibold text-gray-900">Live Agent Handoff</p>
-                <p className="mt-1 text-sm leading-relaxed text-gray-500">When the bot escalates, it passes the full conversation, customer profile, and its own reasoning to the agent — zero re-explaining needed.</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">When the bot escalates, it passes the <strong className="text-gray-700">full conversation, customer profile, and its own reasoning</strong> to the agent — <strong className="text-gray-700">zero re-explaining needed.</strong></p>
                 {(() => {
                   const sc = HANDOFF_SCENARIOS[handoffScene]
                   return (
-                    <div className="mt-4 rounded-2xl p-3 flex flex-col gap-2.5 overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)', height: 272, flexShrink: 0 }}>
+                    <div className="mt-4 rounded-xl p-3 flex flex-col gap-2.5 overflow-hidden" style={{ height: 272, flexShrink: 0, background: '#EDE8DF', border: '1.5px solid #111827' }}>
                       {handoffPhase >= 1 && (
                         <div className="flex items-start gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: 'rgba(255,255,255,0.2)' }}>{sc.customer.split(' ').map(n => n[0]).join('')}</div>
-                          <div className="rounded-2xl rounded-tl-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: 'rgba(255,255,255,0.18)', maxWidth: '82%' }}>{sc.userMsg}</div>
+                          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-gray-600 bg-gray-200">{sc.customer.split(' ').map(n => n[0]).join('')}</div>
+                          <div className="rounded-2xl rounded-tl-sm text-gray-800 text-xs px-3 py-2 leading-snug bg-gray-200" style={{ maxWidth: '82%' }}>{sc.userMsg}</div>
                         </div>
                       )}
                       {handoffPhase >= 3 && (
                         <div className="flex items-start justify-end gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
-                          <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: 'rgba(33,73,149,0.85)', maxWidth: '82%' }}>{sc.botMsg}</div>
+                          <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
                           <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
                         </div>
                       )}
                       {handoffPhase >= 4 && (
-                        <div className="rounded-xl p-2.5 flex flex-col gap-1" style={{ background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.15)', animation: 'log-in 0.3s ease both' }}>
-                          <div className="flex items-center justify-between"><span className="text-[10px] text-white/50">Customer</span><span className="text-[10px] font-semibold text-white">{sc.customer}</span></div>
-                          <div className="flex items-center justify-between"><span className="text-[10px] text-white/50">Issue</span><span className="text-[10px] font-medium" style={{ color: '#FB9A05' }}>{sc.issue}</span></div>
+                        <div className="rounded-xl p-2.5 flex flex-col gap-1 bg-white border border-gray-200" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="flex items-center justify-between"><span className="text-[10px] text-gray-400">Customer</span><span className="text-[10px] font-semibold text-gray-900">{sc.customer}</span></div>
+                          <div className="flex items-center justify-between"><span className="text-[10px] text-gray-400">Issue</span><span className="text-[10px] font-medium" style={{ color: '#c97a00' }}>{sc.issue}</span></div>
                           {sc.context.slice(0, 2).map((c, i) => (
-                            <div key={i} className="flex items-center gap-1"><span className="text-white/30 text-[10px]">→</span><span className="text-[10px] text-white/60">{c}</span></div>
+                            <div key={i} className="flex items-center gap-1"><span className="text-gray-300 text-[10px]">→</span><span className="text-[10px] text-gray-500">{c}</span></div>
                           ))}
                         </div>
                       )}
                       {handoffPhase >= 4 && (
-                        <div className="flex items-center gap-2 rounded-xl px-2.5 py-2" style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', animation: 'log-in 0.3s ease both' }}>
-                          <div className="h-6 w-6 flex-shrink-0 rounded-full flex items-center justify-center text-[10px] font-bold text-green-300" style={{ background: 'rgba(34,197,94,0.25)' }}>{sc.agent.split(' ').map(n => n[0]).join('')}</div>
-                          <div className="flex flex-col min-w-0"><span className="text-[11px] font-semibold text-green-300">{sc.agent}</span><span className="text-[9px] text-green-400/70">{sc.role}</span></div>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#4ade80" className="h-3.5 w-3.5 ml-auto flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
+                        <div className="flex items-center gap-2 rounded-xl px-2.5 py-2 bg-green-50 border border-green-200" style={{ animation: 'log-in 0.3s ease both' }}>
+                          <div className="h-6 w-6 flex-shrink-0 rounded-full flex items-center justify-center text-[10px] font-bold text-green-700 bg-green-100">{sc.agent.split(' ').map(n => n[0]).join('')}</div>
+                          <div className="flex flex-col min-w-0"><span className="text-[11px] font-semibold text-green-700">{sc.agent}</span><span className="text-[9px] text-green-600/70">{sc.role}</span></div>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#16a34a" className="h-3.5 w-3.5 ml-auto flex-shrink-0"><path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" /></svg>
                         </div>
                       )}
                     </div>
@@ -1054,7 +1133,7 @@ export default function Home() {
                 return (
                   <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
                     <p className="text-base font-semibold text-gray-900">One layer, every system</p>
-                    <p className="mt-1 text-sm leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — nothing falls through the cracks.</p>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — <strong className="text-gray-700">nothing falls through the cracks.</strong></p>
                     <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50 relative overflow-hidden" style={{ height: '300px' }}>
                       {/* Single orbit ring */}
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -1062,12 +1141,12 @@ export default function Home() {
                       </div>
                       {[0, 0.9, 1.8].map((d, i) => (
                         <div key={i} className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="absolute rounded-full border border-[#214995]/25" style={{ width: '38px', height: '38px', animation: 'pulse-ring 2.6s ease-out infinite', animationDelay: `${d}s` }} />
+                          <div className="absolute rounded-full border border-[#2C1F0E]/25" style={{ width: '38px', height: '38px', animation: 'pulse-ring 2.6s ease-out infinite', animationDelay: `${d}s` }} />
                         </div>
                       ))}
                       {[0, 60, 120, 180, 240, 300].map((angle, i) => (
                         <div key={angle} className="absolute pointer-events-none" style={{ top: '50%', left: '50%', marginTop: '-3px', marginLeft: '-3px', animation: `data-pull 2.2s ease-in infinite`, animationDelay: `${i * 0.37}s`, ['--da' as string]: `${angle}deg` }}>
-                          <div className="h-1.5 w-1.5 rounded-full bg-[#214995]/50" />
+                          <div className="h-1.5 w-1.5 rounded-full bg-[#2C1F0E]/50" />
                         </div>
                       ))}
                       {/* All logos — single ring */}
@@ -1081,7 +1160,7 @@ export default function Home() {
                         </div>
                       ))}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="relative z-10 rounded-xl px-3 py-2 text-[10px] font-bold text-white leading-tight text-center" style={{ backgroundColor: '#214995', boxShadow: '0 0 14px rgba(33,73,149,0.4)' }}>supVision</div>
+                        <div className="relative z-10 rounded-xl px-3 py-2 text-[10px] font-bold text-white leading-tight text-center" style={{ backgroundColor: '#2C1F0E', boxShadow: '0 0 14px rgba(44,31,14,0.4)' }}>supVision</div>
                       </div>
                     </div>
                   </div>
@@ -1091,7 +1170,7 @@ export default function Home() {
               {/* Sandbox & Testing Mode — mobile */}
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
                 <p className="text-base font-semibold text-gray-900">Sandbox &amp; Testing Mode</p>
-                <p className="mt-1 text-sm leading-relaxed text-gray-500">Test any change to your bot's behavior in a safe environment before going live — no surprises, no customer impact.</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-500">Test any change to your bot's behavior in a <strong className="text-gray-700">safe environment</strong> before going live — <strong className="text-gray-700">no surprises, no customer impact.</strong></p>
                 {(() => {
                   const sq = SANDBOX_QUERIES[sandboxScene]
                   return (
@@ -1191,14 +1270,13 @@ export default function Home() {
             <div className="mt-6 flex items-center gap-3">
               <Link
                 to="/support-agent"
-                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Learn more
               </Link>
               <Link
                 to="/integrations"
-                className="flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#111827' }}
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-gray-900 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
               >
                 Explore
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
@@ -1212,10 +1290,10 @@ export default function Home() {
       </section>
 
       {/* Industries — Built for your industry */}
-      <section className="pt-4 pb-12 px-4 lg:pt-6 lg:pb-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="pt-0 pb-12 px-4 lg:pt-2 lg:pb-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 text-center lg:mb-10">
-            <h2 className="mt-3 text-4xl lg:text-5xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+            <h2 className="mt-3 text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
               Built for <span style={{ fontWeight: 700 }}>your industry</span>
             </h2>
             <p className="mt-2 text-sm text-gray-500">Click to explore integrations for your sector.</p>
@@ -1231,7 +1309,7 @@ export default function Home() {
               <Link
                 key={ind.label}
                 to={ind.to}
-                className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none block"
+                className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-all hover:ring-[3px] hover:ring-gray-900 active:scale-[0.98] focus:outline-none block"
               >
                 <img
                   src={ind.img}
@@ -1274,9 +1352,9 @@ export default function Home() {
               onClick={() => setActivePersona(null)}
               className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
               style={{
-                background: activePersona === null ? '#214995' : 'rgba(0,0,0,0.06)',
-                color: activePersona === null ? '#fff' : '#6b7280',
-                border: activePersona === null ? '1px solid #214995' : '1px solid rgba(0,0,0,0.1)',
+                background: activePersona === null ? '#111827' : 'transparent',
+                color: activePersona === null ? '#fff' : '#111827',
+                border: '2px solid #111827',
               }}
             >
               All
@@ -1288,9 +1366,9 @@ export default function Home() {
                 onClick={() => setActivePersona(prev => (prev === i ? null : i))}
                 className="rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
                 style={{
-                  background: activePersona === i ? '#214995' : 'rgba(0,0,0,0.06)',
-                  color: activePersona === i ? '#fff' : '#6b7280',
-                  border: activePersona === i ? '1px solid #214995' : '1px solid rgba(0,0,0,0.1)',
+                  background: activePersona === i ? '#111827' : 'transparent',
+                  color: activePersona === i ? '#fff' : '#111827',
+                  border: '2px solid #111827',
                 }}
               >
                 {cat.label}
@@ -1365,11 +1443,10 @@ export default function Home() {
           <div className="mt-8 flex w-full flex-col items-center gap-2 lg:mt-10">
             <Link
               to="/integrations"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors"
-              style={{ backgroundColor: '#214995' }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
             >
               Show all integrations
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
@@ -1385,44 +1462,6 @@ export default function Home() {
 
       {/* Proof — testimonials */}
       {(() => {
-        const TESTIMONIALS = [
-          {
-            name: 'Ruslan V.',
-            title: 'Head of Operations',
-            quote: 'We went from a 4-hour average resolution time to under 2 minutes for verification queries. Ops costs dropped and CSAT went up at the same time. supVision made the whole support flow predictable and auditable.',
-            stats: [
-              { value: '< 2 min', label: 'avg verification resolution time' },
-              { value: '1 month',  label: 'to measurable ROI' },
-            ],
-          },
-          {
-            name: 'Alan N.',
-            title: 'Customer Success Lead',
-            quote: "We cut support headcount by 30% while handling 3× the ticket volume. The agents that stayed are focused on real escalations, not copy-pasting the same repetitive answers all day. ROI showed up faster than any tool we've ever deployed.",
-            stats: [
-              { value: '30%', label: 'reduction in support headcount' },
-              { value: '3×',  label: 'ticket volume, same team' },
-            ],
-          },
-          {
-            name: 'Cyril B.',
-            title: 'Compliance Lead',
-            quote: 'Our compliance team was skeptical about automating disputes. But supVision handles edge cases better than we expected, and logs every decision with a full rationale and timestamp. When our auditors asked for a trail, we exported it in minutes.',
-            stats: [
-              { value: '100%',   label: 'automated decision audit coverage' },
-              { value: '< 5 min', label: 'regulator export time' },
-            ],
-          },
-          {
-            name: 'Dmytriy K.',
-            title: 'Head of Customer Support',
-            quote: 'We used to hire new people every time we expanded to a new geography. Now we automatically serve all regions — Europe, the US, Asia, the Middle East — without adding a single agent. The setup took three days.',
-            stats: [
-              { value: '4 regions', label: 'served without new hires' },
-              { value: '3 days',    label: 'to go live globally' },
-            ],
-          },
-        ]
         const t = TESTIMONIALS[testimonialIdx]
         const total = TESTIMONIALS.length
         return (
@@ -1430,28 +1469,19 @@ export default function Home() {
             <div className="mx-auto max-w-5xl">
               {/* Heading */}
               <div className="mb-10 text-center">
-                <p className="text-3xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
                   Companies that moved from overwhelmed to{' '}
-                  <span style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}>
-                    automated.
-                    <svg viewBox="0 0 190 12" preserveAspectRatio="none" aria-hidden="true"
-                      style={{ position: 'absolute', bottom: -6, left: '-2%', width: '104%', height: 12, pointerEvents: 'none', overflow: 'visible' }}>
-                      <path d="M 2 8 C 12 5, 28 10, 48 7 C 64 5, 82 9, 100 6.5 C 118 4, 138 9, 158 7 C 170 5.5, 180 8, 188 7"
-                        stroke="#FB9A05" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M 4 9.5 C 20 7, 42 11, 65 8.5 C 88 6, 112 10, 135 8 C 155 6.5, 172 9.5, 187 8.5"
-                        stroke="#FB9A05" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.45" />
-                    </svg>
-                  </span>
-                </p>
+                  <span style={{ fontWeight: 700 }}>automated.</span>
+                </h2>
+                <p className="mt-2 text-sm text-gray-500 lg:text-base">Real results from fintech teams that replaced manual support with supVision.</p>
               </div>
 
-              {/* Card */}
-              <div className="overflow-hidden rounded-2xl bg-white shadow-xl" style={{ minHeight: 260 }}>
-                <div className="flex flex-col lg:flex-row">
+              {/* Card — fixed height so all testimonials are the same size */}
+              <div className="overflow-hidden rounded-2xl bg-white" style={{ height: 300, border: '1.5px solid #111827' }}>
+                <div className="flex h-full flex-col lg:flex-row">
 
                   {/* Left — blue panel with wave */}
                   <div className="relative flex w-full flex-shrink-0 flex-col items-center justify-end overflow-hidden px-6 pb-8 pt-10 lg:w-72 lg:items-start lg:pb-10 lg:pt-14" style={{ backgroundColor: '#1a3280' }}>
-                    {/* SVG wave layers */}
                     <svg viewBox="0 0 288 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true"
                       className="absolute inset-0 h-full w-full">
                       <path d="M -40 220 Q 60 160 140 200 Q 220 240 320 180 L 320 320 L -40 320 Z" fill="rgba(255,255,255,0.06)" />
@@ -1460,25 +1490,24 @@ export default function Home() {
                       <path d="M -20 200 Q 90 145 180 182 Q 260 215 350 162 L 350 0 L -20 0 Z" fill="rgba(255,255,255,0.03)" />
                     </svg>
                     <div className="relative z-10 text-center lg:text-left">
-                      <p className="text-xl font-black text-white">{t.name}</p>
-                      <p className="mt-1 text-sm text-white/60">{t.title}</p>
+                      <p key={`name-${testimonialIdx}`} className="text-xl font-black text-white" style={{ animation: 'feature-text-in 0.4s ease both' }}>{t.name}</p>
+                      <p key={`title-${testimonialIdx}`} className="mt-1 text-sm text-white/60" style={{ animation: 'feature-text-in 0.4s ease both' }}>{t.title}</p>
                     </div>
                   </div>
 
                   {/* Right — quote + stats */}
-                  <div className="flex flex-1 flex-col justify-between px-8 py-8 lg:px-10 lg:py-10">
-                    {/* Quote mark */}
-                    <div>
-                      <p className="mb-4 text-2xl font-black leading-none" style={{ color: '#e5e7eb' }}>"</p>
-                      <p key={testimonialIdx} className="text-base leading-relaxed text-gray-700 lg:text-lg">{t.quote}</p>
+                  <div className="flex flex-1 flex-col justify-between overflow-hidden px-8 py-8 lg:px-10 lg:py-10">
+                    <div className="overflow-hidden">
+                      <p className="mb-3 text-2xl font-black leading-none" style={{ color: '#e5e7eb' }}>"</p>
+                      <p key={`quote-${testimonialIdx}`} className="text-sm leading-relaxed text-gray-700 lg:text-base" style={{ animation: 'feature-text-in 0.4s ease both' }}>{t.quote}</p>
                     </div>
 
                     {/* Divider + stats */}
-                    <div className="mt-8 border-t border-gray-100 pt-6">
+                    <div className="mt-4 flex-shrink-0 border-t border-gray-100 pt-4">
                       <div className="flex flex-wrap gap-8">
                         {t.stats.map(s => (
                           <div key={s.label}>
-                            <p className="text-2xl font-black" style={{ color: '#214995' }}>{s.value}</p>
+                            <p className="text-xl font-black" style={{ color: '#214995' }}>{s.value}</p>
                             <p className="mt-0.5 text-xs text-gray-400">{s.label}</p>
                           </div>
                         ))}
@@ -1488,11 +1517,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Navigation */}
+              {/* Navigation dots */}
               <div className="mt-6 flex items-center justify-center gap-4">
                 <button
                   onClick={() => setTestimonialIdx(i => (i - 1 + total) % total)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-400 transition-colors hover:border-gray-500 hover:text-gray-700"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-900 text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                 >
                   <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
                     <path fillRule="evenodd" d="M14 8a.75.75 0 0 1-.75.75H5.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L5.56 7.25h7.69A.75.75 0 0 1 14 8Z" clipRule="evenodd" />
@@ -1503,14 +1532,14 @@ export default function Home() {
                     <button
                       key={i}
                       onClick={() => setTestimonialIdx(i)}
-                      className="transition-all"
+                      className="transition-all duration-300"
                       style={{ width: i === testimonialIdx ? 28 : 8, height: 8, borderRadius: 100, backgroundColor: i === testimonialIdx ? '#214995' : '#d1d5db' }}
                     />
                   ))}
                 </div>
                 <button
                   onClick={() => setTestimonialIdx(i => (i + 1) % total)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-400 transition-colors hover:border-gray-500 hover:text-gray-700"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-900 text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                 >
                   <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
@@ -1523,9 +1552,9 @@ export default function Home() {
       })()}
 
       {/* Built by operators */}
-      <section className="py-3 px-2 sm:px-3">
-        <div>
-          <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#F9FAFB' }}>
+      <section className="py-3 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#faf8f5' }}>
           <div className="grid gap-10 lg:gap-16 lg:grid-cols-2 lg:items-center">
 
             {/* Left - text */}
@@ -1537,12 +1566,12 @@ export default function Home() {
               >
                 <span className="text-gray-900">Built by people with</span>
                 <span>
-                  <span style={{ color: '#FB9A05' }}>15+ years </span>
+                  <span style={{ fontWeight: 700 }}>15+ years </span>
                   <span className="text-gray-900">in fintech.</span>
                 </span>
               </h2>
               <h2 className="mt-4 hidden leading-snug text-gray-900 lg:mt-5 lg:block lg:text-5xl" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
-                Built by people with 15+ years in fintech.
+                Built by people with <span style={{ fontWeight: 700 }}>15+ years</span> in fintech.
               </h2>
               <p className="mt-4 text-center text-sm leading-relaxed text-gray-500 lg:mt-6 lg:text-left lg:text-base">
                 Our team comes from inside the industry — compliance officers, support leads, and engineers who spent over 15 years building and running financial services operations across Europe, the Middle East, and Asia. We know the regulatory pressure, the integration pain, and what it actually takes to scale support without losing control.
@@ -1561,7 +1590,7 @@ export default function Home() {
                 {/* Mobile button */}
                 <Link
                   to="/about"
-                  className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white py-3 text-sm font-semibold text-gray-900 lg:hidden"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF] lg:hidden"
                 >
                   Read our story
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
@@ -1569,21 +1598,19 @@ export default function Home() {
                   </svg>
                 </Link>
                 {/* Desktop button */}
-                <div className="hidden lg:flex flex-wrap items-center gap-6">
+                <div className="hidden lg:flex flex-nowrap items-center gap-6">
                   <Link
                     to="/about"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-gray-300 bg-white pl-5 pr-1.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                    className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                   >
-                    <span className="relative z-10">Read our story</span>
-                    <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
-                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                      </svg>
-                    </span>
+                    Read our story
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                    </svg>
                   </Link>
                   <div className="flex items-center gap-4">
-                    <div className="h-px w-8 bg-gray-300" />
-                    <span className="text-sm text-gray-400">15+ years in fintech, live in multiple countries</span>
+                    <div className="h-px w-8 shrink-0 bg-gray-300" />
+                    <span className="text-sm text-gray-400 whitespace-nowrap">15+ yrs fintech · 40+ countries</span>
                   </div>
                 </div>
               </div>
@@ -1591,11 +1618,11 @@ export default function Home() {
             </div>
 
             {/* Right - image, desktop only */}
-            <div className="hidden lg:flex self-stretch overflow-hidden rounded-2xl">
+            <div className="hidden lg:block self-start overflow-hidden rounded-2xl">
               <img
                 src="/team.png"
                 alt="supVision team"
-                className="h-full w-full object-cover"
+                className="w-full object-cover object-top"
               />
             </div>
 
@@ -1606,9 +1633,8 @@ export default function Home() {
 
 
       {/* Compliance & Security */}
-      <section className="py-3 px-2 sm:px-3">
-        <div className="rounded-3xl px-4 py-10 lg:px-16 lg:py-16" style={{ backgroundColor: '#F3EFE9' }}>
-          <div className="mx-auto max-w-7xl">
+      <section className="py-10 px-4 sm:px-6 lg:py-16 lg:px-8">
+        <div className="mx-auto max-w-7xl">
 
             {/* Mobile */}
             <div className="max-w-3xl mx-auto lg:hidden">
@@ -1616,7 +1642,7 @@ export default function Home() {
                 className="mt-2 text-center text-[2.25rem] leading-tight text-gray-900"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
               >
-                Built for regulated financial services from day one.
+                Privacy first. <span style={{ fontWeight: 700 }}>Security always.</span>
               </h2>
               <ul className="mt-6 space-y-4">
                 {complianceFeatures.map((f) => (
@@ -1632,11 +1658,10 @@ export default function Home() {
               </ul>
               <Link
                 to="/security"
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold text-white"
-                style={{ backgroundColor: '#214995' }}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Learn more
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                 </svg>
               </Link>
@@ -1644,19 +1669,20 @@ export default function Home() {
 
             {/* Desktop */}
             <div className="hidden lg:block">
-              <h2
-                className="mt-5 text-4xl leading-tight text-gray-900 text-center"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 400 }}
-              >
-                We put our security{' '}
-                <span style={{ color: '#FB9A05' }}>to the test </span>
-                with live, independent auditing.
-              </h2>
+              <div className="mb-10 text-center">
+                <h2
+                  className="text-4xl leading-tight text-gray-900"
+                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                >
+                  Privacy first. <span style={{ fontWeight: 700 }}>Security always.</span>
+                </h2>
+                <p className="mt-2 text-sm text-gray-500 lg:text-base">Your data is protected at every layer — by design, not by policy.</p>
+              </div>
               <div className="mt-10 grid grid-cols-3 gap-6">
                 {complianceCertCards.map((card) => (
                   <div
                     key={card.title}
-                    className="flex flex-col items-center overflow-visible px-6 py-8 text-center"
+                    className="flex flex-col items-center overflow-visible rounded-2xl border-2 border-gray-900 px-6 py-8 text-center"
                   >
                     <div
                       className={[
@@ -1688,18 +1714,16 @@ export default function Home() {
               <div className="mt-10 flex justify-center">
                 <Link
                   to="/security"
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white"
-                  style={{ backgroundColor: '#214995' }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
                 >
                   Learn more
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                     <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                   </svg>
                 </Link>
               </div>
             </div>
 
-          </div>
         </div>
       </section>
 
@@ -1717,14 +1741,14 @@ export default function Home() {
 
             {/* Top text */}
             <div className="px-5 pt-10 pb-0 lg:px-16 lg:py-16 lg:pb-0 lg:flex lg:flex-col lg:justify-start">
-              <h2 className="mt-4 hidden text-3xl font-bold leading-tight text-white lg:block lg:text-4xl">Most teams are live within 3 days.</h2>
-              <p className="mt-3 hidden text-base text-blue-200 lg:block">30 minutes. We'll show exactly how it works for your stack.</p>
+              <h2 className="mt-4 hidden text-3xl font-bold leading-tight text-white lg:block lg:text-4xl">See it in action. Book your demo today.</h2>
               <h2
                 className="mt-2 flex flex-col text-center leading-tight lg:hidden"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
               >
-                <span style={{ color: '#FB9A05' }}>30 minutes.</span>
-                <span className="text-white">We&apos;ll show exactly how it works for your stack.</span>
+                <span className="text-white">Stop answering</span>
+                <span className="text-white">the same questions.</span>
+                <span style={{ color: '#FB9A05' }}>Let supVision do it.</span>
               </h2>
             </div>
 
@@ -1848,32 +1872,27 @@ export default function Home() {
                       </p>
                     </div>
                     <div className="pt-1">
-                      {/* Mobile: full-width, no animation */}
+                      {/* Mobile */}
                       <button
                         type="submit"
                         disabled={demoSending}
-                        className="flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-bold uppercase tracking-widest text-white lg:hidden disabled:opacity-60"
-                        style={{ backgroundColor: '#111827' }}
+                        className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF] lg:hidden disabled:opacity-60"
                       >
                         {demoSending ? 'Sending…' : 'Send request'}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                           <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                         </svg>
                       </button>
-                      {/* Desktop: animated */}
+                      {/* Desktop */}
                       <button
                         type="submit"
                         disabled={demoSending}
-                        className="group relative hidden lg:inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white disabled:opacity-60"
-                        style={{ backgroundColor: '#111827' }}
+                        className="hidden lg:inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF] disabled:opacity-60"
                       >
-                        <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                        <span className="relative z-10 uppercase tracking-widest">{demoSending ? 'Sending…' : 'Send request'}</span>
-                        <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                            <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                          </svg>
-                        </span>
+                        {demoSending ? 'Sending…' : 'Send request'}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                          <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                        </svg>
                       </button>
                       {demoSubmitError && (
                         <p className="mt-3 text-xs text-red-500">{demoSubmitError}</p>
@@ -2083,7 +2102,7 @@ function FAQ() {
             className="leading-tight"
             style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
           >
-            <span className="text-gray-900">Frequently asked questions</span>
+            <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
         </div>
 
@@ -2155,24 +2174,24 @@ const heroIndustries = [
 
 const heroDesktopAgentFeatures = [
   {
-    label: 'Resolve tier-1 support',
-    desc: 'Disputes, payments, verification — closed autonomously in under 2 min.',
-    icon: S('M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z', true),
+    label: 'Expand globally, not your headcount',
+    desc: '100+ languages, new markets, zero extra hires.',
+    icon: <img src="/hero_icons/globally.png" alt="" className="h-6 w-6 object-contain" />,
   },
   {
-    label: 'Escalate with full context',
-    desc: 'Complex cases handed off with thread, CRM/KYC data, and reason.',
-    icon: S('M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z', true),
+    label: 'Cut costs without cutting quality',
+    desc: '93% of support automated. Team freed for real work.',
+    icon: <img src="/hero_icons/cut.png" alt="" className="h-6 w-6 object-contain" />,
   },
   {
-    label: 'Verify with live data',
-    desc: 'Pulls account, transaction & identity state before every reply.',
-    icon: S('M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', true),
+    label: 'Keep customers before they churn',
+    desc: 'Disputes resolved in seconds, not the days that lose customers.',
+    icon: <img src="/hero_icons/keep.png" alt="" className="h-6 w-6 object-contain" />,
   },
   {
-    label: 'Work across your channels',
-    desc: 'Email, WhatsApp, Telegram, chat & helpdesk — one agent, every channel.',
-    icon: S(['M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z', 'M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z']),
+    label: 'Go live in 3 days, not 6 months',
+    desc: 'Plug into your existing stack. No migration, no delays.',
+    icon: <img src="/hero_icons/go life.png" alt="" className="h-6 w-6 object-contain" />,
   },
 ]
 
