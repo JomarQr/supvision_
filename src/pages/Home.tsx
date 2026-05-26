@@ -1,4 +1,4 @@
-import { type ReactNode, FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageMeta from '../components/PageMeta'
 import { submitContactForm } from '../lib/contactApi'
