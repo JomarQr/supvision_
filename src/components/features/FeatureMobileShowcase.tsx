@@ -60,8 +60,8 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
   const accordionItems = data.steps.map((s) => ({ q: s.title, a: s.desc }))
 
   return (
-    <section className="px-4 pb-8 pt-4 sm:px-6">
-      <div className="mx-auto w-full max-w-4xl text-center lg:max-w-7xl">
+    <section className="px-4 pb-8 pt-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-4xl text-center lg:max-w-7xl lg:px-6">
         {/* Title / pills / CTA — mobile only, desktop hero has these */}
         <div className="lg:hidden">
           <h1
@@ -114,7 +114,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
             {data.title}. Your agent handles it <em className="italic">perfectly</em>.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-gray-400">{data.description}</p>
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {showcaseCards.map((card) => (
               <div
                 key={card.title}
@@ -150,9 +150,20 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
           <p className="mt-3 text-sm leading-relaxed text-gray-600">
             See how supVision handles {data.title.toLowerCase()} in your live support flow.
           </p>
-          <div className="mt-6 border-b border-gray-900">
+          {/* Mobile: accordion */}
+          <div className="mt-6 border-b border-gray-900 lg:hidden">
             {accordionItems.map((item) => (
               <FeatureAccordionItem key={item.q} item={item} />
+            ))}
+          </div>
+          {/* Desktop: grid of steps */}
+          <div className="mt-6 hidden lg:grid lg:grid-cols-2 lg:gap-4">
+            {data.steps.map((s) => (
+              <div key={s.title} className="flex flex-col gap-2 rounded-2xl p-5" style={{ border: '1px solid #e5e2d8' }}>
+                <span className="text-xs font-bold uppercase tracking-wide text-gray-400">{s.step}</span>
+                <h3 className="text-base font-semibold text-gray-900">{s.title}</h3>
+                <p className="text-sm leading-relaxed text-gray-500">{s.desc}</p>
+              </div>
             ))}
           </div>
         </div>

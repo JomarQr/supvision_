@@ -241,8 +241,8 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
             >
               Challenges we solve for <em className="italic">{data.title}</em>.
             </h2>
-            <div className="mt-8 grid grid-cols-2 gap-4">
-              {data.challenges.slice(0, 4).map((card) => (
+            <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-3">
+              {data.challenges.map((card) => (
                 <div
                   key={card.title}
                   className="flex flex-col gap-3 rounded-2xl p-5"
@@ -276,11 +276,11 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
             >
               What <em className="italic">{data.title}</em> teams get.
             </h2>
-            <div className="mt-8 flex flex-col divide-y divide-gray-200">
+            <div className="mt-8 grid grid-cols-2 gap-px border border-gray-200 overflow-hidden rounded-2xl lg:grid-cols-5">
               {data.metrics.map((m) => (
-                <div key={m.label} className="flex flex-col items-center py-6 text-center">
-                  <span className="text-5xl font-black text-gray-900">{m.value}</span>
-                  <p className="mt-2 whitespace-nowrap text-base leading-relaxed text-gray-500">{m.label}</p>
+                <div key={m.label} className="flex flex-col items-center bg-[#faf8f5] px-4 py-8 text-center">
+                  <span className="text-4xl font-black text-gray-900 lg:text-5xl">{m.value}</span>
+                  <p className="mt-2 text-sm leading-snug text-gray-500">{m.label}</p>
                 </div>
               ))}
             </div>
