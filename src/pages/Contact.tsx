@@ -91,6 +91,17 @@ export default function Contact() {
         path="/contact"
       />
       <div className="mx-auto max-w-3xl">
+        <div className="mb-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <path d="M10.5 13.5L3 8l7.5-5.5" />
+            </svg>
+            Back
+          </Link>
+        </div>
         <header className="mb-8 text-center sm:mb-10">
           <h1
             className="text-[2.25rem] leading-tight text-gray-900 sm:text-[2.75rem]"

@@ -35,12 +35,6 @@ const timeline = [
   },
 ]
 
-const problemMetrics = [
-  { value: '15+', label: 'Years inside fintech operations' },
-  { value: '24/7', label: 'The reality of fintech customer support' },
-  { value: '8 weeks', label: 'Average agent onboarding time we kept repeating' },
-  { value: '3 days', label: 'Time to go live with supVision' },
-]
 
 const values = [
   {
@@ -150,16 +144,6 @@ export default function About() {
           </div>
         </div>
 
-        <div className="mx-auto mt-6 w-full max-w-3xl lg:max-w-5xl lg:px-6">
-          <div className="overflow-hidden rounded-3xl max-h-64 sm:max-h-96 lg:max-h-[560px]">
-            <img
-              src="/team.png"
-              alt="supVision team"
-              className="h-64 w-full object-cover sm:h-96 lg:h-[560px]"
-              style={{ objectPosition: 'center 60%' }}
-            />
-          </div>
-        </div>
       </section>
 
       {/* Story - horizontal pin scroll */}
@@ -237,99 +221,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* The problem we lived */}
-      <section className="pt-10 pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-            <div>
-              <p
-                className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
-              >
-                The problem we lived
-              </p>
-              <p className="mt-6 text-lg leading-relaxed text-gray-500">
-                Fintech support is not like any other support. Your agents need to understand fintech verification, PSD2, chargeback workflows, AML holds, and the difference between a payment pending and a payment failed - before they can answer a single customer message.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-gray-500">
-                Training takes 6 to 8 weeks. Then the agent handles live queries for a few months. Then they leave. You start again.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-gray-500">
-                Meanwhile, tickets queue up 24 hours a day because financial services customers do not keep office hours. A payment fails at midnight. A verification rejection comes in on a Sunday. A withdrawal hold triggers panic at 3am.
-              </p>
-              <p className="mt-4 text-lg leading-relaxed text-gray-500">
-                We managed these queues. We lived the rotation. We tried every generic AI tool on the market. None of them understood what we actually needed.
-              </p>
-              <p className="mt-4 mb-10 text-center text-base font-semibold text-gray-900 lg:mb-0">
-                So we built it ourselves.
-              </p>
-            </div>
-
-            <div className="hidden items-center justify-center lg:flex">
-              <img src="/robot_with_mac.png" alt="The problem" className="h-auto w-1/2" />
-            </div>
-          </div>
-
-          {/* Mobile: metrics left, robot right */}
-          <div className="mt-4 flex items-center gap-2 lg:hidden">
-            <div className="flex w-[46%] flex-shrink-0 flex-col gap-2">
-              {problemMetrics.map((m) => (
-                <div key={m.label} className="rounded-2xl p-3.5 text-center" style={{ border: '1.5px solid #111827' }}>
-                  <p
-                    className="text-2xl leading-tight"
-                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#214995' }}
-                  >
-                    {m.value}
-                  </p>
-                  <p className="mt-2 text-sm leading-snug text-gray-500">{m.label}</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex min-w-0 flex-1 items-center justify-center">
-              <img src="/robot_with_mac.png" alt="The problem" className="h-auto w-full max-w-[170px] object-contain sm:max-w-[190px]" />
-            </div>
-          </div>
-
-          <div className="mt-6 flex justify-center lg:hidden">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
-            >
-              <span>Ready to change your support</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-gray-900">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </Link>
-          </div>
-
-          {/* Desktop metrics */}
-          <div className="mt-12 hidden gap-4 lg:grid lg:grid-cols-4">
-            {problemMetrics.map((m) => (
-              <div key={m.label} className="rounded-2xl p-6" style={{ border: '1.5px solid #111827' }}>
-                <p
-                  className="text-[2rem] leading-tight sm:text-[3.25rem]"
-                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#214995' }}
-                >
-                  {m.value}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-gray-500">{m.label}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 hidden justify-center lg:flex">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
-            >
-              <span>Ready to change your support</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-gray-900">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Values */}
       <section className="pt-8 pb-24 px-4 sm:px-6 lg:px-8">
