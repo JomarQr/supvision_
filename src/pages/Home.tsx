@@ -79,7 +79,6 @@ export default function Home() {
   const [demoFormStartedAt] = useState(() => Date.now())
   const demoFormRef = useRef<HTMLFormElement>(null)
   const [chatStepMobile, setChatStepMobile] = useState(0)
-  const [chatStepDesktop, setChatStepDesktop] = useState(0)
   const [langItems] = useState<Array<{ id: number; langIdx: number; slot: number }>>(
     () => Array.from({ length: 11 }, (_, i) => ({ id: i, langIdx: i % LANGUAGES.length, slot: i }))
   )
@@ -133,7 +132,6 @@ export default function Home() {
     let timer: ReturnType<typeof setTimeout>
     const tick = () => {
       const [step, delay] = steps[idx]
-      setChatStepDesktop(step)
       idx = (idx + 1) % steps.length
       timer = setTimeout(tick, delay)
     }
