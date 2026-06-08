@@ -45,7 +45,7 @@ function StatusBadge({ status, sc }: { status: string; sc: string }) {
   )
 }
 
-export default function HeroDashboard({ animated = true, view = 'default', beige = false }: { animated?: boolean; view?: DashboardView; beige?: boolean }) {
+export default function HeroDashboard({ animated = true, view = 'default', beige = false, height = 590, hiddenKPIs, hideTeamQueue, hideSLA }: { animated?: boolean; view?: DashboardView; beige?: boolean; height?: number; hiddenKPIs?: number[]; hideTeamQueue?: boolean; hideSLA?: boolean }) {
   const bg = beige ? '#faf8f5' : '#fff'
   const divider = beige ? '#e8e2d9' : '#f0f0f0'
   const [bars, setBars] = useState(BARS)
@@ -94,6 +94,24 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
 
   const blockedEntry = BLOCKED_QUEUE[blockedIdx]
 
+  const settingsViews: DashboardView[] = ['confidence', 'topic-restrictions', 'data-access', 'continuous-learning', 'industry-presets', 'tone-style']
+  const analyticsViews: DashboardView[] = ['audit-logs', 'confidence-reporting', 'team-performance', 'analytics']
+  const activeNav = settingsViews.includes(view) ? 'Settings' : analyticsViews.includes(view) ? 'Analytics' : 'Dashboard'
+
+  const controlSubItems: { v: DashboardView; label: string }[] = [
+    { v: 'confidence',        label: 'Confidence' },
+    { v: 'topic-restrictions', label: 'Topic Rules' },
+    { v: 'data-access',       label: 'Data Access' },
+  ]
+  const adaptivitySubItems: { v: DashboardView; label: string }[] = [
+    { v: 'continuous-learning', label: 'Learning' },
+    { v: 'industry-presets',    label: 'Presets' },
+    { v: 'tone-style',          label: 'Tone & Style' },
+  ]
+  const activeSettingsGroup =
+    ['confidence', 'topic-restrictions', 'data-access'].includes(view) ? controlSubItems :
+    ['continuous-learning', 'industry-presets', 'tone-style'].includes(view) ? adaptivitySubItems : null
+
   return (
     <div style={{
       display: 'flex',
@@ -105,39 +123,76 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       fontSize: 12,
       color: '#111827',
       userSelect: 'none',
-      height: 500,
+      height,
     }}>
       {/* ── SIDEBAR ── */}
       <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
           <img src="/Component 156 (3).png" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
-        <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>Menu</p>
-        {NAV.map(item => (
-          <div key={item.label} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '7px 14px',
-            background: item.active ? 'rgba(33,73,149,0.08)' : 'transparent',
-            borderLeft: item.active ? '3px solid #214995' : '3px solid transparent',
-            marginBottom: 1,
-          }}>
-            <span style={{ fontSize: 11, fontWeight: item.active ? 700 : 500, color: item.active ? '#214995' : '#6b7280' }}>
-              {item.label}
-            </span>
-            {item.badge && (
-              <span style={{ fontSize: 8, fontWeight: 700, background: '#214995', color: '#fff', borderRadius: 100, padding: '1px 5px' }}>
-                {item.badge}
-              </span>
-            )}
-          </div>
-        ))}
-        <div style={{ flex: 1 }} />
-        <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>General</p>
-        {['Settings', 'Help', 'Logout'].map(l => (
-          <div key={l} style={{ padding: '6px 14px', borderLeft: '3px solid transparent' }}>
-            <span style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af' }}>{l}</span>
-          </div>
-        ))}
+        {activeNav === 'Settings' ? (
+          <>
+            {/* Back row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 14px 10px', cursor: 'default' }}>
+              <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10, flexShrink: 0 }}>
+                <path fillRule="evenodd" d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+              </svg>
+              <span style={{ fontSize: 10, color: '#9ca3af' }}>Settings</span>
+            </div>
+            <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>
+              {['confidence', 'topic-restrictions', 'data-access'].includes(view) ? 'Control' : 'Adaptivity'}
+            </p>
+            {activeSettingsGroup && activeSettingsGroup.map(sub => (
+              <div key={sub.v} style={{
+                display: 'flex', alignItems: 'center',
+                padding: '7px 14px',
+                borderLeft: view === sub.v ? '3px solid #214995' : '3px solid transparent',
+                background: view === sub.v ? 'rgba(33,73,149,0.08)' : 'transparent',
+                marginBottom: 1,
+              }}>
+                <span style={{ fontSize: 11, fontWeight: view === sub.v ? 700 : 500, color: view === sub.v ? '#214995' : '#6b7280' }}>{sub.label}</span>
+              </div>
+            ))}
+            <div style={{ flex: 1 }} />
+            {['Help', 'Logout'].map(l => (
+              <div key={l} style={{ padding: '6px 14px', borderLeft: '3px solid transparent' }}>
+                <span style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af' }}>{l}</span>
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>Menu</p>
+            {NAV.map(item => {
+              const isActive = activeNav === item.label
+              return (
+                <div key={item.label} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '7px 14px',
+                  background: isActive ? 'rgba(33,73,149,0.08)' : 'transparent',
+                  borderLeft: isActive ? '3px solid #214995' : '3px solid transparent',
+                  marginBottom: 1,
+                }}>
+                  <span style={{ fontSize: 11, fontWeight: isActive ? 700 : 500, color: isActive ? '#214995' : '#6b7280' }}>
+                    {item.label}
+                  </span>
+                  {item.badge && (
+                    <span style={{ fontSize: 8, fontWeight: 700, background: '#214995', color: '#fff', borderRadius: 100, padding: '1px 5px' }}>
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+              )
+            })}
+            <div style={{ flex: 1 }} />
+            <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>General</p>
+            {['Settings', 'Help', 'Logout'].map(l => (
+              <div key={l} style={{ padding: '6px 14px', borderLeft: '3px solid transparent' }}>
+                <span style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af' }}>{l}</span>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       {/* ── MAIN ── */}
@@ -1189,9 +1244,9 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                 </div>
               </div>
 
-              {/* KPI row */}
+              {/* KPI row — per-card visibility:hidden preserves layout for 3D floating overlay */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
-                <div style={{ ...card({ background: '#214995', color: '#fff', position: 'relative', overflow: 'hidden' }) }}>
+                <div style={{ ...card({ background: '#214995', color: '#fff', position: 'relative', overflow: 'hidden' }), visibility: hiddenKPIs?.includes(0) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="white" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1199,7 +1254,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, marginBottom: 5 }}>847</p>
                   <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(255,255,255,0.18)', color: '#fff', borderRadius: 100, padding: '2px 7px' }}>↑ 12% from yesterday</span>
                 </div>
-                <div style={card()}>
+                <div style={{ ...card(), visibility: hiddenKPIs?.includes(1) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1207,7 +1262,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, marginBottom: 5 }}>578</p>
                   <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(34,197,94,0.12)', color: '#16a34a', borderRadius: 100, padding: '2px 7px' }}>↑ 4% vs last week</span>
                 </div>
-                <div style={card()}>
+                <div style={{ ...card(), visibility: hiddenKPIs?.includes(2) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1215,7 +1270,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, marginBottom: 5 }}>1.2s</p>
                   <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(34,197,94,0.12)', color: '#16a34a', borderRadius: 100, padding: '2px 7px' }}>↓ 0.3s faster</span>
                 </div>
-                <div style={card()}>
+                <div style={{ ...card(), visibility: hiddenKPIs?.includes(3) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1264,7 +1319,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
 
               {/* Row 3: Tickets + Gauge + SLA */}
               <div style={{ display: 'grid', gridTemplateColumns: '1.55fr 0.75fr 0.75fr', gap: 10 }}>
-                <div style={card({ padding: '12px 14px' })}>
+                <div style={{ ...card({ padding: '12px 14px' }), visibility: hideTeamQueue ? 'hidden' : undefined }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                     <p style={{ fontSize: 11, fontWeight: 700 }}>Team Queue</p>
                     <button style={{ fontSize: 9, fontWeight: 700, border: '1px solid #e5e7eb', borderRadius: 100, padding: '2px 8px', background: '#fff', cursor: 'default', color: '#374151' }}>+ Assign</button>
@@ -1302,7 +1357,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     ))}
                   </div>
                 </div>
-                <div style={{ ...card({ background: '#1a2744', padding: '12px 12px' }), display: 'flex', flexDirection: 'column' }}>
+                <div style={{ ...card({ background: '#1a2744', padding: '12px 12px' }), display: 'flex', flexDirection: 'column', visibility: hideSLA ? 'hidden' : undefined }}>
                   <p style={{ fontSize: 11, fontWeight: 700, color: '#fff', marginBottom: 4 }}>SLA Tracker</p>
                   <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', marginBottom: 10 }}>Next breach in</p>
                   <p style={{ fontSize: 28, fontWeight: 800, color: sla < 20 ? '#ef4444' : '#4ade80', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>

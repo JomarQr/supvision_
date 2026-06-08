@@ -139,7 +139,7 @@ export default function Security() {
 
       {/* Hero */}
       <section
-        className="px-4 pb-16 pt-28 text-center sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-32"
+        className="px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-16"
         style={{ backgroundColor: '#faf8f5' }}
       >
         <div className="mx-auto max-w-3xl">
@@ -203,14 +203,18 @@ export default function Security() {
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link
-                to="/contact"
-                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
+                to="/privacy-policy"
+                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
               >
                 Privacy Policy
               </Link>
               <Link
-                to="/contact"
-                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
+                to="/data-policy"
+                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
               >
                 Data Policy
               </Link>

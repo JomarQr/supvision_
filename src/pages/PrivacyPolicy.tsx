@@ -63,7 +63,7 @@ const sections = [
 
 export default function PrivacyPolicy() {
   return (
-    <div className="pt-24">
+    <div className="pt-0">
       <PageMeta
         title="Privacy Policy — supVision"
         description="How supVision collects, uses, and protects your data. GDPR-compliant. Your privacy is built into our architecture."

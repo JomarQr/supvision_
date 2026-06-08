@@ -266,7 +266,7 @@ export default function IntegrationFinder() {
     <section className="px-4 pb-16 pt-4 sm:px-6 lg:px-8 lg:py-24 lg:pt-8" style={{ backgroundColor: '#faf8f5' }}>
       <div className="mx-auto w-full max-w-4xl lg:max-w-7xl">
 
-        <div className="mb-8 text-center lg:mb-12">
+        <div data-reveal className="mb-8 text-center lg:mb-12">
           <h2
             className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:text-5xl"
             style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
@@ -342,7 +342,7 @@ export default function IntegrationFinder() {
                 mobileTwoColumn ? 'gap-2.5 p-3' : 'gap-4 p-5 sm:p-6',
                 item.comingSoon ? '' : 'lg:cursor-pointer',
               ].join(' ')}
-              style={{ border: '1.5px solid #111827' }}
+              style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
             >
               <div className={mobileTwoColumn ? 'flex flex-col gap-2' : 'flex items-center gap-3'}>
                 <img
@@ -434,7 +434,7 @@ export default function IntegrationFinder() {
           >
             <span className="lg:hidden">Can&apos;t find your tool? Let&apos;s chat</span>
             <span className="hidden lg:inline">Can&apos;t find your tool? Let&apos;s chat about a custom integration</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0" style={{ color: '#214995' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
               <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
             </svg>
           </Link>
@@ -498,16 +498,14 @@ export default function IntegrationFinder() {
               <Link
                 to="/contact"
                 onClick={() => setSelected(null)}
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white"
-                style={{ backgroundColor: '#111827' }}
+                className="inline-flex items-center gap-2 rounded-full border border-gray-900 bg-transparent px-6 py-3 text-sm font-semibold text-gray-900 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
               >
-                <span className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]" style={{ backgroundColor: '#214995' }} />
-                <span className="relative z-10">Set up this integration</span>
-                <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                  </svg>
-                </span>
+                <span>Set up this integration</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
               </Link>
             </div>
           </div>

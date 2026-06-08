@@ -1,11 +1,14 @@
 import IndustryPage from './IndustryPage'
+import bankBranchAnim from '../../assets/icons-colored/doodle-color-636-bank-branch-hover-roll.json'
 
 const data = {
-  badge: 'For whom · Neobanks & Digital Banking',
-  title: 'Neobanks & Digital Banking',
+  badge: 'For whom · Digital Banking',
+  title: 'Digital Banking',
+  heroIcon: bankBranchAnim,
+  heroIconBg: '#EAF4EE',
   subtitle: 'Account support, identity verification, and onboarding - at the scale digital banks demand.',
   description: 'Neobanks grow fast and support needs grow faster. Your app is available 24/7 - your customers expect your support to be too. supVision handles the most common queries your team sees every day: verification queues, account issues, card queries, and onboarding drop-offs - without adding headcount.',
-  heroImage: '/for_whom/Neobanks & Digital Banking.png',
+  heroImage: '/industry/Neobanks & Digital Banking.png',
   highlights: [
     'Identity verification and onboarding queries resolved autonomously - no queue, no wait',
     '24/7 account and card support without adding headcount',

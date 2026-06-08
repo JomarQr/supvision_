@@ -534,7 +534,7 @@ function SupportAgentFAQItem({
   }, [isOpen])
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
+    <div className="overflow-hidden rounded-2xl bg-white" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
       <button
         type="button"
         onClick={onToggle}
@@ -580,7 +580,7 @@ function SupportAgentFAQ() {
   return (
     <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
-        <div className="mb-8 text-center">
+        <div data-reveal className="mb-8 text-center">
           <h2
             className="leading-tight"
             style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
@@ -637,7 +637,7 @@ function SupportAgentFAQ() {
 
 export default function SupportAgent() {
   return (
-    <div className="pt-24">
+    <div className="pt-0">
       <PageMeta
         title="AI Support Agent for Fintech — supVision"
         description="Create an autonomous support agent for your fintech in minutes. Resolves KYC queries, disputes, and transaction issues 24/7 — no human needed."
@@ -645,10 +645,10 @@ export default function SupportAgent() {
       />
 
       {/* Hero */}
-      <section className="px-4 pb-16 sm:px-6 lg:px-8 lg:pt-8">
+      <section className="px-4 pb-16 sm:px-6 lg:px-8 lg:pt-2">
         <div className="mx-auto max-w-7xl lg:px-6">
           <div>
-            <div className="mx-auto max-w-3xl text-center">
+            <div data-reveal className="mx-auto max-w-3xl text-center">
               <h1
                 className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:whitespace-nowrap"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
@@ -762,12 +762,12 @@ export default function SupportAgent() {
       {/* Compliance certificates */}
       <section className="py-8 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-6">
+          <div data-reveal className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:gap-6">
             {complianceCertCards.map((card) => (
               <div
                 key={card.title}
                 className="flex flex-col items-center overflow-visible rounded-2xl px-6 py-8 text-center"
-                style={{ border: '1.5px solid #111827' }}
+                style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}
               >
                 <div
                   className={[
@@ -815,6 +815,7 @@ export default function SupportAgent() {
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div
+          data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
           style={{
             backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',

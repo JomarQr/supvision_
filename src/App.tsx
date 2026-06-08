@@ -19,6 +19,7 @@ import AuditLogs from '@/pages/features/AuditLogs'
 import MultiLanguage from '@/pages/features/MultiLanguage'
 import Integrations from '@/pages/Integrations'
 import ForWhom from '@/pages/ForWhom'
+import Industries from '@/pages/Industries'
 import PaymentsProcessing from '@/pages/industries/PaymentsProcessing'
 import Neobanks from '@/pages/industries/Neobanks'
 import CryptoWeb3 from '@/pages/industries/CryptoWeb3'
@@ -31,8 +32,10 @@ import OperationsGrowth from '@/pages/roles/OperationsGrowth'
 import FoundersCsuite from '@/pages/roles/FoundersCsuite'
 import Analytics from '@/pages/Analytics'
 import PrivacyPolicy from '@/pages/PrivacyPolicy'
+import DataPolicy from '@/pages/DataPolicy'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
+import IFXExpo from '@/pages/IFXExpo'
 
 export default function App() {
   return (
@@ -52,6 +55,7 @@ export default function App() {
         <Route path="/multi-language" element={<MultiLanguage />} />
         <Route path="/integrations" element={<Integrations />} />
         <Route path="/for-whom" element={<ForWhom />} />
+        <Route path="/industries" element={<Industries />} />
         <Route path="/industries/payments-processing" element={<PaymentsProcessing />} />
         <Route path="/industries/neobanks" element={<Neobanks />} />
         <Route path="/industries/crypto-web3" element={<CryptoWeb3 />} />
@@ -64,6 +68,8 @@ export default function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/security" element={<Security />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/data-policy" element={<DataPolicy />} />
+        <Route path="/ifx" element={<IFXExpo />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

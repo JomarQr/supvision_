@@ -25,7 +25,7 @@ const columns = [
     heading: 'Industries',
     links: [
       { label: 'Payments', to: '/industries/payments-processing' },
-      { label: 'Neobanks', to: '/industries/neobanks' },
+      { label: 'Digital Banking', to: '/industries/neobanks' },
       { label: 'Crypto & Web3', to: '/industries/crypto-web3' },
       { label: 'Lending', to: '/industries/lending-credit' },
       { label: 'InsurTech', to: '/industries/insurtech' },
@@ -221,7 +221,7 @@ export default function Footer() {
             </p>
             <Link
               to="/contact"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#F97316] hover:border-[#F97316] hover:text-white"
             >
               Book a demo
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">

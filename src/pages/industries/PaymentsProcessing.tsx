@@ -1,11 +1,14 @@
 import IndustryPage from './IndustryPage'
+import cardExchangeAnim from '../../assets/icons-colored/doodle-color-60-card-exchange-hover-pinch.json'
 
 const data = {
   badge: 'For whom · Payments & Processing',
   title: 'Payments & Processing',
+  heroIcon: cardExchangeAnim,
+  heroIconBg: '#E9F3FB',
   subtitle: 'Dispute resolution, chargebacks, and transaction queries - automated.',
   description: 'Payment companies handle some of the highest-stakes customer support in fintech. A declined transaction at checkout costs the merchant. An unresolved dispute can become a chargeback that costs you. supVision resolves payment queries in real time, with full transaction data, before they escalate.',
-  heroImage: '/for_whom/Payments & Processing.png',
+  heroImage: '/industry/Payments & Processing.png',
   highlights: [
     'Automated chargeback and dispute resolution - median response under 2 minutes',
     'Real-time transaction status queries answered without agent involvement',

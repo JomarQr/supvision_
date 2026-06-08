@@ -1,11 +1,14 @@
 import IndustryPage from './IndustryPage'
+import loanAnim from '../../assets/icons-colored/doodle-color-416-loan-hover-pinch.json'
 
 const data = {
   badge: 'For whom · Lending & Credit',
   title: 'Lending & Credit',
+  heroIcon: loanAnim,
+  heroIconBg: '#FDF4E7',
   subtitle: 'Loan queries, repayment issues, and eligibility checks - resolved instantly.',
   description: 'Lending support is high-stakes and regulation-heavy. Customers under financial stress need fast, accurate answers. Your team needs to respond without giving advice that crosses regulatory lines. supVision handles the most common lending queries autonomously - accurately, compliantly, and at any volume.',
-  heroImage: '/for_whom/Lending & Credit.png',
+  heroImage: '/industry/Lending & Credit.png',
   highlights: [
     '98.4% resolution rate for standard lending support queries',
     'Repayment and eligibility queries resolved in under 2 minutes',

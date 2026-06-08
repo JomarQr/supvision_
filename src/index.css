@@ -146,6 +146,10 @@
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
+  @keyframes ticker-vert {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-50%); }
+  }
   @keyframes ticker-rev {
     from { transform: translateX(-50%); }
     to   { transform: translateX(0); }
@@ -211,6 +215,85 @@
   @keyframes tab-slide-in {
     from { opacity: 0; transform: translateX(40px) scale(0.97); }
     to   { opacity: 1; transform: translateX(0)    scale(1); }
+  }
+  @keyframes banner-shimmer {
+    0%    { left: -8%;  opacity: 1; animation-timing-function: ease-in-out; }
+    6%    { left: 108%; opacity: 1; animation-timing-function: ease-in-out; }
+    12%   { left: -8%;  opacity: 1; }
+    12.1% { left: -8%;  opacity: 0; }
+    100%  { left: -8%;  opacity: 0; }
+  }
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  @keyframes badge-cycle {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Global scroll-reveal system ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms),
+      transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @keyframes wave-char {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+  }
+  @keyframes blue-morph {
+    0%   { background-position: 0% 50%; }
+    25%  { background-position: 100% 0%; }
+    50%  { background-position: 100% 100%; }
+    75%  { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+  }
+  .blue-gradient-card {
+    background: linear-gradient(135deg, #0d2356 0%, #1a3d8f 20%, #214995 45%, #2d61c4 65%, #1530a0 85%, #0d2356 100%);
+    background-size: 350% 350%;
+    animation: blue-morph 8s ease infinite;
+  }
+  .card-wave-track-a {
+    will-change: transform;
+    animation: hero-wave-scroll 22s linear infinite;
+  }
+  .card-wave-track-b {
+    will-change: transform;
+    animation: hero-wave-scroll 30s linear infinite reverse;
+  }
+  .blue-gradient-hero {
+    background: #0F2598;
+  }
+  .hero-wave-track {
+    will-change: transform;
+    animation: hero-wave-scroll 60s linear infinite;
+  }
+  .hero-wave-track-2 {
+    will-change: transform;
+    animation: hero-wave-scroll 80s linear infinite reverse;
+  }
+  .hero-wave-track-3 {
+    will-change: transform;
+    animation: hero-wave-scroll 50s linear infinite;
+  }
+  .hero-wave-track-4 {
+    will-change: transform;
+    animation: hero-wave-scroll 70s linear infinite reverse;
+  }
+  @keyframes hero-wave-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
   body {

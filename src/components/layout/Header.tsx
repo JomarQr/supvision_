@@ -1,6 +1,49 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
+import Lottie from 'lottie-react'
 import { forWhomIndustries, forWhomRoles } from '../../data/forWhom'
+import creditCardAnim from '../../assets/byindustry/credit_card.json'
+import bankAnim from '../../assets/byindustry/bank.json'
+import web3Anim from '../../assets/byindustry/coin.json'
+import walletAnim from '../../assets/byindustry/lend.json'
+import insuranceAnim from '../../assets/byindustry/insurance.json'
+import caseAnim from '../../assets/byrole/case.json'
+import documentAnim from '../../assets/byrole/document.json'
+import growthAnim from '../../assets/byrole/growth.json'
+import headOfSupportAnim from '../../assets/byrole/head_of_support.json'
+import exploreAnim from '../../assets/for_below/explore.json'
+import integrationLinkAnim from '../../assets/for_below/integration.json'
+import bookDemoAnim from '../../assets/for_below/book_a_demo.json'
+import helpdeskAnim from '../../assets/integrations/helpdesk.json'
+import messagingAnim from '../../assets/integrations/messaging_channels.json'
+import knowledgeBaseAnim from '../../assets/integrations/knowledge_base.json'
+import collaborationAnim from '../../assets/integrations/collaboration.json'
+import crmAnim from '../../assets/integrations/crm.json'
+import analyticsIntAnim from '../../assets/integrations/analytics.json'
+import securityIntAnim from '../../assets/integrations/security.json'
+
+const RIGHT_PANEL_LOTTIE: Record<string, object> = {
+  'Helpdesks': helpdeskAnim,
+  'Messaging channels': messagingAnim,
+  'Knowledge base': knowledgeBaseAnim,
+  'Identity providers': helpdeskAnim,
+  'Collaboration': collaborationAnim,
+  'CRM': crmAnim,
+  'Analytics Dashboard': analyticsIntAnim,
+  'Security & Compliance': securityIntAnim,
+}
+
+const ITEM_LOTTIE: Record<string, object> = {
+  'Payments & Processing': creditCardAnim,
+  'Digital Banking': bankAnim,
+  'Web3': web3Anim,
+  'Lending & Credit': walletAnim,
+  'InsurTech': insuranceAnim,
+  'Head of Support': headOfSupportAnim,
+  'Compliance & Risk': documentAnim,
+  'Operations & Growth': growthAnim,
+  'Founders & C-Suite': caseAnim,
+}
 
 // ── Overview mega-menu data ──────────────────────────────────────────────────
 const overviewCategories = [
@@ -59,12 +102,12 @@ const forWhomCategories = [
   {
     key: 'industries',
     label: 'By industry',
-    items: forWhomIndustries.map(({ label, desc, to }) => ({ label, desc, to })),
+    items: forWhomIndustries.map(({ label, desc, to, image }) => ({ label, desc, to, image })),
   },
   {
     key: 'roles',
     label: 'By role',
-    items: forWhomRoles.map(({ label, desc, to }) => ({ label, desc, to })),
+    items: forWhomRoles.map(({ label, desc, to, image }) => ({ label, desc, to, image })),
   },
 ]
 
@@ -95,12 +138,23 @@ const itemIcons: Record<string, JSX.Element> = {
   'Analytics Dashboard': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>,
   // Security
   'Security & Compliance': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>,
+  // Industries
+  'Payments & Processing': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" /></svg>,
+  'Digital Banking': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" /></svg>,
+  'Web3': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>,
+  'Lending & Credit': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>,
+  'InsurTech': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>,
+  // Roles
+  'Head of Support': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>,
+  'Compliance & Risk': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>,
+  'Operations & Growth': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.307a11.95 11.95 0 0 1 5.814-5.519l2.74-1.22m0 0-5.94-2.28m5.94 2.28-2.28 5.941" /></svg>,
+  'Founders & C-Suite': <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5"><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" /></svg>,
 }
 
 function ItemIcon({ label }: { label: string }) {
   const icon = itemIcons[label]
   return (
-    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-500">
+    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-transparent text-gray-700" style={{ border: '1.5px solid #111827' }}>
       {icon ?? (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
           <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -110,7 +164,190 @@ function ItemIcon({ label }: { label: string }) {
   )
 }
 
+// Solid black filled icon — no border, dark bg, white icon inside
+function ItemIconSolid({ label }: { label: string }) {
+  const icon = itemIcons[label]
+  return (
+    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: '#111827' }}>
+      {icon ?? (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+        </svg>
+      )}
+    </div>
+  )
+}
+
+// ── For Whom dropdown item — Lottie on hover, SVG fallback ───────────────────
+function ForWhomDropdownItem({
+  item,
+  onClose,
+}: {
+  item: { label: string; desc: string; to: string }
+  onClose: () => void
+}) {
+  const [hovered, setHovered] = useState(false)
+  const lottieRef = useRef<any>(null)
+  const animData = ITEM_LOTTIE[item.label]
+
+  useEffect(() => {
+    if (!lottieRef.current || !animData) return
+    if (hovered) {
+      lottieRef.current.goToAndPlay(0, true)
+    } else {
+      lottieRef.current.goToAndStop(0, true)
+    }
+  }, [hovered, animData])
+
+  return (
+    <Link
+      to={item.to}
+      onClick={onClose}
+      className="flex items-center gap-2.5 rounded-xl px-3 py-2 transition-colors hover:bg-[#EDE8DF]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-transparent text-gray-700" style={{ border: '1.5px solid #111827' }}>
+        {animData ? (
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={animData}
+            autoplay={false}
+            loop={false}
+            style={{ width: 20, height: 20 }}
+          />
+        ) : (
+          itemIcons[item.label] ?? (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+          )
+        )}
+      </div>
+      <div className="min-w-0">
+        <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
+        <p className="text-xs text-gray-400 truncate">{item.desc}</p>
+      </div>
+    </Link>
+  )
+}
+
+// ── Footer quick-link — Lottie on hover ──────────────────────────────────────
+function FooterQuickLink({
+  link,
+  i,
+  onClose,
+}: {
+  link: { to: string; anim: object; label: string }
+  i: number
+  onClose: () => void
+}) {
+  const [hovered, setHovered] = useState(false)
+  const lottieRef = useRef<any>(null)
+
+  useEffect(() => {
+    if (!lottieRef.current) return
+    if (hovered) {
+      lottieRef.current.goToAndPlay(0, true)
+    } else {
+      lottieRef.current.goToAndStop(0, true)
+    }
+  }, [hovered])
+
+  return (
+    <div className="flex items-center">
+      {i > 0 && <span className="mx-2 text-gray-300 select-none">|</span>}
+      <Link
+        to={link.to}
+        onClick={onClose}
+        className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs text-gray-500 transition-colors hover:text-gray-900 hover:bg-[#EDE8DF]"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <Lottie
+          lottieRef={lottieRef}
+          animationData={link.anim}
+          autoplay={false}
+          loop={false}
+          style={{
+            width: 18,
+            height: 18,
+            flexShrink: 0,
+            filter: hovered ? 'none' : 'grayscale(1) opacity(0.55)',
+            transition: 'filter 0.2s ease',
+          }}
+        />
+        {link.label}
+      </Link>
+    </div>
+  )
+}
+
+// ── Right-panel dropdown item — Lottie on hover, no border ──────────────────
+function RightPanelItem({
+  item,
+  onClose,
+}: {
+  item: { label: string; desc: string; to: string }
+  onClose: () => void
+}) {
+  const [hovered, setHovered] = useState(false)
+  const lottieRef = useRef<any>(null)
+  const animData = RIGHT_PANEL_LOTTIE[item.label]
+
+  useEffect(() => {
+    if (!lottieRef.current || !animData) return
+    if (hovered) {
+      lottieRef.current.goToAndPlay(0, true)
+    } else {
+      lottieRef.current.goToAndStop(0, true)
+    }
+  }, [hovered, animData])
+
+  return (
+    <Link
+      to={item.to}
+      onClick={onClose}
+      className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors hover:bg-[#E5DED5]"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
+        {animData ? (
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={animData}
+            autoplay={false}
+            loop={false}
+            style={{ width: 28, height: 28 }}
+          />
+        ) : (
+          itemIcons[item.label] ?? null
+        )}
+      </div>
+      <div className="min-w-0">
+        <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
+        <p className="text-xs text-gray-400 truncate">{item.desc}</p>
+      </div>
+    </Link>
+  )
+}
+
 // ── Header ───────────────────────────────────────────────────────────────────
+function openCalendlyPopup() {
+  const Cal = (window as any).Calendly
+  if (!Cal) return
+  document.body.style.overflow = 'hidden'
+  Cal.showPopupWidget('https://calendly.com/jevgenij-s-supvision/30min')
+  const observer = new MutationObserver(() => {
+    if (!document.querySelector('.calendly-overlay')) {
+      document.body.style.overflow = ''
+      observer.disconnect()
+    }
+  })
+  observer.observe(document.body, { childList: true })
+}
+
 export default function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -209,11 +446,16 @@ export default function Header() {
   const activeCat = overviewCategories.find(c => c.key === activeCategory) ?? overviewCategories[0]
   const activeForWhomCat = forWhomCategories.find(c => c.key === activeForWhomCategory) ?? forWhomCategories[0]
 
+  const BANNER_H = 32
+  const HEADER_H = 56
+  const TOTAL_H = BANNER_H + HEADER_H
+
   const [navHovered, setNavHovered] = useState(false)
   const [scrollTop, setScrollTop] = useState(0)
   const [scrollDir, setScrollDir] = useState<'up' | 'down'>('up')
   const [isMobile, setIsMobile] = useState(false)
   const prevScrollRef = useRef(0)
+  const wasStickyRef = useRef(false)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024)
@@ -229,15 +471,13 @@ export default function Header() {
         setScrollDir(cur > prevScrollRef.current ? 'down' : 'up')
         prevScrollRef.current = cur
       }
+      if (cur > TOTAL_H) wasStickyRef.current = true
+      if (cur <= 0) wasStickyRef.current = false
       setScrollTop(cur)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  const BANNER_H = 32
-  const HEADER_H = 48
-  const pastHeader = scrollTop > BANNER_H + HEADER_H
   const lightNavPaths = [
     '/about',
     '/contact',
@@ -264,194 +504,103 @@ export default function Header() {
   const isOverviewActive = overviewPaths.some(p => pathname === p || pathname.startsWith(p + '/'))
   const isForWhomActive = pathname.startsWith('/industries/') || pathname.startsWith('/roles/')
 
-  const linkClass = `text-base font-semibold transition-all duration-200 text-gray-900 rounded-lg px-2 py-1 hover:shadow-[0_0_0_2px_#111827]`
+  const linkClass = `text-base font-medium transition-all duration-200 text-gray-900 rounded-lg px-2 py-1 self-center hover:text-[#214995]`
 
-  // Desktop: stays fixed, moves with banner
-  const desktopTop = Math.max(0, BANNER_H - scrollTop)
-  // Mobile: scrolls naturally (BANNER_H - scrollTop goes negative = off screen)
-  // then snaps to top with white bg on scroll up
-  const mobileShowSticky = pastHeader && scrollDir === 'up'
-  const mobileTop = mobileShowSticky ? 0 : BANNER_H - scrollTop
-  const headerTop = isMobile ? mobileTop : desktopTop
+  // Smart sticky: header hides when scrolled past it + going down, shows on scroll up
+  const mobileShowSticky = wasStickyRef.current && scrollDir === 'up'
+  const headerTranslateY = scrollTop <= 2 ? 0 : -BANNER_H
   const mobileHeroDark = pathname === '/'
   const mobileLogoInverted = !mobileShowSticky && !forceLightNav && mobileHeroDark
   const mobileMenuIconDark = mobileShowSticky || forceLightNav
 
   return (
     <>
-      {/* Page dimmer */}
-      <div
-        className="fixed inset-0 z-40 bg-black transition-opacity duration-300 pointer-events-none hidden lg:block"
-        style={{ opacity: navHovered ? 0.45 : 0 }}
-      />
 
     <header
-      className="fixed left-0 right-0 z-50 lg:px-6 lg:pt-3"
+      className="fixed left-0 right-0 z-50"
       style={{
-        top: headerTop + 'px',
-        transition: pastHeader ? 'top 0.25s ease' : 'none',
+        top: 0,
+        transform: `translateY(${headerTranslateY}px)`,
+        transition: scrollTop === 0 ? 'none' : 'transform 0.3s ease',
       }}
     >
       <div
-        className={`mx-auto lg:max-w-7xl lg:rounded-2xl lg:border lg:shadow-[0_2px_16px_rgba(0,0,0,0.08)] ${isMobile && mobileShowSticky ? 'bg-white shadow-md' : 'bg-transparent'}`}
-        style={{ backgroundColor: isMobile && !mobileShowSticky ? undefined : '#F4EFE9', borderColor: '#e8e2d9' }}
+        className={`relative overflow-visible ${isMobile && mobileShowSticky ? 'bg-white shadow-md' : 'bg-transparent'}`}
+        style={{ backgroundColor: isMobile && !mobileShowSticky ? undefined : '#faf8f5' }}
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
-        {/* ── Desktop row ── */}
-        <div className="flex h-12 items-center justify-between px-4 lg:h-16 lg:px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
+        {/* ── Banner row ── */}
+        <button
+          type="button"
+          onClick={openCalendlyPopup}
+          className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[9px] font-bold uppercase tracking-widest transition-colors sm:text-xs border-b border-gray-200 cursor-pointer"
+          style={{ backgroundColor: '#EDE8DF', color: '#111827' }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#111827'; e.currentTarget.style.color = '#F97316'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#EDE8DF'; e.currentTarget.style.color = '#111827'; }}
+        >
+          <span className="relative inline-flex items-center gap-1 overflow-hidden">
+            <span
+              className="pointer-events-none absolute inset-y-0"
+              style={{
+                width: 36,
+                transform: 'skewX(-15deg)',
+                background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.65) 50%, transparent 100%)',
+                animation: 'banner-shimmer 15s linear infinite',
+                animationDelay: '3s',
+              }}
+            />
+            Meet us at iFX EXPO 2026&nbsp;&nbsp;·&nbsp;&nbsp;Cyprus, Limassol&nbsp;&nbsp;·&nbsp;&nbsp;16–18 Jun&nbsp;&nbsp;
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="inline h-3 w-3">
+              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+            </svg>
+          </span>
+        </button>
+
+        {/* ── Desktop nav row ── */}
+        <div className="border-b border-gray-200">
+        <div className="flex h-12 items-center justify-between px-4 lg:h-14 lg:px-10 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
 
           {/* Logo */}
           <a href="/" onClick={handleLogoClick} className="flex items-center">
             {/* Mobile: white at top, dark when sticky */}
             <img
-              src="/Component 156 (3).png"
+              src="/Component 233.png"
               alt="Logo"
               className="h-10 w-auto lg:hidden"
               style={mobileLogoInverted ? { filter: 'brightness(0) invert(1)' } : undefined}
             />
             {/* Desktop: always dark logo on beige nav */}
-            <img src="/Component 156 (3).png" alt="Logo" className="hidden h-10 w-auto lg:block" />
+            <img src="/Component 233.png" alt="Logo" className="hidden h-10 w-auto lg:block" />
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center justify-center gap-8 whitespace-nowrap">
+          <nav className="hidden lg:flex h-full items-stretch justify-center gap-8 whitespace-nowrap">
 
-            <NavLink to="/" end className={({ isActive }) => `${linkClass}${isActive ? ' shadow-[0_0_0_2px_#111827]' : ''}`}>Home</NavLink>
+            <NavLink to="/" end className={({ isActive }) => linkClass}>Home</NavLink>
 
-            {/* Overview mega-menu */}
-            <div className="relative" onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
-              <button className={`${linkClass}${overviewOpen || isOverviewActive ? ' shadow-[0_0_0_2px_#111827]' : ''}`}>Overview</button>
-
-              {overviewOpen && (
-                <div
-                  className="absolute left-1/2 top-full -translate-x-1/2 pt-8"
-                  onMouseEnter={() => open(setOverviewOpen, overviewTimer)}
-                  onMouseLeave={() => close(setOverviewOpen, overviewTimer)}
-                >
-                  <div className="flex w-[720px] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
-
-                    {/* Left - category list */}
-                    <div className="flex w-52 flex-shrink-0 flex-col gap-0.5 border-r border-gray-100 p-3">
-                      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-gray-400">Browse</p>
-                      {overviewCategories.map(cat => (
-                        <button
-                          key={cat.key}
-                          onMouseEnter={() => setActiveCategory(cat.key)}
-                          className={[
-                            'w-full rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-colors',
-                            activeCategory === cat.key
-                              ? 'border border-gray-200 text-gray-900'
-                              : 'border border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-800',
-                          ].join(' ')}
-                        >
-                          {cat.label}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Right - items */}
-                    <div className="flex-1 p-4">
-                      <p className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                        {activeCat.label}
-                      </p>
-                      <ul className="space-y-0.5">
-                        {activeCat.items.map(item => (
-                          <li key={item.label}>
-                            {'locked' in item && item.locked ? (
-                              <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 opacity-40 cursor-not-allowed">
-                                <ItemIcon label={item.label} />
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                                  <p className="text-xs text-gray-400 truncate">{item.desc}</p>
-                                </div>
-                                <span className="flex-shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-400">
-                                  Soon
-                                </span>
-                              </div>
-                            ) : (
-                              <Link
-                                to={item.to!}
-                                onClick={() => setOverviewOpen(false)}
-                                className="flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 transition-colors hover:border-gray-200"
-                              >
-                                <ItemIcon label={item.label} />
-                                <div className="min-w-0">
-                                  <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                                  <p className="text-xs text-gray-400 truncate">{item.desc}</p>
-                                </div>
-                              </Link>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                  </div>
-                </div>
-              )}
+            {/* Overview trigger */}
+            <div className="flex h-full items-center" onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
+              <button className={`inline-flex items-center gap-1 ${linkClass}`}>
+                Overview
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-3.5 w-3.5 transition-transform duration-200 ${overviewOpen ? 'rotate-180' : ''}`}>
+                  <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                </svg>
+              </button>
             </div>
 
-            {/* For whom? */}
-            <div className="relative" onMouseEnter={() => open(setForWhomOpen, forWhomTimer)} onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}>
-              <button className={`${linkClass}${forWhomOpen || isForWhomActive ? ' shadow-[0_0_0_2px_#111827]' : ''}`}>For whom?</button>
-
-              {forWhomOpen && (
-                <div
-                  className="absolute left-1/2 top-full -translate-x-1/2 pt-8"
-                  onMouseEnter={() => open(setForWhomOpen, forWhomTimer)}
-                  onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
-                >
-                  <div className="flex w-[720px] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
-
-                    <div className="flex w-52 flex-shrink-0 flex-col gap-0.5 border-r border-gray-100 p-3">
-                      <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-gray-400">Browse</p>
-                      {forWhomCategories.map(cat => (
-                        <button
-                          key={cat.key}
-                          onMouseEnter={() => setActiveForWhomCategory(cat.key)}
-                          className={[
-                            'w-full rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-colors',
-                            activeForWhomCategory === cat.key
-                              ? 'border border-gray-200 text-gray-900'
-                              : 'border border-transparent text-gray-500 hover:border-gray-200 hover:text-gray-800',
-                          ].join(' ')}
-                        >
-                          {cat.label}
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="flex-1 p-4">
-                      <p className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                        {activeForWhomCat.label}
-                      </p>
-                      <ul className="space-y-0.5">
-                        {activeForWhomCat.items.map(item => (
-                          <li key={item.label}>
-                            <Link
-                              to={item.to}
-                              onClick={() => setForWhomOpen(false)}
-                              className="flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 transition-colors hover:border-gray-200"
-                            >
-                              <ItemIcon label={item.label} />
-                              <div className="min-w-0">
-                                <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                                <p className="text-xs text-gray-400 truncate">{item.desc}</p>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                  </div>
-                </div>
-              )}
+            {/* For whom? trigger */}
+            <div className="flex h-full items-center" onMouseEnter={() => open(setForWhomOpen, forWhomTimer)} onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}>
+              <button className={`inline-flex items-center gap-1 ${linkClass}`}>
+                For whom?
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-3.5 w-3.5 transition-transform duration-200 ${forWhomOpen ? 'rotate-180' : ''}`}>
+                  <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                </svg>
+              </button>
             </div>
 
-            <NavLink to="/pricing" end className={({ isActive }) => `${linkClass}${isActive ? ' shadow-[0_0_0_2px_#111827]' : ''}`}>Pricing</NavLink>
-            <NavLink to="/about" end className={({ isActive }) => `${linkClass}${isActive ? ' shadow-[0_0_0_2px_#111827]' : ''}`}>About us</NavLink>
+            <NavLink to="/pricing" end className={() => linkClass}>Pricing</NavLink>
+            <NavLink to="/about" end className={() => linkClass}>About us</NavLink>
 
           </nav>
 
@@ -460,10 +609,13 @@ export default function Header() {
             <NavLink to="/login" end className={linkClass}>Log in</NavLink>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-5 py-2 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white transition-colors"
+              style={{ backgroundColor: '#F97316' }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#111827')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F97316')}
             >
               Book a Demo!
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </Link>
@@ -487,15 +639,177 @@ export default function Header() {
           </button>
 
         </div>
+        </div>{/* closes border-b nav wrapper */}
+
+        {/* Overview full-width dropdown */}
+        {overviewOpen && (
+          <div
+            className="absolute left-0 right-0 z-20 hidden lg:block"
+            style={{ top: '100%' }}
+            onMouseEnter={() => open(setOverviewOpen, overviewTimer)}
+            onMouseLeave={() => close(setOverviewOpen, overviewTimer)}
+          >
+            <div className="w-full shadow-xl overflow-hidden" style={{ background: 'linear-gradient(to right, #FFFDFA 50%, #F1EDE7 50%)', borderTop: '1px solid #e8e2d9', fontFamily: "'Figtree', sans-serif" }}>
+              <div className="mx-auto max-w-7xl flex">
+
+                {/* ── Left panel (50%) ── */}
+                <div className="w-1/2 px-10 pt-5">
+                  {/* Tagline */}
+                  <div className="mb-4">
+                    <p className="text-base font-semibold text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif" }}>supVision AI Platform</p>
+                    <p className="mt-0.5 text-xs text-gray-400">Agentic customer support for fintech — 24/7, multilingual, audit-ready</p>
+                  </div>
+
+                  {/* 2 columns: Solutions | Core Functionalities */}
+                  <div className="flex gap-2">
+                    {/* Solutions */}
+                    {(() => {
+                      const cat = overviewCategories[0]
+                      return (
+                        <div className="flex-1 min-w-0">
+                          <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
+                          <ul className="flex flex-col gap-0.5">
+                            {cat.items.map(item => (
+                              <li key={item.label}>
+                                {'locked' in item && item.locked ? (
+                                  <div className="flex items-center gap-2 rounded-xl px-3 py-2 opacity-40 cursor-not-allowed">
+                                    <ItemIcon label={item.label} />
+                                    <div className="min-w-0 flex-1">
+                                      <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
+                                      <p className="text-xs text-gray-400 truncate">{item.desc}</p>
+                                    </div>
+                                    <span className="flex-shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-400">Soon</span>
+                                  </div>
+                                ) : (
+                                  <Link to={item.to!} onClick={() => setOverviewOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors hover:bg-[#EDE8DF]">
+                                    <ItemIcon label={item.label} />
+                                    <div className="min-w-0">
+                                      <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
+                                      <p className="text-xs text-gray-400 truncate">{item.desc}</p>
+                                    </div>
+                                  </Link>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    })()}
+
+                    {/* Core Functionalities — no icons */}
+                    {(() => {
+                      const cat = overviewCategories[1]
+                      return (
+                        <div className="flex-1 min-w-0">
+                          <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
+                          <ul className="flex flex-col gap-0.5">
+                            {cat.items.map(item => (
+                              <li key={item.label}>
+                                <Link to={item.to!} onClick={() => setOverviewOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors hover:bg-[#EDE8DF]">
+                                  <div className="min-w-0">
+                                    <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
+                                    <p className="text-xs text-gray-400 truncate">{item.desc}</p>
+                                  </div>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    })()}
+                  </div>
+
+                  {/* Footer quick-links */}
+                  <div className="flex items-center gap-1 py-3 mt-3" style={{ borderTop: '1px solid #e8e2d9' }}>
+                    {[
+                      { to: '/support-agent', anim: exploreAnim, label: 'Explore Support Agent' },
+                      { to: '/integrations', anim: integrationLinkAnim, label: 'View all integrations' },
+                      { to: '/contact', anim: bookDemoAnim, label: 'Book a Demo' },
+                    ].map((link, i) => (
+                      <FooterQuickLink key={link.to} link={link} i={i} onClose={() => setOverviewOpen(false)} />
+                    ))}
+                  </div>
+                </div>
+
+                {/* ── Right panel (50%, beige via gradient): 2 columns ── */}
+                <div className="w-1/2 px-8 py-5" style={{ borderLeft: '1px solid #e8e2d9' }}>
+                  <div className="flex gap-4">
+
+                    {/* Column 1: Integrations */}
+                    <div className="flex-1 min-w-0">
+                      <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>Integrations</p>
+                      <ul className="flex flex-col gap-0.5">
+                        {overviewCategories[2].items.map(item => (
+                          <li key={item.label}>
+                            <RightPanelItem item={item as { label: string; desc: string; to: string }} onClose={() => setOverviewOpen(false)} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Column 2: Analytics + Security stacked */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-4">
+                      {overviewCategories.slice(3).map(cat => (
+                        <div key={cat.key}>
+                          <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
+                          <ul className="flex flex-col gap-0.5">
+                            {cat.items.map(item => (
+                              <li key={item.label}>
+                                <RightPanelItem item={item as { label: string; desc: string; to: string }} onClose={() => setOverviewOpen(false)} />
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* For whom? full-width dropdown */}
+        {forWhomOpen && (
+          <div
+            className="absolute left-0 right-0 z-20 hidden lg:block"
+            style={{ top: '100%' }}
+            onMouseEnter={() => open(setForWhomOpen, forWhomTimer)}
+            onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
+          >
+            <div className="w-full shadow-xl overflow-hidden" style={{ background: '#FFFDFA', borderTop: '1px solid #e8e2d9', fontFamily: "'Figtree', sans-serif" }}>
+              <div className="mx-auto max-w-7xl">
+                <div className="px-10 py-5">
+                  <div className="flex gap-2">
+                    {forWhomCategories.map(cat => (
+                      <div key={cat.key} className="flex-1 min-w-0">
+                        <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
+                        <ul className="flex flex-col gap-0.5">
+                          {cat.items.map(item => (
+                            <li key={item.label}>
+                              <ForWhomDropdownItem item={item} onClose={() => setForWhomOpen(false)} />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </header>
 
     {/* ── Full-screen mobile nav overlay ── */}
-    <div className={`fixed inset-0 z-[90] flex flex-col lg:hidden transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ backgroundColor: '#F4EFE9' }}>
+    <div className={`fixed inset-0 z-[90] flex flex-col lg:hidden transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ backgroundColor: '#faf8f5' }}>
 
       {/* Static top bar — never slides */}
-      <div className="relative flex h-16 flex-shrink-0 items-center px-3" style={{ backgroundColor: '#F4EFE9' }}>
+      <div className="relative flex h-16 flex-shrink-0 items-center px-3" style={{ backgroundColor: '#faf8f5' }}>
         {mobileScreen === 'main' ? (
           <a href="/" onClick={(e) => { handleLogoClick(e); setMobileMenuOpen(false) }}>
             <img src="/logo/logo_website.png" alt="SupVision" className="h-9 w-auto" />
@@ -544,7 +858,7 @@ export default function Header() {
             <Link to="/about" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>About us</Link>
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
               <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#F97316' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                 </svg>
@@ -591,7 +905,7 @@ export default function Header() {
             })}
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
               <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#F97316' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                 </svg>
@@ -636,7 +950,7 @@ export default function Header() {
             })}
             <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
               <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#214995' }}>
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#F97316' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
                   <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                 </svg>

@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import IndustryRoleMobileHero from '../../components/forWhom/IndustryRoleMobileHero'
+import Lottie from 'lottie-react'
 
 const roleFaqItems = [
   {
@@ -40,7 +41,7 @@ function RoleFAQItem({ item, isOpen, onToggle }: { item: { q: string; a: string 
     else { el.style.maxHeight = '0px'; el.style.opacity = '0' }
   }, [isOpen])
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
+    <div className="overflow-hidden rounded-2xl bg-white" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
       <button onClick={onToggle} className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left">
         <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
         <span className={['flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300', isOpen ? 'rotate-180' : ''].join(' ')}>
@@ -61,7 +62,7 @@ function RoleFAQ() {
   return (
     <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
-        <div className="mb-8 text-center">
+        <div data-reveal className="mb-8 text-center">
           <h2 className="leading-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
             <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
@@ -102,9 +103,64 @@ function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string;
 }
 
 export interface RoleChallenge {
-  icon: ReactNode
+  icon: ReactNode | Record<string, unknown>
   title: string
   desc: string
+}
+
+function isLottieData(icon: unknown): icon is Record<string, unknown> {
+  return icon !== null && typeof icon === 'object' && !('type' in (icon as any))
+}
+
+function ChallengeCard({ c }: { c: RoleChallenge }) {
+  const [hovered, setHovered] = useState(false)
+  const [waveKey, setWaveKey] = useState(0)
+  const lottieRef = useRef<any>(null)
+  const useLottie = isLottieData(c.icon)
+
+  const handleEnter = () => {
+    setHovered(true)
+    setWaveKey(k => k + 1)
+    if (useLottie) lottieRef.current?.goToAndPlay(0, true)
+  }
+  const handleLeave = () => {
+    setHovered(false)
+    if (useLottie) lottieRef.current?.goToAndStop(0, true)
+  }
+
+  return (
+    <div
+      className="rounded-2xl p-6 cursor-default transition-all duration-200"
+      style={{
+        border: hovered ? '1.5px solid #214995' : '1.5px solid #e5e7eb',
+        backgroundColor: hovered ? '#f0f5ff' : '#fff',
+        boxShadow: hovered ? '0 8px 32px rgba(33,73,149,0.13)' : '0 4px 20px rgba(0,0,0,0.08)',
+      }}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl" style={{ border: '1.5px solid #111827', background: 'transparent', color: '#111827' }}>
+        {useLottie
+          ? <Lottie lottieRef={lottieRef} animationData={c.icon as Record<string, unknown>} autoplay={false} loop={false} style={{ width: 24, height: 24 }} />
+          : c.icon as ReactNode
+        }
+      </div>
+      <h3 className="text-sm font-bold text-gray-900">
+        {String(c.title).split('').map((char, i) => (
+          <span
+            key={`${waveKey}-${i}`}
+            style={{
+              display: 'inline-block',
+              animation: hovered ? `wave-char 0.45s ease-in-out ${i * 0.03}s` : undefined,
+            }}
+          >
+            {char === ' ' ? ' ' : char}
+          </span>
+        ))}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-gray-500">{c.desc}</p>
+    </div>
+  )
 }
 
 export interface RoleMetric {
@@ -141,7 +197,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
   const accordionItems = data.metrics.map((m) => ({ q: m.value, a: m.label }))
 
   return (
-    <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={desc} />
@@ -159,7 +215,12 @@ export default function RolePage({ data }: { data: RolePageData }) {
           subtitle={data.subtitle}
           pills={heroPills}
           heroImage={data.heroImage}
-          challenges={data.challenges}
+          challenges={data.challenges.map(c => ({
+            ...c,
+            icon: isLottieData(c.icon)
+              ? <Lottie animationData={c.icon as Record<string, unknown>} loop={false} style={{ width: 28, height: 28 }} />
+              : c.icon as ReactNode,
+          }))}
           accordionItems={accordionItems}
           darkBadge="By role"
         />
@@ -175,7 +236,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
             <div className={`grid ${hasImage ? 'lg:grid-cols-2' : ''}`}>
 
               {/* Left - text */}
-              <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
+              <div data-reveal className="flex flex-col justify-center px-10 py-14 lg:px-14">
                 <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
                   {data.title}
                 </h1>
@@ -201,10 +262,12 @@ export default function RolePage({ data }: { data: RolePageData }) {
                 <div className="mt-10">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors"
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ''; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
                   >
                     Let's chat!
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
                       <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
                     </svg>
                   </Link>
@@ -213,7 +276,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
 
               {/* Right - image */}
               {hasImage && (
-                <div className="relative hidden lg:block">
+                <div data-reveal className="relative hidden lg:block" style={{ '--rd': '100ms' } as React.CSSProperties}>
                   <img
                     src={data.heroImage}
                     alt={data.title}
@@ -230,21 +293,15 @@ export default function RolePage({ data }: { data: RolePageData }) {
       {/* Challenges — desktop */}
       <section className="hidden py-24 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
+          <div data-reveal className="mb-12 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Challenges</p>
             <h2 className="mt-3 text-3xl font-bold text-gray-900">
               Challenges that we can solve for <span className="font-black">{data.title}</span>
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-reveal className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" style={{ '--rd': '100ms' } as React.CSSProperties}>
             {data.challenges.map((c) => (
-              <div key={c.title} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: '#eef2fb', color: '#214995' }}>
-                  {c.icon}
-                </div>
-                <h3 className="text-sm font-bold text-gray-900">{c.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">{c.desc}</p>
-              </div>
+              <ChallengeCard key={String(c.title)} c={c} />
             ))}
           </div>
         </div>
@@ -253,11 +310,11 @@ export default function RolePage({ data }: { data: RolePageData }) {
       {/* Integrations / stacks */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-lg:pt-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-8 text-center">
+          <div data-reveal className="mb-8 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Integrations</p>
             <h3 className="mt-2 text-2xl font-bold text-gray-900">Popular automation stacks</h3>
           </div>
-          <div className="rounded-3xl border border-gray-100 bg-white px-10 py-10">
+          <div data-reveal className="rounded-3xl border border-gray-100 bg-white px-10 py-10" style={{ '--rd': '100ms' } as React.CSSProperties}>
             <p className="mb-8 text-sm leading-relaxed text-gray-500 w-full">
               supVision connects with the tools your team already uses. These stacks are pre-configured for {data.title} workflows — ready to deploy in days without custom development or platform migration.
             </p>
@@ -291,7 +348,9 @@ export default function RolePage({ data }: { data: RolePageData }) {
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ''; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
               >
                 Book a demo
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
@@ -306,7 +365,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
       {/* Benefits */}
       <section className="px-4 sm:px-6 lg:px-8 pb-24" style={{ paddingTop: '6rem' }}>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="sticky top-20 z-20 mb-10 py-6 text-center" style={{ backgroundColor: '#faf8f5' }}>
+          <div data-reveal className="sticky top-20 z-20 mb-10 py-6 text-center" style={{ backgroundColor: '#faf8f5' }}>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Benefits</p>
             <h2 className="mt-3 text-3xl font-bold text-gray-900">
               supVision advantages for <span className="font-black">{data.title}</span>
@@ -371,12 +430,12 @@ export default function RolePage({ data }: { data: RolePageData }) {
       {/* Metrics strip */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl px-6">
-          <div className="mb-10 text-center">
+          <div data-reveal className="mb-10 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Results</p>
             <h2 className="mt-3 text-3xl font-bold text-gray-900">Measurable business impact</h2>
             <p className="mt-3 text-base text-gray-500">supVision delivers consistent, quantifiable improvements across support costs, response times, and team efficiency.</p>
           </div>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4">
+          <div data-reveal className="grid grid-cols-2 gap-3 lg:grid-cols-6 lg:gap-4" style={{ '--rd': '100ms' } as React.CSSProperties}>
             {data.metrics.slice(0, 3).map((m) => (
               <div key={m.label} className="col-span-1 rounded-2xl border border-gray-100 bg-white px-4 py-4 shadow-sm lg:col-span-2 lg:px-5">
                 <p className="text-2xl font-black sm:text-3xl" style={{ color: '#214995' }}>{m.value}</p>
@@ -398,13 +457,19 @@ export default function RolePage({ data }: { data: RolePageData }) {
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div
+          data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
           style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <h2 className="text-3xl font-bold text-white">{data.ctaTitle}</h2>
           <p className="mt-4 text-base text-blue-200">{data.ctaDesc}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors"
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fff'; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
+            >
               Book a demo
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />

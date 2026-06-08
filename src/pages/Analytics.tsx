@@ -258,7 +258,7 @@ function AnalyticsFAQ() {
 
 export default function Analytics() {
   return (
-    <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <PageMeta
         title="Support Analytics — supVision"
         description="Real-time analytics for fintech support teams. Track resolution rates, escalation patterns, and AI performance across all channels."

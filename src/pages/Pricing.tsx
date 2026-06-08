@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PageMeta from '../components/PageMeta'
 
@@ -131,7 +132,7 @@ const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as c
 
 export default function Pricing() {
   return (
-    <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <PageMeta
         title="Pricing — supVision"
         description="Transparent pricing for AI fintech support. Starter, Growth, and Enterprise plans. Start small, scale fast — no long-term commitment required."
@@ -139,8 +140,8 @@ export default function Pricing() {
       />
 
       {/* Header */}
-      <section className="px-4 pb-10 pt-10 text-center sm:px-6 lg:pb-16 lg:px-8 lg:pt-16">
-        <div className="mx-auto max-w-3xl">
+      <section className="px-4 pb-10 pt-4 text-center sm:px-6 lg:pb-16 lg:px-8 lg:pt-6">
+        <div data-reveal className="mx-auto max-w-3xl">
           <h1
             className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem] lg:text-5xl"
             style={canelaStyle}
@@ -156,17 +157,12 @@ export default function Pricing() {
       {/* Cards */}
       <section className="px-4 pb-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
+          <div data-reveal className="grid gap-6 lg:grid-cols-3 lg:items-stretch">
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={[
-                  'relative flex h-full flex-col rounded-2xl',
-                  plan.highlight
-                    ? 'border-2 border-[#214995] shadow-xl'
-                    : '',
-                ].join(' ')}
-                style={plan.highlight ? undefined : { border: '1.5px solid #111827' }}
+                className="relative flex h-full flex-col rounded-2xl"
+                style={{ boxShadow: plan.highlight ? '0 8px 40px rgba(33,73,149,0.18)' : '0 4px 24px rgba(0,0,0,0.08)', border: plan.highlight ? '1.5px solid #214995' : undefined }}
               >
                 {/* Badge */}
                 {plan.badge && (
@@ -227,9 +223,11 @@ export default function Pricing() {
                       'mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold transition-colors',
                       plan.highlight
                         ? 'text-white'
-                        : 'border-2 border-gray-900 bg-transparent text-gray-900 hover:bg-[#AAC6FF]',
+                        : 'border-2 border-gray-900 bg-transparent text-gray-900',
                     ].join(' ')}
                     style={plan.highlight ? { backgroundColor: '#214995' } : undefined}
+                    onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#F97316'; e.currentTarget.style.borderColor = '#F97316'; e.currentTarget.style.color = '#fff'; }}
+                    onMouseLeave={e => { e.currentTarget.style.backgroundColor = plan.highlight ? '#214995' : 'transparent'; e.currentTarget.style.borderColor = plan.highlight ? '#214995' : '#111827'; e.currentTarget.style.color = plan.highlight ? '#fff' : '#111827'; }}
                   >
                     {plan.cta}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
@@ -246,7 +244,7 @@ export default function Pricing() {
       {/* Comparison table */}
       <section className="px-4 pb-24 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-5xl pt-16">
-          <div className="mb-12 text-center">
+          <div data-reveal className="mb-12 text-center">
             <h2
               className="text-[1.85rem] leading-tight text-gray-900 sm:text-[2.45rem]"
               style={canelaStyle}
@@ -255,7 +253,7 @@ export default function Pricing() {
             </h2>
           </div>
 
-          <div className="overflow-hidden rounded-2xl" style={{ border: '1.5px solid #111827' }}>
+          <div data-reveal className="overflow-hidden rounded-2xl" style={{ border: '1.5px solid #111827', '--rd': '100ms' } as React.CSSProperties}>
             {/* Table header */}
             <div className="grid grid-cols-4" style={{ borderBottom: '1.5px solid #111827' }}>
               <div className="px-6 py-4" />
@@ -283,6 +281,7 @@ export default function Pricing() {
       {/* CTA banner */}
       <section className="px-4 py-24 sm:px-6 lg:px-8">
         <div
+          data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
           style={{
             backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)',
@@ -301,10 +300,13 @@ export default function Pricing() {
           </p>
           <Link
             to="/contact"
-            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors"
+            style={{ backgroundColor: '#fff', color: '#111827' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#F97316'; e.currentTarget.style.color = '#fff'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.color = '#111827'; }}
           >
             <span>Talk to sales</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
               <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
             </svg>
           </Link>

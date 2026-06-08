@@ -75,7 +75,7 @@ function FeatureFAQItem({
   }, [isOpen])
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
+    <div className="overflow-hidden rounded-2xl bg-white" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
       <button
         type="button"
         onClick={onToggle}
@@ -120,7 +120,7 @@ function FeatureFAQ({ mobileItems, desktopItems }: { mobileItems: typeof sharedF
   return (
     <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
-        <div className="mb-8 text-center">
+        <div data-reveal className="mb-8 text-center">
           <h2
             className="leading-tight"
             style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
@@ -181,7 +181,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
   const title = `${data.title} — supVision`
   const desc = data.description.length > 160 ? data.description.slice(0, 157) + '...' : data.description
   return (
-    <div className="pt-14 lg:pt-20" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={desc} />
@@ -196,7 +196,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
       <section className="hidden pb-0 pt-8 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
           {data.coreImage ? (
-            <div className="mb-12 overflow-hidden rounded-3xl" style={{ border: '1.5px solid #111827' }}>
+            <div data-reveal className="mb-12 overflow-hidden rounded-3xl" style={{ border: '1.5px solid #111827' }}>
               <div className="grid lg:grid-cols-2">
                 <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
                   <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">{data.title}</h1>
@@ -237,7 +237,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
               </div>
             </div>
           ) : (
-            <div className="mb-12 max-w-3xl">
+            <div data-reveal className="mb-12 max-w-3xl">
               <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">{data.title}</h1>
               <p className="mt-4 text-xl font-medium text-gray-600">{data.subtitle}</p>
               <p className="mt-4 text-base leading-relaxed text-gray-500">{data.description}</p>
@@ -262,6 +262,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
       {/* CTA — above FAQ */}
       <section className="py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
         <div
+          data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-6 py-12 text-center sm:px-8 sm:py-16"
           style={{
             backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',

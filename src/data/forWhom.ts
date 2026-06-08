@@ -13,7 +13,7 @@ export const forWhomIndustries: ForWhomItem[] = [
     image: '/for_whom/Payments & Processing.png',
   },
   {
-    label: 'Neobanks & Digital Banking',
+    label: 'Digital Banking',
     desc: 'Account support, identity verification, onboarding at scale',
     to: '/industries/neobanks',
     image: '/for_whom/Neobanks & Digital Banking.png',

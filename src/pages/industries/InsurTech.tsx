@@ -1,11 +1,14 @@
 import IndustryPage from './IndustryPage'
+import shieldAnim from '../../assets/icons-colored/doodle-color-14-shield-security-hover-pinch.json'
 
 const data = {
   badge: 'For whom · InsurTech',
   title: 'InsurTech',
+  heroIcon: shieldAnim,
+  heroIconBg: '#FDE9E9',
   subtitle: 'Claims triage, policy queries, and compliance handling - automated.',
   description: 'InsurTech support combines the regulatory complexity of financial services with the emotional stakes of claims. Customers contacting you about a claim are often stressed. They need fast, accurate, empathetic answers - and everything needs to be logged for regulatory purposes. supVision handles all of it.',
-  heroImage: '/for_whom/InsurTech.png',
+  heroImage: '/industry/InsurTech.png',
   highlights: [
     '93% of policy and claims status queries saved by AI',
     '100% of interactions logged and audit-ready for FCA and regulatory review',
