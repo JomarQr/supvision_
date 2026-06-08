@@ -1350,7 +1350,7 @@ export default function Home() {
                       {[orbitAll.slice(0, 4), orbitAll.slice(4, 8), orbitAll.slice(8, 12), orbitAll.slice(12)].map((row, ri) => (
                         <div key={ri} className="flex overflow-hidden">
                           <div
-                            className="flex shrink-0 gap-6 items-center"
+                            className="flex shrink-0 gap-10 items-center"
                             style={{ animation: `ticker ${[18, 24, 20, 22][ri]}s linear infinite${ri % 2 === 1 ? ' reverse' : ''}` }}
                           >
                             {[...row, ...row, ...row, ...row].map((logo, i) => (
