@@ -12,4 +12,7 @@ export default defineConfig(({ isSsrBuild }) => ({
   build: {
     outDir: isSsrBuild ? 'dist/server' : 'dist/client',
   },
+  ssr: {
+    noExternal: ['lottie-react'],
+  },
 }))
