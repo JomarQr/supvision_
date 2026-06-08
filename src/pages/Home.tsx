@@ -1365,15 +1365,15 @@ export default function Home() {
                   <div data-reveal className="rounded-2xl px-6 py-5 flex flex-col h-full overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
                     <p className="text-base font-semibold text-gray-900">One layer, every system</p>
                     <p className="mt-1 text-xs leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — <strong className="text-gray-700">nothing falls through the cracks.</strong></p>
-                    <div className="mt-3 rounded-xl flex-1 overflow-hidden flex flex-col justify-center gap-5 py-4" style={{ background: '#F3EFE9', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
-                      {[orbitAll.slice(0, 8), orbitAll.slice(8)].map((row, ri) => (
+                    <div className="mt-3 rounded-xl flex-1 overflow-hidden flex flex-col justify-center gap-3 py-3" style={{ background: '#F3EFE9', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+                      {[orbitAll.slice(0, 4), orbitAll.slice(4, 8), orbitAll.slice(8, 12), orbitAll.slice(12)].map((row, ri) => (
                         <div key={ri} className="flex overflow-hidden">
                           <div
-                            className="flex shrink-0 gap-8 items-center"
-                            style={{ animation: `ticker ${ri === 0 ? '18s' : '22s'} linear infinite${ri === 1 ? ' reverse' : ''}` }}
+                            className="flex shrink-0 gap-6 items-center"
+                            style={{ animation: `ticker ${[18, 24, 20, 22][ri]}s linear infinite${ri % 2 === 1 ? ' reverse' : ''}` }}
                           >
-                            {[...row, ...row].map((logo, i) => (
-                              <img key={i} src={logo.src} alt={logo.name} className="h-9 w-9 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                            {[...row, ...row, ...row, ...row].map((logo, i) => (
+                              <img key={i} src={logo.src} alt={logo.name} className="h-12 w-12 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                             ))}
                           </div>
                         </div>
