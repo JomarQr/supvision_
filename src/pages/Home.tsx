@@ -1200,27 +1200,11 @@ export default function Home() {
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">93% of tickets fully resolved automatically. Complex or high-risk cases are escalated to human agents for a precise, careful response.</p>
               </div>
               {/* 3 days */}
-              <div data-reveal className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#1440B0', '--rd': '320ms' } as React.CSSProperties}>
-                {/* Static wave background — matches reference image */}
-                <svg
-                  className="pointer-events-none absolute inset-0 h-full w-full"
-                  viewBox="0 0 600 300"
-                  preserveAspectRatio="none"
-                  overflow="hidden"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Upper ribbon */}
-                  <path
-                    d="M0,75 C200,5 400,195 600,75 L600,155 C400,275 200,85 0,155 Z"
-                    fill="#1E50CA"
-                    filter="url(#ws)"
-                  />
-                  {/* Lower ribbon */}
-                  <path
-                    d="M0,180 C200,110 400,300 600,180 L600,260 C400,380 200,190 0,260 Z"
-                    fill="#1847BC"
-                    filter="url(#ws)"
-                  />
+              <div data-reveal className="relative overflow-hidden rounded-[2rem] flex" style={{ backgroundColor: '#1440B0', '--rd': '320ms' } as React.CSSProperties}>
+                {/* Static wave background */}
+                <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 600 300" preserveAspectRatio="none" overflow="hidden" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0,75 C200,5 400,195 600,75 L600,155 C400,275 200,85 0,155 Z" fill="#1E50CA" filter="url(#ws)" />
+                  <path d="M0,180 C200,110 400,300 600,180 L600,260 C400,380 200,190 0,260 Z" fill="#1847BC" filter="url(#ws)" />
                   <defs>
                     <filter id="ws" x="-5%" y="-30%" width="110%" height="160%">
                       <feDropShadow dx="0" dy="16" stdDeviation="14" floodColor="#050c30" floodOpacity="0.65" />
@@ -1228,10 +1212,19 @@ export default function Home() {
                   </defs>
                 </svg>
                 {/* Text */}
-                <div className="relative z-10">
+                <div className="relative z-10 flex-1 px-8 py-8">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">Integration time</p>
                   <p className="mt-2 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#fff' }}>3 days</p>
                   <p className="mt-3 text-sm leading-relaxed text-white/70">Most companies go live within 3 days by connecting the tools they already use — Zendesk, Freshdesk, Intercom, or a custom CRM. No rebuilding, no disruption.</p>
+                </div>
+                {/* Photo */}
+                <div className="relative z-10 hidden lg:block flex-shrink-0" style={{ width: '42%' }}>
+                  <img
+                    src="/2I5A9685.jpg"
+                    alt="supVision team"
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition: 'center' }}
+                  />
                 </div>
               </div>
             </div>
