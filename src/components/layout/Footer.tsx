@@ -47,12 +47,14 @@ const columns = [
       { label: 'Contact', to: '/contact' },
       { label: 'Security', to: '/security' },
       { label: 'Privacy Policy', to: '/privacy-policy' },
+      { label: 'Terms of Service', to: '/terms' },
     ],
   },
 ]
 
 const legalLinks = [
   { label: 'Privacy Policy', to: '/privacy-policy' },
+  { label: 'Terms of Service', to: '/terms' },
   { label: 'Security', to: '/security' },
 ]
 

@@ -35,6 +35,7 @@ const Analytics = lazy(() => import('@/pages/Analytics'))
 const Security = lazy(() => import('@/pages/Security'))
 const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'))
 const DataPolicy = lazy(() => import('@/pages/DataPolicy'))
+const Terms = lazy(() => import('@/pages/Terms'))
 const Login = lazy(() => import('@/pages/Login'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 const IFXExpo = lazy(() => import('@/pages/IFXExpo'))
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="/security" element={<Security />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/data-policy" element={<DataPolicy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/ifx" element={<IFXExpo />} />
           <Route path="*" element={<NotFound />} />
         </Route>

@@ -34,6 +34,7 @@ const routes = [
   '/roles/founders-csuite',
   '/security',
   '/privacy-policy',
+  '/terms',
 ]
 
 for (const url of routes) {

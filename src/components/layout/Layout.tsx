@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import ChatWidget from '../ui/ChatWidget'
+import CookieBanner from '../ui/CookieBanner'
 import Breadcrumb from './Breadcrumb'
 
 function ScrollToTop() {
@@ -49,6 +50,7 @@ export default function Layout() {
       </main>
       <Footer />
       <ChatWidget />
+      <CookieBanner />
     </div>
   )
 }
