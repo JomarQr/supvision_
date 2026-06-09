@@ -108,9 +108,14 @@ export default function PrivacyPolicy() {
           <p className="mt-4 text-sm text-gray-400">Last updated: 13 May 2026</p>
 
           {/* CTA */}
-          <div className="mt-16 rounded-2xl bg-gray-50 px-8 py-12 text-center">
-            <h3 className="text-2xl font-bold text-gray-900">Questions about your data?</h3>
-            <p className="mt-3 text-base text-gray-500">Contact us and we'll respond within the timeframes set by applicable law.</p>
+          <div
+            className="mt-16 rounded-2xl px-8 py-12 text-center relative overflow-hidden"
+            style={{ backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          >
+            <div className="absolute inset-0 bg-black/30" aria-hidden />
+            <div className="relative z-10">
+            <h3 className="text-2xl font-bold text-white">Questions about your data?</h3>
+            <p className="mt-3 text-base text-blue-200">Contact us and we'll respond within the timeframes set by applicable law.</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
                 to="/contact"
@@ -127,10 +132,11 @@ export default function PrivacyPolicy() {
               </Link>
               <a
                 href="mailto:info@supvision.ai"
-                className="text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+                className="text-sm font-semibold text-blue-200 hover:text-white transition-colors"
               >
                 info@supvision.ai →
               </a>
+            </div>
             </div>
           </div>
         </div>
