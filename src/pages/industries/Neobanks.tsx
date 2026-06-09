@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
-import bankBranchAnim from '../../assets/icons-colored/doodle-color-636-bank-branch-hover-roll.json'
 
 const data = {
   badge: 'For whom · Digital Banking',
   title: 'Digital Banking',
-  heroIcon: bankBranchAnim,
+  heroIcon: undefined,
   heroIconBg: '#EAF4EE',
   subtitle: 'Account support, identity verification, and onboarding - at the scale digital banks demand.',
   description: 'Neobanks grow fast and support needs grow faster. Your app is available 24/7 - your customers expect your support to be too. supVision handles the most common queries your team sees every day: verification queues, account issues, card queries, and onboarding drop-offs - without adding headcount.',
@@ -64,5 +64,9 @@ const data = {
 }
 
 export default function Neobanks() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-636-bank-branch-hover-roll.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
-import shieldAnim from '../../assets/icons-colored/doodle-color-14-shield-security-hover-pinch.json'
 
 const data = {
   badge: 'For whom · InsurTech',
   title: 'InsurTech',
-  heroIcon: shieldAnim,
+  heroIcon: undefined,
   heroIconBg: '#FDE9E9',
   subtitle: 'Claims triage, policy queries, and compliance handling - automated.',
   description: 'InsurTech support combines the regulatory complexity of financial services with the emotional stakes of claims. Customers contacting you about a claim are often stressed. They need fast, accurate, empathetic answers - and everything needs to be logged for regulatory purposes. supVision handles all of it.',
@@ -64,5 +64,9 @@ const data = {
 }
 
 export default function InsurTech() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-14-shield-security-hover-pinch.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

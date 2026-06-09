@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
-import loanAnim from '../../assets/icons-colored/doodle-color-416-loan-hover-pinch.json'
 
 const data = {
   badge: 'For whom · Lending & Credit',
   title: 'Lending & Credit',
-  heroIcon: loanAnim,
+  heroIcon: undefined,
   heroIconBg: '#FDF4E7',
   subtitle: 'Loan queries, repayment issues, and eligibility checks - resolved instantly.',
   description: 'Lending support is high-stakes and regulation-heavy. Customers under financial stress need fast, accurate answers. Your team needs to respond without giving advice that crosses regulatory lines. supVision handles the most common lending queries autonomously - accurately, compliantly, and at any volume.',
@@ -64,5 +64,9 @@ const data = {
 }
 
 export default function LendingCredit() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-416-loan-hover-pinch.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
-import hubNetworkAnim from '../../assets/icons-colored/doodle-color-340-hub-network-hover-pinch.json'
 
 const data = {
   badge: 'For whom · Web3',
   title: 'Web3',
-  heroIcon: hubNetworkAnim,
+  heroIcon: undefined,
   heroIconBg: '#F0ECFB',
   subtitle: 'Wallet issues, verification, and volatile-volume support - handled.',
   description: 'Web3 support is unlike any other fintech vertical. Volume spikes without warning when markets move. Wallet and transaction queries require blockchain-level data. Verification requirements are strict and rejection rates are high. supVision handles the full spectrum - with real-time on-chain data and compliance-safe responses.',
@@ -64,5 +64,9 @@ const data = {
 }
 
 export default function CryptoWeb3() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-340-hub-network-hover-pinch.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

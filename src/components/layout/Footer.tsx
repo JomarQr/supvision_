@@ -47,6 +47,7 @@ const columns = [
       { label: 'Contact', to: '/contact' },
       { label: 'Security', to: '/security' },
       { label: 'Privacy Policy', to: '/privacy-policy' },
+      { label: 'Data Policy', to: '/data-policy' },
       { label: 'Terms of Service', to: '/terms' },
     ],
   },
@@ -54,6 +55,7 @@ const columns = [
 
 const legalLinks = [
   { label: 'Privacy Policy', to: '/privacy-policy' },
+  { label: 'Data Policy', to: '/data-policy' },
   { label: 'Terms of Service', to: '/terms' },
   { label: 'Security', to: '/security' },
 ]

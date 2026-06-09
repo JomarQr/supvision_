@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 // Disable browser scroll restoration so we fully control scroll position
 if (typeof window !== 'undefined') {
@@ -42,7 +43,8 @@ const IFXExpo = lazy(() => import('@/pages/IFXExpo'))
 
 export default function App() {
   return (
-    <Suspense fallback={<div className="min-h-screen" />}>
+    <ErrorBoundary>
+      <Suspense fallback={<div className="min-h-screen" />}>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<Layout />}>
@@ -78,6 +80,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </Suspense>
+      </Suspense>
+    </ErrorBoundary>
   )
 }

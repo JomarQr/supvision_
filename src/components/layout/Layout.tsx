@@ -40,12 +40,15 @@ export default function Layout() {
   useRevealObserver()
   return (
     <div className="flex min-h-screen flex-col">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-gray-900 focus:shadow-lg focus:outline-none">
+        Skip to main content
+      </a>
       <ScrollToTop />
       {/* 32px spacer — banner height; breadcrumb adds pt-16 for the nav */}
       <div style={{ height: '32px', flexShrink: 0 }} />
       <Header />
       <Breadcrumb />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <Outlet />
       </main>
       <Footer />

@@ -1,15 +1,6 @@
 import { FormEvent, MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Lottie from 'lottie-react'
-import inPaymentAnim from '../assets/icons_for_in_hero/in_payment.json'
-import inBankAnim from '../assets/icons_for_in_hero/in_bank.json'
-import inWeb3Anim from '../assets/icons_for_in_hero/in_web3.json'
-import inLendAnim from '../assets/icons_for_in_hero/in_lend.json'
-import inPrivacyAnim from '../assets/icons_for_in_hero/in_privacy.json'
-import expandGloballyAnim from '../assets/icons_for_hero/expand_globally.json'
-import cutCostAnim from '../assets/icons_for_hero/cut_cost.json'
-import heartAnim from '../assets/icons_for_hero/heart.json'
-import lightningAnim from '../assets/icons_for_hero/lightning.json'
 import PageMeta from '../components/PageMeta'
 import { submitContactForm } from '../lib/contactApi'
 import HeroDashboard, { type DashboardView } from '../components/home/HeroDashboard'
@@ -386,17 +377,18 @@ function FeatureTabSection({ showHeading = true }: { showHeading?: boolean } = {
   )
 }
 
-const IN_HERO_INDUSTRIES = [
-  { label: 'Payments & Processing', anim: inPaymentAnim },
-  { label: 'Digital Banking',       anim: inBankAnim },
-  { label: 'Web3',                   anim: inWeb3Anim },
-  { label: 'Lending & Credit',       anim: inLendAnim },
-  { label: 'InsurTech',              anim: inPrivacyAnim },
+type HeroIndustry = { label: string; anim: object | null }
+const IN_HERO_INDUSTRIES_BASE: HeroIndustry[] = [
+  { label: 'Payments & Processing', anim: null },
+  { label: 'Digital Banking',       anim: null },
+  { label: 'Web3',                  anim: null },
+  { label: 'Lending & Credit',      anim: null },
+  { label: 'InsurTech',             anim: null },
 ]
 
 const BADGE_TEXT = 'Built exclusively for:'
 
-function HeroBadgeSequence() {
+function HeroBadgeSequence({ industries }: { industries: HeroIndustry[] }) {
   type Phase = 'text-in' | 'text-out' | 'industry-in' | 'industry-out' | 'icons-all' | 'icons-out' | 'gap'
   const [phase, setPhase] = useState<Phase>('text-in')
   const [textKey, setTextKey] = useState(0)
@@ -423,7 +415,7 @@ function HeroBadgeSequence() {
   useEffect(() => {
     if (phase !== 'industry-out') return
     const t = setTimeout(() => {
-      if (industryIndex < IN_HERO_INDUSTRIES.length - 1) {
+      if (industryIndex < industries.length - 1) {
         setIndustryIndex(i => i + 1)
         setPhase('industry-in')
       } else {
@@ -455,7 +447,7 @@ function HeroBadgeSequence() {
     return () => clearTimeout(t)
   }, [phase])
 
-  const current = IN_HERO_INDUSTRIES[industryIndex]
+  const current = industries[industryIndex]
 
   return (
     <div className="inline-flex items-center justify-center text-white" style={{ minHeight: 32, minWidth: 260, fontFamily: "'Nohemi', sans-serif", fontSize: '1.05rem', fontWeight: 600 }}>
@@ -502,7 +494,7 @@ function HeroBadgeSequence() {
             transition: phase === 'icons-out' ? 'opacity 0.35s ease, transform 0.35s ease' : 'none',
           }}
         >
-          {IN_HERO_INDUSTRIES.map((ind, i) => (
+          {industries.map((ind, i) => (
             <span
               key={i}
               style={{
@@ -583,7 +575,7 @@ function IndustryCard({ label, anim, to }: { label: string; anim: object | null;
   )
 }
 
-function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim: object } }) {
+function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim: object | null } }) {
   const [hovered, setHovered] = useState(false)
   const [waveKey, setWaveKey] = useState(0)
   const lottieRef = useRef<any>(null)
@@ -617,8 +609,8 @@ function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-      <div className="flex-shrink-0">
-        <Lottie
+      <div className="flex-shrink-0" style={{ width: 24, height: 24 }}>
+        {item.anim && <Lottie
           lottieRef={lottieRef}
           animationData={item.anim}
           autoplay={false}
@@ -629,7 +621,7 @@ function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim
             filter: hovered ? 'none' : 'grayscale(1) brightness(1.8) opacity(0.55)',
             transition: 'filter 0.2s ease',
           }}
-        />
+        />}
       </div>
       <p
         className="font-medium leading-snug text-left"
@@ -764,6 +756,37 @@ function ValuePropCard({ v }: { v: typeof valueProps[0] }) {
 
 
 export default function Home() {
+  const [heroIndustries, setHeroIndustries] = useState<HeroIndustry[]>(IN_HERO_INDUSTRIES_BASE)
+  const [heroFeatures, setHeroFeatures] = useState(HERO_FEATURES_BASE)
+
+  useEffect(() => {
+    Promise.all([
+      import('../assets/icons_for_in_hero/in_payment.json'),
+      import('../assets/icons_for_in_hero/in_bank.json'),
+      import('../assets/icons_for_in_hero/in_web3.json'),
+      import('../assets/icons_for_in_hero/in_lend.json'),
+      import('../assets/icons_for_in_hero/in_privacy.json'),
+      import('../assets/icons_for_hero/expand_globally.json'),
+      import('../assets/icons_for_hero/cut_cost.json'),
+      import('../assets/icons_for_hero/heart.json'),
+      import('../assets/icons_for_hero/lightning.json'),
+    ]).then(([p, b, w, l, pr, eg, cc, h, li]) => {
+      setHeroIndustries([
+        { label: 'Payments & Processing', anim: p.default },
+        { label: 'Digital Banking',       anim: b.default },
+        { label: 'Web3',                  anim: w.default },
+        { label: 'Lending & Credit',      anim: l.default },
+        { label: 'InsurTech',             anim: pr.default },
+      ])
+      setHeroFeatures([
+        { regular: 'Expand globally, ', bold: 'not your headcount', anim: eg.default },
+        { regular: 'Cut costs ', bold: 'without cutting quality', anim: cc.default },
+        { regular: 'Keep customers ', bold: 'before they churn', anim: h.default },
+        { regular: 'Go live in 3 days, ', bold: 'not 6 months', anim: li.default },
+      ])
+    })
+  }, [])
+
   const clipRef = useRef<HTMLDivElement>(null)
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
@@ -998,7 +1021,7 @@ export default function Home() {
 
           {/* Badge — cycling industry */}
           <div className="mb-6 flex justify-center" style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both' }}>
-            <HeroBadgeSequence />
+            <HeroBadgeSequence industries={heroIndustries} />
           </div>
 
           {/* Heading */}
@@ -1036,7 +1059,7 @@ export default function Home() {
 
           {/* Feature items — below CTA */}
           <div className="mt-8 hidden lg:grid grid-cols-2 gap-x-10 gap-y-3" style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms' }}>
-            {heroDesktopAgentFeatures.map((item) => (
+            {heroFeatures.map((item) => (
               <HeroFeatureItem key={item.regular} item={item} />
             ))}
           </div>
@@ -2481,11 +2504,11 @@ const heroIndustries = [
   { label: 'InsurTech', icon: S('M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z', true) },
 ]
 
-const heroDesktopAgentFeatures = [
-  { regular: 'Expand globally, ', bold: 'not your headcount', anim: expandGloballyAnim },
-  { regular: 'Cut costs ', bold: 'without cutting quality', anim: cutCostAnim },
-  { regular: 'Keep customers ', bold: 'before they churn', anim: heartAnim },
-  { regular: 'Go live in 3 days, ', bold: 'not 6 months', anim: lightningAnim },
+const HERO_FEATURES_BASE = [
+  { regular: 'Expand globally, ', bold: 'not your headcount', anim: null as object | null },
+  { regular: 'Cut costs ', bold: 'without cutting quality', anim: null as object | null },
+  { regular: 'Keep customers ', bold: 'before they churn', anim: null as object | null },
+  { regular: 'Go live in 3 days, ', bold: 'not 6 months', anim: null as object | null },
 ]
 
 const complianceFeatures = [
