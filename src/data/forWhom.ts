@@ -10,13 +10,13 @@ export const forWhomIndustries: ForWhomItem[] = [
     label: 'Payments & Processing',
     desc: 'Dispute resolution, chargebacks, transaction queries',
     to: '/industries/payments-processing',
-    image: '/for_whom/Payments & Processing.webp',
+    image: '/for_whom/payments-processing.webp',
   },
   {
     label: 'Digital Banking',
     desc: 'Account support, identity verification, onboarding at scale',
     to: '/industries/neobanks',
-    image: '/for_whom/Neobanks & Digital Banking.webp',
+    image: '/for_whom/neobanks.webp',
   },
   {
     label: 'Web3',
@@ -28,7 +28,7 @@ export const forWhomIndustries: ForWhomItem[] = [
     label: 'Lending & Credit',
     desc: 'Loan queries, repayment issues, eligibility checks',
     to: '/industries/lending-credit',
-    image: '/for_whom/Lending & Credit.webp',
+    image: '/for_whom/lending-credit.webp',
   },
   {
     label: 'InsurTech',

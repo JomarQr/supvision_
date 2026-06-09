@@ -43,13 +43,13 @@ export const allIntegrations: Integration[] = [
     description: 'Schedule automatic exports of support metrics, resolution rates, and audit logs directly to Excel or Google Sheets. Share regulator-ready reports with your compliance team without manual data pulls.',
   },
   {
-    name: 'Looker Studio', category: 'Reporting', logo: '/logos/Looker Studio.webp',
+    name: 'Looker Studio', category: 'Reporting', logo: '/logos/looker-studio.webp',
     tagline: 'Live support dashboards in Looker Studio',
     functions: ['Real-time resolution rate dashboards', 'Escalation trend visualisation', 'CSAT & SLA tracking', 'Audit log drill-downs', 'Shareable compliance reports'],
     description: 'Connect supVision to Looker Studio and turn support data into live dashboards your ops and compliance teams can monitor in real time - no manual exports, no stale spreadsheets.',
   },
   {
-    name: 'Power BI', category: 'Reporting', logo: '/logos/Power BI.webp',
+    name: 'Power BI', category: 'Reporting', logo: '/logos/power-bi.webp',
     tagline: 'Support analytics inside Power BI',
     functions: ['Automated data connector', 'Resolution & escalation KPIs', 'Multi-team performance views', 'Audit trail reporting', 'Scheduled report distribution'],
     description: 'Push supVision metrics directly into Power BI. Build executive dashboards, compliance audit reports, and team performance views - all within your existing Microsoft 365 environment.',
@@ -85,7 +85,7 @@ export const allIntegrations: Integration[] = [
     description: 'supVision sits on top of your existing Zendesk setup. It resolves tier-1 tickets automatically and - when escalation is needed - routes to the right agent with the full conversation history and live account data already attached.',
   },
   {
-    name: 'Intercom', category: 'Helpdesks', logo: '/logos/intecom (1).webp',
+    name: 'Intercom', category: 'Helpdesks', logo: '/logos/intercom.webp',
     tagline: 'Automated conversations in Intercom',
     functions: ['Auto-answer live chat queries', 'Pull CRM & account data in context', 'Trigger custom bots on keywords', 'Route to human inbox on escalation', 'CSAT & resolution tracking'],
     description: 'Deploy supVision inside your Intercom workspace. The agent handles live chat queries autonomously, surfacing real-time data from your identity verification provider and CRM before every reply.',
@@ -109,7 +109,7 @@ export const allIntegrations: Integration[] = [
     description: 'Use Twilio to reach customers over SMS or voice. supVision handles inbound text queries and sends proactive notifications - payment confirmations, verification status updates - without human involvement.',
   },
   {
-    name: 'Facebook Messenger', category: 'Messaging', logo: '/logos/facebook messenger.webp',
+    name: 'Facebook Messenger', category: 'Messaging', logo: '/logos/facebook-messenger.webp',
     tagline: 'Customer support via Facebook Messenger',
     functions: ['Real-time message handling', 'Rich media & document support', 'Automated reply flows', 'Handoff to human agent on escalation', 'Page inbox management'],
     description: 'Connect your Facebook Page inbox to supVision and automate responses to customer queries arriving via Messenger. Ideal for fintechs with strong social media presence in LatAm, SEA, and MENA.',

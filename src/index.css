@@ -17,40 +17,35 @@
 /* ── Nohemi font family (weights in use: 300, 400, 600, 700, 800) ── */
 @font-face {
   font-family: 'Nohemi';
-  src: url('/nohemi-font-family/Nohemi-Light-BF6438cc5702321.woff') format('woff'),
-       url('/nohemi-font-family/Nohemi-Light-BF6438cc583f70b.otf') format('opentype');
+  src: url('/nohemi-font-family/Nohemi-Light-BF6438cc5702321.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Nohemi';
-  src: url('/nohemi-font-family/Nohemi-Regular-BF6438cc579d934.woff') format('woff'),
-       url('/nohemi-font-family/Nohemi-Regular-BF6438cc58b98fc.otf') format('opentype');
+  src: url('/nohemi-font-family/Nohemi-Regular-BF6438cc579d934.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Nohemi';
-  src: url('/nohemi-font-family/Nohemi-SemiBold-BF6438cc57db2ff.woff') format('woff'),
-       url('/nohemi-font-family/Nohemi-SemiBold-BF6438cc588b5e5.otf') format('opentype');
+  src: url('/nohemi-font-family/Nohemi-SemiBold-BF6438cc57db2ff.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Nohemi';
-  src: url('/nohemi-font-family/Nohemi-Bold-BF6438cc577b524.woff') format('woff'),
-       url('/nohemi-font-family/Nohemi-Bold-BF6438cc5812315.otf') format('opentype');
+  src: url('/nohemi-font-family/Nohemi-Bold-BF6438cc577b524.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Nohemi';
-  src: url('/nohemi-font-family/Nohemi-ExtraBold-BF6438cc5761ae2.woff') format('woff'),
-       url('/nohemi-font-family/Nohemi-ExtraBold-BF6438cc58a4c3c.otf') format('opentype');
+  src: url('/nohemi-font-family/Nohemi-ExtraBold-BF6438cc5761ae2.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
