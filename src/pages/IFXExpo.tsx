@@ -2,8 +2,7 @@ import { FormEvent, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import PageMeta from '../components/PageMeta'
-
-const CALENDLY_URL = 'https://calendly.com/jevgenij-s-supvision/30min'
+import { openCalendlyPopup } from '../lib/calendly'
 
 const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
@@ -16,20 +15,6 @@ export default function IFXExpo() {
   const [submitError, setSubmitError] = useState('')
   const [formStartedAt] = useState(() => Date.now())
   const formRef = useRef<HTMLFormElement>(null)
-
-  function openCalendly() {
-    const Cal = (window as any).Calendly
-    if (!Cal) return
-    document.body.style.overflow = 'hidden'
-    Cal.showPopupWidget(CALENDLY_URL)
-    const observer = new MutationObserver(() => {
-      if (!document.querySelector('.calendly-overlay')) {
-        document.body.style.overflow = ''
-        observer.disconnect()
-      }
-    })
-    observer.observe(document.body, { childList: true })
-  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -131,7 +116,7 @@ export default function IFXExpo() {
 
             <div className="mt-8">
               <button
-                onClick={openCalendly}
+                onClick={openCalendlyPopup}
                 className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors"
                 style={{ backgroundColor: '#214995' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316' }}

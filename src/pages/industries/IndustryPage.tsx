@@ -98,7 +98,7 @@ function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string;
       {letter}
     </span>
   ) : (
-    <img src={logoUrl} alt="" className="h-7 w-7 rounded-full border-2 border-white bg-white object-contain" onError={() => setErr(true)} />
+    <img src={logoUrl} alt="" className="h-7 w-7 rounded-full border-2 border-white bg-white object-contain" loading="lazy" onError={() => setErr(true)} />
   )
 }
 

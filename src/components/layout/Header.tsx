@@ -2,48 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import { forWhomIndustries, forWhomRoles } from '../../data/forWhom'
-import creditCardAnim from '../../assets/byindustry/credit_card.json'
-import bankAnim from '../../assets/byindustry/bank.json'
-import web3Anim from '../../assets/byindustry/coin.json'
-import walletAnim from '../../assets/byindustry/lend.json'
-import insuranceAnim from '../../assets/byindustry/insurance.json'
-import caseAnim from '../../assets/byrole/case.json'
-import documentAnim from '../../assets/byrole/document.json'
-import growthAnim from '../../assets/byrole/growth.json'
-import headOfSupportAnim from '../../assets/byrole/head_of_support.json'
-import exploreAnim from '../../assets/for_below/explore.json'
-import integrationLinkAnim from '../../assets/for_below/integration.json'
-import bookDemoAnim from '../../assets/for_below/book_a_demo.json'
-import helpdeskAnim from '../../assets/integrations/helpdesk.json'
-import messagingAnim from '../../assets/integrations/messaging_channels.json'
-import knowledgeBaseAnim from '../../assets/integrations/knowledge_base.json'
-import collaborationAnim from '../../assets/integrations/collaboration.json'
-import crmAnim from '../../assets/integrations/crm.json'
-import analyticsIntAnim from '../../assets/integrations/analytics.json'
-import securityIntAnim from '../../assets/integrations/security.json'
+import { openCalendlyPopup } from '../../lib/calendly'
 
-const RIGHT_PANEL_LOTTIE: Record<string, object> = {
-  'Helpdesks': helpdeskAnim,
-  'Messaging channels': messagingAnim,
-  'Knowledge base': knowledgeBaseAnim,
-  'Identity providers': helpdeskAnim,
-  'Collaboration': collaborationAnim,
-  'CRM': crmAnim,
-  'Analytics Dashboard': analyticsIntAnim,
-  'Security & Compliance': securityIntAnim,
-}
-
-const ITEM_LOTTIE: Record<string, object> = {
-  'Payments & Processing': creditCardAnim,
-  'Digital Banking': bankAnim,
-  'Web3': web3Anim,
-  'Lending & Credit': walletAnim,
-  'InsurTech': insuranceAnim,
-  'Head of Support': headOfSupportAnim,
-  'Compliance & Risk': documentAnim,
-  'Operations & Growth': growthAnim,
-  'Founders & C-Suite': caseAnim,
-}
+let RIGHT_PANEL_LOTTIE: Record<string, object> = {}
+let ITEM_LOTTIE: Record<string, object> = {}
+let BELOW_LOTTIE: Record<string, object | null> = { explore: null, integration: null, bookDemo: null }
 
 // ── Overview mega-menu data ──────────────────────────────────────────────────
 const overviewCategories = [
@@ -238,7 +201,7 @@ function FooterQuickLink({
   i,
   onClose,
 }: {
-  link: { to: string; anim: object; label: string }
+  link: { to: string; anim: object | null; label: string }
   i: number
   onClose: () => void
 }) {
@@ -246,13 +209,13 @@ function FooterQuickLink({
   const lottieRef = useRef<any>(null)
 
   useEffect(() => {
-    if (!lottieRef.current) return
+    if (!lottieRef.current || !link.anim) return
     if (hovered) {
       lottieRef.current.goToAndPlay(0, true)
     } else {
       lottieRef.current.goToAndStop(0, true)
     }
-  }, [hovered])
+  }, [hovered, link.anim])
 
   return (
     <div className="flex items-center">
@@ -264,19 +227,23 @@ function FooterQuickLink({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <Lottie
-          lottieRef={lottieRef}
-          animationData={link.anim}
-          autoplay={false}
-          loop={false}
-          style={{
-            width: 18,
-            height: 18,
-            flexShrink: 0,
-            filter: hovered ? 'none' : 'grayscale(1) opacity(0.55)',
-            transition: 'filter 0.2s ease',
-          }}
-        />
+        {link.anim ? (
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={link.anim}
+            autoplay={false}
+            loop={false}
+            style={{
+              width: 18,
+              height: 18,
+              flexShrink: 0,
+              filter: hovered ? 'none' : 'grayscale(1) opacity(0.55)',
+              transition: 'filter 0.2s ease',
+            }}
+          />
+        ) : (
+          <div style={{ width: 18, height: 18, flexShrink: 0 }} />
+        )}
         {link.label}
       </Link>
     </div>
@@ -334,20 +301,6 @@ function RightPanelItem({
 }
 
 // ── Header ───────────────────────────────────────────────────────────────────
-function openCalendlyPopup() {
-  const Cal = (window as any).Calendly
-  if (!Cal) return
-  document.body.style.overflow = 'hidden'
-  Cal.showPopupWidget('https://calendly.com/jevgenij-s-supvision/30min')
-  const observer = new MutationObserver(() => {
-    if (!document.querySelector('.calendly-overlay')) {
-      document.body.style.overflow = ''
-      observer.disconnect()
-    }
-  })
-  observer.observe(document.body, { childList: true })
-}
-
 export default function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -393,6 +346,40 @@ export default function Header() {
   const [openForWhomCat, setOpenForWhomCat] = useState<string | null>(null)
   const toggleForWhomCat = (key: string) =>
     setOpenForWhomCat(prev => prev === key ? null : key)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      import('../../assets/headerAnimsBundle').then((m) => {
+        ITEM_LOTTIE = {
+          'Payments & Processing': m.creditCardAnim,
+          'Digital Banking': m.bankAnim,
+          'Web3': m.web3Anim,
+          'Lending & Credit': m.walletAnim,
+          'InsurTech': m.insuranceAnim,
+          'Head of Support': m.headOfSupportAnim,
+          'Compliance & Risk': m.documentAnim,
+          'Operations & Growth': m.growthAnim,
+          'Founders & C-Suite': m.caseAnim,
+        }
+        RIGHT_PANEL_LOTTIE = {
+          'Helpdesks': m.helpdeskAnim,
+          'Messaging channels': m.messagingAnim,
+          'Knowledge base': m.knowledgeBaseAnim,
+          'Identity providers': m.helpdeskAnim,
+          'Collaboration': m.collaborationAnim,
+          'CRM': m.crmAnim,
+          'Analytics Dashboard': m.analyticsIntAnim,
+          'Security & Compliance': m.securityIntAnim,
+        }
+        BELOW_LOTTIE = {
+          explore: m.exploreAnim,
+          integration: m.integrationLinkAnim,
+          bookDemo: m.bookDemoAnim,
+        }
+      })
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     setOverviewOpen(false)
@@ -722,9 +709,9 @@ export default function Header() {
                   {/* Footer quick-links */}
                   <div className="flex items-center gap-1 py-3 mt-3" style={{ borderTop: '1px solid #e8e2d9' }}>
                     {[
-                      { to: '/support-agent', anim: exploreAnim, label: 'Explore Support Agent' },
-                      { to: '/integrations', anim: integrationLinkAnim, label: 'View all integrations' },
-                      { to: '/contact', anim: bookDemoAnim, label: 'Book a Demo' },
+                      { to: '/support-agent', anim: BELOW_LOTTIE.explore, label: 'Explore Support Agent' },
+                      { to: '/integrations', anim: BELOW_LOTTIE.integration, label: 'View all integrations' },
+                      { to: '/contact', anim: BELOW_LOTTIE.bookDemo, label: 'Book a Demo' },
                     ].map((link, i) => (
                       <FooterQuickLink key={link.to} link={link} i={i} onClose={() => setOverviewOpen(false)} />
                     ))}

@@ -95,7 +95,7 @@ function ValueRow({ v, i }: { v: typeof values[number]; i: number }) {
       </div>
       {/* Image */}
       <div className="w-full lg:w-[40%] flex-shrink-0">
-        <img src={v.img} alt={v.title} className="w-full rounded-2xl object-cover" style={{ height: '320px', objectPosition: 'center' }} />
+        <img src={v.img} alt={v.title} className="w-full rounded-2xl object-cover" style={{ height: '320px', objectPosition: 'center' }} loading="lazy" />
       </div>
     </div>
   )
@@ -227,7 +227,7 @@ export default function About() {
                 <div
                   className="flex h-[420px] w-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white text-center shadow-md"
                 >
-                  <img src={item.img} alt={item.title} className="h-[190px] w-full object-cover flex-shrink-0" />
+                  <img src={item.img} alt={item.title} className="h-[190px] w-full object-cover flex-shrink-0" loading="lazy" />
                   <div className="flex flex-1 flex-col items-center justify-center p-6">
                     <h3
                       className="text-xl leading-tight text-gray-900 sm:text-2xl"
@@ -319,7 +319,7 @@ export default function About() {
         <div className="mx-auto max-w-7xl lg:px-6">
           <div data-reveal className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
             <div className="w-full overflow-hidden rounded-3xl lg:w-[45%] flex-shrink-0">
-              <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" style={{ aspectRatio: '4/3', minHeight: '260px' }} />
+              <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" style={{ aspectRatio: '4/3', minHeight: '260px' }} loading="lazy" />
             </div>
 
             <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-8 text-left shadow-sm sm:p-10">

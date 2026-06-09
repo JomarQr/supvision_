@@ -378,7 +378,7 @@ export default function Analytics() {
                       <p className="mt-2 text-sm leading-relaxed text-gray-500">{card.desc}</p>
                     </div>
                     <div className="px-4 pb-4">
-                      <img src={card.img} alt={card.title} className="w-full rounded-xl border border-gray-100" />
+                      <img src={card.img} alt={card.title} className="w-full rounded-xl border border-gray-100" loading="lazy" />
                     </div>
                   </div>
                 ))}
@@ -497,7 +497,7 @@ export default function Analytics() {
                   </p>
                 </div>
                 <div className="mt-auto px-6 pb-6">
-                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full rounded-2xl border border-gray-100" />
+                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
                 </div>
               </div>
               <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
@@ -509,7 +509,7 @@ export default function Analytics() {
                   </p>
                 </div>
                 <div className="mt-auto px-6 pb-6">
-                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full rounded-2xl border border-gray-100" />
+                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -521,7 +521,7 @@ export default function Analytics() {
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Ticket saves, final transitions, and messages on one chart.</p>
                 </div>
                 <div className="mt-auto px-5 pb-5">
-                  <img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" />
+                  <img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
                 </div>
               </div>
               <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
@@ -531,7 +531,7 @@ export default function Analytics() {
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Plan shifts around real demand.</p>
                 </div>
                 <div className="mt-auto px-5 pb-5">
-                  <img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" />
+                  <img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
                 </div>
               </div>
               <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
@@ -541,7 +541,7 @@ export default function Analytics() {
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">Messages by hour in local timezone — isolate queue bursts per agent.</p>
                 </div>
                 <div className="mt-auto px-5 pb-5">
-                  <img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" />
+                  <img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
                 </div>
               </div>
             </div>

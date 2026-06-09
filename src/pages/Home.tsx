@@ -6,11 +6,6 @@ import inBankAnim from '../assets/icons_for_in_hero/in_bank.json'
 import inWeb3Anim from '../assets/icons_for_in_hero/in_web3.json'
 import inLendAnim from '../assets/icons_for_in_hero/in_lend.json'
 import inPrivacyAnim from '../assets/icons_for_in_hero/in_privacy.json'
-import industryPaymentsAnim from '../assets/built_for_industry/payments.json'
-import industryNeobankingAnim from '../assets/built_for_industry/neobanking.json'
-import industryInsuranceAnim from '../assets/built_for_industry/insurance.json'
-import industryLendingAnim from '../assets/built_for_industry/lending.json'
-import industryWeb3Anim from '../assets/built_for_industry/web_crypto.json'
 import expandGloballyAnim from '../assets/icons_for_hero/expand_globally.json'
 import cutCostAnim from '../assets/icons_for_hero/cut_cost.json'
 import heartAnim from '../assets/icons_for_hero/heart.json'
@@ -527,7 +522,7 @@ function HeroBadgeSequence() {
   )
 }
 
-function IndustryCard({ label, anim, to }: { label: string; anim: object; to: string }) {
+function IndustryCard({ label, anim, to }: { label: string; anim: object | null; to: string }) {
   const [hovered, setHovered] = useState(false)
   const [waveKey, setWaveKey] = useState(0)
   const lottieRef = useRef<any>(null)
@@ -555,13 +550,17 @@ function IndustryCard({ label, anim, to }: { label: string; anim: object; to: st
       onMouseLeave={handleLeave}
     >
       <div className="flex flex-1 items-center justify-center">
-        <Lottie
-          lottieRef={lottieRef}
-          animationData={anim}
-          autoplay={false}
-          loop={false}
-          style={{ width: 110, height: 110 }}
-        />
+        {anim ? (
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={anim}
+            autoplay={false}
+            loop={false}
+            style={{ width: 110, height: 110 }}
+          />
+        ) : (
+          <div style={{ width: 110, height: 110 }} />
+        )}
       </div>
       <p className="w-full text-center text-sm font-bold leading-snug text-gray-900 lg:text-base">
         {hovered ? (
@@ -792,6 +791,25 @@ export default function Home() {
   const [sandboxPhase, setSandboxPhase] = useState(0)
   const [sandboxScene, setSandboxScene] = useState(0)
   const [testimonialIdx, setTestimonialIdx] = useState(0)
+  const [industryAnims, setIndustryAnims] = useState<Record<string, object>>({})
+
+  useEffect(() => {
+    Promise.all([
+      import('../assets/built_for_industry/payments.json'),
+      import('../assets/built_for_industry/neobanking.json'),
+      import('../assets/built_for_industry/insurance.json'),
+      import('../assets/built_for_industry/lending.json'),
+      import('../assets/built_for_industry/web_crypto.json'),
+    ]).then(([p, n, i, l, w]) => {
+      setIndustryAnims({
+        payments: p.default,
+        neobanking: n.default,
+        insurance: i.default,
+        lending: l.default,
+        web3: w.default,
+      })
+    })
+  }, [])
 
   useEffect(() => {
     const delays = [600, 1200, 900, 1400, 3500]
@@ -900,7 +918,7 @@ export default function Home() {
           <div className="blue-gradient-hero absolute inset-0">
             {/* Band 4 — deepest, darkest, painted first */}
             <svg
-              className="hero-wave-track-4 absolute top-0 left-0 h-full"
+              className="hero-wave-track-4 absolute top-0 left-0 h-full hidden md:block"
               style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.55))' }}
               viewBox="0 0 5760 900"
               preserveAspectRatio="none"
@@ -913,7 +931,7 @@ export default function Home() {
             </svg>
             {/* Band 3 */}
             <svg
-              className="hero-wave-track-3 absolute top-0 left-0 h-full"
+              className="hero-wave-track-3 absolute top-0 left-0 h-full hidden md:block"
               style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.55))' }}
               viewBox="0 0 5760 900"
               preserveAspectRatio="none"
@@ -926,7 +944,7 @@ export default function Home() {
             </svg>
             {/* Band 2 */}
             <svg
-              className="hero-wave-track-2 absolute top-0 left-0 h-full"
+              className="hero-wave-track-2 absolute top-0 left-0 h-full hidden md:block"
               style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.55))' }}
               viewBox="0 0 5760 900"
               preserveAspectRatio="none"
@@ -939,7 +957,7 @@ export default function Home() {
             </svg>
             {/* Band 1 — top, lightest, painted last */}
             <svg
-              className="hero-wave-track absolute top-0 left-0 h-full"
+              className="hero-wave-track absolute top-0 left-0 h-full hidden md:block"
               style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.5))' }}
               viewBox="0 0 5760 900"
               preserveAspectRatio="none"
@@ -1698,11 +1716,11 @@ export default function Home() {
             <p className="mt-2 text-sm text-gray-500">supVision is purpose-built for fintech — see where your business fits and explore what it can do for you.</p>
           </div>
           <div data-reveal className="grid grid-cols-2 gap-3 lg:grid-cols-5 lg:gap-4" style={{ '--rd': '120ms' } as React.CSSProperties}>
-            <IndustryCard label="Payments & Processing"      anim={industryPaymentsAnim}   to="/industries/payments-processing" />
-            <IndustryCard label="Digital Banking" anim={industryNeobankingAnim} to="/industries/neobanks" />
-            <IndustryCard label="InsurTech"                   anim={industryInsuranceAnim}  to="/industries/insurtech" />
-            <IndustryCard label="Lending & Credit"            anim={industryLendingAnim}    to="/industries/lending-credit" />
-            <IndustryCard label="Web3"                        anim={industryWeb3Anim}       to="/industries/crypto-web3" />
+            <IndustryCard label="Payments & Processing" anim={industryAnims.payments ?? null} to="/industries/payments-processing" />
+            <IndustryCard label="Digital Banking"       anim={industryAnims.neobanking ?? null} to="/industries/neobanks" />
+            <IndustryCard label="InsurTech"             anim={industryAnims.insurance ?? null} to="/industries/insurtech" />
+            <IndustryCard label="Lending & Credit"      anim={industryAnims.lending ?? null} to="/industries/lending-credit" />
+            <IndustryCard label="Web3"                  anim={industryAnims.web3 ?? null} to="/industries/crypto-web3" />
           </div>
         </div>
       </section>
