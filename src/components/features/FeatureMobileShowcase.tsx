@@ -170,7 +170,7 @@ export default function FeatureMobileShowcase({ data }: { data: FeaturePageData 
 
         {data.coreImage && (
           <div className="mt-8 overflow-hidden rounded-3xl lg:hidden">
-            <img src={data.coreImage} alt={data.title} className="h-auto w-full object-cover" />
+            <img loading="lazy" src={data.coreImage} alt={data.title} className="h-auto w-full object-cover" />
           </div>
         )}
       </div>

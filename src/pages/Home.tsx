@@ -140,7 +140,7 @@ function LangColumn({ items, pxPerSec, reverse = false }: { items: Array<{ name:
       {[...items, ...items].map((lang, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', borderRadius: 9999, padding: '9px 12px', border: '1px solid #e5e7eb', flexShrink: 0, marginBottom: 8 }}>
           <div style={{ width: 30, height: 30, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
-            <img src={lang.flag} alt={lang.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img loading="lazy" src={lang.flag} alt={lang.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <span style={{ fontSize: 13, fontWeight: 600, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{lang.name}</span>
         </div>
@@ -700,7 +700,7 @@ function ValuePropCard({ v }: { v: typeof valueProps[0] }) {
         }}
       >
         {v.robotOverlay && (
-          <img
+          <img loading="lazy"
             src={v.robotOverlay}
             alt=""
             className="pointer-events-none absolute z-20 hidden lg:block"
@@ -714,7 +714,7 @@ function ValuePropCard({ v }: { v: typeof valueProps[0] }) {
         {/* Image */}
         <div style={{ height: 224, borderRadius: '1rem 1rem 0 0', overflow: 'hidden', position: 'relative', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <span style={{ fontSize: '0.75rem', color: '#d1d5db', userSelect: 'none' }}>Screenshot coming soon</span>
-          <img
+          <img loading="lazy"
             src={v.img}
             alt={v.imgAlt}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
@@ -1147,7 +1147,7 @@ export default function Home() {
                     const s = t.sc === 'green' ? { bg: 'rgba(34,197,94,0.12)', color: '#16a34a' } : t.sc === 'orange' ? { bg: 'rgba(251,154,5,0.14)', color: '#d97706' } : { bg: 'rgba(107,114,128,0.10)', color: '#6b7280' }
                     return (
                       <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <img src={t.avatar} alt={t.name} style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1.5px solid #e5e7eb' }} />
+                        <img loading="lazy" src={t.avatar} alt={t.name} style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1.5px solid #e5e7eb' }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ fontSize: 10, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>{t.name}</p>
                           <p style={{ fontSize: 9, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.task}</p>
@@ -1324,13 +1324,13 @@ export default function Home() {
                                   <div className="rounded-2xl rounded-tr-sm px-3 py-2" style={{ background: '#2C1F0E' }}>
                                     <span className="flex gap-1 items-center">{[0, 0.3, 0.6].map((d, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/70" style={{ animation: 'pulse 1s ease-in-out infinite', animationDelay: `${d}s` }} />)}</span>
                                   </div>
-                                  <img src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                                  <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
                                 </div>
                               )}
                               {handoffPhase >= 3 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
                                   <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-1.5 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
-                                  <img src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                                  <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
                                 </div>
                               )}
                               {handoffPhase >= 4 && (
@@ -1372,7 +1372,7 @@ export default function Home() {
                             style={{ animation: `ticker ${[18, 24, 20, 22][ri]}s linear infinite${ri % 2 === 1 ? ' reverse' : ''}` }}
                           >
                             {[...row, ...row, ...row, ...row].map((logo, i) => (
-                              <img key={i} src={logo.src} alt={logo.name} className="h-12 w-12 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                              <img loading="lazy" key={i} src={logo.src} alt={logo.name} className="h-12 w-12 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                             ))}
                           </div>
                         </div>
@@ -1413,7 +1413,7 @@ export default function Home() {
                             {sandboxPhase >= 3 && (
                               <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5 flex-1 overflow-hidden" style={{ animation: 'feature-text-in 0.28s ease both' }}>
                                 <div className="flex items-center gap-1.5 mb-1.5">
-                                  <img src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                                  <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
                                   <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
                                 </div>
                                 <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
@@ -1514,7 +1514,7 @@ export default function Home() {
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 8px', height: '100%', background: '#ffffff', borderRadius: 9999, border: '3.5px solid #e5e7eb', overflow: 'hidden' }}>
                           <div style={{ width: flagSize, height: flagSize, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: '#333' }}>
-                            <img src={LANGUAGES[langIdx].flag} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img loading="lazy" src={LANGUAGES[langIdx].flag} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           </div>
                           <span style={{ flex: 1, textAlign: 'center', fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#111827', fontSize, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
                             {LANGUAGES[langIdx].name}
@@ -1542,7 +1542,7 @@ export default function Home() {
                       {handoffPhase >= 3 && (
                         <div className="flex items-start justify-end gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
-                          <img src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                          <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
                         </div>
                       )}
                       {handoffPhase >= 4 && (
@@ -1606,7 +1606,7 @@ export default function Home() {
                         <div key={logo.name} className="absolute" style={{ top: '50%', left: '50%', marginTop: '-26px', marginLeft: '-26px', animation: `logo-orbit ${dur}s linear infinite`, animationDelay: `${-(i / orbitAllMob.length) * dur}s`, ['--orbit-r' as string]: '99px' }}>
                           <div style={{ animation: `logo-counter ${dur}s linear infinite`, animationDelay: `${-(i / orbitAllMob.length) * dur}s` }}>
                             <div className="h-[52px] w-[52px] rounded-full bg-white shadow border border-gray-100 overflow-hidden flex items-center justify-center">
-                              <img src={logo.src} alt={logo.name} className="h-7 w-7 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                              <img loading="lazy" src={logo.src} alt={logo.name} className="h-7 w-7 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                             </div>
                           </div>
                         </div>
@@ -1647,7 +1647,7 @@ export default function Home() {
                       {sandboxPhase >= 3 && (
                         <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="flex items-center gap-1.5 mb-1">
-                            <img src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                            <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
                             <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
                           </div>
                           <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
@@ -1987,7 +1987,7 @@ export default function Home() {
               </div>
               {/* Photo */}
               <div className="w-full lg:w-[52%] flex-shrink-0">
-                <img
+                <img loading="lazy"
                   src="/2I5A9685.webp"
                   alt="supVision team"
                   className="w-full rounded-2xl object-cover"
@@ -2059,7 +2059,7 @@ export default function Home() {
                       ].join(' ')}
                       style={{ borderColor: '#214995', boxShadow: '0 0 20px rgba(33,73,149,0.12)' }}
                     >
-                      <img
+                      <img loading="lazy"
                         src={card.badge}
                         alt={card.badgeAlt}
                         className={
@@ -2560,7 +2560,7 @@ function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string;
       {letter}
     </span>
   ) : (
-    <img
+    <img loading="lazy"
       src={logoUrl}
       alt=""
       className="h-7 w-7 rounded-full border-2 border-white object-contain bg-white"

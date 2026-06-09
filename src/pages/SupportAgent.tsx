@@ -360,7 +360,7 @@ function ConnectMobileSection() {
             key={item.name}
             className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm"
           >
-            <img
+            <img loading="lazy"
               src={item.logo}
               alt={item.name}
               className="h-10 w-10 flex-shrink-0 rounded-xl object-contain"
@@ -776,7 +776,7 @@ export default function SupportAgent() {
                   ].join(' ')}
                   style={{ borderColor: '#FB9A05', boxShadow: '0 0 20px rgba(251, 154, 5, 0.2)' }}
                 >
-                  <img
+                  <img loading="lazy"
                     src={card.badge}
                     alt={card.badgeAlt}
                     className={

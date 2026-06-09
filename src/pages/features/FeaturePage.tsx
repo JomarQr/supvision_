@@ -228,7 +228,7 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
                   </div>
                 </div>
                 <div className="relative min-h-[420px] overflow-hidden">
-                  <img
+                  <img loading="lazy"
                     src={data.coreImage}
                     alt={data.title}
                     className="absolute inset-0 h-full w-full object-cover"

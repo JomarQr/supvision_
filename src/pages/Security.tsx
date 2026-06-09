@@ -169,7 +169,7 @@ export default function Security() {
               >
                 <CertBadgeRing oversize={'badge' in card && card.badgeOversize}>
                   {'badge' in card ? (
-                    <img
+                    <img loading="lazy"
                       src={card.badge}
                       alt={card.badgeAlt}
                       className={

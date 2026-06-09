@@ -10,7 +10,7 @@ const data = {
     'Tamper-evident storage — no retroactive edits by anyone, including supVision',
     'Regulator-ready exports in CSV, JSON, or custom format via API',
   ],
-  coreImage: '/Core Functionalities/Audit Logs.webp',
+  coreImage: '/core-functionalities/audit-logs.webp',
   points: [
     { icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4 4a2 2 0 0 1 2-2h4.75a.75.75 0 0 1 .53.22l2.25 2.25a.75.75 0 0 1 .22.53V12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm5 .5V3.5l2 2H9.5A.5.5 0 0 1 9 5.5ZM5.5 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5Zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z" clipRule="evenodd" /></svg>, title: 'Decision-level logging', desc: 'Every agent response is logged with the query received, the data sources queried, the confidence score, the response given, and the escalation decision - all in one record.' },
     { icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clipRule="evenodd" /></svg>, title: 'Real-time writes', desc: 'Logs are written at the moment of each action - not batched. There is no window where a completed interaction is unlogged.' },

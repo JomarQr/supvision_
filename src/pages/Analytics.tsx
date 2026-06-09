@@ -318,7 +318,7 @@ export default function Analytics() {
                 </div>
               </div>
               <div className="relative" style={{ aspectRatio: '1/1' }}>
-                <img
+                <img loading="lazy"
                   src="/analytics.webp"
                   alt="Analytics Dashboard"
                   className="absolute rounded-2xl object-cover"

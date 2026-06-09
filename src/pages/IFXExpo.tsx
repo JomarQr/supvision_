@@ -79,7 +79,7 @@ export default function IFXExpo() {
         <div className="mt-12 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-12">
           {/* Photo */}
           <div className="flex-shrink-0">
-            <img
+            <img loading="lazy"
               src="/Frame 9.webp"
               alt="Meet us at iFX EXPO"
               className="block h-[420px] w-auto object-cover"

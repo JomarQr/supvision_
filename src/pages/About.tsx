@@ -179,7 +179,7 @@ export default function About() {
       {/* Team photo */}
       <section className="px-4 pb-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <img
+          <img loading="lazy"
             src="/2I5A9685.webp"
             alt="supVision team"
             className="w-full rounded-2xl object-cover"

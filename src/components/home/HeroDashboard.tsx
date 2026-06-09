@@ -128,7 +128,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       {/* ── SIDEBAR ── */}
       <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
-          <img src="/Component 156 (3).webp" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
+          <img loading="lazy" src="/Component 156 (3).webp" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
         {activeNav === 'Settings' ? (
           <>
@@ -207,7 +207,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', border: '2px solid #e0e7ff' }}>
-              <img src="/Component 187 (1).webp" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img loading="lazy" src="/Component 187 (1).webp" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, lineHeight: 1.2 }}>supVision Agent</p>
@@ -280,7 +280,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { name: 'Liu W.',   avatar: '/avatars/man 4.webp',   query: 'How do I reset my PIN?',      score: 87, auto: true  },
                       ].map((d, i) => (
                         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '6px 8px', borderRadius: 10, background: d.auto ? 'rgba(34,197,94,0.04)' : 'rgba(239,68,68,0.04)', border: `1px solid ${d.auto ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}` }}>
-                          <img src={d.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                          <img loading="lazy" src={d.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <p style={{ fontSize: 9, fontWeight: 700, margin: 0 }}>{d.name}</p>
                             <p style={{ fontSize: 9, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.query}</p>
@@ -505,7 +505,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     </div>
                     <div key={blockedIdx} style={{ animation: 'log-in 0.35s ease both' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                        <img src={blockedEntry.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                        <img loading="lazy" src={blockedEntry.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                         <span style={{ fontSize: 10, fontWeight: 700 }}>{blockedEntry.name}</span>
                       </div>
                       <div style={{ background: '#f3f4f6', borderRadius: '4px 10px 10px 10px', padding: '6px 10px', marginBottom: 8 }}>
@@ -554,7 +554,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   {BLOCKED_QUEUE.map((entry, i) => (
                     <div key={i} style={{ flex: 1, padding: '8px 10px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
-                        <img src={entry.avatar} alt="" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
+                        <img loading="lazy" src={entry.avatar} alt="" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
                         <span style={{ fontSize: 9, fontWeight: 700 }}>{entry.name}</span>
                       </div>
                       <p style={{ fontSize: 9, color: '#6b7280', margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.msg}</p>
@@ -1327,7 +1327,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     {visibleTickets.map((t, i) => (
                       <div key={`${rowOffset}-${i}`} style={{ display: 'flex', alignItems: 'center', gap: 8, animation: 'log-in 0.3s ease both', animationDelay: `${i * 0.06}s` }}>
-                        <img src={t.avatar} alt={t.name} style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1.5px solid #e5e7eb' }} />
+                        <img loading="lazy" src={t.avatar} alt={t.name} style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1.5px solid #e5e7eb' }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ fontSize: 10, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>{t.name}</p>
                           <p style={{ fontSize: 9, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.task}</p>

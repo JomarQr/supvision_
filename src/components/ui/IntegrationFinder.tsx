@@ -345,7 +345,7 @@ export default function IntegrationFinder() {
               style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
             >
               <div className={mobileTwoColumn ? 'flex flex-col gap-2' : 'flex items-center gap-3'}>
-                <img
+                <img loading="lazy"
                   src={item.logo}
                   alt={item.name}
                   className={[
@@ -462,7 +462,7 @@ export default function IntegrationFinder() {
             </button>
 
             <div className="flex items-center gap-4">
-              <img
+              <img loading="lazy"
                 src={selected.logo}
                 alt={selected.name}
                 className="h-14 w-14 rounded-2xl object-contain"

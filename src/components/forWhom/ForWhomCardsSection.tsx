@@ -39,7 +39,7 @@ export default function ForWhomCardsSection({
             >
               {item.image && (
                 <div className="flex justify-center px-6 pt-8">
-                  <img
+                  <img loading="lazy"
                     src={item.image}
                     alt=""
                     className="h-28 w-auto max-w-[85%] object-contain sm:h-32"

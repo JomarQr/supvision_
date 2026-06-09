@@ -104,7 +104,7 @@ export default function IndustryRoleMobileHero({
 
       {heroImage && (
         <div className="mt-8 overflow-hidden rounded-3xl">
-          <img src={heroImage} alt={title} className="h-auto w-full object-cover" />
+          <img loading="lazy" src={heroImage} alt={title} className="h-auto w-full object-cover" />
         </div>
       )}
 

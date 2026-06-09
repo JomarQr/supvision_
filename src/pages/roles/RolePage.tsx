@@ -277,7 +277,7 @@ export default function RolePage({ data }: { data: RolePageData }) {
               {/* Right - image */}
               {hasImage && (
                 <div data-reveal className="relative hidden lg:block" style={{ '--rd': '100ms' } as React.CSSProperties}>
-                  <img
+                  <img loading="lazy"
                     src={data.heroImage}
                     alt={data.title}
                     className="absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)] rounded-2xl object-cover"

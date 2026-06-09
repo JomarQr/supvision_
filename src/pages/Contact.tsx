@@ -143,6 +143,7 @@ export default function Contact() {
                         id="name"
                         type="text"
                         required
+                        autoComplete="name"
                         placeholder="Your full name"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -155,6 +156,7 @@ export default function Contact() {
                         id="email"
                         type="email"
                         required
+                        autoComplete="email"
                         placeholder="Your email address"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -169,6 +171,7 @@ export default function Contact() {
                       <input
                         id="phone"
                         type="text"
+                        autoComplete="tel"
                         placeholder="+1 234 567 890 or @handle"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -180,6 +183,7 @@ export default function Contact() {
                       <input
                         id="company"
                         type="text"
+                        autoComplete="organization"
                         placeholder="Your company name"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
