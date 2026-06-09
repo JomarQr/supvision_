@@ -221,7 +221,7 @@ export default function Contact() {
                     </button>
                     <p className="text-xs leading-relaxed text-gray-500">
                       I agree to the{' '}
-                      <Link to="/" className="font-semibold text-gray-900 underline">
+                      <Link to="/privacy-policy" className="font-semibold text-gray-900 underline">
                         Privacy Policy
                       </Link>{' '}
                       and acknowledge that my data might be used in Google Ads to help improve analytics and advertising.
