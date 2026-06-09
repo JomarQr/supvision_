@@ -119,7 +119,7 @@ export default function Integrations() {
         <div
           data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
-          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <h2
             className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"

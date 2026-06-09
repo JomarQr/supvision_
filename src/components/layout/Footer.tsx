@@ -214,7 +214,7 @@ export default function Footer() {
           {/* Book a demo card */}
           <div
             className="flex items-center justify-between gap-8 rounded-2xl px-8 py-8"
-            style={{ backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+            style={{ backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}
           >
             <p className="max-w-[18rem] text-lg font-semibold leading-snug text-white">
               See supVision live — book a 30-min walkthrough with our team

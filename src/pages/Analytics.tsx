@@ -380,7 +380,7 @@ export default function Analytics() {
         <div
           className="mx-auto max-w-4xl rounded-2xl px-6 py-12 text-center sm:px-8 sm:py-16"
           style={{
-            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
+            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

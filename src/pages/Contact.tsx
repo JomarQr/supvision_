@@ -111,7 +111,7 @@ export default function Contact() {
           className="relative overflow-hidden rounded-3xl"
           style={{
             '--rd': '100ms',
-            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)',
+            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           } as React.CSSProperties}

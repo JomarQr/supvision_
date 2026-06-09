@@ -818,7 +818,7 @@ export default function SupportAgent() {
           data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
           style={{
-            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
+            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

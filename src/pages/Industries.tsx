@@ -242,7 +242,7 @@ export default function Industries() {
         <div
           data-reveal
           className="mx-auto max-w-4xl overflow-hidden rounded-3xl px-8 py-16 text-center"
-          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <p className="text-xs font-bold uppercase tracking-widest text-blue-200">Not sure where you fit?</p>
           <h2

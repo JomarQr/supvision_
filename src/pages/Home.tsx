@@ -1218,7 +1218,7 @@ export default function Home() {
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">93% of tickets fully resolved automatically. Complex or high-risk cases are escalated to human agents for a precise, careful response.</p>
               </div>
               {/* 3 days */}
-              <div data-reveal className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ '--rd': '320ms', backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' } as React.CSSProperties}>
+              <div data-reveal className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ '--rd': '320ms', backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)', backgroundSize: 'cover', backgroundPosition: 'center' } as React.CSSProperties}>
                 <div className="absolute inset-0 bg-black/30" />
                 <div className="relative z-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">Integration time</p>
@@ -2100,7 +2100,7 @@ export default function Home() {
 
       {/* Pre-FAQ CTA with inline form */}
       <section className="py-8 px-2 sm:px-4 lg:py-16 lg:px-8">
-        <div data-reveal className="mx-auto max-w-7xl rounded-2xl overflow-hidden" style={{ position: 'relative', backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div data-reveal className="mx-auto max-w-7xl rounded-2xl overflow-hidden" style={{ position: 'relative', backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="relative z-10 flex flex-col lg:grid lg:grid-cols-2">
 
             {/* Top text */}

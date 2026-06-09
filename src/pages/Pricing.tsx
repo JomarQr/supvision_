@@ -284,7 +284,7 @@ export default function Pricing() {
           data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
           style={{
-            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)',
+            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
