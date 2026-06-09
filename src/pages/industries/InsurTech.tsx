@@ -8,7 +8,7 @@ const data = {
   heroIconBg: '#FDE9E9',
   subtitle: 'Claims triage, policy queries, and compliance handling - automated.',
   description: 'InsurTech support combines the regulatory complexity of financial services with the emotional stakes of claims. Customers contacting you about a claim are often stressed. They need fast, accurate, empathetic answers - and everything needs to be logged for regulatory purposes. supVision handles all of it.',
-  heroImage: '/industry/InsurTech.png',
+  heroImage: '/industry/InsurTech.webp',
   highlights: [
     '93% of policy and claims status queries saved by AI',
     '100% of interactions logged and audit-ready for FCA and regulatory review',
@@ -54,10 +54,10 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Claims triage automation', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Policy query handling', desc: 'Freshdesk · Confluence · Teams', logos: [{ logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
-    { label: 'Compliance logging', desc: 'Salesforce · HubSpot · Slack', logos: [{ logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Complaint management', desc: 'Intercom · Notion · Jira', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }] },
+    { label: 'Claims triage automation', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Policy query handling', desc: 'Freshdesk · Confluence · Teams', logos: [{ logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
+    { label: 'Compliance logging', desc: 'Salesforce · HubSpot · Slack', logos: [{ logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Complaint management', desc: 'Intercom · Notion · Jira', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }] },
   ],
   ctaTitle: 'Handle claims queries at scale, compliantly.',
   ctaDesc: 'Regulated-industry AI support built for InsurTech. Live in 3 days.',

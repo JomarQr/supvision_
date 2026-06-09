@@ -20,21 +20,21 @@ const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as c
 
 const certCards: (ImageCertCard | TextCertCard)[] = [
   {
-    badge: '/gdpr.png',
+    badge: '/gdpr.webp',
     badgeAlt: 'GDPR Compliant',
     title: 'GDPR Compliance',
     desc: 'GDPR-compliant data handling, right-to-erasure, and data minimisation built into every workflow.',
     badgeOversize: false,
   },
   {
-    badge: '/badge/image.png',
+    badge: '/badge/image.webp',
     badgeAlt: 'PCI DSS Compliant',
     title: 'PCI DSS Aligned',
     desc: 'No raw card data ever enters our system. Payment-sensitive fields are stripped and tokenised before AI processing.',
     badgeOversize: true,
   },
   {
-    badge: '/nda.png',
+    badge: '/nda.webp',
     badgeAlt: 'NDA protected',
     title: 'NDA-Protected Data',
     desc: 'All client data is protected under a signed NDA. supVision staff cannot access your customer records by design.',

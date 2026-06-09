@@ -10,7 +10,7 @@ export default function WeeklyHeatmap() {
       </div>
       <div className="mt-auto px-5 pb-5">
         <img
-          src="/analytics/weekday%20and%20hour%20heatmap.png"
+          src="/analytics/weekday%20and%20hour%20heatmap.webp"
           alt="Weekday and hour heatmap"
           className="w-full rounded-2xl border border-gray-100"
           loading="lazy"

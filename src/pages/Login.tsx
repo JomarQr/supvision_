@@ -38,7 +38,7 @@ export default function Login() {
 
       <div className="relative z-20 mx-auto flex h-14 w-full max-w-md flex-shrink-0 items-center justify-center lg:h-16">
         <Link to="/" className="inline-block">
-          <img src="/logo/logo_website_white.png" alt="supVision" className="h-10 w-auto lg:h-11" />
+          <img src="/logo/logo_website_white.webp" alt="supVision" className="h-10 w-auto lg:h-11" />
         </Link>
       </div>
 

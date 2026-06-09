@@ -8,7 +8,7 @@ const data = {
   heroIconBg: '#EAF4EE',
   subtitle: 'Account support, identity verification, and onboarding - at the scale digital banks demand.',
   description: 'Neobanks grow fast and support needs grow faster. Your app is available 24/7 - your customers expect your support to be too. supVision handles the most common queries your team sees every day: verification queues, account issues, card queries, and onboarding drop-offs - without adding headcount.',
-  heroImage: '/industry/Neobanks & Digital Banking.png',
+  heroImage: '/industry/Neobanks & Digital Banking.webp',
   highlights: [
     'Identity verification and onboarding queries resolved autonomously - no queue, no wait',
     '24/7 account and card support without adding headcount',
@@ -54,10 +54,10 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Onboarding automation', desc: 'Zendesk · Confluence · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'KYC support flow', desc: 'Intercom · Jira · Slack', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Core banking queries', desc: 'Mambu · HubSpot · Teams', logos: [{ logoUrl: '/logos/mambu.png', color: '#FF6B35', letter: 'M' }, { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
-    { label: 'Multi-channel support', desc: 'Telegram · WhatsApp · Freshdesk', logos: [{ logoUrl: '/logos/telegram.png', color: '#2AABEE', letter: 'T' }, { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' }, { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }] },
+    { label: 'Onboarding automation', desc: 'Zendesk · Confluence · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'KYC support flow', desc: 'Intercom · Jira · Slack', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Core banking queries', desc: 'Mambu · HubSpot · Teams', logos: [{ logoUrl: '/logos/mambu.webp', color: '#FF6B35', letter: 'M' }, { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
+    { label: 'Multi-channel support', desc: 'Telegram · WhatsApp · Freshdesk', logos: [{ logoUrl: '/logos/telegram.webp', color: '#2AABEE', letter: 'T' }, { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' }, { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }] },
   ],
   ctaTitle: 'Scale your neobank without scaling your support team.',
   ctaDesc: '24/7 AI support built for digital banking. Live in 3 days.',

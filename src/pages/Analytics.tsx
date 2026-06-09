@@ -88,19 +88,19 @@ const dashboardMobileCards = [
     tag: 'Daily Trend',
     title: 'Ticket saves over time',
     desc: 'Blue tracks bot activity, green tracks support — spot handoff quality and staffing pressure before they compound.',
-    img: '/analytics/ticket%20saves%20daily%20trend%201.png',
+    img: '/analytics/ticket%20saves%20daily%20trend%201.webp',
   },
   {
     tag: 'Ownership Mix',
     title: 'Bot vs human — ticket saves',
     desc: 'See exactly what the AI resolved versus what reached a human agent.',
-    img: '/analytics/ticket%20saves%20daily%20trend%202.png',
+    img: '/analytics/ticket%20saves%20daily%20trend%202.webp',
   },
   {
     tag: 'Weekly Rhythm',
     title: 'When your queue is busiest',
     desc: 'Darker cells mean more activity. Plan human shifts around real demand, not assumptions.',
-    img: '/analytics/weekday%20and%20hour%20heatmap.png',
+    img: '/analytics/weekday%20and%20hour%20heatmap.webp',
   },
 ]
 
@@ -319,7 +319,7 @@ export default function Analytics() {
               </div>
               <div className="relative" style={{ aspectRatio: '1/1' }}>
                 <img
-                  src="/analytics.png"
+                  src="/analytics.webp"
                   alt="Analytics Dashboard"
                   className="absolute rounded-2xl object-cover"
                   style={{ top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 2rem)' }}

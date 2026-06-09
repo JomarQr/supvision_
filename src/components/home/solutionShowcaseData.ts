@@ -38,16 +38,16 @@ export const LOG_SCENARIOS = [
 ]
 
 export const LANGUAGES = [
-  { flag: '/countries/endlish.png',    name: 'English'    },
-  { flag: '/countries/russia.png',     name: 'Русский'    },
-  { flag: '/countries/saudi.png',      name: 'العربية'    },
-  { flag: '/countries/china.png',      name: '中文'        },
-  { flag: '/countries/brazil.png',     name: 'Português'  },
-  { flag: '/countries/japan.png',      name: '日本語'      },
-  { flag: '/countries/indian.png',     name: 'हिन्दी'      },
-  { flag: '/countries/greec.png',      name: 'Ελληνικά'   },
-  { flag: '/countries/Kazachstan.png', name: 'Қазақша'    },
-  { flag: '/countries/thailanf.png',   name: 'ภาษาไทย'    },
+  { flag: '/countries/endlish.webp',    name: 'English'    },
+  { flag: '/countries/russia.webp',     name: 'Русский'    },
+  { flag: '/countries/saudi.webp',      name: 'العربية'    },
+  { flag: '/countries/china.webp',      name: '中文'        },
+  { flag: '/countries/brazil.webp',     name: 'Português'  },
+  { flag: '/countries/japan.webp',      name: '日本語'      },
+  { flag: '/countries/indian.webp',     name: 'हिन्दी'      },
+  { flag: '/countries/greec.webp',      name: 'Ελληνικά'   },
+  { flag: '/countries/Kazachstan.webp', name: 'Қазақша'    },
+  { flag: '/countries/thailanf.webp',   name: 'ภาษาไทย'    },
 ]
 
 export const LANG_SLOT = [

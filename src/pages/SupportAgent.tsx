@@ -5,20 +5,20 @@ import PageMeta from '../components/PageMeta'
 
 const complianceCertCards = [
   {
-    badge: '/gdpr.png',
+    badge: '/gdpr.webp',
     badgeAlt: 'GDPR Compliant',
     title: 'GDPR Compliance',
     desc: 'GDPR-compliant data handling and right-to-erasure support',
   },
   {
-    badge: '/badge/image.png',
+    badge: '/badge/image.webp',
     badgeAlt: 'PCI DSS Compliant',
     title: 'PCI DSS Aligned',
     desc: 'PCI DSS aligned, no raw card data ever touches our system',
     badgeOversize: true,
   },
   {
-    badge: '/nda.png',
+    badge: '/nda.webp',
     badgeAlt: 'NDA protected',
     title: 'NDA-Protected Data',
     desc: 'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records',

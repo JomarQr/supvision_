@@ -1139,10 +1139,10 @@ export default function Home() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {[
-                    { name: 'Sarah M.', avatar: '/avatars/woman 1.png', task: 'Balance inquiry', status: 'Resolved', sc: 'green' },
-                    { name: 'James K.', avatar: '/avatars/man 1.png', task: 'Card dispute — £89.99', status: 'In Progress', sc: 'orange' },
-                    { name: 'Marco S.', avatar: '/avatars/man 2.png', task: 'KYC doc upload issue', status: 'Resolved', sc: 'green' },
-                    { name: 'Omar F.', avatar: '/avatars/man 3.png', task: 'Suspicious £2,400 txn', status: 'Pending', sc: 'gray' },
+                    { name: 'Sarah M.', avatar: '/avatars/woman 1.webp', task: 'Balance inquiry', status: 'Resolved', sc: 'green' },
+                    { name: 'James K.', avatar: '/avatars/man 1.webp', task: 'Card dispute — £89.99', status: 'In Progress', sc: 'orange' },
+                    { name: 'Marco S.', avatar: '/avatars/man 2.webp', task: 'KYC doc upload issue', status: 'Resolved', sc: 'green' },
+                    { name: 'Omar F.', avatar: '/avatars/man 3.webp', task: 'Suspicious £2,400 txn', status: 'Pending', sc: 'gray' },
                   ].map((t, i) => {
                     const s = t.sc === 'green' ? { bg: 'rgba(34,197,94,0.12)', color: '#16a34a' } : t.sc === 'orange' ? { bg: 'rgba(251,154,5,0.14)', color: '#d97706' } : { bg: 'rgba(107,114,128,0.10)', color: '#6b7280' }
                     return (
@@ -1270,22 +1270,22 @@ export default function Home() {
             {/* Animated feature cards */}
             {(() => {
               const orbitAll = [
-                { name: 'WhatsApp',   src: '/logos/whatsapp.png' },
-                { name: 'Zendesk',    src: '/logos/zendesk.png' },
-                { name: 'Telegram',   src: '/logos/telegram.png' },
-                { name: 'HubSpot',    src: '/logos/hubspot.png' },
-                { name: 'Slack',      src: '/logos/slack.png' },
-                { name: 'Salesforce', src: '/logos/salesforce.png' },
-                { name: 'Messenger',  src: '/logos/facebook messenger.png' },
-                { name: 'Jira',       src: '/logos/jira.png' },
-                { name: 'Teams',      src: '/logos/teams.png' },
-                { name: 'Freshdesk',  src: '/logos/freshdesk.png' },
-                { name: 'WeChat',     src: '/logos/wechat.png' },
-                { name: 'Intercom',   src: '/logos/intecom (1).png' },
-                { name: 'Viber',      src: '/logos/viber.png' },
-                { name: 'Notion',     src: '/logos/notion.png' },
-                { name: 'Line',       src: '/logos/line.png' },
-                { name: 'Confluence', src: '/logos/confluence.png' },
+                { name: 'WhatsApp',   src: '/logos/whatsapp.webp' },
+                { name: 'Zendesk',    src: '/logos/zendesk.webp' },
+                { name: 'Telegram',   src: '/logos/telegram.webp' },
+                { name: 'HubSpot',    src: '/logos/hubspot.webp' },
+                { name: 'Slack',      src: '/logos/slack.webp' },
+                { name: 'Salesforce', src: '/logos/salesforce.webp' },
+                { name: 'Messenger',  src: '/logos/facebook messenger.webp' },
+                { name: 'Jira',       src: '/logos/jira.webp' },
+                { name: 'Teams',      src: '/logos/teams.webp' },
+                { name: 'Freshdesk',  src: '/logos/freshdesk.webp' },
+                { name: 'WeChat',     src: '/logos/wechat.webp' },
+                { name: 'Intercom',   src: '/logos/intecom (1).webp' },
+                { name: 'Viber',      src: '/logos/viber.webp' },
+                { name: 'Notion',     src: '/logos/notion.webp' },
+                { name: 'Line',       src: '/logos/line.webp' },
+                { name: 'Confluence', src: '/logos/confluence.webp' },
               ]
               const orbitDur = 20
               return (
@@ -1324,13 +1324,13 @@ export default function Home() {
                                   <div className="rounded-2xl rounded-tr-sm px-3 py-2" style={{ background: '#2C1F0E' }}>
                                     <span className="flex gap-1 items-center">{[0, 0.3, 0.6].map((d, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/70" style={{ animation: 'pulse 1s ease-in-out infinite', animationDelay: `${d}s` }} />)}</span>
                                   </div>
-                                  <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                                  <img src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
                                 </div>
                               )}
                               {handoffPhase >= 3 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
                                   <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-1.5 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
-                                  <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                                  <img src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
                                 </div>
                               )}
                               {handoffPhase >= 4 && (
@@ -1413,7 +1413,7 @@ export default function Home() {
                             {sandboxPhase >= 3 && (
                               <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5 flex-1 overflow-hidden" style={{ animation: 'feature-text-in 0.28s ease both' }}>
                                 <div className="flex items-center gap-1.5 mb-1.5">
-                                  <img src="/Component 187 (1).png" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                                  <img src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
                                   <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
                                 </div>
                                 <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
@@ -1542,7 +1542,7 @@ export default function Home() {
                       {handoffPhase >= 3 && (
                         <div className="flex items-start justify-end gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
-                          <img src="/Component 187 (1).png" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                          <img src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
                         </div>
                       )}
                       {handoffPhase >= 4 && (
@@ -1568,18 +1568,18 @@ export default function Home() {
               {/* One layer — single-ring orbital mobile */}
               {(() => {
                 const orbitAllMob = [
-                  { name: 'WhatsApp',   src: '/logos/whatsapp.png' },
-                  { name: 'Zendesk',    src: '/logos/zendesk.png' },
-                  { name: 'Telegram',   src: '/logos/telegram.png' },
-                  { name: 'HubSpot',    src: '/logos/hubspot.png' },
-                  { name: 'Slack',      src: '/logos/slack.png' },
-                  { name: 'Jira',       src: '/logos/jira.png' },
-                  { name: 'Messenger',  src: '/logos/facebook messenger.png' },
-                  { name: 'Freshdesk',  src: '/logos/freshdesk.png' },
-                  { name: 'Teams',      src: '/logos/teams.png' },
-                  { name: 'Notion',     src: '/logos/notion.png' },
-                  { name: 'WeChat',     src: '/logos/wechat.png' },
-                  { name: 'Salesforce', src: '/logos/salesforce.png' },
+                  { name: 'WhatsApp',   src: '/logos/whatsapp.webp' },
+                  { name: 'Zendesk',    src: '/logos/zendesk.webp' },
+                  { name: 'Telegram',   src: '/logos/telegram.webp' },
+                  { name: 'HubSpot',    src: '/logos/hubspot.webp' },
+                  { name: 'Slack',      src: '/logos/slack.webp' },
+                  { name: 'Jira',       src: '/logos/jira.webp' },
+                  { name: 'Messenger',  src: '/logos/facebook messenger.webp' },
+                  { name: 'Freshdesk',  src: '/logos/freshdesk.webp' },
+                  { name: 'Teams',      src: '/logos/teams.webp' },
+                  { name: 'Notion',     src: '/logos/notion.webp' },
+                  { name: 'WeChat',     src: '/logos/wechat.webp' },
+                  { name: 'Salesforce', src: '/logos/salesforce.webp' },
                 ]
                 const dur = 20
                 return (
@@ -1647,7 +1647,7 @@ export default function Home() {
                       {sandboxPhase >= 3 && (
                         <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="flex items-center gap-1.5 mb-1">
-                            <img src="/Component 187 (1).png" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                            <img src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
                             <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
                           </div>
                           <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
@@ -1988,7 +1988,7 @@ export default function Home() {
               {/* Photo */}
               <div className="w-full lg:w-[52%] flex-shrink-0">
                 <img
-                  src="/2I5A9685.jpg"
+                  src="/2I5A9685.webp"
                   alt="supVision team"
                   className="w-full rounded-2xl object-cover"
                   style={{ aspectRatio: '4/3', objectPosition: 'center' }}
@@ -2474,20 +2474,20 @@ const complianceFeatures = [
 
 const complianceCertCards = [
   {
-    badge: '/gdpr.png',
+    badge: '/gdpr.webp',
     badgeAlt: 'GDPR Compliant',
     title: 'GDPR Compliance',
     desc: 'GDPR-compliant data handling and right-to-erasure support.',
   },
   {
-    badge: '/badge/image.png',
+    badge: '/badge/image.webp',
     badgeAlt: 'PCI DSS Compliant',
     title: 'PCI DSS Aligned',
     desc: 'PCI DSS aligned — no raw card data ever touches our system.',
     badgeOversize: true,
   },
   {
-    badge: '/nda.png',
+    badge: '/nda.webp',
     badgeAlt: 'NDA protected',
     title: 'NDA-Protected Data',
     desc: 'All data encrypted end-to-end and protected under a signed NDA — we cannot see your customer records.',
@@ -2501,7 +2501,7 @@ const valueProps = [
     stat: '64%',
     headline: 'Cut support costs. Without hiring more agents.',
     body: 'SupVision deploys AI agents that resolve support queries, disputes, and transaction issues in seconds, at the scale your fintech demands.',
-    img: '/hero_images/Component 174 (1).png',
+    img: '/hero_images/Component 174 (1).webp',
     imgAlt: 'Analytics dashboard showing cost reduction',
     robot: false,
     chips: [
@@ -2513,10 +2513,10 @@ const valueProps = [
     stat: '1.2s',
     headline: 'From 1.2s response time to zero backlog.',
     body: 'SupVision gives fintech companies AI-powered customer support that\'s fast, compliant, and built to scale without growing your team.',
-    img: '/hero_images/Component 174.png',
+    img: '/hero_images/Component 174.webp',
     imgAlt: 'Live chat with instant AI response',
     robot: false,
-    robotOverlay: '/robot/robot_flying.png',
+    robotOverlay: '/robot/robot_flying.webp',
     robotSide: 'right' as const,
     chips: [
       { label: 'Avg response', value: '1.2s', accent: '#7c3aed', top: 14, right: 14, left: undefined },
@@ -2527,7 +2527,7 @@ const valueProps = [
     stat: '3 days',
     headline: 'Live in 3 days. Not 6 months.',
     body: 'No platform migration, no lengthy implementation. SupVision connects to your existing helpdesk, identity verification provider, and CRM in days - then you\'re live.',
-    img: '/hero_images/Component 172.png',
+    img: '/hero_images/Component 172.webp',
     imgAlt: 'Onboarding and integration setup flow',
     robot: false,
     robotSide: 'left' as const,
@@ -2540,7 +2540,7 @@ const valueProps = [
     stat: '93%',
     headline: 'Ticket saves. No human required.',
     body: 'supVision handles 72% of all message flow and fully closes 49% of cases on its own. Your agents step in only when they\'re genuinely needed.',
-    img: '/hero_images/Component 175.png',
+    img: '/hero_images/Component 175.webp',
     imgAlt: 'Tier-1 tickets resolved automatically',
     robot: false,
     chips: [
@@ -2575,9 +2575,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Zendesk · Confluence · Slack',
     tools: ['Zendesk'],
     logos: [
-      { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
-      { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
-      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+      { logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' },
+      { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' },
+      { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' },
     ],
   },
   {
@@ -2585,9 +2585,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Intercom · Jira · Slack',
     tools: ['Intercom'],
     logos: [
-      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' },
-      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+      { logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' },
+      { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' },
     ],
   },
   {
@@ -2595,9 +2595,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Freshdesk · Notion · Teams',
     tools: ['Freshdesk'],
     logos: [
-      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
-      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
-      { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' },
+      { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' },
+      { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' },
+      { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' },
     ],
   },
   {
@@ -2605,9 +2605,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Salesforce · HubSpot · Slack',
     tools: ['Salesforce CRM'],
     logos: [
-      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+      { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' },
     ],
   },
   {
@@ -2615,9 +2615,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'WhatsApp · HubSpot · Mambu',
     tools: ['WhatsApp'],
     logos: [
-      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
@@ -2625,9 +2625,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Telegram · Pipedrive · HubSpot',
     tools: ['Telegram'],
     logos: [
-      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
-      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/telegram.webp', color: '#26A5E4', letter: 'T' },
+      { logoUrl: '/logos/Pipedrive.webp', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
     ],
   },
   {
@@ -2635,9 +2635,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Gmail · Confluence · Jira',
     tools: ['Gmail'],
     logos: [
-      { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
-      { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
-      { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' },
+      { logoUrl: '/logos/gmail.webp', color: '#EA4335', letter: '@' },
+      { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' },
+      { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' },
     ],
   },
   {
@@ -2645,9 +2645,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'HubSpot · Intercom · Mambu',
     tools: ['HubSpot'],
     logos: [
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
@@ -2655,9 +2655,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Zendesk · Mambu · Slack',
     tools: ['Zendesk'],
     logos: [
-      { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
-      { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' },
+      { logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' },
     ],
   },
   {
@@ -2665,9 +2665,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Intercom · HubSpot · Notion',
     tools: ['Intercom'],
     logos: [
-      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+      { logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' },
     ],
   },
   {
@@ -2675,9 +2675,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'WhatsApp · Salesforce · Mambu',
     tools: ['WhatsApp', 'Salesforce CRM'],
     logos: [
-      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' },
+      { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
@@ -2685,9 +2685,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Freshdesk · Linear · Notion',
     tools: ['Freshdesk'],
     logos: [
-      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
-      { logoUrl: '/logos/linear.png', color: '#5E6AD2', letter: 'L' },
-      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+      { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' },
+      { logoUrl: '/logos/linear.webp', color: '#5E6AD2', letter: 'L' },
+      { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' },
     ],
   },
   {
@@ -2695,9 +2695,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Telegram · HubSpot · Pipedrive',
     tools: ['Telegram'],
     logos: [
-      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
-      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/telegram.webp', color: '#26A5E4', letter: 'T' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/Pipedrive.webp', color: '#1A1F36', letter: 'P' },
     ],
   },
   {
@@ -2705,9 +2705,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Zoho CRM · WhatsApp · Guru',
     tools: ['Zoho CRM', 'WhatsApp'],
     logos: [
-      { logoUrl: '/logos/zoro.png', color: '#E42527', letter: 'Z' },
-      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: '/guru.png', color: '#CC4E00', letter: 'G' },
+      { logoUrl: '/logos/zoro.webp', color: '#E42527', letter: 'Z' },
+      { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' },
+      { logoUrl: '/guru.webp', color: '#CC4E00', letter: 'G' },
     ],
   },
   {
@@ -2715,9 +2715,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Gmail · Salesforce · Confluence',
     tools: ['Gmail', 'Salesforce CRM'],
     logos: [
-      { logoUrl: '/logos/gmail.png', color: '#EA4335', letter: '@' },
-      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' },
+      { logoUrl: '/logos/gmail.webp', color: '#EA4335', letter: '@' },
+      { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' },
+      { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' },
     ],
   },
   {
@@ -2725,9 +2725,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Intercom · Pipedrive · Notion',
     tools: ['Intercom'],
     logos: [
-      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+      { logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/Pipedrive.webp', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' },
     ],
   },
   {
@@ -2735,9 +2735,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Intercom · Mambu · Notion',
     tools: ['Intercom'],
     logos: [
-      { logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
-      { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' },
+      { logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' },
     ],
   },
   {
@@ -2745,9 +2745,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Zendesk · Teams · Linear',
     tools: ['Zendesk'],
     logos: [
-      { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' },
-      { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' },
-      { logoUrl: '/logos/linear.png', color: '#5E6AD2', letter: 'L' },
+      { logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' },
+      { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' },
+      { logoUrl: '/logos/linear.webp', color: '#5E6AD2', letter: 'L' },
     ],
   },
   {
@@ -2755,9 +2755,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Pipedrive · Telegram · HubSpot',
     tools: ['Pipedrive'],
     logos: [
-      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-      { logoUrl: '/logos/telegram.png', color: '#26A5E4', letter: 'T' },
-      { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' },
+      { logoUrl: '/logos/Pipedrive.webp', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/telegram.webp', color: '#26A5E4', letter: 'T' },
+      { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' },
     ],
   },
   {
@@ -2765,9 +2765,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'Freshdesk · Salesforce · Mambu',
     tools: ['Freshdesk', 'Salesforce CRM'],
     logos: [
-      { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' },
-      { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' },
+      { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
     ],
   },
   {
@@ -2775,9 +2775,9 @@ const automationStacks: { label: string; desc: string; tools: string[]; logos: {
     desc: 'WhatsApp · Pipedrive · Mambu',
     tools: ['WhatsApp'],
     logos: [
-      { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' },
-      { logoUrl: '/logos/Pipedrive.png', color: '#1A1F36', letter: 'P' },
-      { logoUrl: '/logos/mambu.png', color: '#FF3B00', letter: 'M' },
+      { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' },
+      { logoUrl: '/logos/Pipedrive.webp', color: '#1A1F36', letter: 'P' },
+      { logoUrl: '/logos/mambu.webp', color: '#FF3B00', letter: 'M' },
     ],
   },
 ]

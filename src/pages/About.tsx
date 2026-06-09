@@ -14,31 +14,31 @@ const timeline = [
     year: '2013',
     title: 'A decade inside fintech',
     desc: 'We started as a Payment Orchestrator — inside financial services, running operations teams, building compliance processes, and sitting on both sides of customer support across payments, neobanking, and lending.',
-    img: '/photo_about_us/A decade inside fintech.png',
+    img: '/photo_about_us/A decade inside fintech.webp',
   },
   {
     year: '2017',
     title: 'The support problem becomes personal',
     desc: 'Scaling a fintech operation meant one constant: the support queue never shrank. Every new product, every new market, every new regulation brought a new wave of tickets. We hired, trained, hired again.',
-    img: '/photo_about_us/The support problem becomes personal.png',
+    img: '/photo_about_us/The support problem becomes personal.webp',
   },
   {
     year: '2020',
     title: 'The rotation problem',
     desc: 'Agent turnover in fintech support is brutal. You train someone for 8 weeks, they handle live verification and dispute queries for 6 months, then they leave. The knowledge walks out with them. You start again.',
-    img: '/photo_about_us/The rotation problem.png',
+    img: '/photo_about_us/The rotation problem.webp',
   },
   {
     year: '2022',
     title: 'We looked for a solution. It did not exist.',
     desc: 'Generic helpdesk AI was built for SaaS. It could not handle verification rejection queries, it did not know what a chargeback workflow looked like, and it had no concept of FCA or PSD2 compliance. We kept patching a broken system.',
-    img: '/photo_about_us/We looked for a solution. It did not exist..png',
+    img: '/photo_about_us/We looked for a solution. It did not exist..webp',
   },
   {
     year: '2026',
     title: 'We built what we needed',
     desc: 'supVision was built by fintech operators for fintech operators. Not a chatbot with a compliance badge - a purpose-built AI support layer that understands regulated financial services from the inside.',
-    img: '/photo_about_us/We built what we needed.png',
+    img: '/photo_about_us/We built what we needed.webp',
   },
 ]
 
@@ -47,19 +47,19 @@ const values = [
   {
     title: 'Transparency',
     desc: 'Transparency creates alignment and trust. We share context, communicate decisions clearly, and speak openly about both challenges and progress. Nothing important is hidden or softened. Open dialogue, questions, and honest feedback help everyone understand not only actions, but intent.',
-    img: '/photo_values/2I5A9579 (1).jpg',
+    img: '/photo_values/2I5A9579 (1).webp',
     anim: transparencyAnim,
   },
   {
     title: 'Flexibility',
     desc: 'Adapting quickly to change matters. We work without rigid templates, adjust approaches as reality shifts, and respect individual circumstances. Experimentation is encouraged, as well as rethinking plans when it leads to a better outcome - for the team, customers, and the business.',
-    img: '/photo_values/2I5A9736.jpg',
+    img: '/photo_values/2I5A9736.webp',
     anim: flexibilityAnim,
   },
   {
     title: 'Innovation',
     desc: 'A way of thinking that shapes how we work. We question how things are done, seek simpler and more effective solutions, and stay open to new approaches. Ideas are tested in real work, while curiosity and the courage to think differently drive improvements in processes and products.',
-    img: '/photo_values/2I5A9802 (1).jpg',
+    img: '/photo_values/2I5A9802 (1).webp',
     anim: innovationAnim,
   },
 ]
@@ -180,7 +180,7 @@ export default function About() {
       <section className="px-4 pb-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <img
-            src="/2I5A9685.jpg"
+            src="/2I5A9685.webp"
             alt="supVision team"
             className="w-full rounded-2xl object-cover"
             style={{ aspectRatio: '16/9', objectPosition: 'center' }}
@@ -319,7 +319,7 @@ export default function About() {
         <div className="mx-auto max-w-7xl lg:px-6">
           <div data-reveal className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
             <div className="w-full overflow-hidden rounded-3xl lg:w-[45%] flex-shrink-0">
-              <img src="/map.png" alt="Tallinn office location" className="h-full w-full object-cover" style={{ aspectRatio: '4/3', minHeight: '260px' }} loading="lazy" />
+              <img src="/map.webp" alt="Tallinn office location" className="h-full w-full object-cover" style={{ aspectRatio: '4/3', minHeight: '260px' }} loading="lazy" />
             </div>
 
             <div className="flex flex-col justify-center gap-6 rounded-3xl border border-gray-100 bg-white p-8 text-left shadow-sm sm:p-10">

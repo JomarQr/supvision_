@@ -4,11 +4,11 @@ const BARS = [42, 58, 76, 96, 62, 80, 52, 46]
 const BAR_LABELS = ['9am', '10', '11', '12', '1', '2', '3', 'now']
 
 const TICKETS = [
-  { name: 'Sarah M.',  avatar: '/avatars/woman 1.png', task: 'Balance inquiry',        status: 'Resolved',    sc: 'green'  },
-  { name: 'James K.',  avatar: '/avatars/man 1.png',   task: 'Card dispute — £89.99',  status: 'In Progress', sc: 'orange' },
-  { name: 'Marco S.',  avatar: '/avatars/man 2.png',   task: 'KYC doc upload issue',   status: 'Resolved',    sc: 'green'  },
-  { name: 'Omar F.',   avatar: '/avatars/man 3.png',   task: 'Suspicious £2,400 txn',  status: 'Pending',     sc: 'gray'   },
-  { name: 'Liu W.',    avatar: '/avatars/man 4.png',   task: 'PIN reset — locked out', status: 'In Progress', sc: 'orange' },
+  { name: 'Sarah M.',  avatar: '/avatars/woman 1.webp', task: 'Balance inquiry',        status: 'Resolved',    sc: 'green'  },
+  { name: 'James K.',  avatar: '/avatars/man 1.webp',   task: 'Card dispute — £89.99',  status: 'In Progress', sc: 'orange' },
+  { name: 'Marco S.',  avatar: '/avatars/man 2.webp',   task: 'KYC doc upload issue',   status: 'Resolved',    sc: 'green'  },
+  { name: 'Omar F.',   avatar: '/avatars/man 3.webp',   task: 'Suspicious £2,400 txn',  status: 'Pending',     sc: 'gray'   },
+  { name: 'Liu W.',    avatar: '/avatars/man 4.webp',   task: 'PIN reset — locked out', status: 'In Progress', sc: 'orange' },
 ]
 
 const NAV = [
@@ -26,9 +26,9 @@ const BLOCKED_TOPICS = [
 ]
 
 const BLOCKED_QUEUE = [
-  { name: 'Emma R.',   avatar: '/avatars/woman 1.png', msg: 'I need legal advice on my dispute',    reason: 'Legal topic',      color: '#ef4444' },
-  { name: 'James K.',  avatar: '/avatars/man 1.png',   msg: 'Help with regulatory filing — urgent', reason: 'Regulatory topic', color: '#eab308' },
-  { name: 'Omar F.',   avatar: '/avatars/man 3.png',   msg: 'Compliance question about my account', reason: 'Compliance topic', color: '#f97316' },
+  { name: 'Emma R.',   avatar: '/avatars/woman 1.webp', msg: 'I need legal advice on my dispute',    reason: 'Legal topic',      color: '#ef4444' },
+  { name: 'James K.',  avatar: '/avatars/man 1.webp',   msg: 'Help with regulatory filing — urgent', reason: 'Regulatory topic', color: '#eab308' },
+  { name: 'Omar F.',   avatar: '/avatars/man 3.webp',   msg: 'Compliance question about my account', reason: 'Compliance topic', color: '#f97316' },
 ]
 
 export type DashboardView = 'default' | 'topic-restrictions' | 'confidence' | 'confidence-reporting' | 'data-access' | 'integrations' | 'adaptivity' | 'continuous-learning' | 'industry-presets' | 'tone-style' | 'audit-logs' | 'team-performance' | 'analytics'
@@ -128,7 +128,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       {/* ── SIDEBAR ── */}
       <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
-          <img src="/Component 156 (3).png" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
+          <img src="/Component 156 (3).webp" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
         {activeNav === 'Settings' ? (
           <>
@@ -207,7 +207,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', border: '2px solid #e0e7ff' }}>
-              <img src="/Component 187 (1).png" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/Component 187 (1).webp" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, lineHeight: 1.2 }}>supVision Agent</p>
@@ -275,9 +275,9 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     <p style={{ fontSize: 11, fontWeight: 700, marginBottom: 8 }}>Live Decisions</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                       {[
-                        { name: 'Sarah M.', avatar: '/avatars/woman 1.png', query: "What's my balance?",          score: 94, auto: true  },
-                        { name: 'James K.', avatar: '/avatars/man 1.png',   query: 'Dispute — charge was wrong',  score: 31, auto: false },
-                        { name: 'Liu W.',   avatar: '/avatars/man 4.png',   query: 'How do I reset my PIN?',      score: 87, auto: true  },
+                        { name: 'Sarah M.', avatar: '/avatars/woman 1.webp', query: "What's my balance?",          score: 94, auto: true  },
+                        { name: 'James K.', avatar: '/avatars/man 1.webp',   query: 'Dispute — charge was wrong',  score: 31, auto: false },
+                        { name: 'Liu W.',   avatar: '/avatars/man 4.webp',   query: 'How do I reset my PIN?',      score: 87, auto: true  },
                       ].map((d, i) => (
                         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '6px 8px', borderRadius: 10, background: d.auto ? 'rgba(34,197,94,0.04)' : 'rgba(239,68,68,0.04)', border: `1px solid ${d.auto ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}` }}>
                           <img src={d.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />

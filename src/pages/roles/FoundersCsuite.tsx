@@ -4,7 +4,7 @@ const data = {
   badge: 'By role · Founders & C-Suite',
   title: 'Founders & C-Suite',
   subtitle: 'Lower costs, faster resolution, measurable ROI from day one.',
-  heroImage: '/by_role/Founders & C-Suite.png',
+  heroImage: '/by_role/Founders & C-Suite.webp',
   highlights: [
     '52% average reduction in support operating costs',
     'Live in 3 days - measurable impact within the first week',
@@ -50,10 +50,10 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Cost & ROI reporting', desc: 'Salesforce · HubSpot · Slack', logos: [{ logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Executive dashboards', desc: 'HubSpot · Confluence · Teams', logos: [{ logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
-    { label: 'Helpdesk integration', desc: 'Zendesk · Freshdesk · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Market expansion', desc: 'Salesforce · Zendesk · Teams', logos: [{ logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
+    { label: 'Cost & ROI reporting', desc: 'Salesforce · HubSpot · Slack', logos: [{ logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Executive dashboards', desc: 'HubSpot · Confluence · Teams', logos: [{ logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
+    { label: 'Helpdesk integration', desc: 'Zendesk · Freshdesk · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Market expansion', desc: 'Salesforce · Zendesk · Teams', logos: [{ logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
   ],
   ctaTitle: 'Support that performs like a product, not a cost centre.',
   ctaDesc: 'Measurable ROI from day one. Live in 3 days.',

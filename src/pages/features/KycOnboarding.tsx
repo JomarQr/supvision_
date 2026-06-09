@@ -10,7 +10,7 @@ const data = {
     'Real-time status pulled directly from your identity provider',
     'Every interaction logged and audit-ready for regulators',
   ],
-  coreImage: '/Core Functionalities/dentity & Onboarding.png',
+  coreImage: '/Core Functionalities/dentity & Onboarding.webp',
   points: [
     { icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4.5 2A2.5 2.5 0 0 0 2 4.5v7A2.5 2.5 0 0 0 4.5 14h7a2.5 2.5 0 0 0 2.5-2.5v-7A2.5 2.5 0 0 0 11.5 2h-7Zm3 4.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm-2.5 4a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5Zm0-2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3Z" clipRule="evenodd" /></svg>, title: 'Verification status queries', desc: 'Instantly tells users where they are in the verification process, what is missing, and what to do next - pulling real-time status from your identity verification provider.' },
     { icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M4 4a2 2 0 0 1 2-2h4.75a.75.75 0 0 1 .53.22l2.25 2.25a.75.75 0 0 1 .22.53V12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm5 .5V3.5l2 2H9.5A.5.5 0 0 1 9 5.5ZM5.5 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5Zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z" clipRule="evenodd" /></svg>, title: 'Document rejection handling', desc: 'Explains the specific reason a document was rejected (blurry image, expired ID, name mismatch) and walks the user through re-submission step by step.' },

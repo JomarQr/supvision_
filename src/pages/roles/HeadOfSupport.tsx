@@ -11,7 +11,7 @@ const data = {
   badge: 'By role · Head of Support',
   title: 'Head of Support',
   subtitle: 'Cut queues, automate tier-1, free your agents for the work that actually needs them.',
-  heroImage: '/by_role/support.png',
+  heroImage: '/by_role/support.webp',
   highlights: [
     '93% of tickets saved by AI — no human agent needed',
     'Less than 2 minute median response time across all channels',
@@ -57,10 +57,10 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Support automation', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Queue management', desc: 'Freshdesk · Teams · Jira', logos: [{ logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }] },
-    { label: 'Agent workflows', desc: 'Intercom · Confluence · Slack', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'CRM-aware routing', desc: 'HubSpot · Salesforce · Slack', logos: [{ logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
+    { label: 'Support automation', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Queue management', desc: 'Freshdesk · Teams · Jira', logos: [{ logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }] },
+    { label: 'Agent workflows', desc: 'Intercom · Confluence · Slack', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'CRM-aware routing', desc: 'HubSpot · Salesforce · Slack', logos: [{ logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
   ],
   ctaTitle: 'Give your team the work that actually needs them.',
   ctaDesc: 'Tier-1 automation for fintech support teams. Live in 3 days.',
