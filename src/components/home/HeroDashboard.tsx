@@ -128,7 +128,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       {/* ── SIDEBAR ── */}
       <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
-          <img loading="lazy" src="/Component 156 (3).webp" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
+          <img loading="lazy" src="/component-156.webp" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
         {activeNav === 'Settings' ? (
           <>
@@ -207,7 +207,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', border: '2px solid #e0e7ff' }}>
-              <img loading="lazy" src="/Component 187 (1).webp" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img loading="lazy" src="/component-187.webp" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, lineHeight: 1.2 }}>supVision Agent</p>

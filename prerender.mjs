@@ -53,4 +53,12 @@ for (const url of routes) {
   console.log('Pre-rendered:', filePath)
 }
 
+// Pre-render 404 page (any unmatched path renders NotFound via * route)
+const { html: notFoundHtml, headTags: notFoundHead } = render('/404')
+const html404 = template
+  .replace('<!--helmet-->', notFoundHead ?? '')
+  .replace('<!--app-html-->', notFoundHtml)
+fs.writeFileSync(toAbsolute('dist/client/404.html'), html404)
+console.log('Pre-rendered: dist/client/404.html')
+
 console.log('\nDone. Serve dist/client/ as your static site.')

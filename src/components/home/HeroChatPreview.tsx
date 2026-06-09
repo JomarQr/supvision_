@@ -52,7 +52,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                       style={{ background: 'rgba(33,73,149,0.75)', animation: 'feature-text-in 0.25s ease both' }}
                     >
                       <span className="py-0.5 pl-1.5 pr-1 text-xs leading-none">👍</span>
-                      <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${reactionAvatar} rounded-full object-cover`} />
+                      <img loading="lazy" src="/component-187.webp" alt="" className={`${reactionAvatar} rounded-full object-cover`} />
                     </div>
                   )}
                 </div>
@@ -71,7 +71,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                 <div className={`rounded-2xl rounded-br-sm text-white ${bubbleText} ${bubblePad}`} style={{ background: '#214995', maxWidth: '82%' }}>
                   Looking up transaction #TXN-8821…
                 </div>
-                <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
+                <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
               </div>
             )}
             {chatStep >= 8 && (
@@ -79,7 +79,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                 <div className={`rounded-2xl rounded-br-sm text-white ${bubbleText} ${bubblePad}`} style={{ background: '#214995', maxWidth: '82%' }}>
                   Transaction is being processed — ETA ~2 min
                 </div>
-                <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
+                <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
               </div>
             )}
             {chatStep >= 10 && (
@@ -87,7 +87,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                 <div className={`rounded-2xl rounded-br-sm text-white ${bubbleText} ${bubblePad}`} style={{ background: '#214995', maxWidth: '82%' }}>
                   Transaction completed successfully <span style={{ color: '#4ade80' }}>✓</span>
                 </div>
-                <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
+                <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
               </div>
             )}
           </>
@@ -106,7 +106,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                       style={{ background: 'rgba(33,73,149,0.75)', animation: 'feature-text-in 0.25s ease both' }}
                     >
                       <span className="py-0.5 pl-1.5 pr-1 text-xs leading-none">👍</span>
-                      <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${reactionAvatar} rounded-full object-cover`} />
+                      <img loading="lazy" src="/component-187.webp" alt="" className={`${reactionAvatar} rounded-full object-cover`} />
                     </div>
                   )}
                 </div>
@@ -117,7 +117,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                 <div className={`rounded-2xl rounded-br-sm text-white ${bubbleText} ${bubblePad}`} style={{ background: '#214995', maxWidth: '78%' }}>
                   Transaction is being processed
                 </div>
-                <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
+                <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
               </div>
             )}
             {chatStep >= 7 && (
@@ -125,7 +125,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
                 <div className={`rounded-2xl rounded-br-sm text-white ${bubbleText} ${bubblePad}`} style={{ background: '#214995', maxWidth: '78%' }}>
                   Transaction completed successfully <span style={{ color: '#4ade80' }}>✓</span>
                 </div>
-                <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
+                <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} mb-0.5 flex-shrink-0 rounded-full object-cover`} />
               </div>
             )}
           </>
@@ -133,7 +133,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
       </div>
 
       <div className={`flex items-center border-t border-white/10 px-3 ${isDesktop ? 'gap-2.5 py-3.5' : 'gap-2 py-3'}`}>
-        <img loading="lazy" src="/Component 187 (1).webp" alt="" className={`${avatarSize} flex-shrink-0 rounded-full object-cover`} />
+        <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} flex-shrink-0 rounded-full object-cover`} />
         <div
           className={`flex flex-1 items-center overflow-hidden rounded-xl px-3 py-2 ${bubbleText}`}
           style={{ background: 'rgba(255,255,255,0.08)', minHeight: inputMinH, fontFamily: "'Roboto', sans-serif" }}

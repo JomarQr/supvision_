@@ -80,7 +80,7 @@ export default function IFXExpo() {
           {/* Photo */}
           <div className="flex-shrink-0">
             <img loading="lazy"
-              src="/Frame 9.webp"
+              src="/frame-9.webp"
               alt="Meet us at iFX EXPO"
               className="block h-[420px] w-auto object-cover"
             />

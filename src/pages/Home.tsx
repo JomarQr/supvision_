@@ -1369,13 +1369,13 @@ export default function Home() {
                                   <div className="rounded-2xl rounded-tr-sm px-3 py-2" style={{ background: '#2C1F0E' }}>
                                     <span className="flex gap-1 items-center">{[0, 0.3, 0.6].map((d, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-white/70" style={{ animation: 'pulse 1s ease-in-out infinite', animationDelay: `${d}s` }} />)}</span>
                                   </div>
-                                  <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                                  <img loading="lazy" src="/component-187.webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
                                 </div>
                               )}
                               {handoffPhase >= 3 && (
                                 <div className="flex items-start justify-end gap-2" style={{ animation: 'feature-text-in 0.28s ease both' }}>
                                   <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-1.5 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
-                                  <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
+                                  <img loading="lazy" src="/component-187.webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover" />
                                 </div>
                               )}
                               {handoffPhase >= 4 && (
@@ -1458,7 +1458,7 @@ export default function Home() {
                             {sandboxPhase >= 3 && (
                               <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5 flex-1 overflow-hidden" style={{ animation: 'feature-text-in 0.28s ease both' }}>
                                 <div className="flex items-center gap-1.5 mb-1.5">
-                                  <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                                  <img loading="lazy" src="/component-187.webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
                                   <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
                                 </div>
                                 <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
@@ -1587,7 +1587,7 @@ export default function Home() {
                       {handoffPhase >= 3 && (
                         <div className="flex items-start justify-end gap-2" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="rounded-2xl rounded-tr-sm text-white text-xs px-3 py-2 leading-snug" style={{ background: '#2C1F0E', maxWidth: '82%' }}>{sc.botMsg}</div>
-                          <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
+                          <img loading="lazy" src="/component-187.webp" alt="" className="h-7 w-7 flex-shrink-0 rounded-full object-cover mt-0.5" />
                         </div>
                       )}
                       {handoffPhase >= 4 && (
@@ -1692,7 +1692,7 @@ export default function Home() {
                       {sandboxPhase >= 3 && (
                         <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-2.5" style={{ animation: 'log-in 0.3s ease both' }}>
                           <div className="flex items-center gap-1.5 mb-1">
-                            <img loading="lazy" src="/Component 187 (1).webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
+                            <img loading="lazy" src="/component-187.webp" alt="" className="h-4 w-4 rounded-full object-cover flex-shrink-0" />
                             <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Preview response</span>
                           </div>
                           <p className="text-xs text-gray-600 leading-relaxed">{sq.response}</p>
