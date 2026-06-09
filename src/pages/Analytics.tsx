@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageMeta from '../components/PageMeta'
+import { DashboardScreenshots, AnalyticsFAQ } from '../components/analytics'
 
 const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
@@ -103,29 +104,6 @@ const dashboardMobileCards = [
   },
 ]
 
-const faqItems = [
-  {
-    q: 'Is the data available in real time or is there a delay?',
-    a: 'All data is captured and surfaced in real time. Every ticket event — received, assigned, escalated, resolved, reopened — is logged the moment it happens. The dashboard updates continuously with no end-of-day batch processing.',
-  },
-  {
-    q: 'Can I drill down by individual agent?',
-    a: 'Yes. The Team Leaderboard allows you to click into any agent and see their full performance profile: response time distribution, resolution rate, cases handled per day, and CSAT score breakdown. You can compare agents side by side or filter by time period.',
-  },
-  {
-    q: 'Can I export reports for my regulators or board?',
-    a: 'Yes. All data is exportable in CSV and PDF formats. Regulator-ready audit reports include every decision log, confidence score, escalation reason, and outcome. Board-level summaries can be configured to run on a schedule.',
-  },
-  {
-    q: 'Does the Analytics Dashboard connect to our BI tools?',
-    a: 'Yes. Data can be streamed to BigQuery, Looker Studio, Power BI, Tableau, and Metabase via our analytics export connector. Most BI integrations are live within a day of setup.',
-  },
-  {
-    q: 'How do I use the heatmap to improve staffing?',
-    a: 'The Activity Heatmap shows ticket arrival volume by hour and day of week, with a 30-day average. You can identify your true peak windows and cross-reference with your human agent rotas to find gaps or overstaffed periods. Most teams adjust shift patterns within the first week of seeing it.',
-  },
-]
-
 function FeatureAccordionItem({ item }: { item: { q: string; a: string } }) {
   const [open, setOpen] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -168,91 +146,6 @@ function FeatureAccordionItem({ item }: { item: { q: string; a: string } }) {
         <p className="pb-5 text-sm leading-relaxed text-gray-600">{item.a}</p>
       </div>
     </div>
-  )
-}
-
-function AnalyticsFAQItem({
-  item,
-  isOpen,
-  onToggle,
-}: {
-  item: { q: string; a: string }
-  isOpen: boolean
-  onToggle: () => void
-}) {
-  const bodyRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = bodyRef.current
-    if (!el) return
-    if (isOpen) {
-      el.style.maxHeight = el.scrollHeight + 'px'
-      el.style.opacity = '1'
-    } else {
-      el.style.maxHeight = '0px'
-      el.style.opacity = '0'
-    }
-  }, [isOpen])
-
-  return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left"
-      >
-        <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
-        <span className={['flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300', isOpen ? 'rotate-180' : ''].join(' ')}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-            <path d="M4 6l4 4 4-4" />
-          </svg>
-        </span>
-      </button>
-      <div
-        ref={bodyRef}
-        className="px-6"
-        style={{ maxHeight: '0px', opacity: 0, overflow: 'hidden', transition: 'max-height 0.35s ease, opacity 0.3s ease' }}
-      >
-        <p className="pb-6 text-sm leading-relaxed text-gray-500 lg:text-[15px]">{item.a}</p>
-      </div>
-    </div>
-  )
-}
-
-function AnalyticsFAQ() {
-  const [open, setOpen] = useState<number | null>(null)
-
-  return (
-    <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
-        <div className="mb-8 text-center">
-          <h2 className="leading-tight" style={{ ...canelaStyle, fontSize: '2.25rem' }}>
-            <span className="text-gray-900">Frequently Asked Questions</span>
-          </h2>
-        </div>
-        {/* Mobile */}
-        <div className="mt-6 flex flex-col gap-3 lg:hidden">
-          {faqItems.map((item, i) => (
-            <AnalyticsFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
-          ))}
-        </div>
-        {/* Desktop: two columns */}
-        <div className="mt-6 hidden gap-3 lg:flex lg:items-start">
-          <div className="flex flex-1 flex-col gap-3">
-            {faqItems.filter((_, i) => i % 2 === 0).map((item) => {
-              const i = faqItems.indexOf(item)
-              return <AnalyticsFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
-            })}
-          </div>
-          <div className="flex flex-1 flex-col gap-3">
-            {faqItems.filter((_, i) => i % 2 === 1).map((item) => {
-              const i = faqItems.indexOf(item)
-              return <AnalyticsFAQItem key={item.q} item={item} isOpen={open === i} onToggle={() => setOpen(open === i ? null : i)} />
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
   )
 }
 
@@ -480,74 +373,7 @@ export default function Analytics() {
       </section>
 
       {/* Dashboard screenshots — desktop */}
-      <section className="hidden px-4 pb-24 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 text-center">
-            <p className="text-2xl font-bold uppercase text-gray-900">Inside the dashboard</p>
-            <p className="mt-3 text-base text-gray-500">Every chart you see below is live — built from your actual ticket and conversation data.</p>
-          </div>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
-              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-                <div className="px-8 pt-8 pb-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
-                  <h3 className="mt-1 text-xl font-black text-gray-900">Ticket saves over time</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
-                    Blue tracks bot activity, green tracks support. The bot handles the vast majority of ticket saves every day.
-                  </p>
-                </div>
-                <div className="mt-auto px-6 pb-6">
-                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%201.png" alt="Ticket saves daily trend" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
-                </div>
-              </div>
-              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-                <div className="px-8 pt-8 pb-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Ownership Mix</p>
-                  <h3 className="mt-1 text-xl font-black text-gray-900">Bot vs human — ticket saves</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
-                    Bot handles <strong>90%</strong> of all ticket saves. Support steps in for the remaining 10%.
-                  </p>
-                </div>
-                <div className="mt-auto px-6 pb-6">
-                  <img src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png" alt="Ticket saves ownership mix" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
-                </div>
-              </div>
-            </div>
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-                <div className="px-6 pt-7 pb-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Daily Trend</p>
-                  <h3 className="mt-1 text-base font-black text-gray-900">Daily workload split</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Ticket saves, final transitions, and messages on one chart.</p>
-                </div>
-                <div className="mt-auto px-5 pb-5">
-                  <img src="/analytics%20screenz/diaily%20worload%20split.png" alt="Daily workload split" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
-                </div>
-              </div>
-              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-                <div className="px-6 pt-7 pb-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Weekly Rhythm</p>
-                  <h3 className="mt-1 text-base font-black text-gray-900">When your queue is busiest</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Darker cells mean more activity. Plan shifts around real demand.</p>
-                </div>
-                <div className="mt-auto px-5 pb-5">
-                  <img src="/analytics%20screenz/weekday%20and%20hour%20heatmap.png" alt="Weekday and hour heatmap" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
-                </div>
-              </div>
-              <div className="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-                <div className="px-6 pt-7 pb-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Hourly Concentration</p>
-                  <h3 className="mt-1 text-base font-black text-gray-900">Per-agent activity by hour</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">Messages by hour in local timezone — isolate queue bursts per agent.</p>
-                </div>
-                <div className="mt-auto px-5 pb-5">
-                  <img src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png" alt="When this user is most active" className="w-full rounded-2xl border border-gray-100" loading="lazy" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DashboardScreenshots />
 
       {/* CTA */}
       <section className="px-4 pb-16 sm:px-6 lg:pb-24 lg:px-8">
