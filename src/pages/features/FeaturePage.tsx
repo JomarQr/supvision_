@@ -191,6 +191,15 @@ export default function FeaturePage({ data, faq }: { data: FeaturePageData; faq:
         <meta property="og:description" content={desc} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={desc} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://supvision.ai/" },
+            { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://supvision.ai/support-agent" },
+            { "@type": "ListItem", "position": 3, "name": data.title, "item": url }
+          ]
+        })}</script>
       </Helmet>
       {/* Desktop hero */}
       <section className="hidden pb-0 pt-8 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>

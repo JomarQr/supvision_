@@ -8,7 +8,7 @@ const PROVIDER_ICONS: Record<string, ReactNode> = {
     </svg>
   ),
   anthropic: <img loading="lazy" src="/antchropic.webp" alt="Anthropic" className="h-5 w-5 flex-shrink-0 object-contain" />,
-  google: <img loading="lazy" src="/google studio.webp" alt="Google AI Studio" className="h-5 w-5 flex-shrink-0 object-contain" />,
+  google: <img loading="lazy" src="/google-studio.webp" alt="Google AI Studio" className="h-5 w-5 flex-shrink-0 object-contain" />,
   perplexity: <img loading="lazy" src="/perplexity.webp" alt="Perplexity" className="h-5 w-5 flex-shrink-0 object-contain" />,
 }
 

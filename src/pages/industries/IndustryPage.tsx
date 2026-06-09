@@ -154,6 +154,15 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
         <meta property="og:description" content={desc} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={desc} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://supvision.ai/" },
+            { "@type": "ListItem", "position": 2, "name": "Industries", "item": "https://supvision.ai/industries" },
+            { "@type": "ListItem", "position": 3, "name": data.title, "item": url }
+          ]
+        })}</script>
       </Helmet>
 
       <section className="px-4 pb-2 pt-4 sm:px-6 lg:hidden">

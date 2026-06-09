@@ -35,6 +35,7 @@ const routes = [
   '/security',
   '/privacy-policy',
   '/terms',
+  '/data-policy',
 ]
 
 for (const url of routes) {
