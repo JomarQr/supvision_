@@ -6,11 +6,13 @@ interface PageMetaProps {
   title: string
   description: string
   path: string
+  jsonLd?: object | object[]
 }
 
-export default function PageMeta({ title, description, path }: PageMetaProps) {
+export default function PageMeta({ title, description, path, jsonLd }: PageMetaProps) {
   const url = `${BASE}${path}`
   const fullTitle = title.includes('supVision') ? title : `${title} — supVision`
+  const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
   return (
     <Helmet>
       <title>{fullTitle}</title>
@@ -21,6 +23,9 @@ export default function PageMeta({ title, description, path }: PageMetaProps) {
       <meta property="og:description" content={description} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json">{JSON.stringify(s)}</script>
+      ))}
     </Helmet>
   )
 }

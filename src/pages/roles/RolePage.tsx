@@ -103,7 +103,7 @@ function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string;
 }
 
 export interface RoleChallenge {
-  icon: ReactNode | Record<string, unknown>
+  icon: ReactNode | Record<string, unknown> | null
   title: string
   desc: string
 }

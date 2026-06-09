@@ -89,6 +89,20 @@ export default function Contact() {
         title="Contact supVision — Book a Demo"
         description="Book a 30-minute live walkthrough. See how supVision automates your fintech customer support in days, not months."
         path="/contact"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          name: 'Book a Demo — supVision',
+          url: 'https://supvision.ai/contact',
+          description: 'Book a 30-minute live walkthrough of supVision AI support platform.',
+          mainEntity: {
+            '@type': 'Organization',
+            name: 'supVision',
+            email: 'info@supvision.ai',
+            url: 'https://supvision.ai',
+            address: { '@type': 'PostalAddress', streetAddress: 'Vesivärava tn 50', addressLocality: 'Tallinn', addressRegion: 'Harju maakond', postalCode: '10152', addressCountry: 'EE' },
+          },
+        }}
       />
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">

@@ -11,6 +11,15 @@ export default defineConfig(({ isSsrBuild }) => ({
   },
   build: {
     outDir: isSsrBuild ? 'dist/server' : 'dist/client',
+    rollupOptions: isSsrBuild ? undefined : {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-lottie': ['lottie-react'],
+          'vendor-helmet': ['react-helmet-async'],
+        },
+      },
+    },
   },
   ssr: {
     noExternal: ['lottie-react'],

@@ -1,13 +1,7 @@
+import { useState, useEffect } from 'react'
 import RolePage from './RolePage'
 
-import checkListAnim from '../../assets/challenges-anim/system-solid-78-check-list-hover-check-list.json'
-import trendingUpAnim from '../../assets/challenges-anim/system-solid-160-trending-up-hover-trend-up.json'
-import clockAnim from '../../assets/challenges-anim/system-solid-67-clock-hover-clock.json'
-import infoAnim from '../../assets/challenges-anim/system-solid-28-info-hover-info.json'
-import analyticsAnim from '../../assets/challenges-anim/system-solid-10-analytics-hover-analytics.json'
-import fileAnim from '../../assets/challenges-anim/system-solid-50-file-hover-file-1.json'
-
-const data = {
+const baseData = {
   badge: 'By role · Head of Support',
   title: 'Head of Support',
   subtitle: 'Cut queues, automate tier-1, free your agents for the work that actually needs them.',
@@ -25,36 +19,12 @@ const data = {
     { value: '50+', label: 'Languages supported for multilingual support teams' },
   ],
   challenges: [
-    {
-      icon: checkListAnim,
-      title: 'Tier-1 volume is crushing your team',
-      desc: 'Balance queries, status checks, document requests - your agents handle hundreds of these a day. They are skilled people doing data-entry work.',
-    },
-    {
-      icon: trendingUpAnim,
-      title: 'Queue times spike unpredictably',
-      desc: 'A product change, a market event, or a regulatory update can triple your inbound volume overnight. There is no way to staff for every spike.',
-    },
-    {
-      icon: clockAnim,
-      title: 'Agent onboarding takes too long',
-      desc: 'New agents need weeks of training before they can handle live queries confidently. Every hire is a liability until they are up to speed.',
-    },
-    {
-      icon: infoAnim,
-      title: 'Escalations lack context',
-      desc: 'When an agent escalates, the next tier has to start from scratch. No summary, no history, no recommended action - just a raw ticket and a stressed customer.',
-    },
-    {
-      icon: analyticsAnim,
-      title: 'Quality is inconsistent',
-      desc: 'Response quality depends on which agent picks up the ticket. Your best agents are excellent. Your worst create complaints. The average is unpredictable.',
-    },
-    {
-      icon: fileAnim,
-      title: 'Reporting is manual',
-      desc: 'Building a weekly support report means pulling exports, writing formulas, and interpreting data that is already a week old by the time it reaches your head.',
-    },
+    { icon: null as Record<string, unknown> | null, title: 'Tier-1 volume is crushing your team', desc: 'Balance queries, status checks, document requests - your agents handle hundreds of these a day. They are skilled people doing data-entry work.' },
+    { icon: null as Record<string, unknown> | null, title: 'Queue times spike unpredictably', desc: 'A product change, a market event, or a regulatory update can triple your inbound volume overnight. There is no way to staff for every spike.' },
+    { icon: null as Record<string, unknown> | null, title: 'Agent onboarding takes too long', desc: 'New agents need weeks of training before they can handle live queries confidently. Every hire is a liability until they are up to speed.' },
+    { icon: null as Record<string, unknown> | null, title: 'Escalations lack context', desc: 'When an agent escalates, the next tier has to start from scratch. No summary, no history, no recommended action - just a raw ticket and a stressed customer.' },
+    { icon: null as Record<string, unknown> | null, title: 'Quality is inconsistent', desc: 'Response quality depends on which agent picks up the ticket. Your best agents are excellent. Your worst create complaints. The average is unpredictable.' },
+    { icon: null as Record<string, unknown> | null, title: 'Reporting is manual', desc: 'Building a weekly support report means pulling exports, writing formulas, and interpreting data that is already a week old by the time it reaches your head.' },
   ],
   stacks: [
     { label: 'Support automation', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
@@ -67,5 +37,24 @@ const data = {
 }
 
 export default function HeadOfSupport() {
+  const [data, setData] = useState(baseData)
+
+  useEffect(() => {
+    Promise.all([
+      import('../../assets/challenges-anim/system-solid-78-check-list-hover-check-list.json'),
+      import('../../assets/challenges-anim/system-solid-160-trending-up-hover-trend-up.json'),
+      import('../../assets/challenges-anim/system-solid-67-clock-hover-clock.json'),
+      import('../../assets/challenges-anim/system-solid-28-info-hover-info.json'),
+      import('../../assets/challenges-anim/system-solid-10-analytics-hover-analytics.json'),
+      import('../../assets/challenges-anim/system-solid-50-file-hover-file-1.json'),
+    ]).then(([c1, c2, c3, c4, c5, c6]) => {
+      const icons = [c1.default, c2.default, c3.default, c4.default, c5.default, c6.default]
+      setData(prev => ({
+        ...prev,
+        challenges: prev.challenges.map((c, i) => ({ ...c, icon: icons[i] })),
+      }))
+    })
+  }, [])
+
   return <RolePage data={data} />
 }

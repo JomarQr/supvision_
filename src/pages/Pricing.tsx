@@ -137,6 +137,16 @@ export default function Pricing() {
         title="Pricing — supVision"
         description="Transparent pricing for AI fintech support. Starter, Growth, and Enterprise plans. Start small, scale fast — no long-term commitment required."
         path="/pricing"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            { '@type': 'Question', name: 'How long does it take to go live?', acceptedAnswer: { '@type': 'Answer', text: 'Most teams are fully live within 3 business days. Setup includes connecting your helpdesk, uploading your knowledge base, and a configuration call.' } },
+            { '@type': 'Question', name: 'Is there a free trial?', acceptedAnswer: { '@type': 'Answer', text: 'Yes — all plans start with a 14-day free trial. No credit card required.' } },
+            { '@type': 'Question', name: 'Can I change plans later?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can upgrade, downgrade, or cancel at any time from your dashboard.' } },
+            { '@type': 'Question', name: 'Is supVision GDPR compliant?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. supVision is fully GDPR and PCI DSS compliant. Data is processed in the EU and never used to train models.' } },
+          ],
+        }}
       />
 
       {/* Header */}

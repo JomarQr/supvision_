@@ -2,12 +2,6 @@ import React, { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import PageMeta from '../components/PageMeta'
-import locationAnim from '../assets/about-anim/system-regular-89-location-hover-spin.json'
-import mailAnim from '../assets/about-anim/system-regular-191-mail-envelope-close-hover-mail-closed.json'
-import phoneAnim from '../assets/about-anim/system-regular-47-chat-hover-chat.json'
-import transparencyAnim from '../assets/values-anim/doodle-black-308-avatar-search-hover-pinch.json'
-import flexibilityAnim from '../assets/values-anim/doodle-black-185-settings-sliders-hover-pinch.json'
-import innovationAnim from '../assets/values-anim/doodle-black-296-bulb-hover-pinch.json'
 
 const timeline = [
   {
@@ -48,23 +42,20 @@ const values = [
     title: 'Transparency',
     desc: 'Transparency creates alignment and trust. We share context, communicate decisions clearly, and speak openly about both challenges and progress. Nothing important is hidden or softened. Open dialogue, questions, and honest feedback help everyone understand not only actions, but intent.',
     img: '/photo_values/2I5A9579 (1).webp',
-    anim: transparencyAnim,
   },
   {
     title: 'Flexibility',
     desc: 'Adapting quickly to change matters. We work without rigid templates, adjust approaches as reality shifts, and respect individual circumstances. Experimentation is encouraged, as well as rethinking plans when it leads to a better outcome - for the team, customers, and the business.',
     img: '/photo_values/2I5A9736.webp',
-    anim: flexibilityAnim,
   },
   {
     title: 'Innovation',
     desc: 'A way of thinking that shapes how we work. We question how things are done, seek simpler and more effective solutions, and stay open to new approaches. Ideas are tested in real work, while curiosity and the courage to think differently drive improvements in processes and products.',
     img: '/photo_values/2I5A9802 (1).webp',
-    anim: innovationAnim,
   },
 ]
 
-function ValueRow({ v, i }: { v: typeof values[number]; i: number }) {
+function ValueRow({ v, i, anim }: { v: typeof values[number]; i: number; anim: object | null }) {
   const [hovered, setHovered] = useState(false)
   const lottieRef = useRef<any>(null)
 
@@ -88,7 +79,7 @@ function ValueRow({ v, i }: { v: typeof values[number]; i: number }) {
       {/* Text */}
       <div className="flex-1 min-w-0">
         <div className="mb-4">
-          <Lottie lottieRef={lottieRef} animationData={v.anim} autoplay={false} loop={false} style={{ width: 96, height: 96 }} />
+          {anim ? <Lottie lottieRef={lottieRef} animationData={anim} autoplay={false} loop={false} style={{ width: 96, height: 96 }} /> : <div style={{ width: 96, height: 96 }} />}
         </div>
         <h3 className="text-[2rem] leading-tight text-gray-900 sm:text-[2.5rem]" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>{v.title}</h3>
         <p className="mt-4 text-base leading-relaxed text-gray-500">{v.desc}</p>
@@ -106,6 +97,23 @@ export default function About() {
   const trackRef = useRef<HTMLDivElement>(null)
   const dotFillRefs = useRef<(HTMLDivElement | null)[]>([])
   const lineFillRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const [valueAnims, setValueAnims] = useState<(object | null)[]>([null, null, null])
+  const [contactAnims, setContactAnims] = useState<{ location: object | null; mail: object | null; phone: object | null }>({ location: null, mail: null, phone: null })
+
+  useEffect(() => {
+    Promise.all([
+      import('../assets/values-anim/doodle-black-308-avatar-search-hover-pinch.json'),
+      import('../assets/values-anim/doodle-black-185-settings-sliders-hover-pinch.json'),
+      import('../assets/values-anim/doodle-black-296-bulb-hover-pinch.json'),
+      import('../assets/about-anim/system-regular-89-location-hover-spin.json'),
+      import('../assets/about-anim/system-regular-191-mail-envelope-close-hover-mail-closed.json'),
+      import('../assets/about-anim/system-regular-47-chat-hover-chat.json'),
+    ]).then(([t, f, i, loc, mail, phone]) => {
+      setValueAnims([t.default, f.default, i.default])
+      setContactAnims({ location: loc.default, mail: mail.default, phone: phone.default })
+    })
+  }, [])
 
   useEffect(() => {
     const section = storyRef.current
@@ -158,6 +166,23 @@ export default function About() {
         title="About supVision — Built by Fintech Operators"
         description="15+ years inside fintech operations. We built supVision because we lived the problem firsthand. Meet the team behind autonomous fintech support."
         path="/about"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'AboutPage',
+          name: 'About supVision',
+          url: 'https://supvision.ai/about',
+          description: 'supVision is built by fintech operators who lived the support problem firsthand.',
+          mainEntity: {
+            '@type': 'Organization',
+            name: 'supVision',
+            foundingDate: '2026',
+            url: 'https://supvision.ai',
+            logo: 'https://supvision.ai/logo/logo_website.webp',
+            description: 'AI customer support platform built for regulated financial services.',
+            address: { '@type': 'PostalAddress', streetAddress: 'Vesivärava tn 50', addressLocality: 'Tallinn', postalCode: '10152', addressCountry: 'EE' },
+            sameAs: ['https://www.linkedin.com/company/supvision-ai/'],
+          },
+        }}
       />
 
       {/* Hero */}
@@ -294,7 +319,7 @@ export default function About() {
           </div>
           <div className="flex flex-col gap-16">
             {values.map((v, i) => (
-              <ValueRow key={v.title} v={v} i={i} />
+              <ValueRow key={v.title} v={v} i={i} anim={valueAnims[i]} />
             ))}
           </div>
           <div className="mt-12 flex justify-center">
@@ -334,7 +359,7 @@ export default function About() {
               <div className="h-px bg-gray-100" />
 
               {(() => {
-                const ContactRow = ({ anim, href, children, isBlock = false }: { anim: object; href?: string; children: React.ReactNode; isBlock?: boolean }) => {
+                const ContactRow = ({ anim, href, children, isBlock = false }: { anim: object | null; href?: string; children: React.ReactNode; isBlock?: boolean }) => {
                   const [hovered, setHovered] = useState(false)
                   const lottieRef = useRef<any>(null)
                   useEffect(() => {
@@ -347,7 +372,7 @@ export default function About() {
                       className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg"
                       style={{ border: '1.5px solid #111827', background: 'transparent' }}
                     >
-                      <Lottie lottieRef={lottieRef} animationData={anim} autoplay={false} loop={false} style={{ width: 22, height: 22 }} />
+                      {anim && <Lottie lottieRef={lottieRef} animationData={anim} autoplay={false} loop={false} style={{ width: 22, height: 22 }} />}
                     </div>
                   )
                   if (isBlock) return (
@@ -365,7 +390,7 @@ export default function About() {
                 }
                 return (
                   <div className="flex flex-col items-start gap-4">
-                    <ContactRow anim={locationAnim} isBlock>
+                    <ContactRow anim={contactAnims.location} isBlock>
                       <div className="min-w-0 text-left">
                         <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">WILARIUM OÜ</p>
                         <p className="mt-1 break-words text-sm leading-relaxed text-gray-700">
@@ -373,8 +398,8 @@ export default function About() {
                         </p>
                       </div>
                     </ContactRow>
-                    <ContactRow anim={mailAnim} href="mailto:info@supvision.ai">info@supvision.ai</ContactRow>
-                    <ContactRow anim={phoneAnim} href="https://t.me/+447737124949">+44 77 3712 4949</ContactRow>
+                    <ContactRow anim={contactAnims.mail} href="mailto:info@supvision.ai">info@supvision.ai</ContactRow>
+                    <ContactRow anim={contactAnims.phone} href="https://t.me/+447737124949">+44 77 3712 4949</ContactRow>
                   </div>
                 )
               })()}

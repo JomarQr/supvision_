@@ -910,6 +910,28 @@ export default function Home() {
         title="supVision — AI Support Agent for Fintech"
         description="Automate fintech customer support with an autonomous AI agent. Resolves KYC, disputes, and transaction queries 24/7 — compliant, multilingual, no human needed."
         path="/"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'supVision',
+            url: 'https://supvision.ai',
+            logo: 'https://supvision.ai/logo/logo_website.webp',
+            description: 'AI-powered customer support platform built for fintech companies.',
+            contactPoint: { '@type': 'ContactPoint', email: 'info@supvision.ai', contactType: 'customer support' },
+            sameAs: ['https://www.linkedin.com/company/supvision-ai/'],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: 'supVision',
+            applicationCategory: 'BusinessApplication',
+            operatingSystem: 'Web',
+            description: 'Autonomous AI support agent for fintech — resolves KYC, disputes, and transaction queries 24/7.',
+            url: 'https://supvision.ai',
+            offers: { '@type': 'Offer', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+          },
+        ]}
       />
       {/* Hero */}
       <section data-nav-dark className="relative overflow-hidden" style={{ backgroundColor: '#faf8f5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
