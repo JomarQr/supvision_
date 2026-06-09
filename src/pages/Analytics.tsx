@@ -88,19 +88,19 @@ const dashboardMobileCards = [
     tag: 'Daily Trend',
     title: 'Ticket saves over time',
     desc: 'Blue tracks bot activity, green tracks support — spot handoff quality and staffing pressure before they compound.',
-    img: '/analytics%20screenz/ticket%20saves%20daily%20trend%201.png',
+    img: '/analytics/ticket%20saves%20daily%20trend%201.png',
   },
   {
     tag: 'Ownership Mix',
     title: 'Bot vs human — ticket saves',
     desc: 'See exactly what the AI resolved versus what reached a human agent.',
-    img: '/analytics%20screenz/ticket%20saves%20daily%20trend%202.png',
+    img: '/analytics/ticket%20saves%20daily%20trend%202.png',
   },
   {
     tag: 'Weekly Rhythm',
     title: 'When your queue is busiest',
     desc: 'Darker cells mean more activity. Plan human shifts around real demand, not assumptions.',
-    img: '/analytics%20screenz/weekday%20and%20hour%20heatmap.png',
+    img: '/analytics/weekday%20and%20hour%20heatmap.png',
   },
 ]
 

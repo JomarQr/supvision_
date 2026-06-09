@@ -10,7 +10,7 @@ export default function AgentActivityHeatmap() {
       </div>
       <div className="mt-auto px-5 pb-5">
         <img
-          src="/analytics%20screenz/when%20this%20user%20is%20most%20active.png"
+          src="/analytics/when%20this%20user%20is%20most%20active.png"
           alt="Per-agent activity by hour"
           className="w-full rounded-2xl border border-gray-100"
           loading="lazy"

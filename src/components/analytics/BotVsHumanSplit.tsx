@@ -10,7 +10,7 @@ export default function BotVsHumanSplit() {
       </div>
       <div className="mt-auto px-6 pb-6">
         <img
-          src="/analytics%20screenz/ticket%20saves%20daily%20trend%202.png"
+          src="/analytics/ticket%20saves%20daily%20trend%202.png"
           alt="Bot vs human ticket saves"
           className="w-full rounded-2xl border border-gray-100"
           loading="lazy"
