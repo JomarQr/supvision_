@@ -8,31 +8,31 @@ const timeline = [
     year: '2013',
     title: 'A decade inside fintech',
     desc: 'We started as a Payment Orchestrator — inside financial services, running operations teams, building compliance processes, and sitting on both sides of customer support across payments, neobanking, and lending.',
-    img: '/photo_about_us/A decade inside fintech.webp',
+    img: '/photo_about_us/story-1.webp',
   },
   {
     year: '2017',
     title: 'The support problem becomes personal',
     desc: 'Scaling a fintech operation meant one constant: the support queue never shrank. Every new product, every new market, every new regulation brought a new wave of tickets. We hired, trained, hired again.',
-    img: '/photo_about_us/The support problem becomes personal.webp',
+    img: '/photo_about_us/story-2.webp',
   },
   {
     year: '2020',
     title: 'The rotation problem',
     desc: 'Agent turnover in fintech support is brutal. You train someone for 8 weeks, they handle live verification and dispute queries for 6 months, then they leave. The knowledge walks out with them. You start again.',
-    img: '/photo_about_us/The rotation problem.webp',
+    img: '/photo_about_us/story-3.webp',
   },
   {
     year: '2022',
     title: 'We looked for a solution. It did not exist.',
     desc: 'Generic helpdesk AI was built for SaaS. It could not handle verification rejection queries, it did not know what a chargeback workflow looked like, and it had no concept of FCA or PSD2 compliance. We kept patching a broken system.',
-    img: '/photo_about_us/We looked for a solution. It did not exist..webp',
+    img: '/photo_about_us/story-4.webp',
   },
   {
     year: '2026',
     title: 'We built what we needed',
     desc: 'supVision was built by fintech operators for fintech operators. Not a chatbot with a compliance badge - a purpose-built AI support layer that understands regulated financial services from the inside.',
-    img: '/photo_about_us/We built what we needed.webp',
+    img: '/photo_about_us/story-5.webp',
   },
 ]
 
@@ -41,17 +41,17 @@ const values = [
   {
     title: 'Transparency',
     desc: 'Transparency creates alignment and trust. We share context, communicate decisions clearly, and speak openly about both challenges and progress. Nothing important is hidden or softened. Open dialogue, questions, and honest feedback help everyone understand not only actions, but intent.',
-    img: '/photo_values/2I5A9579 (1).webp',
+    img: '/photo_values/values-1.webp',
   },
   {
     title: 'Flexibility',
     desc: 'Adapting quickly to change matters. We work without rigid templates, adjust approaches as reality shifts, and respect individual circumstances. Experimentation is encouraged, as well as rethinking plans when it leads to a better outcome - for the team, customers, and the business.',
-    img: '/photo_values/2I5A9736.webp',
+    img: '/photo_values/values-2.webp',
   },
   {
     title: 'Innovation',
     desc: 'A way of thinking that shapes how we work. We question how things are done, seek simpler and more effective solutions, and stay open to new approaches. Ideas are tested in real work, while curiosity and the courage to think differently drive improvements in processes and products.',
-    img: '/photo_values/2I5A9802 (1).webp',
+    img: '/photo_values/values-3.webp',
   },
 ]
 

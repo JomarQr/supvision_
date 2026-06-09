@@ -61,6 +61,6 @@ export const forWhomRoles: ForWhomItem[] = [
     label: 'Founders & C-Suite',
     desc: 'Lower costs, faster resolution, measurable ROI',
     to: '/roles/founders-csuite',
-    image: '/by_role/Founders%20%26%20C-Suite.webp',
+    image: '/by_role/founders.webp',
   },
 ]

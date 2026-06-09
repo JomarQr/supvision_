@@ -4,7 +4,7 @@ const data = {
   badge: 'By role · Founders & C-Suite',
   title: 'Founders & C-Suite',
   subtitle: 'Lower costs, faster resolution, measurable ROI from day one.',
-  heroImage: '/by_role/Founders & C-Suite.webp',
+  heroImage: '/by_role/founders.webp',
   highlights: [
     '52% average reduction in support operating costs',
     'Live in 3 days - measurable impact within the first week',

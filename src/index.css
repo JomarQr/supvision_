@@ -1,14 +1,14 @@
 /* ── Figtree variable font ── */
 @font-face {
   font-family: 'Figtree';
-  src: url('/figtree/Figtree/Figtree-VariableFont_wght.ttf') format('truetype');
+  src: url('/figtree/Figtree/Figtree-VariableFont_wght.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Figtree';
-  src: url('/figtree/Figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype');
+  src: url('/figtree/Figtree/Figtree-Italic-VariableFont_wght.woff2') format('woff2');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
