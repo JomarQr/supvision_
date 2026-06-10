@@ -545,7 +545,7 @@ export default function Header() {
         </button>
 
         {/* ── Desktop nav row ── */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-300">
         <div className="flex h-12 items-center justify-between px-4 lg:h-14 lg:px-10 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
 
           {/* Logo */}
@@ -565,11 +565,15 @@ export default function Header() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex h-full items-stretch justify-center gap-8 whitespace-nowrap">
 
-            <NavLink to="/" end className={({ isActive }) => linkClass}>Home</NavLink>
+            <NavLink to="/" end className={({ isActive }) =>
+              `flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isActive ? 'border-[#214995]' : 'border-transparent'}`
+            }>
+              {({ isActive }) => <span className={`${linkClass} ${isActive ? '!text-[#214995]' : ''}`}>Home</span>}
+            </NavLink>
 
             {/* Overview trigger */}
-            <div className="flex h-full items-center" onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
-              <button className={`inline-flex items-center gap-1 ${linkClass}`}>
+            <div className={`flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isOverviewActive ? 'border-[#214995]' : 'border-transparent'}`} onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
+              <button className={`inline-flex items-center gap-1 ${linkClass} ${isOverviewActive ? '!text-[#214995]' : ''}`}>
                 Overview
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-3.5 w-3.5 transition-transform duration-200 ${overviewOpen ? 'rotate-180' : ''}`}>
                   <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -578,8 +582,8 @@ export default function Header() {
             </div>
 
             {/* For whom? trigger */}
-            <div className="flex h-full items-center" onMouseEnter={() => open(setForWhomOpen, forWhomTimer)} onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}>
-              <button className={`inline-flex items-center gap-1 ${linkClass}`}>
+            <div className={`flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isForWhomActive ? 'border-[#214995]' : 'border-transparent'}`} onMouseEnter={() => open(setForWhomOpen, forWhomTimer)} onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}>
+              <button className={`inline-flex items-center gap-1 ${linkClass} ${isForWhomActive ? '!text-[#214995]' : ''}`}>
                 For whom?
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-3.5 w-3.5 transition-transform duration-200 ${forWhomOpen ? 'rotate-180' : ''}`}>
                   <path fillRule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -587,8 +591,16 @@ export default function Header() {
               </button>
             </div>
 
-            <NavLink to="/pricing" end className={() => linkClass}>Pricing</NavLink>
-            <NavLink to="/about" end className={() => linkClass}>About us</NavLink>
+            <NavLink to="/pricing" end className={({ isActive }) =>
+              `flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isActive ? 'border-[#214995]' : 'border-transparent'}`
+            }>
+              {({ isActive }) => <span className={`${linkClass} ${isActive ? '!text-[#214995]' : ''}`}>Pricing</span>}
+            </NavLink>
+            <NavLink to="/about" end className={({ isActive }) =>
+              `flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isActive ? 'border-[#214995]' : 'border-transparent'}`
+            }>
+              {({ isActive }) => <span className={`${linkClass} ${isActive ? '!text-[#214995]' : ''}`}>About us</span>}
+            </NavLink>
 
           </nav>
 

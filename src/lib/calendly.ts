@@ -17,6 +17,10 @@ function ensureCalendlyLoaded(): Promise<void> {
   return loadPromise
 }
 
+export function preloadCalendly() {
+  ensureCalendlyLoaded()
+}
+
 export function openCalendlyPopup() {
   document.body.style.overflow = 'hidden'
   ensureCalendlyLoaded().then(() => {

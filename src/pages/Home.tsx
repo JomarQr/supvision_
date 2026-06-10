@@ -1054,7 +1054,7 @@ export default function Home() {
           {/* Right column — desktop dashboard */}
           <div
             className="hidden lg:block lg:w-1/2 flex-shrink-0 self-start lg:pr-24 xl:pr-32"
-            style={{ paddingTop: dashTopPad, paddingBottom: '32px' }}
+            style={{ paddingTop: Math.max(0, dashTopPad - 10), paddingBottom: '32px' }}
           >
             <div style={{ zoom: 0.88 }}>
             <div

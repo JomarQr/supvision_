@@ -232,7 +232,7 @@ export default function About() {
         <div className="mx-auto max-w-3xl">
           <div data-reveal>
             <h2
-              className="text-[2rem] leading-tight text-gray-900 sm:text-[3rem]"
+              className="whitespace-nowrap text-[1.6rem] leading-tight text-gray-900 sm:text-[2.5rem]"
               style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
             >
               We built supVision from inside fintech.
