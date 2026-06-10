@@ -10,7 +10,7 @@ export default function TicketSavesTrend() {
       </div>
       <div className="mt-auto px-6 pb-6">
         <img
-          src="/analytics/ticket%20saves%20daily%20trend%201.webp"
+          src="/analytics/ticket-saves-daily-trend-1.webp"
           alt="Ticket saves daily trend"
           className="w-full rounded-2xl border border-gray-100"
           loading="lazy"

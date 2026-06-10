@@ -8,7 +8,6 @@ const data = {
   heroIconBg: '#FDF4E7',
   subtitle: 'Loan queries, repayment issues, and eligibility checks - resolved instantly.',
   description: 'Lending support is high-stakes and regulation-heavy. Customers under financial stress need fast, accurate answers. Your team needs to respond without giving advice that crosses regulatory lines. supVision handles the most common lending queries autonomously - accurately, compliantly, and at any volume.',
-  heroImage: '/industry/Lending & Credit.webp',
   highlights: [
     '98.4% resolution rate for standard lending support queries',
     'Repayment and eligibility queries resolved in under 2 minutes',

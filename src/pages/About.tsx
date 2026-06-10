@@ -227,12 +227,40 @@ export default function About() {
         </div>
       </section>
 
+      {/* We built supVision from inside fintech */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <div data-reveal>
+            <h2
+              className="text-[2rem] leading-tight text-gray-900 sm:text-[3rem]"
+              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+            >
+              We built supVision from inside fintech.
+            </h2>
+            <div className="mt-6 flex flex-col gap-4 text-base leading-relaxed text-gray-600">
+              <p>
+                Our team has been working in financial services for over 15 years, on the side of banks, payment platforms and fintech operations across Europe, the Middle East and Asia. Compliance, operational processes, integrations, customer support — we live in this and we know where it hurts.
+              </p>
+              <p>
+                The supVision team brings together people with real experience in banking and financial services, senior developers, AI engineers and business analysts. People who understand that in fintech, the cost of a support mistake is not just an unhappy customer — it's money, reputation and compliance risks.
+              </p>
+              <p>
+                We operate in over 40 countries, support 20 currencies and resolve tier-1 requests for companies that cannot afford downtime or slow support.
+              </p>
+              <p>
+                supVision is a purpose-built AI support layer for fintech — not a generic helpdesk tool with a compliance badge. It handles queries, disputes, and payment failures, enforces your policy on every interaction, logs everything for audit, goes live in 3 days, and scales across markets without adding headcount.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Story - horizontal pin scroll */}
       <div ref={storyRef} className="relative">
         <div className="sticky top-20 overflow-hidden" style={{ backgroundColor: '#faf8f5', height: 'calc(100vh - 5rem)' }}>
           {/* Header - centered */}
           <div className="pt-16 pb-10 text-center">
-            <p className="mt-1 text-base text-gray-500">Fifteen years in fintech before we wrote a line of supVision code.</p>
+            <p className="mt-1 text-base text-gray-500">15 years in fintech before we wrote a line of supVision code.</p>
           </div>
 
           {/* Horizontal track - first card starts at screen center */}
@@ -241,8 +269,8 @@ export default function About() {
             className="flex gap-6 will-change-transform"
             style={{
               width: 'max-content',
-              paddingLeft: 'calc(50vw - min(calc((100vw - 3rem) / 2), 200px))',
-              paddingRight: 'calc(50vw - min(calc((100vw - 3rem) / 2), 200px))',
+              paddingLeft: '1.5rem',
+              paddingRight: '1.5rem',
               paddingBottom: '40px',
             }}
           >
@@ -250,10 +278,10 @@ export default function About() {
               <div key={item.year} className="flex w-[min(100vw-3rem,400px)] flex-shrink-0 flex-col items-center sm:w-[400px]">
                 {/* Card — fixed height so all dots stay at the same Y */}
                 <div
-                  className="flex h-[420px] w-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white text-center shadow-md"
+                  className="flex h-[420px] w-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white text-left shadow-md"
                 >
                   <img src={item.img} alt={item.title} className="h-[190px] w-full object-cover flex-shrink-0" loading="lazy" />
-                  <div className="flex flex-1 flex-col items-center justify-center p-6">
+                  <div className="flex flex-1 flex-col items-start justify-center p-6">
                     <h3
                       className="text-xl leading-tight text-gray-900 sm:text-2xl"
                       style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}

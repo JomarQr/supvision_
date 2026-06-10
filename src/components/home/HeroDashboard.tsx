@@ -785,7 +785,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   {[
                     { label: 'Neobank',           active: true,  topics: 14, color: '#214995' },
                     { label: 'Payments',          active: true,  topics: 11, color: '#22c55e' },
-                    { label: 'Crypto / Web3',     active: true,  topics: 9,  color: '#8b5cf6' },
+                    { label: 'Web3',     active: true,  topics: 9,  color: '#8b5cf6' },
                     { label: 'Lending',           active: false, topics: 8,  color: '#9ca3af' },
                     { label: 'FX & Trading',      active: false, topics: 7,  color: '#9ca3af' },
                   ].map(p => (
@@ -899,7 +899,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                 {[
                   { label: 'Neobank',       active: true,  color: '#214995', topics: 14, coverage: 94, examples: ['Balance inquiry', 'Card freeze/unfreeze', 'KYC upload', 'Spending limits'] },
                   { label: 'Payments',      active: true,  color: '#22c55e', topics: 11, coverage: 89, examples: ['Dispute filing', 'Chargeback status', 'FX rates', 'Failed payment'] },
-                  { label: 'Crypto / Web3', active: true,  color: '#8b5cf6', topics: 9,  coverage: 81, examples: ['Wallet connect', 'Gas fee queries', 'Token transfer', 'Staking FAQ'] },
+                  { label: 'Web3', active: true,  color: '#8b5cf6', topics: 9,  coverage: 81, examples: ['Wallet connect', 'Gas fee queries', 'Token transfer', 'Staking FAQ'] },
                   { label: 'Lending',       active: false, color: '#9ca3af', topics: 8,  coverage: 0,  examples: ['Loan status', 'Repayment schedule', 'Early payoff', 'Rate enquiry'] },
                   { label: 'FX & Trading',  active: false, color: '#9ca3af', topics: 7,  coverage: 0,  examples: ['Spread queries', 'Position size', 'Margin calls', 'Market hours'] },
                   { label: 'InsurTech',     active: false, color: '#9ca3af', topics: 6,  coverage: 0,  examples: ['Policy details', 'Claim status', 'Premium info', 'Coverage FAQ'] },
@@ -936,7 +936,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   {[
                     { label: 'Neobank',       resolved: '94%', topics: 14, color: '#214995' },
                     { label: 'Payments',      resolved: '89%', topics: 11, color: '#22c55e' },
-                    { label: 'Crypto / Web3', resolved: '81%', topics: 9,  color: '#8b5cf6' },
+                    { label: 'Web3', resolved: '81%', topics: 9,  color: '#8b5cf6' },
                   ].map(p => (
                     <div key={p.label} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 10, background: '#f9fafb' }}>
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: p.color, flexShrink: 0 }} />

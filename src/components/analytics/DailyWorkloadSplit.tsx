@@ -10,7 +10,7 @@ export default function DailyWorkloadSplit() {
       </div>
       <div className="mt-auto px-5 pb-5">
         <img
-          src="/analytics/diaily%20worload%20split.webp"
+          src="/analytics/daily-workload-split.webp"
           alt="Daily workload split"
           className="w-full rounded-2xl border border-gray-100"
           loading="lazy"

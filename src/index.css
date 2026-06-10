@@ -73,6 +73,10 @@
     from { transform: translateX(-50%); }
     to   { transform: translateX(0); }
   }
+  @keyframes ticker-vert-rev {
+    from { transform: translateY(-50%); }
+    to   { transform: translateY(0); }
+  }
   @keyframes arc-carousel {
     from { offset-distance: 0%; }
     to   { offset-distance: 100%; }

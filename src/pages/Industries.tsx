@@ -42,13 +42,13 @@ const INDUSTRIES = [
     metric: { value: '85%', label: 'of onboarding queries resolved by AI' },
   },
   {
-    label: 'Web3 & Crypto',
+    label: 'Web3',
     slug: 'crypto-web3',
     to: '/industries/crypto-web3',
     icon: hubNetworkAnim,
     color: '#F0ECFB',
     badge: 'Volatile volume',
-    desc: 'Crypto platforms see support demand spike unpredictably. Wallet issues, verification queues, and volatile-volume events need support that scales instantly — supVision handles it without extra headcount.',
+    desc: 'Web3 platforms see support demand spike unpredictably. Wallet issues, verification queues, and volatile-volume events need support that scales instantly — supVision handles it without extra headcount.',
     highlights: [
       'Wallet access and verification support at scale',
       'Handles volume spikes without emergency hiring',
@@ -176,7 +176,7 @@ export default function Industries() {
     <div className="min-h-screen pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <PageMeta
         title="Industries — supVision"
-        description="AI-powered customer support built for fintech verticals — payments, digital banking, crypto, lending, and insurtech. Industry-specific workflows out of the box."
+        description="AI-powered customer support built for fintech verticals — payments, digital banking, Web3, lending, and insurtech. Industry-specific workflows out of the box."
         path="/industries"
       />
 

@@ -82,7 +82,7 @@ const FEATURE_TABS: Array<{ key: string; label: string; heading: React.ReactNode
     description: 'supVision is not a generic chatbot. It learns your workflows, adapts to your tone, and adjusts its behavior per channel, customer tier, and context — automatically.',
     features: [
       { title: 'Continuous Learning', body: 'Every resolved ticket and agent correction feeds back into the model. supVision gets sharper over time without any manual retraining.', view: 'continuous-learning' as DashboardView },
-      { title: 'Industry Presets', body: 'Pre-configured behaviour for neobanks, payment processors, crypto platforms, and lending — tuned for the queries and compliance norms of each vertical.', view: 'industry-presets' as DashboardView },
+      { title: 'Industry Presets', body: 'Pre-configured behaviour for neobanks, payment processors, Web3 platforms, and lending — tuned for the queries and compliance norms of each vertical.', view: 'industry-presets' as DashboardView },
       { title: 'Tone & Style Controls', body: 'Define how supVision communicates — formal, friendly, concise — and apply different styles per channel or customer segment.', view: 'tone-style' as DashboardView },
     ],
   },
@@ -100,42 +100,26 @@ const FEATURE_TABS: Array<{ key: string; label: string; heading: React.ReactNode
 ]
 
 
-function LangColumn({ items, pxPerSec, reverse = false }: { items: Array<{ name: string; flag: string }>; pxPerSec: number; reverse?: boolean }) {
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    let y = reverse ? el.scrollHeight / 2 : 0
-    let last: number | null = null
-    let raf: number
-    const tick = (t: number) => {
-      if (last !== null) {
-        const half = el.scrollHeight / 2
-        if (reverse) {
-          y -= pxPerSec * (t - last) / 1000
-          if (y <= 0) y += half
-        } else {
-          y += pxPerSec * (t - last) / 1000
-          if (y >= half) y -= half
-        }
-        el.style.transform = `translateY(-${y}px)`
-      }
-      last = t
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [pxPerSec, reverse])
+function LangColumn({ items, duration = 45, reverse = false }: { items: Array<{ name: string; flag: string }>; duration?: number; reverse?: boolean }) {
   return (
-    <div ref={ref} className="flex-1 flex flex-col" style={{ willChange: 'transform' }}>
-      {[...items, ...items].map((lang, i) => (
-        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', borderRadius: 9999, padding: '9px 12px', border: '1px solid #e5e7eb', flexShrink: 0, marginBottom: 8 }}>
-          <div style={{ width: 30, height: 30, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
-            <img loading="lazy" src={lang.flag} alt={lang.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+    <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          animation: `${reverse ? 'ticker-vert-rev' : 'ticker-vert'} ${duration}s linear infinite`,
+          willChange: 'transform',
+        }}
+      >
+        {[...items, ...items].map((lang, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', borderRadius: 9999, padding: '9px 12px', border: '1px solid #e5e7eb', flexShrink: 0, marginBottom: 8 }}>
+            <div style={{ width: 30, height: 30, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+              <img loading="lazy" src={lang.flag} alt={lang.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{lang.name}</span>
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#111827', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{lang.name}</span>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
@@ -534,7 +518,7 @@ function IndustryCard({ label, anim, to }: { label: string; anim: object | null;
       to={to}
       className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-colors active:scale-[0.98] focus:outline-none flex flex-col items-center justify-between p-4"
       style={{
-        backgroundColor: hovered ? '#E8E0D6' : '#F8F3EE',
+        backgroundColor: hovered ? '#CFE8F8' : '#EEF7FD',
         boxShadow: '0 4px 18px rgba(0,0,0,0.10)',
         transition: 'background-color 0.2s ease',
       }}
@@ -573,6 +557,17 @@ function IndustryCard({ label, anim, to }: { label: string; anim: object | null;
       </p>
     </Link>
   )
+}
+
+function StaticLottie({ animationData, size = 22 }: { animationData: object; size?: number }) {
+  const ref = useRef<any>(null)
+  useEffect(() => {
+    const l = ref.current
+    if (!l) return
+    const frames = l.getDuration(true)
+    if (frames > 0) l.goToAndStop(frames - 1, true)
+  }, [animationData])
+  return <Lottie lottieRef={ref} animationData={animationData} autoplay={false} loop={false} style={{ width: size, height: size, flexShrink: 0 }} />
 }
 
 function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim: object | null } }) {
@@ -788,6 +783,9 @@ export default function Home() {
   }, [])
 
   const clipRef = useRef<HTMLDivElement>(null)
+  const heroSectionRef = useRef<HTMLElement>(null)
+  const heroH1Ref = useRef<HTMLHeadingElement>(null)
+  const [dashTopPad, setDashTopPad] = useState(88)
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const dashTiltRaf = useRef<number>(0)
@@ -912,6 +910,20 @@ export default function Home() {
   }, [featuresOpen])
 
   useEffect(() => {
+    const measure = () => {
+      const section = heroSectionRef.current
+      const h1 = heroH1Ref.current
+      if (!section || !h1) return
+      const sTop = section.getBoundingClientRect().top
+      const hTop = h1.getBoundingClientRect().top
+      setDashTopPad(Math.round(hTop - sTop))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+
+  useEffect(() => {
     const t = setInterval(() => {
       setLiftedSlot(s => (s >= 8 ? 1 : s + 1))
     }, 600)
@@ -957,154 +969,119 @@ export default function Home() {
         ]}
       />
       {/* Hero */}
-      <section data-nav-dark className="relative overflow-hidden" style={{ backgroundColor: '#faf8f5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <section ref={heroSectionRef} data-nav-dark className="relative overflow-hidden" style={{ height: 'calc(100vh - 32px)', display: 'flex', flexDirection: 'column' }}>
         {/* bg */}
-        <div ref={clipRef} className="absolute inset-0 overflow-hidden">
-          <div className="blue-gradient-hero absolute inset-0">
-            {/* Band 4 — deepest, darkest, painted first */}
-            <svg
-              className="hero-wave-track-4 absolute top-0 left-0 h-full hidden md:block"
-              style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.55))' }}
-              viewBox="0 0 5760 900"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0,840 C90,780 270,780 360,840 C450,900 630,900 720,840 C810,780 990,780 1080,840 C1170,900 1350,900 1440,840 C1530,780 1710,780 1800,840 C1890,900 2070,900 2160,840 C2250,780 2430,780 2520,840 C2610,900 2790,900 2880,840 C2970,780 3150,780 3240,840 C3330,900 3510,900 3600,840 C3690,780 3870,780 3960,840 C4050,900 4230,900 4320,840 C4410,780 4590,780 4680,840 C4770,900 4950,900 5040,840 C5130,780 5310,780 5400,840 C5490,900 5670,900 5760,840 L5760,0 L0,0 Z"
-                fill="#1434A8"
-              />
-            </svg>
-            {/* Band 3 */}
-            <svg
-              className="hero-wave-track-3 absolute top-0 left-0 h-full hidden md:block"
-              style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.55))' }}
-              viewBox="0 0 5760 900"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0,660 C90,585 270,585 360,660 C450,735 630,735 720,660 C810,585 990,585 1080,660 C1170,735 1350,735 1440,660 C1530,585 1710,585 1800,660 C1890,735 2070,735 2160,660 C2250,585 2430,585 2520,660 C2610,735 2790,735 2880,660 C2970,585 3150,585 3240,660 C3330,735 3510,735 3600,660 C3690,585 3870,585 3960,660 C4050,735 4230,735 4320,660 C4410,585 4590,585 4680,660 C4770,735 4950,735 5040,660 C5130,585 5310,585 5400,660 C5490,735 5670,735 5760,660 L5760,0 L0,0 Z"
-                fill="#1943B8"
-              />
-            </svg>
-            {/* Band 2 */}
-            <svg
-              className="hero-wave-track-2 absolute top-0 left-0 h-full hidden md:block"
-              style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.55))' }}
-              viewBox="0 0 5760 900"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0,450 C90,370 270,370 360,450 C450,530 630,530 720,450 C810,370 990,370 1080,450 C1170,530 1350,530 1440,450 C1530,370 1710,370 1800,450 C1890,530 2070,530 2160,450 C2250,370 2430,370 2520,450 C2610,530 2790,530 2880,450 C2970,370 3150,370 3240,450 C3330,530 3510,530 3600,450 C3690,370 3870,370 3960,450 C4050,530 4230,530 4320,450 C4410,370 4590,370 4680,450 C4770,530 4950,530 5040,450 C5130,370 5310,370 5400,450 C5490,530 5670,530 5760,450 L5760,0 L0,0 Z"
-                fill="#204DC6"
-              />
-            </svg>
-            {/* Band 1 — top, lightest, painted last */}
-            <svg
-              className="hero-wave-track absolute top-0 left-0 h-full hidden md:block"
-              style={{ width: '200%', filter: 'drop-shadow(0 18px 16px rgba(4,10,48,0.5))' }}
-              viewBox="0 0 5760 900"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0,230 C90,150 270,150 360,230 C450,310 630,310 720,230 C810,150 990,150 1080,230 C1170,310 1350,310 1440,230 C1530,150 1710,150 1800,230 C1890,310 2070,310 2160,230 C2250,150 2430,150 2520,230 C2610,310 2790,310 2880,230 C2970,150 3150,150 3240,230 C3330,310 3510,310 3600,230 C3690,150 3870,150 3960,230 C4050,310 4230,310 4320,230 C4410,150 4590,150 4680,230 C4770,310 4950,310 5040,230 C5130,150 5310,150 5400,230 C5490,310 5670,310 5760,230 L5760,0 L0,0 Z"
-                fill="#2B5BD8"
-              />
-            </svg>
-          </div>
+        <div className="absolute inset-0">
+          <img
+            src="/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp"
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
         </div>
 
-        {/* Content — centered, flex-none */}
-        <div className="relative z-10 flex w-full flex-col items-center text-center px-6 pt-14 lg:pt-20" style={{ flexShrink: 0 }}>
+        {/* Two-column layout: left text, right dashboard */}
+        <div className="relative z-10 flex w-full flex-col lg:flex-row" style={{ flex: '1 1 0', minHeight: 0 }}>
 
-          {/* Badge — cycling industry */}
-          <div className="mb-6 flex justify-center" style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both' }}>
-            <HeroBadgeSequence industries={heroIndustries} />
-          </div>
+          {/* Left column — text content */}
+          <div className="flex w-full flex-col justify-start items-center lg:items-start text-center lg:text-left px-6 lg:pl-24 xl:pl-32 lg:pr-6 pt-28 pb-12 lg:pt-36 lg:pb-0 lg:w-1/2">
 
-          {/* Heading */}
-          <h1
-            className="flex flex-col leading-tight"
-            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(3rem, 5.5vw, 5.2rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '80ms' }}
-          >
-            <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Agentic</span> Customer Support</span>
-            <span style={{ color: '#F4EFE9' }}>Team for <span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
-          </h1>
+              {/* Heading */}
+              <h1
+                ref={heroH1Ref}
+                className="flex flex-col leading-tight"
+                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2.4rem, 3.6vw, 4.4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '80ms' }}
+              >
+                <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Agentic</span> Customer</span>
+                <span style={{ color: '#F4EFE9' }}>Support Team for</span>
+                <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
+              </h1>
 
-          <p className="mt-6 text-base font-light leading-relaxed mx-auto max-w-3xl" style={{ color: '#F4EFE9', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '160ms' }}>
-            supVision gives fintech teams one AI agent to handle disputes and support queries — so customers get answers in seconds, every decision stays auditable, and your team only touches cases that actually need a human.
-          </p>
+              <p className="mt-6 text-base font-light leading-relaxed" style={{ color: '#F4EFE9', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '160ms' }}>
+                supVision gives fintech teams one AI agent to handle disputes and support queries — so customers get answers in seconds, every decision stays auditable, and your team only touches cases that actually need a human.
+              </p>
 
-          <div className="mt-7 flex items-center justify-center gap-3" style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '240ms' }}>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ backgroundColor: '#F97316', border: '1.5px solid transparent' }}
-            >
-              Let&apos;s chat
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
-                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-              </svg>
-            </Link>
-            <Link
-              to="/support-agent"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
-              style={{ backgroundColor: 'rgba(244,239,233,0.18)', color: '#F4EFE9', border: '1.5px solid rgba(244,239,233,0.35)' }}
-            >
-              See how it works
-            </Link>
-          </div>
+              <div className="mt-7 flex items-center justify-center lg:justify-start gap-3" style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '240ms' }}>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: '#F97316', border: '1.5px solid transparent' }}
+                >
+                  Let&apos;s chat
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </Link>
+                <Link
+                  to="/support-agent"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+                  style={{ backgroundColor: 'rgba(244,239,233,0.18)', color: '#F4EFE9', border: '1.5px solid rgba(244,239,233,0.35)' }}
+                >
+                  See how it works
+                </Link>
+              </div>
 
-          {/* Feature items — below CTA */}
-          <div className="mt-8 hidden lg:grid grid-cols-2 gap-x-10 gap-y-3" style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms' }}>
-            {heroFeatures.map((item) => (
-              <HeroFeatureItem key={item.regular} item={item} />
-            ))}
-          </div>
+              {/* Industry marquee — below CTA, extends into dashboard area */}
+              <div
+                className="mt-14 hidden lg:block overflow-hidden"
+                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms', maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 85%, transparent 100%)' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 20, animation: 'ticker 30s linear infinite', width: 'max-content' }}>
+                  {[...heroIndustries, ...heroIndustries].map((ind, i) => (
+                    <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexShrink: 0, opacity: 0.65 }}>
+                      {ind.anim && <StaticLottie animationData={ind.anim} />}
+                      <span style={{ color: '#F4EFE9', fontSize: '0.875rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                        {ind.label}
+                      </span>
+                      <span style={{ color: 'rgba(244,239,233,0.4)', fontSize: '0.75rem', marginLeft: 6 }}>·</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-
-          {/* Mobile dashboard */}
-          <div className="relative z-10 mt-10 lg:hidden w-full overflow-hidden rounded-2xl" style={{ height: 315, animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '400ms' }}>
-            <div style={{ transform: 'scale(0.63)', transformOrigin: 'top left', width: '158.7%', height: 500, flexShrink: 0 }}>
-              <HeroDashboard animated={true} view="default" beige />
+            {/* Mobile dashboard */}
+            <div className="relative z-10 mt-6 lg:hidden w-full overflow-hidden rounded-2xl" style={{ height: 315, animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '400ms' }}>
+              <div style={{ transform: 'scale(0.63)', transformOrigin: 'top left', width: '158.7%', height: 500, flexShrink: 0 }}>
+                <HeroDashboard animated={true} view="default" beige />
+              </div>
             </div>
+            <div className="pb-8 lg:hidden" />
+
           </div>
-          <div className="pb-8 lg:hidden" />
 
-        </div>
-
-        {/* Spacer — pushes dashboard to bottom on large screens */}
-        <div className="hidden lg:block" style={{ flex: '1 0 2rem', maxHeight: '6rem' }} />
-
-        {/* Desktop dashboard — in flow, peeks below */}
-        <div
-          ref={dashboardPanelRef}
-          className="hidden lg:block"
-          style={{ flexShrink: 0, marginBottom: '-110px', paddingLeft: '9%', paddingRight: '9%', position: 'relative', zIndex: 20, perspective: '1400px', animation: 'hero-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '400ms' }}
-          onMouseMove={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect()
-            const nx = (e.clientX - rect.left) / rect.width - 0.5
-            const ny = (e.clientY - rect.top) / rect.height - 0.5
-            cancelAnimationFrame(dashTiltRaf.current)
-            dashTiltRaf.current = requestAnimationFrame(() => {
-              if (dashboardGlassRef.current) {
-                dashboardGlassRef.current.style.transform = `rotateX(${ny * -6}deg) rotateY(${nx * 8}deg)`
-                dashboardGlassRef.current.style.transition = 'transform 0.12s ease'
-              }
-            })
-          }}
-          onMouseLeave={() => {
-            cancelAnimationFrame(dashTiltRaf.current)
-            if (dashboardGlassRef.current) {
-              dashboardGlassRef.current.style.transform = 'rotateX(0deg) rotateY(0deg)'
-              dashboardGlassRef.current.style.transition = 'transform 0.7s cubic-bezier(0.23,1,0.32,1)'
-            }
-          }}
-        >
-          <div ref={dashboardGlassRef} style={{ transformStyle: 'preserve-3d', position: 'relative' }}>
-            <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA />
+          {/* Right column — desktop dashboard */}
+          <div
+            className="hidden lg:block lg:w-1/2 flex-shrink-0 self-start lg:pr-24 xl:pr-32"
+            style={{ paddingTop: dashTopPad, paddingBottom: '32px' }}
+          >
+            <div style={{ zoom: 0.88 }}>
+            <div
+              ref={dashboardPanelRef}
+              style={{ position: 'relative', zIndex: 20, perspective: '1400px', animation: 'hero-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '400ms' }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                const nx = (e.clientX - rect.left) / rect.width - 0.5
+                const ny = (e.clientY - rect.top) / rect.height - 0.5
+                cancelAnimationFrame(dashTiltRaf.current)
+                dashTiltRaf.current = requestAnimationFrame(() => {
+                  if (dashboardGlassRef.current) {
+                    dashboardGlassRef.current.style.transform = `rotateX(${ny * -6}deg) rotateY(${nx * 8}deg)`
+                    dashboardGlassRef.current.style.transition = 'transform 0.12s ease'
+                  }
+                })
+              }}
+              onMouseLeave={() => {
+                cancelAnimationFrame(dashTiltRaf.current)
+                if (dashboardGlassRef.current) {
+                  dashboardGlassRef.current.style.transform = 'rotateX(0deg) rotateY(0deg)'
+                  dashboardGlassRef.current.style.transition = 'transform 0.7s cubic-bezier(0.23,1,0.32,1)'
+                }
+              }}
+            >
+              <div ref={dashboardGlassRef} style={{ transformStyle: 'preserve-3d', position: 'relative' }}>
+                <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA />
 
             {/* KPI cards lifted out of the dashboard — floats above in true 3D */}
             {/* Positioned to exactly match where KPI row sits inside HeroDashboard:
@@ -1184,10 +1161,10 @@ export default function Home() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {[
-                    { name: 'Sarah M.', avatar: '/avatars/woman 1.webp', task: 'Balance inquiry', status: 'Resolved', sc: 'green' },
-                    { name: 'James K.', avatar: '/avatars/man 1.webp', task: 'Card dispute — £89.99', status: 'In Progress', sc: 'orange' },
-                    { name: 'Marco S.', avatar: '/avatars/man 2.webp', task: 'KYC doc upload issue', status: 'Resolved', sc: 'green' },
-                    { name: 'Omar F.', avatar: '/avatars/man 3.webp', task: 'Suspicious £2,400 txn', status: 'Pending', sc: 'gray' },
+                    { name: 'Sarah M.', avatar: '/avatars/woman-1.webp', task: 'Balance inquiry', status: 'Resolved', sc: 'green' },
+                    { name: 'James K.', avatar: '/avatars/man-1.webp', task: 'Card dispute — £89.99', status: 'In Progress', sc: 'orange' },
+                    { name: 'Marco S.', avatar: '/avatars/man-2.webp', task: 'KYC doc upload issue', status: 'Resolved', sc: 'green' },
+                    { name: 'Omar F.', avatar: '/avatars/man-3.webp', task: 'Suspicious £2,400 txn', status: 'Pending', sc: 'gray' },
                   ].map((t, i) => {
                     const s = t.sc === 'green' ? { bg: 'rgba(34,197,94,0.12)', color: '#16a34a' } : t.sc === 'orange' ? { bg: 'rgba(251,154,5,0.14)', color: '#d97706' } : { bg: 'rgba(107,114,128,0.10)', color: '#6b7280' }
                     return (
@@ -1222,7 +1199,26 @@ export default function Home() {
               </div>
             </div>
           </div>
+            </div>{/* zoom wrapper */}
         </div>
+          </div>
+        </div>
+
+      {/* Full-width feature strip — individual cards, absolutely pinned to bottom */}
+      <div
+        className="z-10 hidden lg:flex w-full gap-3 lg:pl-24 xl:pl-32 lg:pr-24 xl:pr-32"
+        style={{ position: 'absolute', bottom: 32, left: 0, right: 0, paddingTop: 12, paddingBottom: 12, animation: 'hero-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '500ms' }}
+      >
+        {heroFeatures.map((item) => (
+          <div
+            key={item.regular}
+            className="flex-1"
+            style={{ background: 'rgba(255,255,255,0.09)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.14)', padding: '14px 18px' }}
+          >
+            <HeroFeatureItem item={item} />
+          </div>
+        ))}
+      </div>
 
       </section>
 
@@ -1343,7 +1339,7 @@ export default function Home() {
                       {[0, 1, 2].map(col => {
                         const offset = col * 7
                         const colItems = [...Array(12)].map((_, i) => LANGUAGES[(i + offset) % LANGUAGES.length])
-                        return <LangColumn key={col} items={colItems} pxPerSec={14} reverse={col === 1} />
+                        return <LangColumn key={col} items={colItems} duration={90} reverse={col === 1} />
                       })}
                     </div>
                   </div>
@@ -1409,12 +1405,12 @@ export default function Home() {
                   <div data-reveal className="rounded-2xl px-6 py-5 flex flex-col h-full overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
                     <p className="text-base font-semibold text-gray-900">One layer, every system</p>
                     <p className="mt-1 text-xs leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — <strong className="text-gray-700">nothing falls through the cracks.</strong></p>
-                    <div className="mt-3 rounded-xl flex-1 overflow-hidden flex flex-col justify-center gap-3 py-3" style={{ background: '#F3EFE9', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+                    <div className="mt-3 rounded-xl flex-1 overflow-hidden flex flex-col justify-center gap-6 py-5" style={{ background: '#F3EFE9', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
                       {[orbitAll.slice(0, 4), orbitAll.slice(4, 8), orbitAll.slice(8, 12), orbitAll.slice(12)].map((row, ri) => (
                         <div key={ri} className="flex overflow-hidden">
                           <div
                             className="flex shrink-0 gap-10 items-center"
-                            style={{ animation: `ticker ${[18, 24, 20, 22][ri]}s linear infinite${ri % 2 === 1 ? ' reverse' : ''}` }}
+                            style={{ animation: `${ri % 2 === 1 ? 'ticker-rev' : 'ticker'} 90s linear infinite` }}
                           >
                             {[...row, ...row, ...row, ...row].map((logo, i) => (
                               <img loading="lazy" key={i} src={logo.src} alt={logo.name} className="h-12 w-12 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
@@ -1752,10 +1748,7 @@ export default function Home() {
       <section className="pt-0 pb-12 px-4 lg:pt-2 lg:pb-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl">
           <div data-reveal className="mb-8 text-center lg:mb-10">
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest" style={{ backgroundColor: '#EDE8DF', color: '#6b7280' }}>
-              Built for fintech
-            </span>
-            <h2 className="mt-3 text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+            <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
               Do you recognise yourself <span style={{ fontWeight: 700 }}>in one of these?</span>
             </h2>
             <p className="mt-2 text-sm text-gray-500">supVision is purpose-built for fintech — see where your business fits and explore what it can do for you.</p>

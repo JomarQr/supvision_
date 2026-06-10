@@ -12,7 +12,7 @@ const sections = [
   {
     title: '2. Description of service',
     body: [
-      'supVision provides an AI-powered customer support automation platform designed for regulated financial services companies, including payment processors, neobanks, crypto/Web3 operators, lenders, and insurtech firms.',
+      'supVision provides an AI-powered customer support automation platform designed for regulated financial services companies, including payment processors, neobanks, Web3 operators, lenders, and insurtech firms.',
       'We reserve the right to modify, suspend, or discontinue any part of the Service at any time with reasonable notice to active subscribers.',
     ],
   },

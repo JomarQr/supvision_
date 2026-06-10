@@ -10,7 +10,7 @@ export default function AgentActivityHeatmap() {
       </div>
       <div className="mt-auto px-5 pb-5">
         <img
-          src="/analytics/when%20this%20user%20is%20most%20active.webp"
+          src="/analytics/when-user-is-most-active.webp"
           alt="Per-agent activity by hour"
           className="w-full rounded-2xl border border-gray-100"
           loading="lazy"

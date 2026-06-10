@@ -125,7 +125,7 @@ export interface IndustryPageData {
   subtitle: string
   description: string
   highlights: string[]
-  heroImage: string
+  heroImage?: string
   heroIcon?: Record<string, unknown>
   heroIconBg?: string
   challenges: IndustryChallenge[]

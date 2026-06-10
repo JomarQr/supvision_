@@ -16,7 +16,7 @@ const LABELS: Record<string, string> = {
   'industries': 'Industries',
   'payments-processing': 'Payments Processing',
   'neobanks': 'Neobanks',
-  'crypto-web3': 'Crypto & Web3',
+  'crypto-web3': 'Web3',
   'lending-credit': 'Lending & Credit',
   'insurtech': 'InsurTech',
   'roles': 'By Role',

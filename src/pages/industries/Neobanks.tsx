@@ -8,7 +8,7 @@ const data = {
   heroIconBg: '#EAF4EE',
   subtitle: 'Account support, identity verification, and onboarding - at the scale digital banks demand.',
   description: 'Neobanks grow fast and support needs grow faster. Your app is available 24/7 - your customers expect your support to be too. supVision handles the most common queries your team sees every day: verification queues, account issues, card queries, and onboarding drop-offs - without adding headcount.',
-  heroImage: '/industry/Neobanks & Digital Banking.webp',
+  heroImage: '/industry/neobanks-digital-banking.webp',
   highlights: [
     'Identity verification and onboarding queries resolved autonomously - no queue, no wait',
     '24/7 account and card support without adding headcount',

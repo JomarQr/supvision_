@@ -26,7 +26,7 @@ const columns = [
     links: [
       { label: 'Payments', to: '/industries/payments-processing' },
       { label: 'Digital Banking', to: '/industries/neobanks' },
-      { label: 'Crypto & Web3', to: '/industries/crypto-web3' },
+      { label: 'Web3', to: '/industries/crypto-web3' },
       { label: 'Lending', to: '/industries/lending-credit' },
       { label: 'InsurTech', to: '/industries/insurtech' },
     ],

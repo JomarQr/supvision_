@@ -8,7 +8,7 @@ const data = {
   heroIconBg: '#E9F3FB',
   subtitle: 'Dispute resolution, chargebacks, and transaction queries - automated.',
   description: 'Payment companies handle some of the highest-stakes customer support in fintech. A declined transaction at checkout costs the merchant. An unresolved dispute can become a chargeback that costs you. supVision resolves payment queries in real time, with full transaction data, before they escalate.',
-  heroImage: '/industry/Payments & Processing.webp',
+  heroImage: '/industry/payments-processing.webp',
   highlights: [
     'Automated chargeback and dispute resolution - median response under 2 minutes',
     'Real-time transaction status queries answered without agent involvement',
