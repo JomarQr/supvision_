@@ -518,7 +518,7 @@ function IndustryCard({ label, anim, to }: { label: string; anim: object | null;
       to={to}
       className="relative overflow-hidden rounded-[1.25rem] aspect-square text-left transition-colors active:scale-[0.98] focus:outline-none flex flex-col items-center justify-between p-4"
       style={{
-        backgroundColor: hovered ? '#CFE8F8' : '#EEF7FD',
+        backgroundColor: hovered ? '#B8D4F0' : '#D0E4F8',
         boxShadow: '0 4px 18px rgba(0,0,0,0.10)',
         transition: 'background-color 0.2s ease',
       }}
