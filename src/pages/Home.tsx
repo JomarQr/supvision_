@@ -1272,6 +1272,7 @@ export default function Home() {
             <div data-reveal className="mt-8 flex items-center justify-center gap-4" style={{ '--rd': '400ms' } as React.CSSProperties}>
               <Link
                 to="/support-agent"
+                aria-label="Learn more about AI Support Agent"
                 className="inline-flex min-w-[10rem] items-center justify-center rounded-full px-8 py-3 text-sm font-semibold transition-colors"
                 style={{ backgroundColor: 'transparent', color: '#111827', border: '1.5px solid rgba(17,24,39,0.35)' }}
                 onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#F97316'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#F97316'; }}
@@ -1725,6 +1726,7 @@ export default function Home() {
             <div className="mt-6 flex items-center gap-3">
               <Link
                 to="/support-agent"
+                aria-label="Learn more about AI Support Agent"
                 className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Learn more
@@ -2063,6 +2065,7 @@ export default function Home() {
               </ul>
               <Link
                 to="/security"
+                aria-label="Learn more about Security"
                 className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border-2 border-gray-900 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
               >
                 Learn more
@@ -2120,6 +2123,7 @@ export default function Home() {
               <div data-reveal className="mt-10 flex justify-center" style={{ '--rd': '200ms' } as React.CSSProperties}>
                 <Link
                   to="/security"
+                  aria-label="Learn more about Security"
                   className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition-colors"
                   style={{ backgroundColor: '#111827', color: '#fff' }}
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#F97316'; }}

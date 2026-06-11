@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import { forWhomIndustries, forWhomRoles } from '../../data/forWhom'
-import { openCalendlyPopup } from '../../lib/calendly'
+import { openCalendlyPopup, preloadCalendly } from '../../lib/calendly'
 
 let RIGHT_PANEL_LOTTIE: Record<string, object> = {}
 let ITEM_LOTTIE: Record<string, object> = {}
@@ -523,7 +523,7 @@ export default function Header() {
           onClick={openCalendlyPopup}
           className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[9px] font-bold uppercase tracking-widest transition-colors sm:text-xs border-b border-gray-200 cursor-pointer"
           style={{ backgroundColor: '#EDE8DF', color: '#111827' }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#111827'; e.currentTarget.style.color = '#F97316'; }}
+          onMouseEnter={e => { preloadCalendly(); e.currentTarget.style.backgroundColor = '#111827'; e.currentTarget.style.color = '#F97316'; }}
           onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#EDE8DF'; e.currentTarget.style.color = '#111827'; }}
         >
           <span className="relative inline-flex items-center gap-1 overflow-hidden">
@@ -555,11 +555,12 @@ export default function Header() {
               src="/component-233.webp"
               alt="Logo"
               loading="eager"
+              width="160" height="40"
               className="h-10 w-auto lg:hidden"
               style={mobileLogoInverted ? { filter: 'brightness(0) invert(1)' } : undefined}
             />
             {/* Desktop: always dark logo on beige nav */}
-            <img src="/component-233.webp" alt="Logo" loading="eager" className="hidden h-10 w-auto lg:block" />
+            <img src="/component-233.webp" alt="Logo" loading="eager" width="160" height="40" className="hidden h-10 w-auto lg:block" />
           </a>
 
           {/* Desktop Nav */}
@@ -611,7 +612,7 @@ export default function Header() {
               to="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white transition-colors"
               style={{ backgroundColor: '#F97316' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#111827')}
+              onMouseEnter={e => { preloadCalendly(); e.currentTarget.style.backgroundColor = '#111827' }}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F97316')}
             >
               Book a Demo!
