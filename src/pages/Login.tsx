@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
 
@@ -19,6 +20,11 @@ export default function Login() {
   const showPasswordError = attempted && !password
 
   return (
+    <>
+      <Helmet>
+        <title>Login — supVision</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <section className="relative flex min-h-screen flex-col px-4 sm:px-6 overflow-hidden">
       {/* Wave background — same as hero */}
       <div className="absolute inset-0 blue-gradient-hero">
@@ -123,5 +129,6 @@ export default function Login() {
         </div>
       </div>
     </section>
+    </>
   )
 }

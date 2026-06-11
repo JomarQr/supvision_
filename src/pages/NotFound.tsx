@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 export default function NotFound() {
   return (
+    <>
+      <Helmet>
+        <title>404 — Page Not Found | supVision</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
     <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
       <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">Error 404</p>
       <h1 className="mt-4 text-[8rem] font-black leading-none text-gray-100">404</h1>
@@ -19,5 +25,6 @@ export default function NotFound() {
         Back to home
       </Link>
     </div>
+    </>
   )
 }

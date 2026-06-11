@@ -948,13 +948,22 @@ export default function Home() {
         jsonLd={[
           {
             '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'supVision',
+            url: 'https://supvision.ai',
+          },
+          {
+            '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'supVision',
             url: 'https://supvision.ai',
             logo: 'https://supvision.ai/logo/logo_website.webp',
             description: 'AI-powered customer support platform built for fintech companies.',
             contactPoint: { '@type': 'ContactPoint', email: 'info@supvision.ai', contactType: 'customer support' },
-            sameAs: ['https://www.linkedin.com/company/supvision-ai/'],
+            sameAs: [
+              'https://www.linkedin.com/company/supvision-ai/',
+              'https://t.me/+447737124949',
+            ],
           },
           {
             '@context': 'https://schema.org',
