@@ -189,10 +189,12 @@
   }
   .card-wave-track-a {
     will-change: transform;
+    transform: translateZ(0);
     animation: hero-wave-scroll 22s linear infinite;
   }
   .card-wave-track-b {
     will-change: transform;
+    transform: translateZ(0);
     animation: hero-wave-scroll 30s linear infinite reverse;
   }
   .blue-gradient-hero {
