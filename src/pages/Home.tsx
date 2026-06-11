@@ -1025,8 +1025,8 @@ export default function Home() {
 
               {/* Industry marquee — below CTA, extends into dashboard area */}
               <div
-                className="mt-14 hidden lg:block overflow-hidden"
-                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms', maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 85%, transparent 100%)' }}
+                className="mt-14 hidden lg:block overflow-hidden lg:-ml-24 xl:-ml-32"
+                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms', maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 88%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 88%, transparent 100%)' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 20, animation: 'ticker 30s linear infinite', width: 'max-content' }}>
                   {[...heroIndustries, ...heroIndustries].map((ind, i) => (
