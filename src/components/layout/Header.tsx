@@ -557,7 +557,7 @@ export default function Header() {
               loading="eager"
               width="160" height="40"
               className="h-10 w-auto lg:hidden"
-              style={mobileLogoInverted ? { filter: 'brightness(0) invert(1)' } : undefined}
+              style={undefined}
             />
             {/* Desktop: always dark logo on beige nav */}
             <img src="/component-233.webp" alt="Logo" loading="eager" width="160" height="40" className="hidden h-10 w-auto lg:block" />
