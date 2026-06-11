@@ -512,8 +512,8 @@ export default function Header() {
       }}
     >
       <div
-        className={`relative overflow-visible ${isMobile && mobileShowSticky ? 'bg-white shadow-md' : 'bg-transparent'}`}
-        style={{ backgroundColor: isMobile && !mobileShowSticky ? undefined : '#faf8f5' }}
+        className={`relative overflow-visible ${isMobile ? '' : mobileShowSticky ? 'shadow-md' : 'bg-transparent'}`}
+        style={{ backgroundColor: isMobile ? '#faf8f5' : mobileShowSticky ? '#faf8f5' : undefined }}
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
@@ -629,11 +629,11 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 ${mobileMenuIconDark ? 'text-gray-900' : 'text-white'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 text-gray-900 ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 ${mobileMenuIconDark ? 'text-gray-900' : 'text-white'} ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-7 w-7 text-gray-900 ${isDark ? 'lg:text-white' : 'lg:text-gray-900'}`}>
                 <path fillRule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 8a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 8Zm0 3.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
               </svg>
             )}
