@@ -128,7 +128,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       {/* ── SIDEBAR ── */}
       <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
-          <img loading="lazy" src="/component-156.webp" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
+          <img loading="lazy" src="/component-156.webp" alt="supVision" width="67" height="28" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
         {activeNav === 'Settings' ? (
           <>

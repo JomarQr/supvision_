@@ -161,7 +161,7 @@ export default function Footer() {
           </div>
 
           <Link to="/" className="mt-10 block">
-            <img loading="lazy" src="/logo/logo_website.webp" alt="SupVision" className="h-auto w-full max-w-[220px] object-contain" />
+            <img loading="lazy" src="/logo/logo_website.webp" alt="SupVision" width="440" height="183" className="h-auto w-full max-w-[220px] object-contain" />
           </Link>
 
           <div className="mt-6 flex items-start justify-between gap-4">
@@ -193,7 +193,7 @@ export default function Footer() {
           {/* Left: logo + address */}
           <div>
             <Link to="/">
-              <img loading="lazy" src="/logo/logo_website.webp" alt="SupVision" className="h-14 w-auto" />
+              <img loading="lazy" src="/logo/logo_website.webp" alt="SupVision" width="134" height="56" className="h-14 w-auto" />
             </Link>
             <div className="mt-5">
               <p className="text-xs font-semibold text-gray-900">WILARIUM OÜ</p>

@@ -221,6 +221,9 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={() => setAgreed(!agreed)}
+                      aria-label="I agree to the Privacy Policy"
+                      role="checkbox"
+                      aria-checked={agreed}
                       className={[
                         'mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors',
                         agreed ? 'border-transparent' : 'border-gray-300 bg-white',

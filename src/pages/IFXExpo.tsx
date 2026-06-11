@@ -233,13 +233,14 @@ export default function IFXExpo() {
                     <button
                       type="button"
                       onClick={() => setAgreed(!agreed)}
+                      aria-label="I agree to the Privacy Policy"
+                      role="checkbox"
+                      aria-checked={agreed}
                       className={[
                         'mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors',
                         agreed ? 'border-transparent' : 'border-gray-300 bg-white',
                       ].join(' ')}
                       style={agreed ? { backgroundColor: '#214995' } : {}}
-                      aria-checked={agreed}
-                      role="checkbox"
                     >
                       {agreed && (
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3 text-white">
