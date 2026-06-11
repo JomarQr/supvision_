@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import PageMeta from '../components/PageMeta'
@@ -84,43 +84,51 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen px-4 pb-16 pt-24 sm:px-6 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="min-h-screen pb-16 pt-2" style={{ backgroundColor: '#faf8f5' }}>
       <PageMeta
         title="Contact supVision — Book a Demo"
         description="Book a 30-minute live walkthrough. See how supVision automates your fintech customer support in days, not months."
         path="/contact"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          name: 'Book a Demo — supVision',
+          url: 'https://supvision.ai/contact',
+          description: 'Book a 30-minute live walkthrough of supVision AI support platform.',
+          mainEntity: {
+            '@type': 'Organization',
+            name: 'supVision',
+            email: 'info@supvision.ai',
+            url: 'https://supvision.ai',
+            address: { '@type': 'PostalAddress', streetAddress: 'Vesivärava tn 50', addressLocality: 'Tallinn', addressRegion: 'Harju maakond', postalCode: '10152', addressCountry: 'EE' },
+          },
+        }}
       />
-      <div className="mx-auto max-w-3xl">
-        <div className="mb-6">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-              <path d="M10.5 13.5L3 8l7.5-5.5" />
-            </svg>
-            Back
-          </Link>
-        </div>
-        <header className="mb-8 text-center sm:mb-10">
-          <h1
-            className="text-[2.25rem] leading-tight text-gray-900 sm:text-[2.75rem]"
-            style={canelaStyle}
-          >
-            Book a Demo
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-gray-500">
+
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <header data-reveal className="mb-8 mt-8 sm:mb-10">
+          <div className="flex items-center justify-center">
+            <h1
+              className="text-[2.25rem] leading-tight text-gray-900 sm:text-[2.75rem]"
+              style={canelaStyle}
+            >
+              Book a Demo
+            </h1>
+          </div>
+          <p className="mt-4 text-center text-base leading-relaxed text-gray-500">
             We&apos;d be glad to show how AI agents handle queries, disputes, and transaction issues, so your team focuses on what needs them.
           </p>
         </header>
 
         <div
+          data-reveal
           className="relative overflow-hidden rounded-3xl"
           style={{
-            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.png)',
+            '--rd': '100ms',
+            backgroundImage: 'url(/bg/2e75cba1-8098-43e6-910e-00808d9daaa1.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-          }}
+          } as React.CSSProperties}
         >
           <div className="absolute inset-0 bg-black/10" aria-hidden />
           <div className="relative z-10 p-6 sm:p-8 lg:p-10">
@@ -149,6 +157,7 @@ export default function Contact() {
                         id="name"
                         type="text"
                         required
+                        autoComplete="name"
                         placeholder="Your full name"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -161,6 +170,7 @@ export default function Contact() {
                         id="email"
                         type="email"
                         required
+                        autoComplete="email"
                         placeholder="Your email address"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -175,6 +185,7 @@ export default function Contact() {
                       <input
                         id="phone"
                         type="text"
+                        autoComplete="tel"
                         placeholder="+1 234 567 890 or @handle"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -186,6 +197,7 @@ export default function Contact() {
                       <input
                         id="company"
                         type="text"
+                        autoComplete="organization"
                         placeholder="Your company name"
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
                       />
@@ -209,6 +221,9 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={() => setAgreed(!agreed)}
+                      aria-label="I agree to the Privacy Policy"
+                      role="checkbox"
+                      aria-checked={agreed}
                       className={[
                         'mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors',
                         agreed ? 'border-transparent' : 'border-gray-300 bg-white',
@@ -223,7 +238,7 @@ export default function Contact() {
                     </button>
                     <p className="text-xs leading-relaxed text-gray-500">
                       I agree to the{' '}
-                      <Link to="/" className="font-semibold text-gray-900 underline">
+                      <Link to="/privacy-policy" className="font-semibold text-gray-900 underline">
                         Privacy Policy
                       </Link>{' '}
                       and acknowledge that my data might be used in Google Ads to help improve analytics and advertising.

@@ -1,11 +1,14 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
 
 const data = {
   badge: 'For whom · Web3',
   title: 'Web3',
+  heroIcon: undefined,
+  heroIconBg: '#F0ECFB',
   subtitle: 'Wallet issues, verification, and volatile-volume support - handled.',
   description: 'Web3 support is unlike any other fintech vertical. Volume spikes without warning when markets move. Wallet and transaction queries require blockchain-level data. Verification requirements are strict and rejection rates are high. supVision handles the full spectrum - with real-time on-chain data and compliance-safe responses.',
-  heroImage: '/for_whom/Web3.png',
+  heroImage: '/industry/Web3.webp',
   highlights: [
     'Elastic capacity - handles market-spike volume without degradation',
     'Blockchain-level transaction data for wallet and withdrawal queries',
@@ -51,15 +54,19 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Wallet support', desc: 'Zendesk · Telegram · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/telegram.png', color: '#2AABEE', letter: 'T' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Withdrawal queries', desc: 'Intercom · WhatsApp · Jira', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }] },
-    { label: 'Verification flow', desc: 'Freshdesk · Confluence · Slack', logos: [{ logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Community support', desc: 'Telegram · WhatsApp · HubSpot', logos: [{ logoUrl: '/logos/telegram.png', color: '#2AABEE', letter: 'T' }, { logoUrl: '/logos/whatsapp.png', color: '#25D366', letter: 'W' }, { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }] },
+    { label: 'Wallet support', desc: 'Zendesk · Telegram · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/telegram.webp', color: '#2AABEE', letter: 'T' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Withdrawal queries', desc: 'Intercom · WhatsApp · Jira', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }] },
+    { label: 'Verification flow', desc: 'Freshdesk · Confluence · Slack', logos: [{ logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Community support', desc: 'Telegram · WhatsApp · HubSpot', logos: [{ logoUrl: '/logos/telegram.webp', color: '#2AABEE', letter: 'T' }, { logoUrl: '/logos/whatsapp.webp', color: '#25D366', letter: 'W' }, { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }] },
   ],
   ctaTitle: 'Never let a market spike break your support.',
   ctaDesc: 'Elastic AI support built for Web3 volume. Live in 3 days.',
 }
 
 export default function CryptoWeb3() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-340-hub-network-hover-pinch.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

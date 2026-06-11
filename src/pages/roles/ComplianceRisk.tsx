@@ -4,7 +4,7 @@ const data = {
   badge: 'By role · Compliance & Risk',
   title: 'Compliance & Risk',
   subtitle: 'Audit logs, escalation rules, and regulator-ready exports - enforced on every interaction.',
-  heroImage: '/by_role/compliance.png',
+  heroImage: '/by_role/compliance.webp',
   highlights: [
     '100% of interactions logged with full conversation audit trail',
     'Zero off-script responses - every answer runs through your approved policy',
@@ -50,10 +50,10 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Audit & compliance', desc: 'Zendesk · Jira · Confluence', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }] },
-    { label: 'Policy enforcement', desc: 'Salesforce · Freshdesk · Teams', logos: [{ logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
-    { label: 'Regulatory reporting', desc: 'Jira · Confluence · Slack', logos: [{ logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Escalation SLA tracking', desc: 'Zendesk · Salesforce · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
+    { label: 'Audit & compliance', desc: 'Zendesk · Jira · Confluence', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }] },
+    { label: 'Policy enforcement', desc: 'Salesforce · Freshdesk · Teams', logos: [{ logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
+    { label: 'Regulatory reporting', desc: 'Jira · Confluence · Slack', logos: [{ logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Escalation SLA tracking', desc: 'Zendesk · Salesforce · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
   ],
   ctaTitle: 'Compliant by default. Audit-ready always.',
   ctaDesc: 'Regulatory-grade AI support for fintech compliance teams. Live in 3 days.',

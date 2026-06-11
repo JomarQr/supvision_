@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
+import Lottie from 'lottie-react'
 import IndustryRoleMobileHero from '../../components/forWhom/IndustryRoleMobileHero'
 
 const industryFaqItems = [
@@ -40,7 +41,7 @@ function IndustryFAQItem({ item, isOpen, onToggle }: { item: { q: string; a: str
     else { el.style.maxHeight = '0px'; el.style.opacity = '0' }
   }, [isOpen])
   return (
-    <div className="overflow-hidden rounded-2xl border border-[#E5E2D8] bg-white">
+    <div className="overflow-hidden rounded-2xl bg-white" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
       <button onClick={onToggle} className="flex w-full items-center justify-between gap-4 px-6 py-6 text-left">
         <span className="text-base font-medium leading-snug text-gray-900 lg:text-[17px]">{item.q}</span>
         <span className={['flex h-6 w-6 flex-shrink-0 items-center justify-center text-gray-900 transition-transform duration-300', isOpen ? 'rotate-180' : ''].join(' ')}>
@@ -61,7 +62,7 @@ function IndustryFAQ() {
   return (
     <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
-        <div className="mb-8 text-center">
+        <div data-reveal className="mb-8 text-center">
           <h2 className="leading-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
             <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
@@ -97,7 +98,7 @@ function StackLogo({ logoUrl, color, letter }: { logoUrl: string; color: string;
       {letter}
     </span>
   ) : (
-    <img src={logoUrl} alt="" className="h-7 w-7 rounded-full border-2 border-white bg-white object-contain" onError={() => setErr(true)} />
+    <img src={logoUrl} alt="" className="h-7 w-7 rounded-full border-2 border-white bg-white object-contain" loading="lazy" onError={() => setErr(true)} />
   )
 }
 
@@ -124,7 +125,9 @@ export interface IndustryPageData {
   subtitle: string
   description: string
   highlights: string[]
-  heroImage: string
+  heroImage?: string
+  heroIcon?: Record<string, unknown>
+  heroIconBg?: string
   challenges: IndustryChallenge[]
   stacks: IndustryStack[]
   metrics: IndustryMetric[]
@@ -141,7 +144,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
   const accordionItems = data.metrics.map((m) => ({ q: m.value, a: m.label }))
 
   return (
-    <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={desc} />
@@ -151,6 +154,15 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
         <meta property="og:description" content={desc} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={desc} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://supvision.ai/" },
+            { "@type": "ListItem", "position": 2, "name": "Industries", "item": "https://supvision.ai/industries" },
+            { "@type": "ListItem", "position": 3, "name": data.title, "item": url }
+          ]
+        })}</script>
       </Helmet>
 
       <section className="px-4 pb-2 pt-4 sm:px-6 lg:hidden">
@@ -168,59 +180,60 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       {/* Hero — desktop */}
       <section className="hidden px-4 pt-8 pb-4 sm:px-6 lg:block lg:px-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div
-            className="overflow-hidden rounded-3xl border-2"
-            style={{ backgroundColor: 'transparent', borderColor: '#111827' }}
-          >
-            <div className="grid lg:grid-cols-2">
+          <div className="flex items-center gap-16">
 
-              {/* Left - text */}
-              <div className="flex flex-col justify-center px-10 py-14 lg:px-14">
-                <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
-                  {data.title}
-                </h1>
-
-                <p className="mt-4 text-base leading-relaxed text-gray-600">{data.subtitle}</p>
-
-                <ul className="mt-8 space-y-4">
-                  {data.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <span
-                        className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
-                        style={{ backgroundColor: 'rgba(33,73,149,0.12)' }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3" style={{ color: '#214995' }}>
-                          <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
-                        </svg>
-                      </span>
-                      <span className="text-sm leading-relaxed text-gray-700">{h}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-10">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
-                  >
-                    Let's chat!
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
-                      <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                    </svg>
-                  </Link>
-                </div>
+            {/* Left - text */}
+            <div data-reveal className="flex-1 min-w-0">
+              <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
+                {data.title}
+              </h1>
+              <p className="mt-4 text-base leading-relaxed text-gray-600">{data.subtitle}</p>
+              <ul className="mt-8 space-y-4">
+                {data.highlights.map((h) => (
+                  <li key={h} className="flex items-start gap-3">
+                    <span
+                      className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
+                      style={{ backgroundColor: 'rgba(33,73,149,0.12)' }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3 w-3" style={{ color: '#214995' }}>
+                        <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    <span className="text-sm leading-relaxed text-gray-700">{h}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-10">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-6 py-3 text-sm font-semibold text-gray-900 transition-colors"
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ''; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
+                >
+                  Let's chat!
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                    <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                  </svg>
+                </Link>
               </div>
+            </div>
 
-              {/* Right - image */}
-              <div className="relative hidden lg:block">
-                <img
-                  src={data.heroImage}
-                  alt={data.title}
-                  className="absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)] rounded-2xl object-cover"
+            {/* Right - icon */}
+            {data.heroIcon && (
+              <div
+                data-reveal
+                className="flex-shrink-0 flex items-center justify-center rounded-3xl"
+                style={{ width: 380, height: 380, backgroundColor: data.heroIconBg ?? '#F0F4FF' }}
+              >
+                <Lottie
+                  animationData={data.heroIcon}
+                  autoplay
+                  loop
+                  style={{ width: 240, height: 240 }}
                 />
               </div>
+            )}
 
-            </div>
           </div>
         </div>
       </section>
@@ -228,7 +241,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       {/* Challenges — desktop */}
       <section className="hidden py-16 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="overflow-hidden rounded-3xl px-10 py-10" style={{ backgroundColor: '#1A1A1A' }}>
+          <div data-reveal className="overflow-hidden rounded-3xl px-10 py-10" style={{ backgroundColor: '#1A1A1A' }}>
             <span
               className="inline-block rounded-full px-4 py-1 text-sm font-medium"
               style={{ backgroundColor: '#F5F0E8', color: '#1A1A1A' }}
@@ -266,7 +279,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       {/* Outcomes — desktop */}
       <section className="hidden pb-16 px-4 sm:px-6 lg:block lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="overflow-hidden rounded-3xl px-10 py-10" style={{ backgroundColor: '#faf8f5', border: '1px solid #e8e2d9' }}>
+          <div data-reveal className="overflow-hidden rounded-3xl px-10 py-10" style={{ backgroundColor: '#faf8f5', border: '1px solid #e8e2d9' }}>
             <span className="inline-block rounded-full border border-gray-900 px-4 py-1 text-sm font-medium text-gray-900">
               Outcomes
             </span>
@@ -291,11 +304,11 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       {/* Integrations / stacks */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-lg:pt-8">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-8 text-center">
+          <div data-reveal className="mb-8 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Integrations</p>
             <h3 className="mt-2 text-2xl font-bold text-gray-900">Popular automation stacks</h3>
           </div>
-          <div className="rounded-3xl border border-gray-100 bg-white px-10 py-10">
+          <div data-reveal className="rounded-3xl border border-gray-100 bg-white px-10 py-10" style={{ '--rd': '100ms' } as React.CSSProperties}>
             <p className="mb-8 text-sm leading-relaxed text-gray-500 w-full">
               supVision connects with the tools your team already uses. These stacks are pre-configured for {data.title} workflows — ready to deploy in days without custom development or platform migration.
             </p>
@@ -329,7 +342,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#F97316] hover:border-[#F97316] hover:text-white"
               >
                 Book a demo
               </Link>
@@ -342,13 +355,14 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
       {/* CTA */}
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div
+          data-reveal
           className="mx-auto max-w-4xl rounded-2xl px-8 py-16 text-center"
-          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <h2 className="text-3xl font-bold text-white">{data.ctaTitle}</h2>
           <p className="mt-4 text-base text-blue-200">{data.ctaDesc}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#AAC6FF]">
+            <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-gray-900 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-[#F97316] hover:border-[#F97316] hover:text-white">
               Book a demo
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />

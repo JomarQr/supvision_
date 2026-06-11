@@ -1,11 +1,14 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
 
 const data = {
   badge: 'For whom · Payments & Processing',
   title: 'Payments & Processing',
+  heroIcon: undefined,
+  heroIconBg: '#E9F3FB',
   subtitle: 'Dispute resolution, chargebacks, and transaction queries - automated.',
   description: 'Payment companies handle some of the highest-stakes customer support in fintech. A declined transaction at checkout costs the merchant. An unresolved dispute can become a chargeback that costs you. supVision resolves payment queries in real time, with full transaction data, before they escalate.',
-  heroImage: '/for_whom/Payments & Processing.png',
+  heroImage: '/industry/payments-processing.webp',
   highlights: [
     'Automated chargeback and dispute resolution - median response under 2 minutes',
     'Real-time transaction status queries answered without agent involvement',
@@ -51,15 +54,19 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Dispute resolution flow', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Chargeback automation', desc: 'Salesforce · Freshdesk · Teams', logos: [{ logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
-    { label: 'Transaction support', desc: 'Intercom · Confluence · Slack', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'CRM-aware support', desc: 'HubSpot · Salesforce · Slack', logos: [{ logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
+    { label: 'Dispute resolution flow', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Chargeback automation', desc: 'Salesforce · Freshdesk · Teams', logos: [{ logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
+    { label: 'Transaction support', desc: 'Intercom · Confluence · Slack', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'CRM-aware support', desc: 'HubSpot · Salesforce · Slack', logos: [{ logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
   ],
   ctaTitle: 'Stop losing customers to slow dispute resolution.',
   ctaDesc: 'Automated payment support with full transaction data. Live in 3 days.',
 }
 
 export default function PaymentsProcessing() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-60-card-exchange-hover-pinch.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

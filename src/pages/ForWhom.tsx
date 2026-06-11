@@ -7,14 +7,14 @@ const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as c
 
 export default function ForWhom() {
   return (
-    <div className="pt-14 lg:pt-24" style={{ backgroundColor: '#faf8f5' }}>
+    <div className="pt-0" style={{ backgroundColor: '#faf8f5' }}>
       <PageMeta
         title="Who supVision is For — Fintech Teams"
         description="Built for fintech support leaders, compliance officers, operations teams, and founders scaling customer support without scaling headcount."
         path="/for-whom"
       />
       <section className="px-4 pb-4 pt-6 text-center sm:px-6 lg:pb-8 lg:pt-10">
-        <div className="mx-auto max-w-4xl">
+        <div data-reveal className="mx-auto max-w-4xl">
           <p className="text-xs font-bold uppercase tracking-widest text-gray-400">For whom</p>
           <h1 className="mt-4 text-[1.85rem] leading-tight text-gray-900 sm:text-[2.75rem]" style={canelaStyle}>
             Built for regulated finance teams
@@ -49,7 +49,7 @@ export default function ForWhom() {
       </section>
 
       <section className="px-4 py-16 text-center sm:px-6 lg:py-20">
-        <div className="mx-auto max-w-4xl rounded-3xl px-6 py-12 sm:px-10" style={{ backgroundColor: '#1A1A1A' }}>
+        <div data-reveal className="mx-auto max-w-4xl rounded-3xl px-6 py-12 sm:px-10" style={{ backgroundColor: '#1A1A1A' }}>
           <h2 className="text-[1.65rem] leading-snug text-white sm:text-[2rem]" style={canelaStyle}>
             Not sure where you fit?
           </h2>

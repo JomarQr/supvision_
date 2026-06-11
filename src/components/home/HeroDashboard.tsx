@@ -4,11 +4,11 @@ const BARS = [42, 58, 76, 96, 62, 80, 52, 46]
 const BAR_LABELS = ['9am', '10', '11', '12', '1', '2', '3', 'now']
 
 const TICKETS = [
-  { name: 'Sarah M.',  avatar: '/avatars/woman 1.png', task: 'Balance inquiry',        status: 'Resolved',    sc: 'green'  },
-  { name: 'James K.',  avatar: '/avatars/man 1.png',   task: 'Card dispute — £89.99',  status: 'In Progress', sc: 'orange' },
-  { name: 'Marco S.',  avatar: '/avatars/man 2.png',   task: 'KYC doc upload issue',   status: 'Resolved',    sc: 'green'  },
-  { name: 'Omar F.',   avatar: '/avatars/man 3.png',   task: 'Suspicious £2,400 txn',  status: 'Pending',     sc: 'gray'   },
-  { name: 'Liu W.',    avatar: '/avatars/man 4.png',   task: 'PIN reset — locked out', status: 'In Progress', sc: 'orange' },
+  { name: 'Sarah M.',  avatar: '/avatars/woman-1.webp', task: 'Balance inquiry',        status: 'Resolved',    sc: 'green'  },
+  { name: 'James K.',  avatar: '/avatars/man-1.webp',   task: 'Card dispute — £89.99',  status: 'In Progress', sc: 'orange' },
+  { name: 'Marco S.',  avatar: '/avatars/man-2.webp',   task: 'KYC doc upload issue',   status: 'Resolved',    sc: 'green'  },
+  { name: 'Omar F.',   avatar: '/avatars/man-3.webp',   task: 'Suspicious £2,400 txn',  status: 'Pending',     sc: 'gray'   },
+  { name: 'Liu W.',    avatar: '/avatars/man-4.webp',   task: 'PIN reset — locked out', status: 'In Progress', sc: 'orange' },
 ]
 
 const NAV = [
@@ -26,9 +26,9 @@ const BLOCKED_TOPICS = [
 ]
 
 const BLOCKED_QUEUE = [
-  { name: 'Emma R.',   avatar: '/avatars/woman 1.png', msg: 'I need legal advice on my dispute',    reason: 'Legal topic',      color: '#ef4444' },
-  { name: 'James K.',  avatar: '/avatars/man 1.png',   msg: 'Help with regulatory filing — urgent', reason: 'Regulatory topic', color: '#eab308' },
-  { name: 'Omar F.',   avatar: '/avatars/man 3.png',   msg: 'Compliance question about my account', reason: 'Compliance topic', color: '#f97316' },
+  { name: 'Emma R.',   avatar: '/avatars/woman-1.webp', msg: 'I need legal advice on my dispute',    reason: 'Legal topic',      color: '#ef4444' },
+  { name: 'James K.',  avatar: '/avatars/man-1.webp',   msg: 'Help with regulatory filing — urgent', reason: 'Regulatory topic', color: '#eab308' },
+  { name: 'Omar F.',   avatar: '/avatars/man-3.webp',   msg: 'Compliance question about my account', reason: 'Compliance topic', color: '#f97316' },
 ]
 
 export type DashboardView = 'default' | 'topic-restrictions' | 'confidence' | 'confidence-reporting' | 'data-access' | 'integrations' | 'adaptivity' | 'continuous-learning' | 'industry-presets' | 'tone-style' | 'audit-logs' | 'team-performance' | 'analytics'
@@ -45,7 +45,7 @@ function StatusBadge({ status, sc }: { status: string; sc: string }) {
   )
 }
 
-export default function HeroDashboard({ animated = true, view = 'default', beige = false }: { animated?: boolean; view?: DashboardView; beige?: boolean }) {
+export default function HeroDashboard({ animated = true, view = 'default', beige = false, height = 590, hiddenKPIs, hideTeamQueue, hideSLA }: { animated?: boolean; view?: DashboardView; beige?: boolean; height?: number; hiddenKPIs?: number[]; hideTeamQueue?: boolean; hideSLA?: boolean }) {
   const bg = beige ? '#faf8f5' : '#fff'
   const divider = beige ? '#e8e2d9' : '#f0f0f0'
   const [bars, setBars] = useState(BARS)
@@ -94,6 +94,24 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
 
   const blockedEntry = BLOCKED_QUEUE[blockedIdx]
 
+  const settingsViews: DashboardView[] = ['confidence', 'topic-restrictions', 'data-access', 'continuous-learning', 'industry-presets', 'tone-style']
+  const analyticsViews: DashboardView[] = ['audit-logs', 'confidence-reporting', 'team-performance', 'analytics']
+  const activeNav = settingsViews.includes(view) ? 'Settings' : analyticsViews.includes(view) ? 'Analytics' : 'Dashboard'
+
+  const controlSubItems: { v: DashboardView; label: string }[] = [
+    { v: 'confidence',        label: 'Confidence' },
+    { v: 'topic-restrictions', label: 'Topic Rules' },
+    { v: 'data-access',       label: 'Data Access' },
+  ]
+  const adaptivitySubItems: { v: DashboardView; label: string }[] = [
+    { v: 'continuous-learning', label: 'Learning' },
+    { v: 'industry-presets',    label: 'Presets' },
+    { v: 'tone-style',          label: 'Tone & Style' },
+  ]
+  const activeSettingsGroup =
+    ['confidence', 'topic-restrictions', 'data-access'].includes(view) ? controlSubItems :
+    ['continuous-learning', 'industry-presets', 'tone-style'].includes(view) ? adaptivitySubItems : null
+
   return (
     <div style={{
       display: 'flex',
@@ -105,39 +123,76 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       fontSize: 12,
       color: '#111827',
       userSelect: 'none',
-      height: 500,
+      height,
     }}>
       {/* ── SIDEBAR ── */}
       <div style={{ width: 120, background: bg, borderRight: `1px solid ${divider}`, display: 'flex', flexDirection: 'column', padding: '16px 0', flexShrink: 0 }}>
         <div style={{ padding: '0 14px 16px' }}>
-          <img src="/Component 156 (3).png" alt="supVision" style={{ height: 28, width: 'auto', display: 'block' }} />
+          <img loading="lazy" src="/component-156.webp" alt="supVision" width="67" height="28" style={{ height: 28, width: 'auto', display: 'block' }} />
         </div>
-        <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>Menu</p>
-        {NAV.map(item => (
-          <div key={item.label} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '7px 14px',
-            background: item.active ? 'rgba(33,73,149,0.08)' : 'transparent',
-            borderLeft: item.active ? '3px solid #214995' : '3px solid transparent',
-            marginBottom: 1,
-          }}>
-            <span style={{ fontSize: 11, fontWeight: item.active ? 700 : 500, color: item.active ? '#214995' : '#6b7280' }}>
-              {item.label}
-            </span>
-            {item.badge && (
-              <span style={{ fontSize: 8, fontWeight: 700, background: '#214995', color: '#fff', borderRadius: 100, padding: '1px 5px' }}>
-                {item.badge}
-              </span>
-            )}
-          </div>
-        ))}
-        <div style={{ flex: 1 }} />
-        <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>General</p>
-        {['Settings', 'Help', 'Logout'].map(l => (
-          <div key={l} style={{ padding: '6px 14px', borderLeft: '3px solid transparent' }}>
-            <span style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af' }}>{l}</span>
-          </div>
-        ))}
+        {activeNav === 'Settings' ? (
+          <>
+            {/* Back row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 14px 10px', cursor: 'default' }}>
+              <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10, flexShrink: 0 }}>
+                <path fillRule="evenodd" d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+              </svg>
+              <span style={{ fontSize: 10, color: '#9ca3af' }}>Settings</span>
+            </div>
+            <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>
+              {['confidence', 'topic-restrictions', 'data-access'].includes(view) ? 'Control' : 'Adaptivity'}
+            </p>
+            {activeSettingsGroup && activeSettingsGroup.map(sub => (
+              <div key={sub.v} style={{
+                display: 'flex', alignItems: 'center',
+                padding: '7px 14px',
+                borderLeft: view === sub.v ? '3px solid #214995' : '3px solid transparent',
+                background: view === sub.v ? 'rgba(33,73,149,0.08)' : 'transparent',
+                marginBottom: 1,
+              }}>
+                <span style={{ fontSize: 11, fontWeight: view === sub.v ? 700 : 500, color: view === sub.v ? '#214995' : '#6b7280' }}>{sub.label}</span>
+              </div>
+            ))}
+            <div style={{ flex: 1 }} />
+            {['Help', 'Logout'].map(l => (
+              <div key={l} style={{ padding: '6px 14px', borderLeft: '3px solid transparent' }}>
+                <span style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af' }}>{l}</span>
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>Menu</p>
+            {NAV.map(item => {
+              const isActive = activeNav === item.label
+              return (
+                <div key={item.label} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '7px 14px',
+                  background: isActive ? 'rgba(33,73,149,0.08)' : 'transparent',
+                  borderLeft: isActive ? '3px solid #214995' : '3px solid transparent',
+                  marginBottom: 1,
+                }}>
+                  <span style={{ fontSize: 11, fontWeight: isActive ? 700 : 500, color: isActive ? '#214995' : '#6b7280' }}>
+                    {item.label}
+                  </span>
+                  {item.badge && (
+                    <span style={{ fontSize: 8, fontWeight: 700, background: '#214995', color: '#fff', borderRadius: 100, padding: '1px 5px' }}>
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+              )
+            })}
+            <div style={{ flex: 1 }} />
+            <p style={{ fontSize: 8.5, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.13em', textTransform: 'uppercase', padding: '0 14px 6px' }}>General</p>
+            {['Settings', 'Help', 'Logout'].map(l => (
+              <div key={l} style={{ padding: '6px 14px', borderLeft: '3px solid transparent' }}>
+                <span style={{ fontSize: 11, fontWeight: 500, color: '#9ca3af' }}>{l}</span>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       {/* ── MAIN ── */}
@@ -152,7 +207,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #1a2744 0%, #214995 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', border: '2px solid #e0e7ff' }}>
-              <img src="/Component 187 (1).png" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img loading="lazy" src="/component-187.webp" alt="supVision Agent" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, lineHeight: 1.2 }}>supVision Agent</p>
@@ -220,12 +275,12 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     <p style={{ fontSize: 11, fontWeight: 700, marginBottom: 8 }}>Live Decisions</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                       {[
-                        { name: 'Sarah M.', avatar: '/avatars/woman 1.png', query: "What's my balance?",          score: 94, auto: true  },
-                        { name: 'James K.', avatar: '/avatars/man 1.png',   query: 'Dispute — charge was wrong',  score: 31, auto: false },
-                        { name: 'Liu W.',   avatar: '/avatars/man 4.png',   query: 'How do I reset my PIN?',      score: 87, auto: true  },
+                        { name: 'Sarah M.', avatar: '/avatars/woman-1.webp', query: "What's my balance?",          score: 94, auto: true  },
+                        { name: 'James K.', avatar: '/avatars/man-1.webp',   query: 'Dispute — charge was wrong',  score: 31, auto: false },
+                        { name: 'Liu W.',   avatar: '/avatars/man-4.webp',   query: 'How do I reset my PIN?',      score: 87, auto: true  },
                       ].map((d, i) => (
                         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '6px 8px', borderRadius: 10, background: d.auto ? 'rgba(34,197,94,0.04)' : 'rgba(239,68,68,0.04)', border: `1px solid ${d.auto ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}` }}>
-                          <img src={d.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                          <img loading="lazy" src={d.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <p style={{ fontSize: 9, fontWeight: 700, margin: 0 }}>{d.name}</p>
                             <p style={{ fontSize: 9, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{d.query}</p>
@@ -450,7 +505,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     </div>
                     <div key={blockedIdx} style={{ animation: 'log-in 0.35s ease both' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                        <img src={blockedEntry.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                        <img loading="lazy" src={blockedEntry.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                         <span style={{ fontSize: 10, fontWeight: 700 }}>{blockedEntry.name}</span>
                       </div>
                       <div style={{ background: '#f3f4f6', borderRadius: '4px 10px 10px 10px', padding: '6px 10px', marginBottom: 8 }}>
@@ -499,7 +554,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   {BLOCKED_QUEUE.map((entry, i) => (
                     <div key={i} style={{ flex: 1, padding: '8px 10px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
-                        <img src={entry.avatar} alt="" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
+                        <img loading="lazy" src={entry.avatar} alt="" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
                         <span style={{ fontSize: 9, fontWeight: 700 }}>{entry.name}</span>
                       </div>
                       <p style={{ fontSize: 9, color: '#6b7280', margin: '0 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.msg}</p>
@@ -730,7 +785,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   {[
                     { label: 'Neobank',           active: true,  topics: 14, color: '#214995' },
                     { label: 'Payments',          active: true,  topics: 11, color: '#22c55e' },
-                    { label: 'Crypto / Web3',     active: true,  topics: 9,  color: '#8b5cf6' },
+                    { label: 'Web3',     active: true,  topics: 9,  color: '#8b5cf6' },
                     { label: 'Lending',           active: false, topics: 8,  color: '#9ca3af' },
                     { label: 'FX & Trading',      active: false, topics: 7,  color: '#9ca3af' },
                   ].map(p => (
@@ -844,7 +899,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                 {[
                   { label: 'Neobank',       active: true,  color: '#214995', topics: 14, coverage: 94, examples: ['Balance inquiry', 'Card freeze/unfreeze', 'KYC upload', 'Spending limits'] },
                   { label: 'Payments',      active: true,  color: '#22c55e', topics: 11, coverage: 89, examples: ['Dispute filing', 'Chargeback status', 'FX rates', 'Failed payment'] },
-                  { label: 'Crypto / Web3', active: true,  color: '#8b5cf6', topics: 9,  coverage: 81, examples: ['Wallet connect', 'Gas fee queries', 'Token transfer', 'Staking FAQ'] },
+                  { label: 'Web3', active: true,  color: '#8b5cf6', topics: 9,  coverage: 81, examples: ['Wallet connect', 'Gas fee queries', 'Token transfer', 'Staking FAQ'] },
                   { label: 'Lending',       active: false, color: '#9ca3af', topics: 8,  coverage: 0,  examples: ['Loan status', 'Repayment schedule', 'Early payoff', 'Rate enquiry'] },
                   { label: 'FX & Trading',  active: false, color: '#9ca3af', topics: 7,  coverage: 0,  examples: ['Spread queries', 'Position size', 'Margin calls', 'Market hours'] },
                   { label: 'InsurTech',     active: false, color: '#9ca3af', topics: 6,  coverage: 0,  examples: ['Policy details', 'Claim status', 'Premium info', 'Coverage FAQ'] },
@@ -881,7 +936,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   {[
                     { label: 'Neobank',       resolved: '94%', topics: 14, color: '#214995' },
                     { label: 'Payments',      resolved: '89%', topics: 11, color: '#22c55e' },
-                    { label: 'Crypto / Web3', resolved: '81%', topics: 9,  color: '#8b5cf6' },
+                    { label: 'Web3', resolved: '81%', topics: 9,  color: '#8b5cf6' },
                   ].map(p => (
                     <div key={p.label} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 10, background: '#f9fafb' }}>
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: p.color, flexShrink: 0 }} />
@@ -1189,9 +1244,9 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                 </div>
               </div>
 
-              {/* KPI row */}
+              {/* KPI row — per-card visibility:hidden preserves layout for 3D floating overlay */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
-                <div style={{ ...card({ background: '#214995', color: '#fff', position: 'relative', overflow: 'hidden' }) }}>
+                <div style={{ ...card({ background: '#214995', color: '#fff', position: 'relative', overflow: 'hidden' }), visibility: hiddenKPIs?.includes(0) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="white" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1199,7 +1254,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, marginBottom: 5 }}>847</p>
                   <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(255,255,255,0.18)', color: '#fff', borderRadius: 100, padding: '2px 7px' }}>↑ 12% from yesterday</span>
                 </div>
-                <div style={card()}>
+                <div style={{ ...card(), visibility: hiddenKPIs?.includes(1) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1207,7 +1262,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, marginBottom: 5 }}>578</p>
                   <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(34,197,94,0.12)', color: '#16a34a', borderRadius: 100, padding: '2px 7px' }}>↑ 4% vs last week</span>
                 </div>
-                <div style={card()}>
+                <div style={{ ...card(), visibility: hiddenKPIs?.includes(2) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1215,7 +1270,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 26, fontWeight: 800, lineHeight: 1, marginBottom: 5 }}>1.2s</p>
                   <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(34,197,94,0.12)', color: '#16a34a', borderRadius: 100, padding: '2px 7px' }}>↓ 0.3s faster</span>
                 </div>
-                <div style={card()}>
+                <div style={{ ...card(), visibility: hiddenKPIs?.includes(3) ? 'hidden' : undefined }}>
                   <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                   </div>
@@ -1264,7 +1319,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
 
               {/* Row 3: Tickets + Gauge + SLA */}
               <div style={{ display: 'grid', gridTemplateColumns: '1.55fr 0.75fr 0.75fr', gap: 10 }}>
-                <div style={card({ padding: '12px 14px' })}>
+                <div style={{ ...card({ padding: '12px 14px' }), visibility: hideTeamQueue ? 'hidden' : undefined }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                     <p style={{ fontSize: 11, fontWeight: 700 }}>Team Queue</p>
                     <button style={{ fontSize: 9, fontWeight: 700, border: '1px solid #e5e7eb', borderRadius: 100, padding: '2px 8px', background: '#fff', cursor: 'default', color: '#374151' }}>+ Assign</button>
@@ -1272,7 +1327,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     {visibleTickets.map((t, i) => (
                       <div key={`${rowOffset}-${i}`} style={{ display: 'flex', alignItems: 'center', gap: 8, animation: 'log-in 0.3s ease both', animationDelay: `${i * 0.06}s` }}>
-                        <img src={t.avatar} alt={t.name} style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1.5px solid #e5e7eb' }} />
+                        <img loading="lazy" src={t.avatar} alt={t.name} style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '1.5px solid #e5e7eb' }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ fontSize: 10, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>{t.name}</p>
                           <p style={{ fontSize: 9, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.task}</p>
@@ -1302,7 +1357,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     ))}
                   </div>
                 </div>
-                <div style={{ ...card({ background: '#1a2744', padding: '12px 12px' }), display: 'flex', flexDirection: 'column' }}>
+                <div style={{ ...card({ background: '#1a2744', padding: '12px 12px' }), display: 'flex', flexDirection: 'column', visibility: hideSLA ? 'hidden' : undefined }}>
                   <p style={{ fontSize: 11, fontWeight: 700, color: '#fff', marginBottom: 4 }}>SLA Tracker</p>
                   <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', marginBottom: 10 }}>Next breach in</p>
                   <p style={{ fontSize: 28, fontWeight: 800, color: sla < 20 ? '#ef4444' : '#4ade80', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>

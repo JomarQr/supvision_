@@ -20,21 +20,21 @@ const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as c
 
 const certCards: (ImageCertCard | TextCertCard)[] = [
   {
-    badge: '/gdpr.png',
+    badge: '/gdpr.webp',
     badgeAlt: 'GDPR Compliant',
     title: 'GDPR Compliance',
     desc: 'GDPR-compliant data handling, right-to-erasure, and data minimisation built into every workflow.',
     badgeOversize: false,
   },
   {
-    badge: '/badge/image.png',
+    badge: '/badge/image.webp',
     badgeAlt: 'PCI DSS Compliant',
     title: 'PCI DSS Aligned',
     desc: 'No raw card data ever enters our system. Payment-sensitive fields are stripped and tokenised before AI processing.',
     badgeOversize: true,
   },
   {
-    badge: '/nda.png',
+    badge: '/nda.webp',
     badgeAlt: 'NDA protected',
     title: 'NDA-Protected Data',
     desc: 'All client data is protected under a signed NDA. supVision staff cannot access your customer records by design.',
@@ -139,7 +139,7 @@ export default function Security() {
 
       {/* Hero */}
       <section
-        className="px-4 pb-16 pt-28 text-center sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-32"
+        className="px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-20 lg:px-8 lg:pb-24 lg:pt-16"
         style={{ backgroundColor: '#faf8f5' }}
       >
         <div className="mx-auto max-w-3xl">
@@ -169,7 +169,7 @@ export default function Security() {
               >
                 <CertBadgeRing oversize={'badge' in card && card.badgeOversize}>
                   {'badge' in card ? (
-                    <img
+                    <img loading="lazy"
                       src={card.badge}
                       alt={card.badgeAlt}
                       className={
@@ -203,14 +203,18 @@ export default function Security() {
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link
-                to="/contact"
-                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
+                to="/privacy-policy"
+                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
               >
                 Privacy Policy
               </Link>
               <Link
-                to="/contact"
-                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-900/5"
+                to="/data-policy"
+                className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 bg-transparent px-6 py-2.5 text-sm font-semibold text-gray-900 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#F97316'; (e.currentTarget as HTMLElement).style.borderColor = '#F97316'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = '#111827'; (e.currentTarget as HTMLElement).style.color = ''; }}
               >
                 Data Policy
               </Link>
@@ -224,7 +228,7 @@ export default function Security() {
         <div
           className="mx-auto max-w-4xl rounded-2xl px-6 py-12 text-center sm:px-8 sm:py-16"
           style={{
-            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.png)',
+            backgroundImage: 'url(/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

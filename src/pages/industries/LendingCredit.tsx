@@ -1,11 +1,13 @@
+import { useState, useEffect } from 'react'
 import IndustryPage from './IndustryPage'
 
 const data = {
   badge: 'For whom · Lending & Credit',
   title: 'Lending & Credit',
+  heroIcon: undefined,
+  heroIconBg: '#FDF4E7',
   subtitle: 'Loan queries, repayment issues, and eligibility checks - resolved instantly.',
   description: 'Lending support is high-stakes and regulation-heavy. Customers under financial stress need fast, accurate answers. Your team needs to respond without giving advice that crosses regulatory lines. supVision handles the most common lending queries autonomously - accurately, compliantly, and at any volume.',
-  heroImage: '/for_whom/Lending & Credit.png',
   highlights: [
     '98.4% resolution rate for standard lending support queries',
     'Repayment and eligibility queries resolved in under 2 minutes',
@@ -51,15 +53,19 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Repayment support', desc: 'Zendesk · Mambu · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/mambu.png', color: '#FF6B35', letter: 'M' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Eligibility queries', desc: 'Salesforce · HubSpot · Teams', logos: [{ logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }] },
-    { label: 'Collections flow', desc: 'Freshdesk · Confluence · Slack', logos: [{ logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Document requests', desc: 'Intercom · Notion · HubSpot', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/notion.png', color: '#000', letter: 'N' }, { logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }] },
+    { label: 'Repayment support', desc: 'Zendesk · Mambu · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/mambu.webp', color: '#FF6B35', letter: 'M' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Eligibility queries', desc: 'Salesforce · HubSpot · Teams', logos: [{ logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }] },
+    { label: 'Collections flow', desc: 'Freshdesk · Confluence · Slack', logos: [{ logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Document requests', desc: 'Intercom · Notion · HubSpot', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/notion.webp', color: '#000', letter: 'N' }, { logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }] },
   ],
   ctaTitle: 'Give borrowers the answers they need, instantly.',
   ctaDesc: 'Compliant, accurate lending support at any volume. Live in 3 days.',
 }
 
 export default function LendingCredit() {
-  return <IndustryPage data={data} />
+  const [heroIcon, setHeroIcon] = useState<Record<string, unknown> | undefined>(undefined)
+  useEffect(() => {
+    import('../../assets/icons-colored/doodle-color-416-loan-hover-pinch.json').then(m => setHeroIcon(m.default))
+  }, [])
+  return <IndustryPage data={{ ...data, heroIcon }} />
 }

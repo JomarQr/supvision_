@@ -10,7 +10,7 @@ const data = {
     'Hard stops for fraud, regulatory complaints, and legal threats',
     'Every escalation logged with confidence score and reason',
   ],
-  coreImage: '/Core Functionalities/Escalation Rules.png',
+  coreImage: '/core-functionalities/escalation-rules.webp',
   points: [
     { icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM6.25 8a1.75 1.75 0 1 1 3.5 0 1.75 1.75 0 0 1-3.5 0Z" clipRule="evenodd" /></svg>, title: 'Confidence thresholds', desc: 'Set a minimum confidence score for each query category. Below the threshold, the agent escalates automatically - with the full context and the reason for uncertainty included.' },
     { icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4"><path d="M2 3.5A1.5 1.5 0 0 1 3.5 2h2.879a1.5 1.5 0 0 1 1.06.44l6.122 6.12a1.5 1.5 0 0 1 0 2.122l-2.878 2.878a1.5 1.5 0 0 1-2.122 0L2.44 7.439A1.5 1.5 0 0 1 2 6.38V3.5Zm4.5 1a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z" /></svg>, title: 'Query-type routing', desc: 'Route different query types to different teams. Verification disputes go to compliance. Fraud flags go to the fraud team. Complex account queries go to senior support.' },

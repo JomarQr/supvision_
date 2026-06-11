@@ -4,7 +4,7 @@ const data = {
   badge: 'By role · Operations & Growth',
   title: 'Operations & Growth',
   subtitle: 'Scale support without scaling headcount.',
-  heroImage: '/by_role/operations.png',
+  heroImage: '/by_role/operations.webp',
   highlights: [
     'Elastic capacity - no queue degradation at any volume',
     '50+ languages supported for international expansion without new hires',
@@ -50,10 +50,10 @@ const data = {
     },
   ],
   stacks: [
-    { label: 'Scale operations', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.png', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Multi-market support', desc: 'Freshdesk · Teams · Confluence', logos: [{ logoUrl: '/logos/freshdesk.png', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.png', color: '#6264A7', letter: 'T' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }] },
-    { label: 'Automation flows', desc: 'Intercom · Confluence · Slack', logos: [{ logoUrl: '/logos/intecom (1).png', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/confluence.png', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.png', color: '#4A154B', letter: 'S' }] },
-    { label: 'Growth analytics', desc: 'HubSpot · Salesforce · Jira', logos: [{ logoUrl: '/logos/hubspot.png', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/salesforce.png', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/jira.png', color: '#0052CC', letter: 'J' }] },
+    { label: 'Scale operations', desc: 'Zendesk · Jira · Slack', logos: [{ logoUrl: '/logos/zendesk.webp', color: '#03363D', letter: 'Z' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Multi-market support', desc: 'Freshdesk · Teams · Confluence', logos: [{ logoUrl: '/logos/freshdesk.webp', color: '#25C16F', letter: 'F' }, { logoUrl: '/logos/teams.webp', color: '#6264A7', letter: 'T' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }] },
+    { label: 'Automation flows', desc: 'Intercom · Confluence · Slack', logos: [{ logoUrl: '/logos/intecom (1).webp', color: '#1F8FEF', letter: 'I' }, { logoUrl: '/logos/confluence.webp', color: '#0052CC', letter: 'C' }, { logoUrl: '/logos/slack.webp', color: '#4A154B', letter: 'S' }] },
+    { label: 'Growth analytics', desc: 'HubSpot · Salesforce · Jira', logos: [{ logoUrl: '/logos/hubspot.webp', color: '#FF7A59', letter: 'H' }, { logoUrl: '/logos/salesforce.webp', color: '#00A1E0', letter: 'S' }, { logoUrl: '/logos/jira.webp', color: '#0052CC', letter: 'J' }] },
   ],
   ctaTitle: 'Grow your customer base, not your support costs.',
   ctaDesc: 'Operational AI support that scales with your ambitions. Live in 3 days.',
