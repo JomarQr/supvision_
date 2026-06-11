@@ -19,7 +19,10 @@ const app = (
 
 // If pre-rendered HTML is present, hydrate it - otherwise create from scratch (dev)
 if (container.innerHTML.trim()) {
-  hydrateRoot(container, app)
+  hydrateRoot(container, app, {
+    // Suppress recoverable hydration mismatches from Suspense/lazy boundary differences
+    onRecoverableError: () => {},
+  })
 } else {
   createRoot(container).render(app)
 }
