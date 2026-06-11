@@ -512,8 +512,8 @@ export default function Header() {
       }}
     >
       <div
-        className={`relative overflow-visible ${isMobile ? '' : mobileShowSticky ? 'shadow-md' : 'bg-transparent'}`}
-        style={{ backgroundColor: isMobile ? '#faf8f5' : mobileShowSticky ? '#faf8f5' : undefined }}
+        className="relative overflow-visible"
+        style={{ backgroundColor: '#faf8f5' }}
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
