@@ -600,7 +600,8 @@ function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim
 
   return (
     <div
-      className="flex items-center gap-2 cursor-default"
+      className="flex items-center gap-2 cursor-default w-full h-full"
+      style={{ padding: '14px 18px' }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
@@ -785,7 +786,6 @@ export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const heroSectionRef = useRef<HTMLElement>(null)
   const heroH1Ref = useRef<HTMLHeadingElement>(null)
-  const [dashTopPad, setDashTopPad] = useState(88)
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const dashTiltRaf = useRef<number>(0)
@@ -909,19 +909,6 @@ export default function Home() {
     }
   }, [featuresOpen])
 
-  useEffect(() => {
-    const measure = () => {
-      const section = heroSectionRef.current
-      const h1 = heroH1Ref.current
-      if (!section || !h1) return
-      const sTop = section.getBoundingClientRect().top
-      const hTop = h1.getBoundingClientRect().top
-      setDashTopPad(Math.round(hTop - sTop))
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -1034,8 +1021,8 @@ export default function Home() {
 
               {/* Industry marquee — below CTA, extends into dashboard area */}
               <div
-                className="mt-14 hidden lg:block overflow-hidden lg:-ml-24 xl:-ml-32"
-                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms', maskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)' }}
+                className="mt-10 hidden lg:block overflow-hidden lg:-ml-24 xl:-ml-32"
+                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '900ms', maskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 20, animation: 'ticker 30s linear infinite', width: 'max-content' }}>
                   {[...heroIndustries, ...heroIndustries].map((ind, i) => (
@@ -1063,7 +1050,7 @@ export default function Home() {
           {/* Right column — desktop dashboard */}
           <div
             className="hidden lg:block lg:w-1/2 flex-shrink-0 self-start lg:pr-24 xl:pr-32"
-            style={{ paddingTop: Math.max(0, dashTopPad - 10), paddingBottom: '32px' }}
+            style={{ paddingTop: 138, paddingBottom: '32px' }}
           >
             <div style={{ zoom: 0.88 }}>
             <div
@@ -1090,7 +1077,7 @@ export default function Home() {
               }}
             >
               <div ref={dashboardGlassRef} style={{ transformStyle: 'preserve-3d', position: 'relative' }}>
-                <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA />
+                <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA height={545} />
 
             {/* KPI cards lifted out of the dashboard — floats above in true 3D */}
             {/* Positioned to exactly match where KPI row sits inside HeroDashboard:
@@ -1222,7 +1209,7 @@ export default function Home() {
           <div
             key={item.regular}
             className="flex-1"
-            style={{ background: 'rgba(255,255,255,0.09)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.14)', padding: '14px 18px' }}
+            style={{ background: 'rgba(255,255,255,0.09)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.14)' }}
           >
             <HeroFeatureItem item={item} />
           </div>
@@ -1415,15 +1402,15 @@ export default function Home() {
                   <div data-reveal className="rounded-2xl px-6 py-5 flex flex-col h-full overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
                     <p className="text-base font-semibold text-gray-900">One layer, every system</p>
                     <p className="mt-1 text-xs leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — <strong className="text-gray-700">nothing falls through the cracks.</strong></p>
-                    <div className="mt-3 rounded-xl flex-1 overflow-hidden flex flex-col justify-center gap-6 py-5" style={{ background: '#F3EFE9', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+                    <div className="mt-3 rounded-xl flex-1 flex flex-col justify-center gap-3 py-3" style={{ background: '#F3EFE9', overflow: 'clip', maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)' }}>
                       {[orbitAll.slice(0, 4), orbitAll.slice(4, 8), orbitAll.slice(8, 12), orbitAll.slice(12)].map((row, ri) => (
-                        <div key={ri} className="flex overflow-hidden">
+                        <div key={ri} className="flex" style={{ overflow: 'clip' }}>
                           <div
-                            className="flex shrink-0 gap-10 items-center"
+                            className="flex shrink-0 gap-8 items-center"
                             style={{ animation: `${ri % 2 === 1 ? 'ticker-rev' : 'ticker'} 90s linear infinite` }}
                           >
                             {[...row, ...row, ...row, ...row].map((logo, i) => (
-                              <img loading="lazy" key={i} src={logo.src} alt={logo.name} className="h-12 w-12 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                              <img loading="lazy" key={i} src={logo.src} alt={logo.name} className="h-10 w-10 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                             ))}
                           </div>
                         </div>
