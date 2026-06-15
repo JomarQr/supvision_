@@ -101,12 +101,7 @@ function getEmailRateLimiter(): Ratelimit | null {
 
 async function isRateLimited(ip: string): Promise<boolean> {
   const limiter = getIpRateLimiter();
-  if (!limiter) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Rate limiter is not configured');
-    }
-    return false;
-  }
+  if (!limiter) return false;
 
   const result = await limiter.limit(ip);
   return !result.success;
@@ -114,12 +109,7 @@ async function isRateLimited(ip: string): Promise<boolean> {
 
 async function isEmailRateLimited(email: string): Promise<boolean> {
   const limiter = getEmailRateLimiter();
-  if (!limiter) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Rate limiter is not configured');
-    }
-    return false;
-  }
+  if (!limiter) return false;
 
   const result = await limiter.limit(email.toLowerCase());
   return !result.success;
@@ -195,10 +185,6 @@ function getSendGridErrorSummary(err: unknown): string {
 
 async function verifyTurnstileToken(token: string, ip: string): Promise<boolean> {
   if (!process.env.TURNSTILE_SECRET_KEY) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Turnstile secret key is not configured');
-    }
-
     return true;
   }
 
