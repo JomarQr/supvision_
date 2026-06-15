@@ -53,6 +53,12 @@ function isAllowedOrigin(origin: string, env: Env): boolean {
   if (!normalized) return false
   if (isLocalOrigin(origin)) return true
 
+  // Allow all Cloudflare Pages preview branches (*.supvi.pages.dev)
+  try {
+    const { hostname } = new URL(origin)
+    if (hostname === 'supvi.pages.dev' || hostname.endsWith('.supvi.pages.dev')) return true
+  } catch { /* ignore */ }
+
   const extra = (env.ALLOWED_ORIGINS ?? '').split(',').map(o => normalizeOrigin(o.trim())).filter(Boolean) as string[]
   const allowed = new Set([...DEFAULT_ALLOWED_ORIGINS.map(o => normalizeOrigin(o)).filter(Boolean) as string[], ...extra])
   return allowed.has(normalized)
