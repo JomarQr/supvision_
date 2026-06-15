@@ -841,29 +841,27 @@ export default function Header() {
         {/* Main nav */}
         <div className={`absolute inset-0 overflow-y-auto transition-transform duration-300 ease-in-out ${mobileScreen === 'main' ? 'translate-x-0' : '-translate-x-full'}`}>
           <nav className="flex flex-col gap-2 px-2 pt-1 pb-2">
-            <Link to="/" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>Home</Link>
-            <button onClick={() => setMobileScreen('overview')} className="flex w-full items-center justify-between rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>
+            <Link to="/" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>Home</Link>
+            <button onClick={() => setMobileScreen('overview')} className="flex w-full items-center justify-between rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
               Overview
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </button>
-            <button onClick={() => setMobileScreen('forwhom')} className="flex w-full items-center justify-between rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>
+            <button onClick={() => setMobileScreen('forwhom')} className="flex w-full items-center justify-between rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
               For whom?
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-3.5 w-3.5 text-gray-900">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
               </svg>
             </button>
-            <Link to="/pricing" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>Pricing</Link>
-            <Link to="/security" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>Security</Link>
-            <Link to="/about" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ border: '1.5px solid #111827' }}>About us</Link>
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
+            <Link to="/pricing" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>Pricing</Link>
+            <Link to="/security" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>Security</Link>
+            <Link to="/about" className="rounded-lg px-7 py-5 text-lg font-medium text-gray-900" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>About us</Link>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 self-center rounded-full px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
               <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#F97316' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white flex-shrink-0">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
             <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center text-sm text-gray-900">
               Log in
@@ -877,7 +875,7 @@ export default function Header() {
             {overviewCategories.map(cat => {
               const isOpen = openOverviewCat === cat.key
               return (
-                <div key={cat.key} className="overflow-hidden rounded-2xl" style={{ border: '1.5px solid #111827' }}>
+                <div key={cat.key} className="overflow-hidden rounded-2xl" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
                   <button onClick={() => toggleOverviewCat(cat.key)} className="flex w-full items-center justify-between px-7 py-5 text-lg font-medium text-gray-900">
                     {cat.label}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-5 w-5 text-gray-900 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
@@ -904,13 +902,11 @@ export default function Header() {
                 </div>
               )
             })}
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 self-center rounded-full px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
               <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#F97316' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white flex-shrink-0">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
             <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center text-sm text-gray-900">
               Log in
@@ -924,7 +920,7 @@ export default function Header() {
             {forWhomCategories.map(cat => {
               const isOpen = openForWhomCat === cat.key
               return (
-                <div key={cat.key} className="overflow-hidden rounded-2xl" style={{ border: '1.5px solid #111827' }}>
+                <div key={cat.key} className="overflow-hidden rounded-2xl" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
                   <button onClick={() => toggleForWhomCat(cat.key)} className="flex w-full items-center justify-between px-7 py-5 text-lg font-medium text-gray-900">
                     {cat.label}
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-5 w-5 text-gray-900 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
@@ -949,13 +945,11 @@ export default function Header() {
                 </div>
               )
             })}
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center gap-5 self-center rounded-full pl-5 pr-2 py-2 text-sm font-semibold text-white" style={{ backgroundColor: '#4E6EAB' }}>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 self-center rounded-full px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
               <span>Book a Demo!</span>
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: '#F97316' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                </svg>
-              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white flex-shrink-0">
+                <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+              </svg>
             </Link>
             <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-center text-sm text-gray-900">
               Log in

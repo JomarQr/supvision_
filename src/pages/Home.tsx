@@ -305,29 +305,25 @@ function FeatureTabSection({ showHeading = true }: { showHeading?: boolean } = {
         </div>
 
         {/* Content */}
-        <div data-reveal className={`flex items-stretch gap-8 ${isMobile ? 'flex-col' : (reversed ? 'flex-row-reverse' : 'flex-row')}`} style={{ '--rd': '160ms' } as React.CSSProperties}>
-
-          {/* Features list */}
-          <div className={`${isMobile ? 'w-full' : 'w-[36%]'} flex-shrink-0 flex flex-col`}>
-            <h3 className="text-2xl leading-snug text-gray-900 mb-2" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>{tab.heading}</h3>
-            <p className="text-sm leading-relaxed text-gray-500 mb-6">{tab.description}</p>
-            <div className="divide-y divide-gray-200">
-            {tab.features.map((f, i) => (
-              <div key={f.title}>
-                <button
-                  onClick={() => setOpenIdx(i)}
-                  className="flex w-full items-center justify-between py-4 text-left"
-                >
-                  <span className={`font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'} ${isMobile ? 'text-base' : 'text-xl'}`}>{f.title}</span>
-                  <span className="ml-4 flex-shrink-0 text-2xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
-                </button>
-                {openIdx === i && (
-                  <p className={`pb-4 leading-relaxed text-gray-500 ${isMobile ? 'text-sm' : 'text-sm'}`}>{f.body}</p>
-                )}
+        {isMobile ? (
+          /* ── Mobile: heading → dashboard → accordion ── */
+          <div data-reveal className="flex flex-col gap-6" style={{ '--rd': '160ms' } as React.CSSProperties}>
+            <div style={{ overflow: 'hidden', borderRadius: '1rem', height: 268 }}>
+              <div style={{ transform: 'scale(0.536)', transformOrigin: 'top left', width: '186.6%', height: 500, flexShrink: 0 }}>
+                <HeroDashboard animated view={dashView} />
               </div>
-            ))}
             </div>
-            <div className="flex-1" />
+            <div className="divide-y divide-gray-200">
+              {tab.features.map((f, i) => (
+                <div key={f.title}>
+                  <button onClick={() => setOpenIdx(i)} className="flex w-full items-center justify-between py-4 text-left">
+                    <span className={`text-base font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
+                    <span className="ml-4 flex-shrink-0 text-2xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
+                  </button>
+                  {openIdx === i && <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.body}</p>}
+                </div>
+              ))}
+            </div>
             <Link
               to="/support-agent"
               className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
@@ -341,21 +337,42 @@ function FeatureTabSection({ showHeading = true }: { showHeading?: boolean } = {
               </svg>
             </Link>
           </div>
-
-          {/* Dashboard */}
-          <div className={`${isMobile ? 'w-full' : 'w-[55%] flex-shrink-0 ml-auto'}`} style={isMobile ? undefined : { marginRight: '-3%' }}>
-            {isMobile ? (
-              <div style={{ overflow: 'hidden', borderRadius: '1rem', height: 268 }}>
-                <div style={{ transform: 'scale(0.536)', transformOrigin: 'top left', width: '186.6%', height: 500, flexShrink: 0 }}>
-                  <HeroDashboard animated view={dashView} />
-                </div>
+        ) : (
+          /* ── Desktop: features left, dashboard right ── */
+          <div data-reveal className={`flex items-stretch gap-8 ${reversed ? 'flex-row-reverse' : 'flex-row'}`} style={{ '--rd': '160ms' } as React.CSSProperties}>
+            <div className="w-[36%] flex-shrink-0 flex flex-col">
+              <h3 className="text-2xl leading-snug text-gray-900 mb-2" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>{tab.heading}</h3>
+              <p className="text-sm leading-relaxed text-gray-500 mb-6">{tab.description}</p>
+              <div className="divide-y divide-gray-200">
+                {tab.features.map((f, i) => (
+                  <div key={f.title}>
+                    <button onClick={() => setOpenIdx(i)} className="flex w-full items-center justify-between py-4 text-left">
+                      <span className={`text-xl font-semibold transition-colors ${openIdx === i ? 'text-gray-900' : 'text-gray-400'}`}>{f.title}</span>
+                      <span className="ml-4 flex-shrink-0 text-2xl leading-none text-gray-400">{openIdx === i ? '−' : '+'}</span>
+                    </button>
+                    {openIdx === i && <p className="pb-4 text-sm leading-relaxed text-gray-500">{f.body}</p>}
+                  </div>
+                ))}
               </div>
-            ) : (
+              <div className="flex-1" />
+              <Link
+                to="/support-agent"
+                className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
+                style={{ border: '1.5px solid rgba(17,24,39,0.25)', color: '#111827', alignSelf: 'flex-start' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#F97316'; e.currentTarget.style.borderColor = '#F97316'; e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.borderColor = 'rgba(17,24,39,0.25)'; e.currentTarget.style.color = '#111827'; }}
+              >
+                See it in action
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0">
+                  <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+            <div className="w-[55%] flex-shrink-0 ml-auto" style={{ marginRight: '-3%' }}>
               <HeroDashboard animated view={dashView} height={460} />
-            )}
+            </div>
           </div>
-
-        </div>
+        )}
       </div>
     </section>
   )
@@ -600,7 +617,8 @@ function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim
 
   return (
     <div
-      className="flex items-center gap-2 cursor-default"
+      className="flex items-center gap-2 cursor-default w-full h-full"
+      style={{ padding: '14px 18px' }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
@@ -785,7 +803,6 @@ export default function Home() {
   const clipRef = useRef<HTMLDivElement>(null)
   const heroSectionRef = useRef<HTMLElement>(null)
   const heroH1Ref = useRef<HTMLHeadingElement>(null)
-  const [dashTopPad, setDashTopPad] = useState(88)
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
   const dashTiltRaf = useRef<number>(0)
@@ -909,19 +926,6 @@ export default function Home() {
     }
   }, [featuresOpen])
 
-  useEffect(() => {
-    const measure = () => {
-      const section = heroSectionRef.current
-      const h1 = heroH1Ref.current
-      if (!section || !h1) return
-      const sTop = section.getBoundingClientRect().top
-      const hTop = h1.getBoundingClientRect().top
-      setDashTopPad(Math.round(hTop - sTop))
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -1034,8 +1038,8 @@ export default function Home() {
 
               {/* Industry marquee — below CTA, extends into dashboard area */}
               <div
-                className="mt-14 hidden lg:block overflow-hidden lg:-ml-24 xl:-ml-32"
-                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '320ms', maskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)' }}
+                className="mt-10 hidden lg:block overflow-hidden lg:-ml-24 xl:-ml-32"
+                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '900ms', maskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 20, animation: 'ticker 30s linear infinite', width: 'max-content' }}>
                   {[...heroIndustries, ...heroIndustries].map((ind, i) => (
@@ -1063,7 +1067,7 @@ export default function Home() {
           {/* Right column — desktop dashboard */}
           <div
             className="hidden lg:block lg:w-1/2 flex-shrink-0 self-start lg:pr-24 xl:pr-32"
-            style={{ paddingTop: Math.max(0, dashTopPad - 10), paddingBottom: '32px' }}
+            style={{ paddingTop: 138, paddingBottom: '32px' }}
           >
             <div style={{ zoom: 0.88 }}>
             <div
@@ -1090,7 +1094,7 @@ export default function Home() {
               }}
             >
               <div ref={dashboardGlassRef} style={{ transformStyle: 'preserve-3d', position: 'relative' }}>
-                <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA />
+                <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA height={545} />
 
             {/* KPI cards lifted out of the dashboard — floats above in true 3D */}
             {/* Positioned to exactly match where KPI row sits inside HeroDashboard:
@@ -1222,7 +1226,7 @@ export default function Home() {
           <div
             key={item.regular}
             className="flex-1"
-            style={{ background: 'rgba(255,255,255,0.09)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.14)', padding: '14px 18px' }}
+            style={{ background: 'rgba(255,255,255,0.09)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.14)' }}
           >
             <HeroFeatureItem item={item} />
           </div>
@@ -1232,7 +1236,7 @@ export default function Home() {
       </section>
 
       {/* Questions + Stat cards */}
-      <section className="relative z-10 -mt-10 rounded-t-[2.5rem] pt-16 pb-20 px-4 sm:px-6 lg:rounded-none lg:mt-0 lg:pt-16 bg-[#F1EDE9] lg:bg-[#faf8f5]">
+      <section className="relative z-10 pt-16 pb-20 px-4 sm:px-6 lg:pt-16 bg-[#F1EDE9] lg:bg-[#faf8f5]">
         <div className="mx-auto max-w-7xl px-6">
 
           {/* ── ZONE 1: Intro + 4 metrics ── desktop */}
@@ -1415,15 +1419,15 @@ export default function Home() {
                   <div data-reveal className="rounded-2xl px-6 py-5 flex flex-col h-full overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
                     <p className="text-base font-semibold text-gray-900">One layer, every system</p>
                     <p className="mt-1 text-xs leading-relaxed text-gray-500">Sits between your chats, ticket system, providers, and business ops — <strong className="text-gray-700">nothing falls through the cracks.</strong></p>
-                    <div className="mt-3 rounded-xl flex-1 overflow-hidden flex flex-col justify-center gap-6 py-5" style={{ background: '#F3EFE9', maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+                    <div className="mt-3 rounded-xl flex-1 flex flex-col justify-center gap-5 py-4" style={{ background: '#F3EFE9', overflow: 'clip', maskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)' }}>
                       {[orbitAll.slice(0, 4), orbitAll.slice(4, 8), orbitAll.slice(8, 12), orbitAll.slice(12)].map((row, ri) => (
-                        <div key={ri} className="flex overflow-hidden">
+                        <div key={ri} className="flex" style={{ overflow: 'clip' }}>
                           <div
-                            className="flex shrink-0 gap-10 items-center"
+                            className="flex shrink-0 gap-8 items-center"
                             style={{ animation: `${ri % 2 === 1 ? 'ticker-rev' : 'ticker'} 90s linear infinite` }}
                           >
                             {[...row, ...row, ...row, ...row].map((logo, i) => (
-                              <img loading="lazy" key={i} src={logo.src} alt={logo.name} className="h-12 w-12 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                              <img loading="lazy" key={i} src={logo.src} alt={logo.name} className="h-10 w-10 object-contain flex-shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
                             ))}
                           </div>
                         </div>
@@ -1507,17 +1511,17 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}>
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Response speed</p>
                 <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>10x faster</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">10× faster than manual support — avg. <strong className="text-gray-700">1.2s</strong> to resolution.</p>
               </div>
-              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}>
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Support costs</p>
                 <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>68% cheaper</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">Cut costs by 68% on tier-1 volume — without adding headcount.</p>
               </div>
-              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', border: '1.5px solid #111827' }}>
+              <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Tickets handled</p>
                 <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>93% resolved</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">Fully resolved automatically. Complex cases escalated to human agents.</p>
@@ -1542,37 +1546,11 @@ export default function Home() {
               <div className="rounded-2xl bg-white px-5 py-5 shadow-sm border border-gray-100">
                 <p className="text-base font-semibold text-gray-900">100+ Languages</p>
                 <p className="mt-1 text-sm leading-relaxed text-gray-500">supVision <strong className="text-gray-700">automatically detects</strong> your customer's language and responds in kind — whether it's English, Arabic, or Mandarin. <strong className="text-gray-700">No setup, no routing rules, no extra cost.</strong></p>
-                <div className="mt-4 rounded-xl relative overflow-hidden" style={{ height: '220px', background: '#F3EFE9', border: '1.5px solid #111827', maskImage: 'linear-gradient(to top, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, black 70%, transparent 100%)' }}>
-                  {langItems.slice(0, 7).map(({ id, langIdx, slot }) => {
-                    const s = LANG_SLOT[Math.min(Math.max(slot + 1, 0), LANG_SLOT.length - 1)]
-                    const flagSize = Math.round(s.h * 0.64)
-                    const fontSize = `${(s.h * 0.54) / 16}rem`
-                    const lifted = slot === liftedSlot
-                    return (
-                      <div
-                        key={id}
-                        style={{
-                          position: 'absolute',
-                          bottom: s.bottom + (lifted ? 28 : 0),
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          width: s.w,
-                          height: s.h,
-                          opacity: s.op,
-                          zIndex: s.zi,
-                          transition: 'bottom 0.4s cubic-bezier(0.4,0,0.2,1), width 0.55s cubic-bezier(0.4,0,0.2,1), height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.55s cubic-bezier(0.4,0,0.2,1)',
-                        }}
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 8px', height: '100%', background: '#ffffff', borderRadius: 9999, border: '3.5px solid #e5e7eb', overflow: 'hidden' }}>
-                          <div style={{ width: flagSize, height: flagSize, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: '#333' }}>
-                            <img loading="lazy" src={LANGUAGES[langIdx].flag} alt={LANGUAGES[langIdx].name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          </div>
-                          <span style={{ flex: 1, textAlign: 'center', fontFamily: "'Nohemi', sans-serif", fontWeight: 700, color: '#111827', fontSize, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
-                            {LANGUAGES[langIdx].name}
-                          </span>
-                        </div>
-                      </div>
-                    )
+                <div className="mt-4 rounded-xl overflow-hidden flex gap-2 px-2.5 py-3" style={{ height: '240px', background: '#F3EFE9', maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)' }}>
+                  {[0, 1, 2].map(col => {
+                    const offset = col * 7
+                    const colItems = [...Array(12)].map((_, i) => LANGUAGES[(i + offset) % LANGUAGES.length])
+                    return <LangColumn key={col} items={colItems} duration={90} reverse={col === 1} />
                   })}
                 </div>
               </div>
