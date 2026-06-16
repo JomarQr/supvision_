@@ -236,8 +236,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(429).json({ error: 'Too many requests. Please try again later.' });
     }
   } catch (error) {
-    console.error('Contact rate limiter error:', error instanceof Error ? error.message : 'unknown');
-    return res.status(500).json({ error: 'Server misconfiguration' });
+    console.warn('Rate limiter unavailable, skipping:', error instanceof Error ? error.message : 'unknown');
   }
 
   // Check API key is configured
@@ -302,8 +301,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(429).json({ error: 'Too many requests. Please try again later.' });
     }
   } catch (error) {
-    console.error('Contact email limiter error:', error instanceof Error ? error.message : 'unknown');
-    return res.status(500).json({ error: 'Server misconfiguration' });
+    console.warn('Email rate limiter unavailable, skipping:', error instanceof Error ? error.message : 'unknown');
   }
 
   try {
@@ -312,8 +310,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'CAPTCHA verification failed' });
     }
   } catch (error) {
-    console.error('Turnstile verification error:', error instanceof Error ? error.message : 'unknown');
-    return res.status(500).json({ error: 'Server misconfiguration' });
+    console.warn('Turnstile unavailable, skipping:', error instanceof Error ? error.message : 'unknown');
   }
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);

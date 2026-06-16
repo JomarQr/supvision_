@@ -39,7 +39,6 @@ export const LOG_SCENARIOS = [
 
 export const LANGUAGES = [
   { flag: '/countries/endlish.webp',    name: 'English'    },
-  { flag: '/countries/russia.webp',     name: 'Русский'    },
   { flag: '/countries/saudi.webp',      name: 'العربية'    },
   { flag: '/countries/china.webp',      name: '中文'        },
   { flag: '/countries/brazil.webp',     name: 'Português'  },

@@ -252,19 +252,13 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={sending}
-                      className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full pl-6 pr-1.5 py-1.5 text-sm font-bold text-white disabled:opacity-60"
+                      className="inline-flex items-center gap-3 rounded-full px-6 py-3 text-sm font-bold text-white disabled:opacity-60"
                       style={{ backgroundColor: '#111827' }}
                     >
-                      <span
-                        className="absolute right-[6px] top-1/2 h-8 w-8 -translate-y-1/2 rounded-full transition-transform duration-500 ease-in-out group-hover:scale-[20]"
-                        style={{ backgroundColor: '#214995' }}
-                      />
-                      <span className="relative z-10 tracking-widest uppercase">{sending ? 'Sending…' : 'Book a Demo'}</span>
-                      <span className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white">
-                          <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-                        </svg>
-                      </span>
+                      <span className="tracking-widest uppercase">{sending ? 'Sending…' : 'Book a Demo'}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 flex-shrink-0 text-white">
+                        <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
+                      </svg>
                     </button>
                     {attempted && (!formIsValid || !agreed) && (
                       <p className="mt-3 flex items-center gap-2 text-xs text-red-500">
