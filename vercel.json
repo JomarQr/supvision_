@@ -1,8 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/login", "destination": "/index.html" },
-    { "source": "/ifx", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
