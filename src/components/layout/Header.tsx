@@ -916,9 +916,16 @@ export default function Header() {
                             <span className="text-[10px] font-semibold text-gray-400">Soon</span>
                           </div>
                         ) : (
-                          <Link key={item.label} to={item.to!} className="block rounded-xl px-5 py-2.5 border border-transparent hover:border-gray-200">
-                            <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                            <p className="text-xs text-gray-400">{item.desc}</p>
+                          <Link key={item.label} to={item.to!} className="flex items-center gap-3 rounded-xl px-4 py-2.5 border border-transparent hover:border-gray-200">
+                            {itemIcons[item.label] && (
+                              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ border: '1.5px solid #111827' }}>
+                                {itemIcons[item.label]}
+                              </div>
+                            )}
+                            <div className="min-w-0">
+                              <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                              <p className="text-xs text-gray-400">{item.desc}</p>
+                            </div>
                           </Link>
                         )
                       ))}
@@ -962,10 +969,17 @@ export default function Header() {
                           key={item.label}
                           to={item.to}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block rounded-xl px-5 py-2.5 border border-transparent hover:border-gray-200"
+                          className="flex items-center gap-3 rounded-xl px-4 py-2.5 border border-transparent hover:border-gray-200"
                         >
-                          <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                          <p className="text-xs text-gray-400">{item.desc}</p>
+                          {itemIcons[item.label] && (
+                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg" style={{ border: '1.5px solid #111827' }}>
+                              {itemIcons[item.label]}
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-900">{item.label}</p>
+                            <p className="text-xs text-gray-400">{item.desc}</p>
+                          </div>
                         </Link>
                       ))}
                     </div>
