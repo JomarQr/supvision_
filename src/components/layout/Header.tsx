@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import { forWhomIndustries, forWhomRoles } from '../../data/forWhom'
-import { openCalendlyPopup, preloadCalendly } from '../../lib/calendly'
 
 let RIGHT_PANEL_LOTTIE: Record<string, object> = {}
 let ITEM_LOTTIE: Record<string, object> = {}
@@ -528,33 +527,6 @@ export default function Header() {
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       >
-        {/* ── Banner row ── */}
-        <button
-          type="button"
-          onClick={openCalendlyPopup}
-          className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[9px] font-bold uppercase tracking-widest transition-colors sm:text-xs border-b border-gray-200 cursor-pointer"
-          style={{ backgroundColor: '#EDE8DF', color: '#111827' }}
-          onMouseEnter={e => { preloadCalendly(); e.currentTarget.style.backgroundColor = '#111827'; e.currentTarget.style.color = '#F97316'; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#EDE8DF'; e.currentTarget.style.color = '#111827'; }}
-        >
-          <span className="relative inline-flex items-center gap-1 overflow-hidden">
-            <span
-              className="pointer-events-none absolute inset-y-0"
-              style={{
-                width: 36,
-                transform: 'skewX(-15deg)',
-                background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.65) 50%, transparent 100%)',
-                animation: 'banner-shimmer 15s linear infinite',
-                animationDelay: '3s',
-              }}
-            />
-            Meet us at iFX EXPO 2026&nbsp;&nbsp;·&nbsp;&nbsp;Cyprus, Limassol&nbsp;&nbsp;·&nbsp;&nbsp;16–18 Jun&nbsp;&nbsp;
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="inline h-3 w-3">
-              <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
-            </svg>
-          </span>
-        </button>
-
         {/* ── Desktop nav row ── */}
         <div className="border-b border-gray-300">
         <div className="flex h-12 items-center justify-between px-4 lg:h-14 lg:px-10 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
@@ -623,7 +595,7 @@ export default function Header() {
               to="/contact"
               className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-white transition-colors"
               style={{ backgroundColor: '#F97316' }}
-              onMouseEnter={e => { preloadCalendly(); e.currentTarget.style.backgroundColor = '#111827' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#111827' }}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F97316')}
             >
               Book a Demo!
