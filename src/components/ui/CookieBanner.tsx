@@ -55,7 +55,7 @@ export default function CookieBanner() {
       style={{ boxShadow: '0 -4px 24px rgba(0,0,0,0.06)' }}
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8 lg:px-10">
-        <p className="text-sm leading-relaxed text-gray-700">
+        <p className="text-sm leading-relaxed text-gray-700 sm:max-w-md lg:max-w-lg">
           By clicking &ldquo;Accept All Cookies&rdquo;, you agree to us using cookies and other tracking technologies to enhance user experience and to analyze performance and traffic on our website. Further information is available in our{' '}
           <Link to="/privacy-policy" className="font-semibold underline decoration-1 underline-offset-2" style={{ color: '#214995' }}>Cookie Policy</Link>.
         </p>
@@ -69,14 +69,14 @@ export default function CookieBanner() {
           </Link>
           <button
             onClick={decline}
-            className="flex-shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="flex-shrink-0 whitespace-nowrap px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: '#214995' }}
           >
             Opt out
           </button>
           <button
             onClick={accept}
-            className="flex-shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            className="flex-shrink-0 whitespace-nowrap px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: '#214995' }}
           >
             Accept All Cookies
