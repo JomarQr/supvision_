@@ -532,20 +532,10 @@ export default function Header() {
           href="https://rigacomm.com/en/"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[9px] font-bold uppercase tracking-widest sm:text-xs cursor-pointer"
-          style={{ backgroundColor: '#214995', color: '#fff' }}
+          className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[11px] font-semibold sm:text-xs cursor-pointer"
+          style={{ backgroundColor: '#214995', color: '#fff', fontFamily: "'Inter', sans-serif" }}
         >
           <span className="relative inline-flex items-center gap-1 overflow-hidden">
-            <span
-              className="pointer-events-none absolute inset-y-0"
-              style={{
-                width: 36,
-                transform: 'skewX(-15deg)',
-                background: 'linear-gradient(to right, transparent 0%, rgba(255,255,255,0.65) 50%, transparent 100%)',
-                animation: 'banner-shimmer 15s linear infinite',
-                animationDelay: '3s',
-              }}
-            />
             Upcoming Event: Meet us at Riga Comm&nbsp;&nbsp;·&nbsp;&nbsp;Riga, Latvia&nbsp;&nbsp;·&nbsp;&nbsp;8–9 Oct 2026&nbsp;&nbsp;
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="inline h-3 w-3">
               <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
