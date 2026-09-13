@@ -595,7 +595,7 @@ export default function Header() {
             onMouseLeave={() => close(setOverviewOpen, overviewTimer)}
           >
             <div className="mx-auto max-w-7xl px-6">
-              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif" }}>
+              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif", animation: 'dropdown-reveal 0.4s cubic-bezier(0.22,1,0.36,1) both' }}>
                 <div className="grid gap-4 p-6" style={{ gridTemplateColumns: '2fr 1fr' }}>
 
                   {/* ── Left: 2x2 grid of category cards ── */}
@@ -648,7 +648,7 @@ export default function Header() {
             onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
           >
             <div className="mx-auto max-w-7xl px-6">
-              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif" }}>
+              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif", animation: 'dropdown-reveal 0.4s cubic-bezier(0.22,1,0.36,1) both' }}>
                 <div className="grid grid-cols-2 gap-4 p-6">
                   {forWhomCategories.map(cat => (
                     <div key={cat.key} className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -670,6 +670,19 @@ export default function Header() {
 
       </div>
     </header>
+
+    {/* ── Dark backdrop behind an open mega-menu — dims the rest of the page ── */}
+    {(overviewOpen || forWhomOpen) && (
+      <div
+        className="fixed inset-x-0 bottom-0 z-40 hidden lg:block"
+        style={{
+          top: TOTAL_H,
+          backgroundColor: 'rgba(15,20,32,0.45)',
+          animation: 'nav-overlay-fade-in 0.3s ease both',
+          pointerEvents: 'none',
+        }}
+      />
+    )}
 
     {/* ── Full-screen mobile nav overlay ── */}
     <div className={`fixed inset-0 z-[90] flex flex-col lg:hidden transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ backgroundColor: '#faf8f5' }}>

@@ -148,6 +148,14 @@
     from { opacity: 0; transform: translateX(40px) scale(0.97); }
     to   { opacity: 1; transform: translateX(0)    scale(1); }
   }
+  @keyframes dropdown-reveal {
+    0%   { opacity: 0; clip-path: inset(0 100% 100% 0 round 24px); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0 round 24px); }
+  }
+  @keyframes nav-overlay-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
   @keyframes cursor-blink {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0; }
