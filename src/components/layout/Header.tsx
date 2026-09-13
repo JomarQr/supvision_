@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import { forWhomIndustries, forWhomRoles } from '../../data/forWhom'
+import HeroDashboard from '../home/HeroDashboard'
 
-let RIGHT_PANEL_LOTTIE: Record<string, object> = {}
 let ITEM_LOTTIE: Record<string, object> = {}
-let BELOW_LOTTIE: Record<string, object | null> = { explore: null, integration: null, bookDemo: null }
 
 // ── Overview mega-menu data ──────────────────────────────────────────────────
 const overviewCategories = [
@@ -205,107 +204,69 @@ function ForWhomDropdownItem({
   )
 }
 
-// ── Footer quick-link — Lottie on hover ──────────────────────────────────────
-function FooterQuickLink({
-  link,
-  i,
-  onClose,
-}: {
-  link: { to: string; anim: object | null; label: string }
-  i: number
-  onClose: () => void
-}) {
-  const [hovered, setHovered] = useState(false)
-  const lottieRef = useRef<any>(null)
-
-  useEffect(() => {
-    if (!lottieRef.current || !link.anim) return
-    if (hovered) {
-      lottieRef.current.goToAndPlay(0, true)
-    } else {
-      lottieRef.current.goToAndStop(0, true)
-    }
-  }, [hovered, link.anim])
-
+// ── Dark square icon badge — used for category card headers ─────────────────
+function CategoryBadge({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center">
-      {i > 0 && <span className="mx-2 text-gray-300 select-none">|</span>}
-      <Link
-        to={link.to}
-        onClick={onClose}
-        className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs text-gray-500 transition-colors hover:text-gray-900 hover:bg-[#EDE8DF]"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {link.anim ? (
-          <Lottie
-            lottieRef={lottieRef}
-            animationData={link.anim}
-            autoplay={false}
-            loop={false}
-            style={{
-              width: 18,
-              height: 18,
-              flexShrink: 0,
-              filter: hovered ? 'none' : 'grayscale(1) opacity(0.55)',
-              transition: 'filter 0.2s ease',
-            }}
-          />
-        ) : (
-          <div style={{ width: 18, height: 18, flexShrink: 0 }} />
-        )}
-        {link.label}
-      </Link>
+    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-white" style={{ backgroundColor: '#111827' }}>
+      {children}
     </div>
   )
 }
 
-// ── Right-panel dropdown item — Lottie on hover, no border ──────────────────
-function RightPanelItem({
-  item,
+// ── Overview mega-menu category card — bordered card, no item descriptions ──
+function CategoryCard({
+  cat,
   onClose,
 }: {
-  item: { label: string; desc: string; to: string }
+  cat: { key: string; label: string; items: { label: string; to?: string; locked?: boolean }[] }
   onClose: () => void
 }) {
-  const [hovered, setHovered] = useState(false)
-  const lottieRef = useRef<any>(null)
-  const animData = RIGHT_PANEL_LOTTIE[item.label]
-
-  useEffect(() => {
-    if (!lottieRef.current || !animData) return
-    if (hovered) {
-      lottieRef.current.goToAndPlay(0, true)
-    } else {
-      lottieRef.current.goToAndStop(0, true)
-    }
-  }, [hovered, animData])
-
   return (
-    <Link
-      to={item.to}
-      onClick={onClose}
-      className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors hover:bg-[#E5DED5]"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
-        {animData ? (
-          <Lottie
-            lottieRef={lottieRef}
-            animationData={animData}
-            autoplay={false}
-            loop={false}
-            style={{ width: 28, height: 28 }}
-          />
-        ) : (
-          itemIcons[item.label] ?? null
-        )}
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="mb-3 flex items-center gap-3">
+        <CategoryBadge>{categoryIcons[cat.key]}</CategoryBadge>
+        <p className="text-[11px] font-semibold tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
       </div>
-      <div className="min-w-0">
-        <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
-        <p className="text-xs text-gray-400 truncate">{item.desc}</p>
+      <ul className="flex flex-col gap-0.5">
+        {cat.items.map(item => (
+          <li key={item.label}>
+            {item.locked ? (
+              <div className="flex items-center gap-2.5 rounded-xl px-2 py-2 opacity-40 cursor-not-allowed">
+                <ItemIcon label={item.label} />
+                <span className="text-sm font-semibold text-gray-900">{item.label}</span>
+                <span className="ml-auto flex-shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-400">Soon</span>
+              </div>
+            ) : (
+              <Link to={item.to!} onClick={onClose} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-gray-50">
+                <ItemIcon label={item.label} />
+                <span className="text-sm font-semibold text-gray-900">{item.label}</span>
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+// ── Overview mega-menu — compact icon+label row, no description ─────────────
+function PlatformPanelItem({
+  icon,
+  label,
+  to,
+  onClose,
+}: {
+  icon: JSX.Element | undefined
+  label: string
+  to: string
+  onClose: () => void
+}) {
+  return (
+    <Link to={to} onClick={onClose} className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-white/60">
+      <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center text-gray-700">
+        {icon}
       </div>
+      <span className="text-sm font-semibold text-gray-900">{label}</span>
     </Link>
   )
 }
@@ -370,21 +331,6 @@ export default function Header() {
           'Compliance & Risk': m.documentAnim,
           'Operations & Growth': m.growthAnim,
           'Founders & C-Suite': m.caseAnim,
-        }
-        RIGHT_PANEL_LOTTIE = {
-          'Helpdesks': m.helpdeskAnim,
-          'Messaging channels': m.messagingAnim,
-          'Knowledge base': m.knowledgeBaseAnim,
-          'Identity providers': m.helpdeskAnim,
-          'Collaboration': m.collaborationAnim,
-          'CRM': m.crmAnim,
-          'Analytics Dashboard': m.analyticsIntAnim,
-          'Security & Compliance': m.securityIntAnim,
-        }
-        BELOW_LOTTIE = {
-          explore: m.exploreAnim,
-          integration: m.integrationLinkAnim,
-          bookDemo: m.bookDemoAnim,
         }
       })
     }, 400)
@@ -566,13 +512,13 @@ export default function Header() {
           <nav className="hidden lg:flex h-full items-stretch justify-center gap-8 whitespace-nowrap">
 
             <NavLink to="/" end className={({ isActive }) =>
-              `flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isActive ? 'border-[#214995]' : 'border-transparent'}`
+              `flex h-full items-center transition-colors duration-200`
             }>
               {({ isActive }) => <span className={`${linkClass} ${isActive ? '!text-[#214995]' : ''}`}>Home</span>}
             </NavLink>
 
             {/* Overview trigger */}
-            <div className={`flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isOverviewActive ? 'border-[#214995]' : 'border-transparent'}`} onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
+            <div className={`flex h-full items-center transition-colors duration-200`} onMouseEnter={() => open(setOverviewOpen, overviewTimer)} onMouseLeave={() => close(setOverviewOpen, overviewTimer)}>
               <button className={`inline-flex items-center gap-1 ${linkClass} ${isOverviewActive ? '!text-[#214995]' : ''}`}>
                 Overview
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-3.5 w-3.5 transition-transform duration-200 ${overviewOpen ? 'rotate-180' : ''}`}>
@@ -582,7 +528,7 @@ export default function Header() {
             </div>
 
             {/* For whom? trigger */}
-            <div className={`flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isForWhomActive ? 'border-[#214995]' : 'border-transparent'}`} onMouseEnter={() => open(setForWhomOpen, forWhomTimer)} onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}>
+            <div className={`flex h-full items-center transition-colors duration-200`} onMouseEnter={() => open(setForWhomOpen, forWhomTimer)} onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}>
               <button className={`inline-flex items-center gap-1 ${linkClass} ${isForWhomActive ? '!text-[#214995]' : ''}`}>
                 For whom?
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={`h-3.5 w-3.5 transition-transform duration-200 ${forWhomOpen ? 'rotate-180' : ''}`}>
@@ -592,12 +538,12 @@ export default function Header() {
             </div>
 
             <NavLink to="/pricing" end className={({ isActive }) =>
-              `flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isActive ? 'border-[#214995]' : 'border-transparent'}`
+              `flex h-full items-center transition-colors duration-200`
             }>
               {({ isActive }) => <span className={`${linkClass} ${isActive ? '!text-[#214995]' : ''}`}>Pricing</span>}
             </NavLink>
             <NavLink to="/about" end className={({ isActive }) =>
-              `flex h-full items-center border-b-[3px] transition-colors duration-200 hover:border-[#214995] ${isActive ? 'border-[#214995]' : 'border-transparent'}`
+              `flex h-full items-center transition-colors duration-200`
             }>
               {({ isActive }) => <span className={`${linkClass} ${isActive ? '!text-[#214995]' : ''}`}>About us</span>}
             </NavLink>
@@ -640,7 +586,7 @@ export default function Header() {
         </div>
         </div>{/* closes border-b nav wrapper */}
 
-        {/* Overview full-width dropdown */}
+        {/* Overview mega-menu — card grid, matching sardine.ai's dropdown style */}
         {overviewOpen && (
           <div
             className="absolute left-0 right-0 z-20 hidden lg:block"
@@ -648,129 +594,52 @@ export default function Header() {
             onMouseEnter={() => open(setOverviewOpen, overviewTimer)}
             onMouseLeave={() => close(setOverviewOpen, overviewTimer)}
           >
-            <div className="w-full shadow-xl overflow-hidden" style={{ background: 'linear-gradient(to right, #FFFDFA 50%, #F1EDE7 50%)', borderTop: '1px solid #e8e2d9', fontFamily: "'Figtree', sans-serif" }}>
-              <div className="mx-auto max-w-7xl flex">
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif" }}>
+                <div className="grid gap-4 p-6" style={{ gridTemplateColumns: '2fr 1fr' }}>
 
-                {/* ── Left panel (50%) ── */}
-                <div className="w-1/2 px-10 pt-5">
-                  {/* Tagline */}
-                  <div className="mb-4">
-                    <p className="text-base font-semibold text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif" }}>supVision AI Platform</p>
-                    <p className="mt-0.5 text-xs text-gray-400">Agentic customer support for fintech — 24/7, multilingual, audit-ready</p>
+                  {/* ── Left: 2x2 grid of category cards ── */}
+                  <div className="grid grid-cols-2 gap-4 items-start">
+                    <CategoryCard cat={overviewCategories[0]} onClose={() => setOverviewOpen(false)} />
+                    <CategoryCard cat={overviewCategories[1]} onClose={() => setOverviewOpen(false)} />
+                    <CategoryCard cat={overviewCategories[2]} onClose={() => setOverviewOpen(false)} />
+                    <CategoryCard cat={overviewCategories[4]} onClose={() => setOverviewOpen(false)} />
                   </div>
 
-                  {/* 2 columns: Solutions | Core Functionalities */}
-                  <div className="flex gap-2">
-                    {/* Solutions */}
-                    {(() => {
-                      const cat = overviewCategories[0]
-                      return (
-                        <div className="flex-1 min-w-0">
-                          <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
-                          <ul className="flex flex-col gap-0.5">
-                            {cat.items.map(item => (
-                              <li key={item.label}>
-                                {'locked' in item && item.locked ? (
-                                  <div className="flex items-center gap-2 rounded-xl px-3 py-2 opacity-40 cursor-not-allowed">
-                                    <ItemIcon label={item.label} />
-                                    <div className="min-w-0 flex-1">
-                                      <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
-                                      <p className="text-xs text-gray-400 truncate">{item.desc}</p>
-                                    </div>
-                                    <span className="flex-shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-400">Soon</span>
-                                  </div>
-                                ) : (
-                                  <Link to={item.to!} onClick={() => setOverviewOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors hover:bg-[#EDE8DF]">
-                                    <ItemIcon label={item.label} />
-                                    <div className="min-w-0">
-                                      <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
-                                      <p className="text-xs text-gray-400 truncate">{item.desc}</p>
-                                    </div>
-                                  </Link>
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )
-                    })()}
+                  {/* ── Right: Platform promo panel ── */}
+                  <div className="rounded-2xl p-6 flex flex-col overflow-hidden" style={{ backgroundColor: '#EAF0FB' }}>
+                    <div className="mb-3 flex items-center gap-3">
+                      <CategoryBadge>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                        </svg>
+                      </CategoryBadge>
+                      <p className="text-[11px] font-semibold tracking-widest text-gray-500" style={{ textTransform: 'uppercase' }}>Platform</p>
+                    </div>
+                    <p className="text-lg font-semibold leading-snug text-gray-900">Agentic support platform for fintech</p>
 
-                    {/* Core Functionalities — no icons */}
-                    {(() => {
-                      const cat = overviewCategories[1]
-                      return (
-                        <div className="flex-1 min-w-0">
-                          <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
-                          <ul className="flex flex-col gap-0.5">
-                            {cat.items.map(item => (
-                              <li key={item.label}>
-                                <Link to={item.to!} onClick={() => setOverviewOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors hover:bg-[#EDE8DF]">
-                                  <div className="min-w-0">
-                                    <p className="text-sm font-semibold text-gray-900 truncate">{item.label}</p>
-                                    <p className="text-xs text-gray-400 truncate">{item.desc}</p>
-                                  </div>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )
-                    })()}
-                  </div>
-
-                  {/* Footer quick-links */}
-                  <div className="flex items-center gap-1 py-3 mt-3" style={{ borderTop: '1px solid #e8e2d9' }}>
-                    {[
-                      { to: '/support-agent', anim: BELOW_LOTTIE.explore, label: 'Explore Support Agent' },
-                      { to: '/integrations', anim: BELOW_LOTTIE.integration, label: 'View all integrations' },
-                      { to: '/contact', anim: BELOW_LOTTIE.bookDemo, label: 'Book a Demo' },
-                    ].map((link, i) => (
-                      <FooterQuickLink key={link.to} link={link} i={i} onClose={() => setOverviewOpen(false)} />
-                    ))}
-                  </div>
-                </div>
-
-                {/* ── Right panel (50%, beige via gradient): 2 columns ── */}
-                <div className="w-1/2 px-8 py-5" style={{ borderLeft: '1px solid #e8e2d9' }}>
-                  <div className="flex gap-4">
-
-                    {/* Column 1: Integrations */}
-                    <div className="flex-1 min-w-0">
-                      <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>Integrations</p>
-                      <ul className="flex flex-col gap-0.5">
-                        {overviewCategories[2].items.map(item => (
-                          <li key={item.label}>
-                            <RightPanelItem item={item as { label: string; desc: string; to: string }} onClose={() => setOverviewOpen(false)} />
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="mt-4 flex flex-col gap-0.5">
+                      <PlatformPanelItem icon={itemIcons['Analytics Dashboard']} label="Analytics Dashboard" to="/analytics" onClose={() => setOverviewOpen(false)} />
+                      <PlatformPanelItem icon={itemIcons['Security & Compliance']} label="Security & Compliance" to="/security" onClose={() => setOverviewOpen(false)} />
+                      <PlatformPanelItem icon={categoryIcons.integrations} label="View all integrations" to="/integrations" onClose={() => setOverviewOpen(false)} />
+                      <PlatformPanelItem icon={itemIcons['Support Agent']} label="Explore Support Agent" to="/support-agent" onClose={() => setOverviewOpen(false)} />
                     </div>
 
-                    {/* Column 2: Analytics + Security stacked */}
-                    <div className="flex-1 min-w-0 flex flex-col gap-4">
-                      {overviewCategories.slice(3).map(cat => (
-                        <div key={cat.key}>
-                          <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
-                          <ul className="flex flex-col gap-0.5">
-                            {cat.items.map(item => (
-                              <li key={item.label}>
-                                <RightPanelItem item={item as { label: string; desc: string; to: string }} onClose={() => setOverviewOpen(false)} />
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                    {/* Cropped dashboard preview, bleeding off the bottom of the panel */}
+                    <div className="mt-5 -mx-6 -mb-6 overflow-hidden rounded-t-xl" style={{ height: 130 }}>
+                      <div style={{ transform: 'scale(0.42)', transformOrigin: 'top left', width: '238%' }}>
+                        <HeroDashboard animated={false} view="default" beige height={420} />
+                      </div>
                     </div>
-
                   </div>
-                </div>
 
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* For whom? full-width dropdown */}
+        {/* For whom? mega-menu — matches the Overview card style */}
         {forWhomOpen && (
           <div
             className="absolute left-0 right-0 z-20 hidden lg:block"
@@ -778,23 +647,21 @@ export default function Header() {
             onMouseEnter={() => open(setForWhomOpen, forWhomTimer)}
             onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
           >
-            <div className="w-full shadow-xl overflow-hidden" style={{ background: '#FFFDFA', borderTop: '1px solid #e8e2d9', fontFamily: "'Figtree', sans-serif" }}>
-              <div className="mx-auto max-w-7xl">
-                <div className="px-10 py-5">
-                  <div className="flex gap-2">
-                    {forWhomCategories.map(cat => (
-                      <div key={cat.key} className="flex-1 min-w-0">
-                        <p className="mb-2 px-3 text-[10px] font-medium tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
-                        <ul className="flex flex-col gap-0.5">
-                          {cat.items.map(item => (
-                            <li key={item.label}>
-                              <ForWhomDropdownItem item={item} onClose={() => setForWhomOpen(false)} />
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif" }}>
+                <div className="grid grid-cols-2 gap-4 p-6">
+                  {forWhomCategories.map(cat => (
+                    <div key={cat.key} className="rounded-2xl border border-gray-200 bg-white p-5">
+                      <p className="mb-3 px-2 text-[11px] font-semibold tracking-widest text-gray-400" style={{ textTransform: 'uppercase' }}>{cat.label}</p>
+                      <ul className="flex flex-col gap-0.5">
+                        {cat.items.map(item => (
+                          <li key={item.label}>
+                            <ForWhomDropdownItem item={item} onClose={() => setForWhomOpen(false)} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
