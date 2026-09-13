@@ -1,4 +1,4 @@
-import { FormEvent, MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react'
+import { CSSProperties, FormEvent, MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import PageMeta from '../components/PageMeta'
@@ -587,72 +587,54 @@ function StaticLottie({ animationData, size = 22 }: { animationData: object; siz
   return <Lottie lottieRef={ref} animationData={animationData} autoplay={false} loop={false} style={{ width: size, height: size, flexShrink: 0 }} />
 }
 
-function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim: object | null } }) {
-  const [hovered, setHovered] = useState(false)
-  const [waveKey, setWaveKey] = useState(0)
-  const lottieRef = useRef<any>(null)
+// ── Industry carousel — shows 4 names at a time, crossfades through blur ────
+function IndustryCarousel({ industries }: { industries: HeroIndustry[] }) {
+  const [index, setIndex] = useState(0)
+  const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle')
 
-  const handleEnter = () => {
-    setHovered(true)
-    setWaveKey(k => k + 1)
-    lottieRef.current?.goToAndPlay(0, true)
-  }
-  const handleLeave = () => {
-    setHovered(false)
-    lottieRef.current?.goToAndStop(0, true)
-  }
+  useEffect(() => {
+    if (industries.length <= 4) return
+    const cycle = () => {
+      setPhase('out')
+      setTimeout(() => {
+        setIndex(i => (i + 1) % industries.length)
+        setPhase('in')
+        requestAnimationFrame(() => requestAnimationFrame(() => setPhase('idle')))
+      }, 350)
+    }
+    const t = setInterval(cycle, 3200)
+    return () => clearInterval(t)
+  }, [industries.length])
 
-  const renderWave = (text: string, offset: number) =>
-    text.split('').map((char, i) => (
-      <span
-        key={i}
-        style={{
-          display: 'inline-block',
-          animation: `wave-char 0.45s ease-in-out ${(offset + i) * 0.03}s`,
-        }}
-      >
-        {char === ' ' ? ' ' : char}
-      </span>
-    ))
+  const visible = Array.from({ length: Math.min(4, industries.length) }, (_, i) => industries[(index + i) % industries.length])
+
+  const itemStyle: CSSProperties =
+    phase === 'out'
+      ? { opacity: 0, filter: 'blur(10px)', transform: 'translateX(-14px)' }
+      : phase === 'in'
+      ? { opacity: 0, filter: 'blur(10px)', transform: 'translateX(14px)' }
+      : { opacity: 1, filter: 'blur(0px)', transform: 'translateX(0)' }
 
   return (
-    <div
-      className="flex items-center gap-2 cursor-default w-full h-full"
-      style={{ padding: '14px 18px' }}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-    >
-      <div className="flex-shrink-0" style={{ width: 24, height: 24 }}>
-        {item.anim && <Lottie
-          lottieRef={lottieRef}
-          animationData={item.anim}
-          autoplay={false}
-          loop={false}
+    <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'nowrap' }}>
+      {visible.map((ind, i) => (
+        <span
+          key={i}
           style={{
-            width: 24,
-            height: 24,
-            filter: hovered ? 'none' : 'grayscale(1) opacity(0.45)',
-            transition: 'filter 0.2s ease',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            flexShrink: 0,
+            transition: 'opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease',
+            ...itemStyle,
           }}
-        />}
-      </div>
-      <p
-        className="font-medium leading-snug text-left"
-        style={{
-          fontSize: '0.8125rem',
-          color: hovered ? '#111827' : 'rgba(17,24,39,0.65)',
-          transition: 'color 0.2s ease',
-        }}
-      >
-        {hovered ? (
-          <span key={waveKey}>
-            {renderWave(item.regular, 0)}
-            <strong>{renderWave(item.bold, item.regular.length)}</strong>
+        >
+          {ind.anim && <StaticLottie animationData={ind.anim} size={18} />}
+          <span style={{ color: '#111827', fontSize: '0.8125rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
+            {ind.label}
           </span>
-        ) : (
-          <>{item.regular}<strong>{item.bold}</strong></>
-        )}
-      </p>
+        </span>
+      ))}
     </div>
   )
 }
@@ -770,7 +752,6 @@ function ValuePropCard({ v }: { v: typeof valueProps[0] }) {
 
 export default function Home() {
   const [heroIndustries, setHeroIndustries] = useState<HeroIndustry[]>(IN_HERO_INDUSTRIES_BASE)
-  const [heroFeatures, setHeroFeatures] = useState(HERO_FEATURES_BASE)
 
   useEffect(() => {
     Promise.all([
@@ -779,23 +760,13 @@ export default function Home() {
       import('../assets/icons_for_in_hero/in_web3.json'),
       import('../assets/icons_for_in_hero/in_lend.json'),
       import('../assets/icons_for_in_hero/in_privacy.json'),
-      import('../assets/icons_for_hero/expand_globally.json'),
-      import('../assets/icons_for_hero/cut_cost.json'),
-      import('../assets/icons_for_hero/heart.json'),
-      import('../assets/icons_for_hero/lightning.json'),
-    ]).then(([p, b, w, l, pr, eg, cc, h, li]) => {
+    ]).then(([p, b, w, l, pr]) => {
       setHeroIndustries([
         { label: 'Payments & Processing', anim: p.default },
         { label: 'Digital Banking',       anim: b.default },
         { label: 'Web3',                  anim: w.default },
         { label: 'Lending & Credit',      anim: l.default },
         { label: 'InsurTech',             anim: pr.default },
-      ])
-      setHeroFeatures([
-        { regular: 'Expand globally, ', bold: 'not your headcount', anim: eg.default },
-        { regular: 'Cut costs ', bold: 'without cutting quality', anim: cc.default },
-        { regular: 'Keep customers ', bold: 'before they churn', anim: h.default },
-        { regular: 'Go live in 3 days, ', bold: 'not 6 months', anim: li.default },
       ])
     })
   }, [])
@@ -1026,22 +997,12 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Industry marquee — below CTA, extends into dashboard area */}
+              {/* Industry carousel — below CTA, cycles 4 names at a time with a blur crossfade */}
               <div
-                className="mt-10 hidden lg:block overflow-hidden lg:-ml-24 xl:-ml-32"
-                style={{ width: 'calc(100vw - 4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '900ms', maskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 10%, black 20%, black 85%, transparent 100%)' }}
+                className="mt-10 hidden lg:block overflow-hidden"
+                style={{ animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '900ms' }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 20, animation: 'ticker 30s linear infinite', width: 'max-content' }}>
-                  {[...heroIndustries, ...heroIndustries].map((ind, i) => (
-                    <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexShrink: 0, opacity: 0.65 }}>
-                      {ind.anim && <StaticLottie animationData={ind.anim} />}
-                      <span style={{ color: '#111827', fontSize: '0.875rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
-                        {ind.label}
-                      </span>
-                      <span style={{ color: 'rgba(17,24,39,0.35)', fontSize: '0.75rem', marginLeft: 6 }}>·</span>
-                    </span>
-                  ))}
-                </div>
+                <IndustryCarousel industries={heroIndustries} />
               </div>
 
             {/* Mobile dashboard */}
@@ -1187,22 +1148,6 @@ export default function Home() {
         </div>
           </div>
         </div>
-
-      {/* Full-width feature strip — individual cards, absolutely pinned to bottom */}
-      <div
-        className="z-10 hidden lg:flex w-full gap-3 lg:pl-24 xl:pl-32 lg:pr-24 xl:pr-32"
-        style={{ position: 'absolute', bottom: 32, left: 0, right: 0, paddingTop: 12, paddingBottom: 12, animation: 'hero-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '500ms' }}
-      >
-        {heroFeatures.map((item) => (
-          <div
-            key={item.regular}
-            className="flex-1"
-            style={{ background: 'rgba(255,255,255,0.7)', borderRadius: 16, border: '1px solid rgba(17,24,39,0.08)', boxShadow: '0 4px 16px rgba(17,24,39,0.05)' }}
-          >
-            <HeroFeatureItem item={item} />
-          </div>
-        ))}
-      </div>
 
       </section>
 
@@ -2460,13 +2405,6 @@ const heroIndustries = [
   { label: 'Web3', icon: S('M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.268a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z', true) },
   { label: 'Lending & Credit', icon: S(['M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z', 'M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z', 'M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z']) },
   { label: 'InsurTech', icon: S('M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z', true) },
-]
-
-const HERO_FEATURES_BASE = [
-  { regular: 'Expand globally, ', bold: 'not your headcount', anim: null as object | null },
-  { regular: 'Cut costs ', bold: 'without cutting quality', anim: null as object | null },
-  { regular: 'Keep customers ', bold: 'before they churn', anim: null as object | null },
-  { regular: 'Go live in 3 days, ', bold: 'not 6 months', anim: null as object | null },
 ]
 
 const complianceFeatures = [
