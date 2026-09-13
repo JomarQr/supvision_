@@ -631,7 +631,7 @@ function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim
           style={{
             width: 24,
             height: 24,
-            filter: hovered ? 'none' : 'grayscale(1) brightness(1.8) opacity(0.55)',
+            filter: hovered ? 'none' : 'grayscale(1) opacity(0.45)',
             transition: 'filter 0.2s ease',
           }}
         />}
@@ -640,7 +640,7 @@ function HeroFeatureItem({ item }: { item: { regular: string; bold: string; anim
         className="font-medium leading-snug text-left"
         style={{
           fontSize: '0.8125rem',
-          color: hovered ? '#faf8f6' : 'rgba(244,239,233,0.8)',
+          color: hovered ? '#111827' : 'rgba(17,24,39,0.65)',
           transition: 'color 0.2s ease',
         }}
       >
@@ -982,18 +982,9 @@ export default function Home() {
         ]}
       />
       {/* Hero */}
-      <section ref={heroSectionRef} data-nav-dark className="relative overflow-hidden" style={{ height: 'calc(100vh - 32px)', display: 'flex', flexDirection: 'column' }}>
+      <section ref={heroSectionRef} className="relative overflow-hidden" style={{ height: 'calc(100vh - 32px)', display: 'flex', flexDirection: 'column' }}>
         {/* bg */}
-        <div className="absolute inset-0">
-          <img
-            src="/bg/28ee30bd-2183-47b1-8d31-c83327d52f27.webp"
-            alt=""
-            aria-hidden="true"
-            className="h-full w-full object-cover"
-            loading="eager"
-            fetchPriority="high"
-          />
-        </div>
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FDFCFA 0%, #F4EFE7 55%, #EDE5D8 100%)' }} aria-hidden="true" />
 
         {/* Two-column layout: left text, right dashboard */}
         <div className="relative z-10 flex w-full flex-col lg:flex-row" style={{ flex: '1 1 0', minHeight: 0 }}>
@@ -1007,12 +998,12 @@ export default function Home() {
                 className="flex flex-col leading-tight"
                 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2.4rem, 3.6vw, 4.4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '80ms' }}
               >
-                <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Agentic</span> Customer</span>
-                <span style={{ color: '#F4EFE9' }}>Support Team for</span>
-                <span style={{ color: '#F4EFE9' }}><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
+                <span style={{ color: '#111827' }}><span style={{ fontWeight: 800 }}>Agentic</span> Customer</span>
+                <span style={{ color: '#111827' }}>Support Team for</span>
+                <span style={{ color: '#111827' }}><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
               </h1>
 
-              <p className="mt-6 text-base font-light leading-relaxed" style={{ color: '#F4EFE9', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '160ms' }}>
+              <p className="mt-6 text-base font-light leading-relaxed" style={{ color: '#4B5563', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '160ms' }}>
                 supVision gives fintech teams one AI agent to handle disputes and support queries — so customers get answers in seconds, every decision stays auditable, and your team only touches cases that actually need a human.
               </p>
 
@@ -1030,7 +1021,7 @@ export default function Home() {
                 <Link
                   to="/support-agent"
                   className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
-                  style={{ backgroundColor: 'rgba(244,239,233,0.18)', color: '#F4EFE9', border: '1.5px solid rgba(244,239,233,0.35)' }}
+                  style={{ backgroundColor: '#F3EFE9', color: '#111827', border: '1.5px solid #111827' }}
                 >
                   See how it works
                 </Link>
@@ -1045,10 +1036,10 @@ export default function Home() {
                   {[...heroIndustries, ...heroIndustries].map((ind, i) => (
                     <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexShrink: 0, opacity: 0.65 }}>
                       {ind.anim && <StaticLottie animationData={ind.anim} />}
-                      <span style={{ color: '#F4EFE9', fontSize: '0.875rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                      <span style={{ color: '#111827', fontSize: '0.875rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
                         {ind.label}
                       </span>
-                      <span style={{ color: 'rgba(244,239,233,0.4)', fontSize: '0.75rem', marginLeft: 6 }}>·</span>
+                      <span style={{ color: 'rgba(17,24,39,0.35)', fontSize: '0.75rem', marginLeft: 6 }}>·</span>
                     </span>
                   ))}
                 </div>
@@ -1226,7 +1217,7 @@ export default function Home() {
           <div
             key={item.regular}
             className="flex-1"
-            style={{ background: 'rgba(255,255,255,0.09)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.14)' }}
+            style={{ background: 'rgba(255,255,255,0.7)', borderRadius: 16, border: '1px solid rgba(17,24,39,0.08)', boxShadow: '0 4px 16px rgba(17,24,39,0.05)' }}
           >
             <HeroFeatureItem item={item} />
           </div>
