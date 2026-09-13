@@ -805,7 +805,6 @@ export default function Home() {
   const heroH1Ref = useRef<HTMLHeadingElement>(null)
   const dashboardPanelRef = useRef<HTMLDivElement>(null)
   const dashboardGlassRef = useRef<HTMLDivElement>(null)
-  const dashTiltRaf = useRef<number>(0)
   const featuresPanelRef = useRef<HTMLDivElement>(null)
   const personaSectionRef = useRef<HTMLElement>(null)
   const [featuresOpen, setFeaturesOpen] = useState(false)
@@ -1057,34 +1056,15 @@ export default function Home() {
 
           {/* Right column — desktop dashboard */}
           <div
-            className="hidden lg:block lg:w-1/2 flex-shrink-0 self-start lg:pr-24 xl:pr-32"
+            className="hidden lg:block lg:w-1/2 flex-shrink-0 self-start"
             style={{ paddingTop: 138, paddingBottom: '32px' }}
           >
-            <div style={{ zoom: 0.88 }}>
+            <div style={{ zoom: 1.12 }}>
             <div
               ref={dashboardPanelRef}
-              style={{ position: 'relative', zIndex: 20, perspective: '1400px', animation: 'hero-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '400ms' }}
-              onMouseMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect()
-                const nx = (e.clientX - rect.left) / rect.width - 0.5
-                const ny = (e.clientY - rect.top) / rect.height - 0.5
-                cancelAnimationFrame(dashTiltRaf.current)
-                dashTiltRaf.current = requestAnimationFrame(() => {
-                  if (dashboardGlassRef.current) {
-                    dashboardGlassRef.current.style.transform = `rotateX(${ny * -6}deg) rotateY(${nx * 8}deg)`
-                    dashboardGlassRef.current.style.transition = 'transform 0.12s ease'
-                  }
-                })
-              }}
-              onMouseLeave={() => {
-                cancelAnimationFrame(dashTiltRaf.current)
-                if (dashboardGlassRef.current) {
-                  dashboardGlassRef.current.style.transform = 'rotateX(0deg) rotateY(0deg)'
-                  dashboardGlassRef.current.style.transition = 'transform 0.7s cubic-bezier(0.23,1,0.32,1)'
-                }
-              }}
+              style={{ position: 'relative', zIndex: 20, animation: 'hero-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '400ms' }}
             >
-              <div ref={dashboardGlassRef} style={{ transformStyle: 'preserve-3d', position: 'relative' }}>
+              <div ref={dashboardGlassRef} style={{ position: 'relative' }}>
                 <HeroDashboard beige hiddenKPIs={[0, 2, 3]} hideTeamQueue hideSLA height={545} />
 
             {/* KPI cards lifted out of the dashboard — floats above in true 3D */}
