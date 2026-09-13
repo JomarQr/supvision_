@@ -490,7 +490,14 @@ export default function Header() {
         </a>
 
         {/* ── Desktop nav row ── */}
-        <div>
+        <div
+          style={{
+            backgroundColor: scrollTop > 2 ? 'rgba(255,255,255,0.7)' : 'transparent',
+            backdropFilter: scrollTop > 2 ? 'blur(14px)' : 'none',
+            WebkitBackdropFilter: scrollTop > 2 ? 'blur(14px)' : 'none',
+            transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
+          }}
+        >
         <div className="flex h-12 items-center justify-between px-4 lg:h-14 lg:px-10 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-8">
 
           {/* Logo */}
