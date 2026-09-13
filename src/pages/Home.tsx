@@ -610,13 +610,13 @@ function IndustryCarousel({ industries }: { industries: HeroIndustry[] }) {
 
   const itemStyle: CSSProperties =
     phase === 'out'
-      ? { opacity: 0, filter: 'blur(10px)', transform: 'translateX(-14px)' }
+      ? { opacity: 0, filter: 'blur(18px)', transform: 'translateX(18px)' }
       : phase === 'in'
-      ? { opacity: 0, filter: 'blur(10px)', transform: 'translateX(14px)' }
+      ? { opacity: 0, filter: 'blur(18px)', transform: 'translateX(-18px)' }
       : { opacity: 1, filter: 'blur(0px)', transform: 'translateX(0)' }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'nowrap' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'nowrap' }}>
       {visible.map((ind, i) => (
         <span
           key={i}
@@ -625,12 +625,16 @@ function IndustryCarousel({ industries }: { industries: HeroIndustry[] }) {
             alignItems: 'center',
             gap: 6,
             flexShrink: 0,
-            transition: 'opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease',
+            transition: 'opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease',
             ...itemStyle,
           }}
         >
-          {ind.anim && <StaticLottie animationData={ind.anim} size={18} />}
-          <span style={{ color: '#111827', fontSize: '0.8125rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
+          {ind.anim && (
+            <span style={{ filter: 'brightness(0) saturate(100%)' }}>
+              <StaticLottie animationData={ind.anim} size={17} />
+            </span>
+          )}
+          <span style={{ color: '#111827', fontSize: '0.9375rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
             {ind.label}
           </span>
         </span>
