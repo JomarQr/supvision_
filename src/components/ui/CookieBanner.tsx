@@ -51,28 +51,37 @@ export default function CookieBanner() {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed bottom-4 left-4 right-4 z-[9999] mx-auto max-w-xl rounded-2xl border border-gray-200 bg-white p-5 shadow-2xl sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-sm"
-      style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.13)' }}
+      className="fixed inset-x-0 bottom-0 z-[9999] border-t border-gray-200 bg-white"
+      style={{ boxShadow: '0 -4px 24px rgba(0,0,0,0.06)' }}
     >
-      <p className="text-sm font-semibold text-gray-900">We use cookies</p>
-      <p className="mt-1.5 text-xs leading-relaxed text-gray-500">
-        We use analytics cookies to understand how visitors use this site. You can accept or decline — see our{' '}
-        <Link to="/privacy-policy" className="underline hover:text-gray-700">Privacy Policy</Link>.
-      </p>
-      <div className="mt-4 flex items-center gap-3">
-        <button
-          onClick={accept}
-          className="flex-1 rounded-full py-2 text-xs font-bold text-white transition-opacity hover:opacity-90"
-          style={{ backgroundColor: '#214995' }}
-        >
-          Accept
-        </button>
-        <button
-          onClick={decline}
-          className="flex-1 rounded-full border border-gray-200 py-2 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50"
-        >
-          Decline
-        </button>
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8 lg:px-10">
+        <p className="text-sm leading-relaxed text-gray-700">
+          By clicking &ldquo;Accept All Cookies&rdquo;, you agree to us using cookies and other tracking technologies to enhance user experience and to analyze performance and traffic on our website. Further information is available in our{' '}
+          <Link to="/privacy-policy" className="font-semibold underline decoration-1 underline-offset-2" style={{ color: '#214995' }}>Cookie Policy</Link>.
+        </p>
+        <div className="flex flex-shrink-0 flex-wrap items-center gap-4 sm:gap-6">
+          <Link
+            to="/privacy-policy"
+            className="whitespace-nowrap text-sm font-semibold underline decoration-1 underline-offset-2"
+            style={{ color: '#214995' }}
+          >
+            Cookie Settings
+          </Link>
+          <button
+            onClick={decline}
+            className="flex-shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: '#214995' }}
+          >
+            Opt out
+          </button>
+          <button
+            onClick={accept}
+            className="flex-shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+            style={{ backgroundColor: '#214995' }}
+          >
+            Accept All Cookies
+          </button>
+        </div>
       </div>
     </div>
   )
