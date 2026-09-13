@@ -1,10 +1,16 @@
+// Workers entry point: serves the prerendered static site (via ASSETS binding)
+// and handles the /api/contact form endpoint. Ported from the former
+// Cloudflare Pages Function at functions/api/contact.ts — kept as one file
+// since this project now deploys as a Worker, not Pages.
+
 interface Env {
+  ASSETS: { fetch: (request: Request) => Promise<Response> }
   SENDGRID_API_KEY: string
   TURNSTILE_SECRET_KEY?: string
   ALLOWED_ORIGINS?: string
 }
 
-interface RequestBody {
+interface ContactBody {
   name?: unknown
   email?: unknown
   message?: unknown
@@ -18,7 +24,7 @@ const MAX_FORM_AGE_MS = 2 * 60 * 60 * 1000
 const DEFAULT_ALLOWED_ORIGINS = [
   'https://supvision.ai',
   'https://www.supvision.ai',
-  'https://supvi.pages.dev',
+  'https://supvision.jevgenij-springis.workers.dev',
 ]
 
 function sanitize(str: string): string {
@@ -53,10 +59,10 @@ function isAllowedOrigin(origin: string, env: Env): boolean {
   if (!normalized) return false
   if (isLocalOrigin(origin)) return true
 
-  // Allow all Cloudflare Pages preview branches (*.supvi.pages.dev)
+  // Allow all Cloudflare Workers preview subdomains (*.workers.dev)
   try {
     const { hostname } = new URL(origin)
-    if (hostname === 'supvi.pages.dev' || hostname.endsWith('.supvi.pages.dev')) return true
+    if (hostname.endsWith('.workers.dev')) return true
   } catch { /* ignore */ }
 
   const extra = (env.ALLOWED_ORIGINS ?? '').split(',').map(o => normalizeOrigin(o.trim())).filter(Boolean) as string[]
@@ -75,7 +81,7 @@ async function verifyTurnstile(token: string, ip: string, secretKey: string): Pr
   return data.success
 }
 
-export const onRequestPost: (ctx: { request: Request; env: Env }) => Promise<Response> = async ({ request, env }) => {
+async function handleContactPost(request: Request, env: Env): Promise<Response> {
   const origin = request.headers.get('Origin') ?? ''
   const referrer = request.headers.get('Referer') ?? ''
 
@@ -98,9 +104,9 @@ export const onRequestPost: (ctx: { request: Request; env: Env }) => Promise<Res
     return new Response(JSON.stringify({ error: 'Server misconfiguration' }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } })
   }
 
-  let body: RequestBody
+  let body: ContactBody
   try {
-    body = (await request.json()) as RequestBody
+    body = (await request.json()) as ContactBody
   } catch {
     return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } })
   }
@@ -162,7 +168,7 @@ export const onRequestPost: (ctx: { request: Request; env: Env }) => Promise<Res
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders } })
 }
 
-export const onRequestOptions: (ctx: { request: Request; env: Env }) => Response = ({ request, env }) => {
+function handleContactOptions(request: Request, env: Env): Response {
   const origin = request.headers.get('Origin') ?? ''
   return new Response(null, {
     status: 204,
@@ -173,4 +179,18 @@ export const onRequestOptions: (ctx: { request: Request; env: Env }) => Response
       'Vary': 'Origin',
     },
   })
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url)
+
+    if (url.pathname === '/api/contact') {
+      if (request.method === 'POST') return handleContactPost(request, env)
+      if (request.method === 'OPTIONS') return handleContactOptions(request, env)
+      return new Response('Method Not Allowed', { status: 405 })
+    }
+
+    return env.ASSETS.fetch(request)
+  },
 }
