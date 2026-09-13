@@ -984,7 +984,7 @@ export default function Home() {
       {/* Hero */}
       <section ref={heroSectionRef} className="relative overflow-hidden" style={{ height: 'calc(100vh - 32px)', display: 'flex', flexDirection: 'column' }}>
         {/* bg */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FDFCFA 0%, #F4EFE7 55%, #EDE5D8 100%)' }} aria-hidden="true" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #DCE6F5 0%, #E9EFF9 35%, #F5F7FB 65%, #FFFFFF 100%)' }} aria-hidden="true" />
 
         {/* Two-column layout: left text, right dashboard */}
         <div className="relative z-10 flex w-full flex-col lg:flex-row" style={{ flex: '1 1 0', minHeight: 0 }}>
