@@ -532,10 +532,8 @@ export default function Header() {
           href="https://rigacomm.com/en/"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[9px] font-bold uppercase tracking-widest transition-colors sm:text-xs border-b border-gray-200 cursor-pointer"
-          style={{ backgroundColor: '#EDE8DF', color: '#111827' }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#111827'; e.currentTarget.style.color = '#F97316'; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#EDE8DF'; e.currentTarget.style.color = '#111827'; }}
+          className="relative flex h-8 w-full items-center justify-center overflow-hidden whitespace-nowrap text-[9px] font-bold uppercase tracking-widest sm:text-xs cursor-pointer"
+          style={{ backgroundColor: '#214995', color: '#fff' }}
         >
           <span className="relative inline-flex items-center gap-1 overflow-hidden">
             <span
