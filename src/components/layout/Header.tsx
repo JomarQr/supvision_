@@ -501,7 +501,7 @@ export default function Header() {
   const isOverviewActive = overviewPaths.some(p => pathname === p || pathname.startsWith(p + '/'))
   const isForWhomActive = pathname.startsWith('/industries/') || pathname.startsWith('/roles/')
 
-  const linkClass = `text-base font-medium transition-all duration-200 text-gray-900 rounded-lg px-2 py-1 self-center hover:text-[#214995]`
+  const linkClass = `font-inter text-base font-medium transition-all duration-200 text-gray-900 rounded-lg px-2 py-1 self-center hover:text-[#214995]`
 
   // Smart sticky: header hides when scrolled past it + going down, shows on scroll up
   const mobileShowSticky = wasStickyRef.current && scrollDir === 'up'
@@ -608,7 +608,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold text-white transition-colors"
+              className="font-inter inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold text-white transition-colors"
               style={{ backgroundColor: '#F97316' }}
               onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#111827' }}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#F97316')}
@@ -894,7 +894,7 @@ export default function Header() {
               </div>
               About us
             </Link>
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 self-center px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="font-inter mt-4 inline-flex items-center justify-center gap-2 self-center px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
               <span>Book a Demo!</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white flex-shrink-0">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
@@ -946,7 +946,7 @@ export default function Header() {
                 </div>
               )
             })}
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 self-center px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="font-inter mt-4 inline-flex items-center justify-center gap-2 self-center px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
               <span>Book a Demo!</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white flex-shrink-0">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />
@@ -996,7 +996,7 @@ export default function Header() {
                 </div>
               )
             })}
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 self-center px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
+            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="font-inter mt-4 inline-flex items-center justify-center gap-2 self-center px-6 py-3 text-sm font-semibold text-white" style={{ backgroundColor: '#111827' }}>
               <span>Book a Demo!</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 text-white flex-shrink-0">
                 <path fillRule="evenodd" d="M2 8a.75.75 0 0 1 .75-.75h8.69L8.22 4.03a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l3.22-3.22H2.75A.75.75 0 0 1 2 8Z" clipRule="evenodd" />

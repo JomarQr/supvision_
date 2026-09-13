@@ -995,14 +995,14 @@ export default function Home() {
               <h1
                 ref={heroH1Ref}
                 className="flex flex-col leading-tight"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2.4rem, 3.6vw, 4.4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '80ms' }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 'clamp(2.4rem, 3.6vw, 4.4rem)', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '80ms' }}
               >
                 <span style={{ color: '#111827' }}><span style={{ fontWeight: 800 }}>Agentic</span> Customer</span>
                 <span style={{ color: '#111827' }}>Support Team for</span>
                 <span style={{ color: '#111827' }}><span style={{ fontWeight: 800 }}>Fintech</span> Industry</span>
               </h1>
 
-              <p className="mt-6 text-base font-light leading-relaxed" style={{ color: '#4B5563', animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '160ms' }}>
+              <p className="mt-6 text-base leading-relaxed" style={{ color: '#4B5563', fontFamily: "'Inter', sans-serif", fontWeight: 400, animation: 'hero-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) both', animationDelay: '160ms' }}>
                 supVision gives fintech teams one AI agent to handle disputes and support queries — so customers get answers in seconds, every decision stays auditable, and your team only touches cases that actually need a human.
               </p>
 
