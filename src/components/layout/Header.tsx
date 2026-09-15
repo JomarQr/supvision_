@@ -598,11 +598,13 @@ export default function Header() {
           <div
             className="absolute left-0 right-0 z-20 hidden lg:block"
             style={{ top: '100%' }}
-            onMouseEnter={() => open(setOverviewOpen, overviewTimer)}
-            onMouseLeave={() => close(setOverviewOpen, overviewTimer)}
           >
-            <div className="mx-auto max-w-7xl px-6">
-              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif", animation: 'dropdown-reveal 0.4s cubic-bezier(0.22,1,0.36,1) both' }}>
+            <div
+              className="mx-auto max-w-7xl px-6"
+              onMouseEnter={() => open(setOverviewOpen, overviewTimer)}
+              onMouseLeave={() => close(setOverviewOpen, overviewTimer)}
+            >
+              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif", animation: 'dropdown-reveal 0.55s cubic-bezier(0.4,0,0.2,1) both' }}>
                 <div className="grid gap-4 p-6" style={{ gridTemplateColumns: '2fr 1fr' }}>
 
                   {/* ── Left: 2x2 grid of category cards ── */}
@@ -651,11 +653,13 @@ export default function Header() {
           <div
             className="absolute left-0 right-0 z-20 hidden lg:block"
             style={{ top: '100%' }}
-            onMouseEnter={() => open(setForWhomOpen, forWhomTimer)}
-            onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
           >
-            <div className="mx-auto max-w-7xl px-6">
-              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif", animation: 'dropdown-reveal 0.4s cubic-bezier(0.22,1,0.36,1) both' }}>
+            <div
+              className="mx-auto max-w-7xl px-6"
+              onMouseEnter={() => open(setForWhomOpen, forWhomTimer)}
+              onMouseLeave={() => close(setForWhomOpen, forWhomTimer)}
+            >
+              <div className="mt-3 rounded-3xl border border-gray-200 bg-white overflow-hidden" style={{ boxShadow: '0 24px 60px rgba(17,24,39,0.16)', fontFamily: "'Inter', sans-serif", animation: 'dropdown-reveal 0.55s cubic-bezier(0.4,0,0.2,1) both' }}>
                 <div className="grid grid-cols-2 gap-4 p-6">
                   {forWhomCategories.map(cat => (
                     <div key={cat.key} className="rounded-2xl border border-gray-200 bg-white p-5">
