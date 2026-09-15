@@ -64,10 +64,10 @@ export default function MultiChannel() {
             <ModelSelectorCard step={step} className="h-[440px]" />
             <div className="flex flex-col justify-center">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">AI routing</p>
-              <h2 className="mt-4 text-5xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="mt-4 text-5xl leading-snug text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Pick any AI for any task.
               </h2>
-              <p className="mt-3 text-xl leading-snug text-gray-500" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <p className="mt-3 text-xl leading-snug text-gray-500" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Pay only for what you need.
               </p>
               <p className="mt-5 max-w-md text-base leading-relaxed text-gray-500">
@@ -80,10 +80,10 @@ export default function MultiChannel() {
           <div className="lg:hidden">
             <div className="text-center">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">AI routing</p>
-              <h2 className="mt-3 text-[1.9rem] leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="mt-3 text-[1.9rem] leading-snug text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Pick any AI for any task.
               </h2>
-              <p className="mt-1 text-lg leading-snug text-gray-500" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <p className="mt-1 text-lg leading-snug text-gray-500" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Pay only for what you need.
               </p>
               <p className="mt-4 mx-auto max-w-xs text-sm leading-relaxed text-gray-500">

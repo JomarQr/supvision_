@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { submitContactForm } from '../lib/contactApi'
 import PageMeta from '../components/PageMeta'
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 function ContactDetailsBelowForm() {
   return (

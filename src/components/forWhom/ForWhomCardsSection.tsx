@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { ForWhomItem } from '../../data/forWhom'
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 export default function ForWhomCardsSection({
   title,

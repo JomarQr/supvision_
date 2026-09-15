@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PageMeta from '../components/PageMeta'
 import { DashboardScreenshots, AnalyticsFAQ } from '../components/analytics'
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 const heroPills = ['Real-time', 'Bot vs human', 'Heatmap', 'Exports']
 

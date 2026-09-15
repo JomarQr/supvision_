@@ -119,7 +119,7 @@ function MobileColumn({
       <p
         className="leading-none"
         style={{
-          fontFamily: "'Nohemi', sans-serif",
+          fontFamily: "'Inter', sans-serif",
           fontWeight: 300,
           fontSize: '2rem',
           color: dimHeading ? '#9E9890' : '#7A756C',

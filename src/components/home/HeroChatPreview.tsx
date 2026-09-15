@@ -27,7 +27,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
     >
       <div
         className="space-y-3 overflow-hidden px-4 pb-2 pt-4"
-        style={{ height: messagesHeight, fontFamily: "'Figtree', sans-serif" }}
+        style={{ height: messagesHeight, fontFamily: "'Inter', sans-serif" }}
       >
         {isDesktop ? (
           <>
@@ -136,7 +136,7 @@ export default function HeroChatPreview({ chatStep, className = '', variant = 'm
         <img loading="lazy" src="/component-187.webp" alt="" className={`${avatarSize} flex-shrink-0 rounded-full object-cover`} />
         <div
           className={`flex flex-1 items-center overflow-hidden rounded-xl px-3 py-2 ${bubbleText}`}
-          style={{ background: 'rgba(255,255,255,0.08)', minHeight: inputMinH, fontFamily: "'Figtree', sans-serif" }}
+          style={{ background: 'rgba(255,255,255,0.08)', minHeight: inputMinH, fontFamily: "'Inter', sans-serif" }}
         >
           {isDesktop ? (
             <>

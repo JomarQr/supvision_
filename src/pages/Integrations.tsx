@@ -71,7 +71,7 @@ function IntegrationsFAQ() {
     <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
         <div data-reveal className="mb-8 text-center">
-          <h2 className="leading-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
+          <h2 className="leading-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
             <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
         </div>
@@ -123,7 +123,7 @@ export default function Integrations() {
         >
           <h2
             className="text-[1.75rem] leading-tight text-white sm:text-[3.25rem]"
-            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
           >
             Don&apos;t see your tool?
           </h2>

@@ -81,7 +81,7 @@ function ValueRow({ v, i, anim }: { v: typeof values[number]; i: number; anim: o
         <div className="mb-4">
           {anim ? <Lottie lottieRef={lottieRef} animationData={anim} autoplay={false} loop={false} style={{ width: 96, height: 96 }} /> : <div style={{ width: 96, height: 96 }} />}
         </div>
-        <h3 className="text-[2rem] leading-tight text-gray-900 sm:text-[2.5rem]" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>{v.title}</h3>
+        <h3 className="text-[2rem] leading-tight text-gray-900 sm:text-[2.5rem]" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>{v.title}</h3>
         <p className="mt-4 text-base leading-relaxed text-gray-500">{v.desc}</p>
       </div>
       {/* Image */}
@@ -190,7 +190,7 @@ export default function About() {
         <div data-reveal className="mx-auto max-w-3xl px-6 text-center">
           <h1
             className="whitespace-nowrap text-center text-[2rem] leading-tight sm:text-[3.25rem] lg:text-6xl"
-            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, color: '#111827' }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: '#111827' }}
           >
             What is supVision?
           </h1>
@@ -233,7 +233,7 @@ export default function About() {
           <div data-reveal>
             <h2
               className="whitespace-nowrap text-[1.6rem] leading-tight text-gray-900 sm:text-[2.5rem]"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
             >
               We built supVision from inside fintech.
             </h2>
@@ -284,7 +284,7 @@ export default function About() {
                   <div className="flex flex-1 flex-col items-start justify-center p-6">
                     <h3
                       className="text-xl leading-tight text-gray-900 sm:text-2xl"
-                      style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                     >
                       {item.title}
                     </h3>
@@ -340,7 +340,7 @@ export default function About() {
           <div data-reveal className="mb-12 text-center">
             <h2
               className="text-[2rem] leading-tight text-gray-900 sm:text-[3.25rem]"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
             >
               The values that drive us
             </h2>
@@ -445,7 +445,7 @@ export default function About() {
         >
           <h2
             className="text-[2rem] leading-tight text-white sm:text-[3.25rem]"
-            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
           >
             Ready to stop living the problem?
           </h2>

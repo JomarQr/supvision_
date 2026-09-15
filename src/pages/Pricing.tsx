@@ -128,7 +128,7 @@ const comparisonRows = [
   { label: 'Support response time', starter: '48h email', growth: '8h chat', enterprise: 'Dedicated' },
 ]
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 export default function Pricing() {
   return (

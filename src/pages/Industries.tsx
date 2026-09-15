@@ -8,7 +8,7 @@ import hubNetworkAnim from '../assets/icons-colored/doodle-color-340-hub-network
 import loanAnim from '../assets/icons-colored/doodle-color-416-loan-hover-pinch.json'
 import shieldAnim from '../assets/icons-colored/doodle-color-14-shield-security-hover-pinch.json'
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 const INDUSTRIES = [
   {

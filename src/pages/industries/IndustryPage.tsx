@@ -63,7 +63,7 @@ function IndustryFAQ() {
     <section className="bg-[#faf8f5] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-2xl px-2 lg:max-w-7xl lg:px-0">
         <div data-reveal className="mb-8 text-center">
-          <h2 className="leading-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
+          <h2 className="leading-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}>
             <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>
         </div>
@@ -250,7 +250,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
             </span>
             <h2
               className="mt-5 text-center text-[2rem] leading-snug text-white lg:text-[2.25rem]"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
             >
               Challenges we solve for <em className="italic">{data.title}</em>.
             </h2>
@@ -264,7 +264,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
                   <div style={{ color: '#9BB0E8' }}>{card.icon}</div>
                   <h3
                     className="text-base leading-snug text-white sm:text-lg"
-                    style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                   >
                     {card.title}
                   </h3>
@@ -285,7 +285,7 @@ export default function IndustryPage({ data }: { data: IndustryPageData }) {
             </span>
             <h2
               className="mt-5 text-center text-[2rem] leading-snug text-gray-900 lg:text-[2.25rem]"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
             >
               What <em className="italic">{data.title}</em> teams get.
             </h2>

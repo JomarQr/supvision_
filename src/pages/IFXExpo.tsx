@@ -4,7 +4,7 @@ import { submitContactForm } from '../lib/contactApi'
 import PageMeta from '../components/PageMeta'
 import { openCalendlyPopup } from '../lib/calendly'
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 export default function IFXExpo() {
   const [submitted, setSubmitted] = useState(false)

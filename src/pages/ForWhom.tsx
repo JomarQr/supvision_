@@ -3,7 +3,7 @@ import ForWhomCardsSection from '../components/forWhom/ForWhomCardsSection'
 import { forWhomIndustries, forWhomRoles } from '../data/forWhom'
 import PageMeta from '../components/PageMeta'
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 export default function ForWhom() {
   return (

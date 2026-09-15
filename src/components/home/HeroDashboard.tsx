@@ -119,7 +119,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       borderRadius: 22,
       overflow: 'hidden',
       boxShadow: '0 20px 70px rgba(0,0,0,0.20)',
-      fontFamily: "'Nohemi', sans-serif",
+      fontFamily: "'Inter', sans-serif",
       fontSize: 12,
       color: '#111827',
       userSelect: 'none',
@@ -698,7 +698,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       <svg viewBox="0 0 80 50" style={{ width: 80, overflow: 'visible', flexShrink: 0 }}>
                         <path d="M 8 46 A 32 32 0 0 1 72 46" fill="none" stroke="#f0f0f0" strokeWidth="8" strokeLinecap="round" />
                         <path d="M 8 46 A 32 32 0 0 1 72 46" fill="none" stroke="#214995" strokeWidth="8" strokeLinecap="round" strokeDasharray="78 100" />
-                        <text x="40" y="42" textAnchor="middle" style={{ fontSize: 13, fontWeight: 800, fill: '#111827', fontFamily: "'Nohemi', sans-serif" }}>78%</text>
+                        <text x="40" y="42" textAnchor="middle" style={{ fontSize: 13, fontWeight: 800, fill: '#111827', fontFamily: "'Inter', sans-serif" }}>78%</text>
                       </svg>
                       <div>
                         <p style={{ fontSize: 10, fontWeight: 700, margin: 0 }}>Knowledge Base</p>
@@ -1345,7 +1345,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       strokeDasharray={`${filled} ${circ}`}
                       style={{ transition: 'stroke-dasharray 1s ease' }}
                     />
-                    <text x="50" y="52" textAnchor="middle" style={{ fontSize: 16, fontWeight: 800, fill: '#111827', fontFamily: "'Nohemi', sans-serif" }}>68%</text>
+                    <text x="50" y="52" textAnchor="middle" style={{ fontSize: 16, fontWeight: 800, fill: '#111827', fontFamily: "'Inter', sans-serif" }}>68%</text>
                   </svg>
                   <p style={{ fontSize: 9, color: '#6b7280', textAlign: 'center', marginTop: 2 }}>Auto-resolved</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 6, width: '100%' }}>

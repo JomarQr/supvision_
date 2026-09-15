@@ -23,7 +23,7 @@ const faqItems = [
   },
 ]
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 function FAQItem({
   item,

@@ -180,7 +180,7 @@ function WhatIsSection() {
             transition: 'opacity 0.5s ease, transform 0.5s ease',
           }}
         >
-          <h2 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2rem, 3vw, 2.75rem)', color: '#111827', lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: 'clamp(2rem, 3vw, 2.75rem)', color: '#111827', lineHeight: 1.2 }}>
             What is supVision?
           </h2>
           <p style={{ marginTop: '0.75rem', fontSize: '1rem', lineHeight: 1.7, color: '#6b7280', maxWidth: '56ch' }}>
@@ -204,7 +204,7 @@ function WhatIsSection() {
             pointerEvents: slideRight ? 'auto' : 'none',
           }}
         >
-          <h2 style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', color: '#111827', lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', color: '#111827', lineHeight: 1.2 }}>
             What is supVision?
           </h2>
           <p style={{ marginTop: '0.6rem', fontSize: '0.9rem', lineHeight: 1.65, color: '#6b7280' }}>
@@ -275,7 +275,7 @@ function FeatureTabSection({ showHeading = true }: { showHeading?: boolean } = {
         {/* Heading */}
         {showHeading && (
           <div data-reveal className="mb-10 text-center px-2">
-            <h2 className="text-3xl leading-tight text-gray-900 lg:text-4xl" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+            <h2 className="text-3xl leading-tight text-gray-900 lg:text-4xl" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
               What is supVision?
             </h2>
             <p className="mt-3 mx-auto max-w-2xl text-sm leading-relaxed text-gray-500 lg:text-base">
@@ -341,7 +341,7 @@ function FeatureTabSection({ showHeading = true }: { showHeading?: boolean } = {
           /* ── Desktop: features left, dashboard right ── */
           <div data-reveal className={`flex items-stretch gap-8 ${reversed ? 'flex-row-reverse' : 'flex-row'}`} style={{ '--rd': '160ms' } as React.CSSProperties}>
             <div className="w-[36%] flex-shrink-0 flex flex-col">
-              <h3 className="text-2xl leading-snug text-gray-900 mb-2" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>{tab.heading}</h3>
+              <h3 className="text-2xl leading-snug text-gray-900 mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>{tab.heading}</h3>
               <p className="text-sm leading-relaxed text-gray-500 mb-6">{tab.description}</p>
               <div className="divide-y divide-gray-200">
                 {tab.features.map((f, i) => (
@@ -451,7 +451,7 @@ function HeroBadgeSequence({ industries }: { industries: HeroIndustry[] }) {
   const current = industries[industryIndex]
 
   return (
-    <div className="inline-flex items-center justify-center text-white" style={{ minHeight: 32, minWidth: 260, fontFamily: "'Nohemi', sans-serif", fontSize: '1.05rem', fontWeight: 600 }}>
+    <div className="inline-flex items-center justify-center text-white" style={{ minHeight: 32, minWidth: 260, fontFamily: "'Inter', sans-serif", fontSize: '1.05rem', fontWeight: 600 }}>
 
       {/* Text appear */}
       {(phase === 'text-in' || phase === 'text-out') && (
@@ -744,7 +744,7 @@ function ValuePropCard({ v }: { v: typeof valueProps[0] }) {
 
         {/* Text */}
         <div style={{ padding: '2rem', borderRadius: '0 0 1rem 1rem', background: 'white' }}>
-          <p className="font-black leading-none" style={{ fontFamily: "'Nohemi', sans-serif", fontSize: '3.75rem', color: '#214995' }}>{v.stat}</p>
+          <p className="font-black leading-none" style={{ fontFamily: "'Inter', sans-serif", fontSize: '3.75rem', color: '#214995' }}>{v.stat}</p>
           <h3 className="mt-4 text-xl font-bold leading-snug text-gray-900">{v.headline}</h3>
           <p className="mt-3 text-sm leading-relaxed text-gray-500">{v.body}</p>
         </div>
@@ -1048,7 +1048,7 @@ export default function Home() {
                 gap: 10,
                 transform: 'translateZ(28px)',
                 pointerEvents: 'none',
-                fontFamily: "'Nohemi', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 userSelect: 'none',
                 zIndex: 10,
               }}
@@ -1097,7 +1097,7 @@ export default function Home() {
                 gap: 10,
                 transform: 'translateZ(28px)',
                 pointerEvents: 'none',
-                fontFamily: "'Nohemi', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 userSelect: 'none',
                 zIndex: 10,
               }}
@@ -1163,7 +1163,7 @@ export default function Home() {
           <div className="hidden lg:block">
             {/* Intro text */}
             <div className="mb-10 text-center" data-reveal>
-              <h2 className="text-4xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="text-4xl leading-snug text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Still paying agents to answer the same<br /><span style={{ fontWeight: 700 }}>questions every day?</span>
               </h2>
               <p className="mt-4 mx-auto max-w-2xl text-sm lg:text-base leading-relaxed text-gray-500">
@@ -1176,19 +1176,19 @@ export default function Home() {
               {/* 10x faster */}
               <div data-reveal className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', '--rd': '80ms' } as React.CSSProperties}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Response speed</p>
-                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>10x faster</p>
+                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>10x faster</p>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">10 times faster than manual support — avg. <strong className="text-gray-700">1.2s</strong> to resolution, so customers get answers in seconds, not minutes.</p>
               </div>
               {/* 68% */}
               <div data-reveal className="relative overflow-hidden rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', '--rd': '160ms' } as React.CSSProperties}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Support costs</p>
-                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>68% cheaper</p>
+                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>68% cheaper</p>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">Cut support costs by 68% on repetitive tier-1 volume — without adding headcount. Your team stays focused on work that actually needs a human.</p>
               </div>
               {/* 93% */}
               <div data-reveal className="rounded-[2rem] px-8 py-8" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', '--rd': '240ms' } as React.CSSProperties}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">Tickets handled</p>
-                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>93% resolved</p>
+                <p className="mt-2 leading-none tracking-tight whitespace-nowrap" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#111827' }}>93% resolved</p>
                 <p className="mt-3 text-sm leading-relaxed text-gray-500">93% of tickets fully resolved automatically. Complex or high-risk cases are escalated to human agents for a precise, careful response.</p>
               </div>
               {/* 3 days */}
@@ -1196,7 +1196,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-black/30" />
                 <div className="relative z-10">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60">Integration time</p>
-                  <p className="mt-2 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#fff' }}>3 days</p>
+                  <p className="mt-2 leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '3.5rem', color: '#fff' }}>3 days</p>
                   <p className="mt-3 text-sm leading-relaxed text-white/70">Most companies go live within 3 days by connecting the tools they already use — Zendesk, Freshdesk, Intercom, or a custom CRM. No rebuilding, no disruption.</p>
                 </div>
               </div>
@@ -1234,7 +1234,7 @@ export default function Home() {
           <div className="mt-16 mb-20 hidden lg:block">
 
             <div data-reveal className="mb-6 text-center">
-              <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Everything you need,{' '}<span style={{ fontWeight: 700 }}>out of the box</span>
               </h2>
               <p className="mt-3 mx-auto max-w-xl text-sm leading-relaxed text-gray-500 lg:text-base">
@@ -1422,7 +1422,7 @@ export default function Home() {
           {/* Mobile — same heading + 4 metric cards as desktop */}
           <div className="-mx-6 mt-6 lg:hidden pt-8 pb-8 px-4">
             <div className="mb-8 text-center">
-              <h2 className="text-3xl leading-snug text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="text-3xl leading-snug text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Still paying agents to answer the same questions every day?
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-gray-500">
@@ -1433,22 +1433,22 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-3">
               <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Response speed</p>
-                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>10x faster</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>10x faster</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">10× faster than manual support — avg. <strong className="text-gray-700">1.2s</strong> to resolution.</p>
               </div>
               <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Support costs</p>
-                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>68% cheaper</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>68% cheaper</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">Cut costs by 68% on tier-1 volume — without adding headcount.</p>
               </div>
               <div className="relative overflow-hidden rounded-[1.5rem] px-4 py-5" style={{ backgroundColor: '#F3EFE9', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-gray-500">Tickets handled</p>
-                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>93% resolved</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#111827' }}>93% resolved</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-gray-500">Fully resolved automatically. Complex cases escalated to human agents.</p>
               </div>
               <div className="blue-gradient-card relative overflow-hidden rounded-[1.5rem] px-4 py-5">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white/60">Integration time</p>
-                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#fff' }}>3 days</p>
+                <p className="mt-1 leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2rem', color: '#fff' }}>3 days</p>
                 <p className="mt-2 text-[11px] leading-relaxed text-white/70">Most companies go live within 3 days using tools they already have.</p>
               </div>
             </div>
@@ -1457,7 +1457,7 @@ export default function Home() {
 
             {/* 3 key differentiators — mobile */}
             <div data-reveal className="mt-10 mb-2 text-center">
-              <h2 className="text-3xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+              <h2 className="text-3xl text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                 Everything you need,{' '}<span style={{ fontWeight: 700 }}>out of the box</span>
               </h2>
             </div>
@@ -1657,7 +1657,7 @@ export default function Home() {
       <section className="pt-0 pb-12 px-4 lg:pt-2 lg:pb-16 lg:px-8" style={{ backgroundColor: '#faf8f5' }}>
         <div className="mx-auto max-w-7xl">
           <div data-reveal className="mb-8 text-center lg:mb-10">
-            <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+            <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
               Do you recognise yourself <span style={{ fontWeight: 700 }}>in one of these?</span>
             </h2>
             <p className="mt-2 text-sm text-gray-500">supVision is purpose-built for fintech — see where your business fits and explore what it can do for you.</p>
@@ -1680,7 +1680,7 @@ export default function Home() {
           <div className="mb-8 lg:mb-10 lg:text-center">
             <h2
               className="text-3xl leading-snug text-gray-900 lg:text-4xl"
-              style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
             >
               Works with everything <span style={{ fontWeight: 700 }}>in your stack</span>
             </h2>
@@ -1813,7 +1813,7 @@ export default function Home() {
             <div className="mx-auto max-w-5xl">
               {/* Heading */}
               <div data-reveal className="mb-10 text-center">
-                <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}>
+                <h2 className="text-4xl text-gray-900" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
                   Companies that moved from overwhelmed to{' '}
                   <span style={{ fontWeight: 700 }}>automated.</span>
                 </h2>
@@ -1909,7 +1909,7 @@ export default function Home() {
               <div className="flex-1 min-w-0">
                 <h2
                   className="mt-4 leading-tight text-gray-900"
-                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                  style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3rem)' }}
                 >
                   Built by people with <span style={{ fontWeight: 700 }}>15+ years</span> in fintech.
                 </h2>
@@ -1957,7 +1957,7 @@ export default function Home() {
             <div data-reveal className="max-w-3xl mx-auto lg:hidden">
               <h2
                 className="mt-2 text-center text-[2.25rem] leading-tight text-gray-900"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
               >
                 Privacy first. <span style={{ fontWeight: 700 }}>Security always.</span>
               </h2>
@@ -1990,7 +1990,7 @@ export default function Home() {
               <div data-reveal className="mb-10 text-center">
                 <h2
                   className="text-4xl leading-tight text-gray-900"
-                  style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                  style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                 >
                   Privacy first. <span style={{ fontWeight: 700 }}>Security always.</span>
                 </h2>
@@ -2022,7 +2022,7 @@ export default function Home() {
                     </div>
                     <h3
                       className="text-xl leading-snug text-gray-900"
-                      style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+                      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                     >
                       {card.title}
                     </h3>
@@ -2060,7 +2060,7 @@ export default function Home() {
               <h2 className="mt-4 hidden text-3xl font-bold leading-tight text-white lg:block lg:text-4xl">See it in action. Book your demo today.</h2>
               <h2
                 className="mt-2 flex flex-col text-center leading-tight lg:hidden"
-                style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
               >
                 <span className="text-white">Stop answering</span>
                 <span className="text-white">the same questions.</span>
@@ -2339,7 +2339,7 @@ function FAQ() {
         <div data-reveal className="mb-8 text-center">
           <h2
             className="leading-tight"
-            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: '2.25rem' }}
           >
             <span className="text-gray-900">Frequently Asked Questions</span>
           </h2>

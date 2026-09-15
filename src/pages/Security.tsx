@@ -16,7 +16,7 @@ type TextCertCard = {
   desc: string
 }
 
-const canelaStyle = { fontFamily: "'Nohemi', sans-serif", fontWeight: 300 } as const
+const canelaStyle = { fontFamily: "'Inter', sans-serif", fontWeight: 300 } as const
 
 const certCards: (ImageCertCard | TextCertCard)[] = [
   {
@@ -145,7 +145,7 @@ export default function Security() {
         <div className="mx-auto max-w-3xl">
           <h1
             className="text-4xl leading-snug text-gray-900"
-            style={{ fontFamily: "'Nohemi', sans-serif", fontWeight: 300 }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
           >
             Privacy <span style={{ fontWeight: 700 }}>first.</span> Security <span style={{ fontWeight: 700 }}>always.</span>
           </h1>
