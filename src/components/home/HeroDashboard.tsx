@@ -89,7 +89,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
   const visibleTickets = [0, 1, 2, 3].map(i => TICKETS[(rowOffset + i) % TICKETS.length])
 
   const card = (style?: React.CSSProperties): React.CSSProperties => ({
-    background: '#fff', borderRadius: 14, padding: '12px 14px', position: 'relative', ...style,
+    background: '#fff', borderRadius: 8, padding: '12px 14px', position: 'relative', ...style,
   })
 
   const blockedEntry = BLOCKED_QUEUE[blockedIdx]
@@ -116,9 +116,10 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
     <div style={{
       display: 'flex',
       background: bg,
-      borderRadius: 22,
+      borderRadius: 12,
       overflow: 'hidden',
-      boxShadow: '0 20px 70px rgba(0,0,0,0.20)',
+      boxShadow: '0 4px 28px rgba(17,24,39,0.10)',
+      border: '1px solid #e5e7eb',
       fontFamily: "'Inter', sans-serif",
       fontSize: 12,
       color: '#111827',
@@ -199,7 +200,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#f8f9fb', minWidth: 0 }}>
         {/* Header */}
         <div style={{ background: bg, borderBottom: `1px solid ${divider}`, padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f3f4f6', borderRadius: 10, padding: '6px 12px', flex: 1, maxWidth: 200 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f3f4f6', borderRadius: 6, padding: '6px 12px', flex: 1, maxWidth: 200 }}>
             <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 12, height: 12, flexShrink: 0 }}>
               <path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" />
             </svg>
@@ -227,7 +228,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>Confidence Thresholds</h2>
                   <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>Per-topic automation confidence levels</p>
                 </div>
-                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
+                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
                   Edit Thresholds
                 </button>
               </div>
@@ -279,7 +280,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { name: 'James K.', avatar: '/avatars/man-1.webp',   query: 'Dispute — charge was wrong',  score: 31, auto: false },
                         { name: 'Liu W.',   avatar: '/avatars/man-4.webp',   query: 'How do I reset my PIN?',      score: 87, auto: true  },
                       ].map((d, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '6px 8px', borderRadius: 10, background: d.auto ? 'rgba(34,197,94,0.04)' : 'rgba(239,68,68,0.04)', border: `1px solid ${d.auto ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}` }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '6px 8px', borderRadius: 6, background: d.auto ? 'rgba(34,197,94,0.04)' : 'rgba(239,68,68,0.04)', border: `1px solid ${d.auto ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)'}` }}>
                           <img loading="lazy" src={d.avatar} alt="" style={{ width: 20, height: 20, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <p style={{ fontSize: 9, fontWeight: 700, margin: 0 }}>{d.name}</p>
@@ -327,7 +328,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     { label: 'Review zone',       value: '40–80%', desc: 'Flag for supervisor review',  color: '#f97316' },
                     { label: 'Topics configured', value: '14',   desc: 'Unique topics with thresholds', color: '#22c55e' },
                   ].map(s => (
-                    <div key={s.label} style={{ flex: 1, padding: '8px 10px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
+                    <div key={s.label} style={{ flex: 1, padding: '8px 10px', borderRadius: 6, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
                       <p style={{ fontSize: 16, fontWeight: 800, margin: 0, color: s.color }}>{s.value}</p>
                       <p style={{ fontSize: 9, fontWeight: 700, margin: '2px 0 1px', color: '#374151' }}>{s.label}</p>
                       <p style={{ fontSize: 8, color: '#9ca3af', margin: 0 }}>{s.desc}</p>
@@ -344,7 +345,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>Data Access Controls</h2>
                   <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>Permissions for AI data read / write / reference</p>
                 </div>
-                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
+                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
                   Save Changes
                 </button>
               </div>
@@ -372,7 +373,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       <>
                         <div key={row.label} style={{ fontSize: 10, fontWeight: 600, color: row.restricted ? '#9ca3af' : '#374151', padding: '5px 0', display: 'flex', alignItems: 'center', gap: 5 }}>
                           {row.restricted && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 14, height: 14, background: 'rgba(239,68,68,0.1)', borderRadius: 4, flexShrink: 0 }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 14, height: 14, background: 'rgba(239,68,68,0.1)', borderRadius: 3, flexShrink: 0 }}>
                               <svg viewBox="0 0 12 14" fill="none" style={{ width: 8, height: 8 }}>
                                 <rect x="1" y="6" width="10" height="8" rx="2" fill="#dc2626" />
                                 <path d="M3.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="#dc2626" strokeWidth="1.4" strokeLinecap="round" fill="none" />
@@ -384,7 +385,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         </div>
                         {[row.read, row.write, row.ref].map((v, ci) => (
                           <div key={ci} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '5px 8px' }}>
-                            <div style={{ width: 14, height: 14, borderRadius: 4, background: v ? '#214995' : '#f3f4f6', border: v ? 'none' : '1.5px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ width: 14, height: 14, borderRadius: 3, background: v ? '#214995' : '#f3f4f6', border: v ? 'none' : '1.5px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               {v && <svg viewBox="0 0 10 10" fill="white" style={{ width: 8, height: 8 }}><path d="M1.5 5.5l2.5 2.5 4.5-5" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                             </div>
                           </div>
@@ -406,13 +407,13 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { resource: 'Card Details',      action: 'READ',  user: 'Omar F.',   ok: false },
                         { resource: 'Support History',   action: 'WRITE', user: 'Liu W.',    ok: true  },
                       ].map((e, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 8px', borderRadius: 8, background: e.ok ? '#f9fafb' : 'rgba(239,68,68,0.04)', border: `1px solid ${e.ok ? '#f0f0f0' : 'rgba(239,68,68,0.12)'}` }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 8px', borderRadius: 5, background: e.ok ? '#f9fafb' : 'rgba(239,68,68,0.04)', border: `1px solid ${e.ok ? '#f0f0f0' : 'rgba(239,68,68,0.12)'}` }}>
                           <div style={{ width: 6, height: 6, borderRadius: '50%', background: e.ok ? '#22c55e' : '#ef4444', flexShrink: 0 }} />
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <p style={{ fontSize: 9, margin: 0, color: '#374151', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.resource}</p>
                             <p style={{ fontSize: 8, margin: 0, color: '#9ca3af' }}>{e.user}</p>
                           </div>
-                          <span style={{ fontSize: 8, fontWeight: 700, borderRadius: 4, padding: '1px 5px', background: e.ok ? 'rgba(33,73,149,0.08)' : 'rgba(239,68,68,0.1)', color: e.ok ? '#214995' : '#dc2626', flexShrink: 0 }}>{e.action}</span>
+                          <span style={{ fontSize: 8, fontWeight: 700, borderRadius: 3, padding: '1px 5px', background: e.ok ? 'rgba(33,73,149,0.08)' : 'rgba(239,68,68,0.1)', color: e.ok ? '#214995' : '#dc2626', flexShrink: 0 }}>{e.action}</span>
                           {!e.ok && <span style={{ fontSize: 8, fontWeight: 700, color: '#dc2626' }}>BLOCKED</span>}
                         </div>
                       ))}
@@ -447,7 +448,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     { role: 'Human Agent',     perms: ['Full read access', 'Write notes', 'View card (masked)'], color: '#22c55e' },
                     { role: 'Supervisor',      perms: ['Full access', 'Export data', 'Edit AI permissions'],    color: '#8b5cf6' },
                   ].map(r => (
-                    <div key={r.role} style={{ flex: 1, padding: '8px 10px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
+                    <div key={r.role} style={{ flex: 1, padding: '8px 10px', borderRadius: 6, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 6 }}>
                         <div style={{ width: 7, height: 7, borderRadius: '50%', background: r.color }} />
                         <span style={{ fontSize: 10, fontWeight: 700, color: '#111827' }}>{r.role}</span>
@@ -469,7 +470,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>Topic Restrictions</h2>
                   <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>Define what the AI cannot handle</p>
                 </div>
-                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
+                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
                   + Add Rule
                 </button>
               </div>
@@ -481,7 +482,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 11, fontWeight: 700, marginBottom: 10 }}>Restricted Topics</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                     {BLOCKED_TOPICS.map((t) => (
-                      <div key={t.topic} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 10, background: t.enabled ? 'rgba(239,68,68,0.04)' : '#f9fafb', border: `1px solid ${t.enabled ? 'rgba(239,68,68,0.12)' : '#f0f0f0'}` }}>
+                      <div key={t.topic} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 6, background: t.enabled ? 'rgba(239,68,68,0.04)' : '#f9fafb', border: `1px solid ${t.enabled ? 'rgba(239,68,68,0.12)' : '#f0f0f0'}` }}>
                         <div style={{ width: 7, height: 7, borderRadius: '50%', background: t.enabled ? t.color : '#d1d5db', flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ fontSize: 10, fontWeight: 700, margin: 0, color: t.enabled ? '#111827' : '#9ca3af' }}>{t.topic}</p>
@@ -552,7 +553,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
                   {BLOCKED_QUEUE.map((entry, i) => (
-                    <div key={i} style={{ flex: 1, padding: '8px 10px', borderRadius: 10, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
+                    <div key={i} style={{ flex: 1, padding: '8px 10px', borderRadius: 6, background: '#f9fafb', border: '1px solid #f0f0f0' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
                         <img loading="lazy" src={entry.avatar} alt="" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
                         <span style={{ fontSize: 9, fontWeight: 700 }}>{entry.name}</span>
@@ -572,7 +573,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>Audit Logs</h2>
                   <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>Full conversation history — exportable for compliance</p>
                 </div>
-                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default', display: 'flex', alignItems: 'center', gap: 5 }}>
+                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default', display: 'flex', alignItems: 'center', gap: 5 }}>
                   <svg viewBox="0 0 12 12" fill="none" style={{ width: 9, height: 9 }}><path d="M1 9h10M1 6h10M1 3h10" stroke="white" strokeWidth="1.4" strokeLinecap="round"/></svg>
                   Export CSV
                 </button>
@@ -596,7 +597,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     { time: '14:18:09', query: 'KYC document upload not working',       conf: 76, decision: 'Auto',     agent: 'AI',    ok: true  },
                     { time: '14:14:42', query: 'My limit dropped without notice',       conf: 35, decision: 'Escalate', agent: 'Marco', ok: false },
                   ].map((r, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 0.7fr 0.65fr 0.7fr', alignItems: 'center', padding: '5px 8px', borderRadius: 8, background: i % 2 === 0 ? '#f9fafb' : '#fff' }}>
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 0.7fr 0.65fr 0.7fr', alignItems: 'center', padding: '5px 8px', borderRadius: 5, background: i % 2 === 0 ? '#f9fafb' : '#fff' }}>
                       <span style={{ fontSize: 9, color: '#9ca3af', fontFamily: 'monospace' }}>{r.time}</span>
                       <span style={{ fontSize: 9, color: '#374151', paddingRight: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.query}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -678,7 +679,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { action: 'Train on FX disputes',   impact: 'Medium', topic: 'FX rate disputes'   },
                         { action: 'Update PSD2 content',    impact: 'Medium', topic: 'PSD2 compliance'    },
                       ].map((a, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, padding: '6px 8px', borderRadius: 8, background: '#fff', border: '1px solid #f0f0f0' }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, padding: '6px 8px', borderRadius: 5, background: '#fff', border: '1px solid #f0f0f0' }}>
                           <div style={{ width: 16, height: 16, borderRadius: '50%', background: '#214995', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
                             <span style={{ fontSize: 8, fontWeight: 800, color: '#fff' }}>{i + 1}</span>
                           </div>
@@ -741,7 +742,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       </div>
                     ))}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 10, padding: '7px 10px', borderRadius: 10, background: 'rgba(34,197,94,0.05)', border: '1px solid rgba(34,197,94,0.15)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 10, padding: '7px 10px', borderRadius: 6, background: 'rgba(34,197,94,0.05)', border: '1px solid rgba(34,197,94,0.15)' }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
                     <span style={{ fontSize: 9, color: '#16a34a', fontWeight: 600 }}>Accuracy improved +4.2% this month</span>
                   </div>
@@ -758,7 +759,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { channel: 'Web chat',  tone: 'Concise',   color: '#8b5cf6' },
                         { channel: 'Telegram',  tone: 'Friendly',  color: '#22c55e' },
                       ].map(t => (
-                        <div key={t.channel} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '4px 8px', borderRadius: 8, background: '#f9fafb' }}>
+                        <div key={t.channel} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '4px 8px', borderRadius: 5, background: '#f9fafb' }}>
                           <span style={{ fontSize: 9, color: '#374151', flex: 1 }}>{t.channel}</span>
                           <span style={{ fontSize: 8, fontWeight: 700, borderRadius: 100, padding: '2px 7px', background: `${t.color}18`, color: t.color }}>{t.tone}</span>
                         </div>
@@ -789,7 +790,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     { label: 'Lending',           active: false, topics: 8,  color: '#9ca3af' },
                     { label: 'FX & Trading',      active: false, topics: 7,  color: '#9ca3af' },
                   ].map(p => (
-                    <div key={p.label} style={{ flex: 1, padding: '7px 9px', borderRadius: 10, background: p.active ? `${p.color}0d` : '#f9fafb', border: `1px solid ${p.active ? p.color + '33' : '#f0f0f0'}` }}>
+                    <div key={p.label} style={{ flex: 1, padding: '7px 9px', borderRadius: 6, background: p.active ? `${p.color}0d` : '#f9fafb', border: `1px solid ${p.active ? p.color + '33' : '#f0f0f0'}` }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4 }}>
                         <div style={{ width: 6, height: 6, borderRadius: '50%', background: p.active ? p.color : '#d1d5db' }} />
                         <span style={{ fontSize: 9, fontWeight: 700, color: p.active ? '#111827' : '#9ca3af' }}>{p.label}</span>
@@ -832,7 +833,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       <span key={i} style={{ fontSize: 8, color: '#9ca3af', flex: 1, textAlign: 'center' }}>{l}</span>
                     ))}
                   </div>
-                  <div style={{ marginTop: 8, padding: '6px 10px', borderRadius: 8, background: 'rgba(33,73,149,0.05)' }}>
+                  <div style={{ marginTop: 8, padding: '6px 10px', borderRadius: 5, background: 'rgba(33,73,149,0.05)' }}>
                     <span style={{ fontSize: 9, color: '#214995', fontWeight: 600 }}>+22% accuracy since deployment</span>
                   </div>
                 </div>
@@ -868,7 +869,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { agent: 'James K.', fix: 'Dispute escalation updated',  time: '5h ago' },
                         { agent: 'Marco S.', fix: 'KYC response improved',       time: 'Yesterday' },
                       ].map((c, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 8px', borderRadius: 8, background: '#f9fafb' }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 8px', borderRadius: 5, background: '#f9fafb' }}>
                           <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(33,73,149,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <span style={{ fontSize: 8, fontWeight: 800, color: '#214995' }}>{c.agent[0]}</span>
                           </div>
@@ -904,7 +905,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   { label: 'FX & Trading',  active: false, color: '#9ca3af', topics: 7,  coverage: 0,  examples: ['Spread queries', 'Position size', 'Margin calls', 'Market hours'] },
                   { label: 'InsurTech',     active: false, color: '#9ca3af', topics: 6,  coverage: 0,  examples: ['Policy details', 'Claim status', 'Premium info', 'Coverage FAQ'] },
                 ].map(p => (
-                  <div key={p.label} style={{ padding: '10px 10px', borderRadius: 12, background: p.active ? `${p.color}0d` : '#f9fafb', border: `1px solid ${p.active ? p.color + '30' : '#f0f0f0'}` }}>
+                  <div key={p.label} style={{ padding: '10px 10px', borderRadius: 8, background: p.active ? `${p.color}0d` : '#f9fafb', border: `1px solid ${p.active ? p.color + '30' : '#f0f0f0'}` }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                         <div style={{ width: 7, height: 7, borderRadius: '50%', background: p.active ? p.color : '#d1d5db' }} />
@@ -938,7 +939,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     { label: 'Payments',      resolved: '89%', topics: 11, color: '#22c55e' },
                     { label: 'Web3', resolved: '81%', topics: 9,  color: '#8b5cf6' },
                   ].map(p => (
-                    <div key={p.label} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 10, background: '#f9fafb' }}>
+                    <div key={p.label} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 6, background: '#f9fafb' }}>
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: p.color, flexShrink: 0 }} />
                       <div>
                         <p style={{ fontSize: 10, fontWeight: 700, margin: 0 }}>{p.label}</p>
@@ -957,7 +958,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.2 }}>Tone & Style Controls</h2>
                   <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>Define how supVision communicates per channel and segment</p>
                 </div>
-                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
+                <button style={{ background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
                   Save Settings
                 </button>
               </div>
@@ -974,7 +975,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       { channel: 'Telegram',  tone: 'Friendly',  length: 'Short',   emoji: true,  color: '#22c55e' },
                       { channel: 'Zendesk',   tone: 'Formal',    length: 'Detailed', emoji: false, color: '#214995' },
                     ].map(c => (
-                      <div key={c.channel} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '7px 10px', borderRadius: 10, background: '#f9fafb' }}>
+                      <div key={c.channel} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '7px 10px', borderRadius: 6, background: '#f9fafb' }}>
                         <span style={{ fontSize: 10, fontWeight: 600, color: '#374151', width: 60, flexShrink: 0 }}>{c.channel}</span>
                         <span style={{ fontSize: 8, fontWeight: 700, borderRadius: 100, padding: '2px 7px', background: `${c.color}18`, color: c.color, flexShrink: 0 }}>{c.tone}</span>
                         <span style={{ fontSize: 8, borderRadius: 100, padding: '2px 7px', background: '#f0f0f0', color: '#6b7280', flexShrink: 0 }}>{c.length}</span>
@@ -1008,7 +1009,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { segment: 'Business accounts', tone: 'Formal',  color: '#214995' },
                         { segment: 'Standard',        tone: 'Friendly',  color: '#22c55e' },
                       ].map(s => (
-                        <div key={s.segment} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 8px', borderRadius: 8, background: '#f9fafb' }}>
+                        <div key={s.segment} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 8px', borderRadius: 5, background: '#f9fafb' }}>
                           <span style={{ fontSize: 9, color: '#374151', flex: 1 }}>{s.segment}</span>
                           <span style={{ fontSize: 8, fontWeight: 700, borderRadius: 100, padding: '2px 7px', background: `${s.color}18`, color: s.color }}>{s.tone}</span>
                         </div>
@@ -1047,7 +1048,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                         { key: 'CSAT',       val: `${p.csat}/5`,     sub: 'satisfaction' },
                         { key: 'Tickets',    val: String(p.tickets),  sub: 'this month' },
                       ].map(m => (
-                        <div key={m.key} style={{ padding: '6px 8px', background: '#fff', borderRadius: 8 }}>
+                        <div key={m.key} style={{ padding: '6px 8px', background: '#fff', borderRadius: 5 }}>
                           <p style={{ fontSize: 14, fontWeight: 800, margin: 0, color: p.color }}>{m.val}</p>
                           <p style={{ fontSize: 8, color: '#9ca3af', margin: '1px 0 0' }}>{m.key}</p>
                         </div>
@@ -1153,7 +1154,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                       <span key={l} style={{ fontSize: 8, color: '#9ca3af', flex: 1, textAlign: 'center' }}>{l}</span>
                     ))}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, padding: '6px 10px', background: '#f9fafb', borderRadius: 8 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, padding: '6px 10px', background: '#f9fafb', borderRadius: 5 }}>
                     <span style={{ fontSize: 9, color: '#374151' }}>Avg. response time this week</span>
                     <span style={{ fontSize: 9, fontWeight: 800, color: '#22c55e' }}>1.2s</span>
                   </div>
@@ -1210,7 +1211,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                     { topic: 'KYC doc upload',   volume: 89,  resolved: 68, time: '2.4s', esc: '32%', ok: false },
                     { topic: 'Card dispute',     volume: 84,  resolved: 40, time: '1.8s', esc: '60%', ok: false },
                   ].map((r, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.5fr 0.55fr 0.75fr 0.6fr 0.65fr', alignItems: 'center', padding: '4px 6px', borderRadius: 6, background: i % 2 === 0 ? '#f9fafb' : '#fff' }}>
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.5fr 0.55fr 0.75fr 0.6fr 0.65fr', alignItems: 'center', padding: '4px 6px', borderRadius: 4, background: i % 2 === 0 ? '#f9fafb' : '#fff' }}>
                       <span style={{ fontSize: 9, color: '#374151' }}>{r.topic}</span>
                       <span style={{ fontSize: 9, color: '#6b7280' }}>{r.volume}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -1235,10 +1236,10 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 10, color: '#9ca3af', margin: 0 }}>Live view — May 25, 2026</p>
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
-                  <button style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
+                  <button style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 700, cursor: 'default' }}>
                     <span style={{ fontSize: 13 }}>+</span> New Ticket
                   </button>
-                  <button style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: '6px 12px', fontSize: 10, fontWeight: 600, color: '#374151', cursor: 'default' }}>
+                  <button style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 6, padding: '6px 12px', fontSize: 10, fontWeight: 600, color: '#374151', cursor: 'default' }}>
                     Export
                   </button>
                 </div>
@@ -1311,7 +1312,7 @@ export default function HeroDashboard({ animated = true, view = 'default', beige
                   <p style={{ fontSize: 11, fontWeight: 700, marginBottom: 8 }}>Live Alert</p>
                   <p style={{ fontSize: 13, fontWeight: 800, lineHeight: 1.3, marginBottom: 4 }}>Card dispute escalated</p>
                   <p style={{ fontSize: 10, color: '#6b7280', marginBottom: 10 }}>James K. · 2 min ago · Zendesk</p>
-                  <button style={{ width: '100%', background: '#214995', color: '#fff', border: 'none', borderRadius: 10, padding: '7px 0', fontSize: 10, fontWeight: 700, cursor: 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                  <button style={{ width: '100%', background: '#214995', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 0', fontSize: 10, fontWeight: 700, cursor: 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
                     Review Now
                   </button>
                 </div>

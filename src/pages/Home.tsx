@@ -1054,7 +1054,7 @@ export default function Home() {
               }}
             >
               {/* Total Today */}
-              <div style={{ background: '#214995', color: '#fff', borderRadius: 14, padding: '12px 14px', position: 'relative', overflow: 'hidden', boxShadow: '0 8px 24px rgba(33,73,149,0.45)' }}>
+              <div style={{ background: '#214995', color: '#fff', borderRadius: 8, padding: '12px 14px', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 16px rgba(33,73,149,0.30)' }}>
                 <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 16 16" fill="white" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                 </div>
@@ -1065,7 +1065,7 @@ export default function Home() {
               {/* Auto-Resolved stays in dashboard — transparent spacer to hold grid cell */}
               <div />
               {/* Avg Response */}
-              <div style={{ background: '#fff', borderRadius: 14, padding: '12px 14px', position: 'relative', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
+              <div style={{ background: '#fff', borderRadius: 8, padding: '12px 14px', position: 'relative', boxShadow: '0 2px 10px rgba(0,0,0,0.08)' }}>
                 <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                 </div>
@@ -1074,7 +1074,7 @@ export default function Home() {
                 <span style={{ fontSize: 9, fontWeight: 700, background: 'rgba(34,197,94,0.12)', color: '#16a34a', borderRadius: 100, padding: '2px 7px' }}>↓ 0.3s faster</span>
               </div>
               {/* Escalated */}
-              <div style={{ background: '#fff', borderRadius: 14, padding: '12px 14px', position: 'relative', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
+              <div style={{ background: '#fff', borderRadius: 8, padding: '12px 14px', position: 'relative', boxShadow: '0 2px 10px rgba(0,0,0,0.08)' }}>
                 <div style={{ position: 'absolute', top: 8, right: 8, width: 22, height: 22, borderRadius: '50%', border: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg viewBox="0 0 16 16" fill="#9ca3af" style={{ width: 10, height: 10 }}><path fillRule="evenodd" d="M4.22 11.78a.75.75 0 0 1 0-1.06L9.44 5.5H5.75a.75.75 0 0 1 0-1.5h5.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V6.56l-5.22 5.22a.75.75 0 0 1-1.06 0Z" clipRule="evenodd" /></svg>
                 </div>
@@ -1103,7 +1103,7 @@ export default function Home() {
               }}
             >
               {/* Team Queue */}
-              <div style={{ background: '#fff', borderRadius: 14, padding: '12px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
+              <div style={{ background: '#fff', borderRadius: 8, padding: '12px 14px', boxShadow: '0 2px 10px rgba(0,0,0,0.08)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                   <p style={{ fontSize: 11, fontWeight: 700, margin: 0 }}>Team Queue</p>
                   <span style={{ fontSize: 9, fontWeight: 700, border: '1px solid #e5e7eb', borderRadius: 100, padding: '2px 8px', color: '#374151' }}>+ Assign</span>
@@ -1132,7 +1132,7 @@ export default function Home() {
               {/* Resolution gauge stays in dashboard — transparent spacer */}
               <div />
               {/* SLA Tracker */}
-              <div style={{ background: '#1a2744', borderRadius: 14, padding: '12px 12px', display: 'flex', flexDirection: 'column', boxShadow: '0 8px 24px rgba(26,39,68,0.45)' }}>
+              <div style={{ background: '#1a2744', borderRadius: 8, padding: '12px 12px', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 16px rgba(26,39,68,0.30)' }}>
                 <p style={{ fontSize: 11, fontWeight: 700, color: '#fff', marginBottom: 4, margin: 0 }}>SLA Tracker</p>
                 <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', marginBottom: 10, marginTop: 4 }}>Next breach in</p>
                 <p style={{ fontSize: 28, fontWeight: 800, color: '#4ade80', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: 8 }}>00:47</p>
